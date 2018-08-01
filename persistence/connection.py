@@ -1,12 +1,14 @@
 import MySQLdb
+import MySQLdb.cursors as cursors
+
 
 class Connection(object):
     def __init__(self):
-        self.__connection = MySQLdb(user='root',
-                                    password='admin',
-                                    database='smart_vendinha',
-                                    host='localhost',
-                                    port=3306)
+        self.__connection = MySQLdb.connect(user='root',
+                                            password='admin',
+                                            database='commerce',
+                                            host='localhost',
+                                            port=3306, cursorclass=cursors.SSCursor)
 
     def get_connection(self):
         return self.__connection
