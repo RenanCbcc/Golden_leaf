@@ -1,8 +1,8 @@
 from transference.products import Product
 
 SAVE_PRODUCT = 'INSERT INTO Product (title, name, price, code) values (%s, %s, %d, %s)'
-DELETE_PRODUCT = 'DELETE FROM Product WHERE id = ?'
-ALTER_PRODUCT = 'UPDATE Product SET name = ?, SET price = ?, SET code = ? WHERE id = ?'
+DELETE_PRODUCT = 'DELETE FROM Product WHERE id = %d'
+ALTER_PRODUCT = 'UPDATE Product SET name = %s, SET price = %s, SET code = %s WHERE id = %d'
 SEARCH_PRODUCT = 'SELECT * FROM Product WHERE id = ?'
 
 

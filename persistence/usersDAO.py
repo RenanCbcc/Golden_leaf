@@ -3,7 +3,7 @@ from transference.users import User,Client,Clerk
 SAVE_USER = 'INSERT INTO User (name, cpf) VALUES(%s,%s)'
 SAVE_CLIENT = 'INSERT INTO Client (id,surname, status) VALUES(%d,%s,%d)'
 SAVE_CLERK = 'INSERT INTO Clerk (id, email, password) VALUES(%d,%s,%s)'
-SEARCH_CLIENT= 'SELECT u.id,u.name,c.surname,u.cpf,c.status FROM User u, Client c where u.id = c.id= = %d'
+SEARCH_CLIENT= 'SELECT u.id,u.name,c.surname,u.cpf,c.status FROM User u, Client c where u.id = c.id = %d'
 SEARCH_CLERK= 'SELECT u.id,u.name,c.email,u.cpf FROM User u JOIN Clerk c on u.id = c.id = %d'
 DELETE_USER= 'DELETE Client WHERE USER.id = %d'
 DELETE_CLIENT='DELETE Client WHERE Client.id = %d'
@@ -52,10 +52,10 @@ class ClientDAO(object):
         return clients
 
     def __tuple_to_client(self,clients):
-        def __map_tuple_to_game(tuple):
+        def __map_tuple_to_object(tuple):
             return Client(tuple[0],tuple[1], tuple[2], tuple[3],tuple[4])
 
-        return list(map(__map_tuple_to_game, clients))
+        return list(map(__map_tuple_to_object, clients))
 
 
 class ClerkDAO(object):
@@ -94,11 +94,11 @@ class ClerkDAO(object):
         clerks = self.__tuple_to_client(cursor.fetchall())
         return clerks
 
-    def __tuple_to_clerk(self, clerk):
-        def __map_tuple_to_game(tuple):
+    def __tuple_to_clerks(self, clerks):
+        def __map_tuple_to_object(tuple):
             return Client(tuple[0], tuple[1], tuple[2], tuple[3])
 
-        return list(map(__map_tuple_to_game,clerk))
+        return list(map(__map_tuple_to_object,clerks))
 
 
 
