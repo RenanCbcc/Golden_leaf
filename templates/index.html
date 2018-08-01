@@ -1,0 +1,48 @@
+{% extends "template.html" %}
+{% block content %}
+    <h2 class="subtitulo-texto">Welcome to Alexandria's Library the
+            greatest library of the ancient world!</h2>
+        <p>I built the web page to practice my knowledge's programming in
+            Java Web, HTML,CSS and MySQL database. This project intent to be
+            simple in order to help other students or curious to theirs own
+            knowledge base on that areas. Furthermore, I also hope the anyone
+            interested in this project may fork it an improve it.</p>
+
+        <h2 class="subtitulo-texto">How this project is organized?</h2>
+        <p>
+            The database content was retrieve from the book <a target="_blank"
+                                                               href="http://a.co/fMrG07a"> Mathematical Structures for
+            Computer
+            Science </a> . In spite of the book is not as comprehensible as it
+            should, the book has been chosen due to its useful exercises and
+            accessible responses at the section "selected answers".
+        </p>
+
+        <h2 class="subtitulo-texto">The Database</h2>
+        <p>You can install the MySQL client as follow:</p>
+        <p>sudo apt-get install</p>
+        <p>mysql -u root -p</p>
+        <p>After this, populate the database running the command</p>
+
+        <p>The database's diagram will look like the image below:</p>
+
+        <img src="img/db.png" alt="DataBase image Diagram">
+        <h2 class="subtitulo-texto">How execute a search?</h2>
+        <p>
+            To see whether the server is working as as expected,run the command
+            on you browser:
+            <site>
+                http://localhost:8080/manager/doesEverything?task=SearchEntreprise
+            </site>
+        </p>
+
+        <h2>New Enterprise</h2>
+        <p>
+            Now, I want to add a new enterprise, to make sure that all that stuff
+            is actually working and it is not silly or a complete waste of time.
+            <a href="formEnterprise.html">Nova Empresa</a>
+        </p>
+
+
+
+{% endblock %}

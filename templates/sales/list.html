@@ -1,0 +1,24 @@
+{% extends "template.html" %}
+{% block content %}
+
+        <h1 class="titulo-principal">Lista de produtos</h1>
+        <table class="table table-striped table-responsive table-bordered">
+            <thead class="thead-default">
+            <tr>
+                <th>Produto</th>
+                <th>Nome</th>
+                <th>R$</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%for product in products%}
+            <tr>
+                <td>{{product.title}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+            </tr>
+            {%endfor%}
+            </tbody>
+        </table>
+
+{% endblock %}
