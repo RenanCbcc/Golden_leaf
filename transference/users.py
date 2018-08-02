@@ -1,12 +1,7 @@
 class User(object):
-    def __init__(self, id, identification,status):
-        self.__id = id
+    def __init__(self,identification,status):
         self.__identification = identification
         self.__status = status
-
-    @property
-    def id(self):
-        return self.__id
 
     @property
     def identification(self):
@@ -25,11 +20,19 @@ class User(object):
 
 
 class Client(User):
-    def __init__(self,id, name,surname,identification,status):
-        super().__init__(id,identification,status)
-        self.__id = id
+    def __init__(self,name,surname,identification,status):
+        super().__init__(identification,status)
         self.__name = name
         self.__surname = surname
+        self.__id = None
+
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self,value):
+        self.__id = value
 
     @property
     def name(self):
@@ -53,8 +56,8 @@ class Client(User):
 
 
 class Clerk(User):
-    def __init__(self, id, name,identification, email, password,status):
-        super().__init__(id,identification,status)
+    def __init__(self,name,identification, email, password,status):
+        super().__init__(identification,status)
         self.__name = name
         self.__email = email
         self.__password = password

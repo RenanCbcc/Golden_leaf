@@ -2,13 +2,20 @@ from transference.address import Address
 
 SAVE_ADDRESS = 'INSERT INTO Address (id_user,place,number,zip_code) values (%d, %s, %s, %s)'
 DELETE_ADDRESS = 'DELETE FROM Address WHERE id_user = ?'
-ALTER_ADDRESS = 'UPDATE Address SET place = ?, SET number = ?, SET zip_code = ? WHERE id_user = ?'
+ALTER_ADDRESS = 'UPDATE Address SET place = %s, number = %s, zip_code = %s WHERE id_user = $d'
 SEARCH_ADDRESS = 'SELECT u.name,c.surname,a.public_place,a.zip_code,c.status FROM User u ' \
                  'JOIN Client c ON u.id = c.id JOIN Address a on u.id = a.id_client ' \
                  'WHERE u.id = %d'
 
 LISTING_ADDRESS='SELECT u.name,c.surname,a.public_place,a.zip_code,c.status FROM User u ' \
                 'JOIN Client c ON u.id = c.id JOIN Address a on u.id = a.id_client'
+
+
+SAVE_PHONE = 'INSERT INTO Phone (id_cpf, phone_number, notification) values (%s, %s, %d)'
+DELETE_PHONE = 'DELETE FROM Phone WHERE id_cpf = %s'
+ALTER_PHONE = 'UPDATE Phone SET SET number = %s WHERE id_cpf = %s'
+SEARCH_PHONE = 'SELECT p.phone_number FROM Phone p WHERE id_cpf = %s'
+
 
 
 class AddressDAO(object):
@@ -52,3 +59,32 @@ class AddressDAO(object):
         return list(map(__map_tuple_to_object,tuples))
 
 
+
+class PhoneDAO(object):
+
+    def __init__(self, connection):
+        self.__connection = connection
+
+
+    def save(self, phone):
+        cursor = self.__connection.get_connection().cursor()
+        cursor.execute(SAVE_ADDRESS,(phone.identification, phone.phone_number,phone.notification))
+        self.____connection.confirm_transaction()
+        return phone
+
+    def delete(self, id_user):
+        cursor = self.__connection.get_connection().cursor()
+        cursor.execute(DELETE_ADDRESS, (id_user))
+        self.__connection.confirm_transaction()
+
+    def alter(self, phone):
+        cursor = self.__connection.get_connection().cursor()
+        cursor.execute(ALTER_ADDRESS, (phone.identification, phone.phone_number,phone.notification))
+        self.__connection.confirm_transaction()
+        return phone
+
+    def search(self, identification):
+        cursor = self.__connection.get_connection().cursor()
+        cursor.execute(SEARCH_ADDRESS, (identification))
+        tuple = cursor.fetchone()
+        return Address(tuple[0],tuple[1], tuple[2])

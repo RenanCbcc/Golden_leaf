@@ -3,6 +3,7 @@ import MySQLdb.cursors as cursors
 
 
 class Connection(object):
+
     def __init__(self):
         self.__connection = MySQLdb.connect(user='root',
                                             password='admin',

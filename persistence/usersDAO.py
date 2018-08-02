@@ -1,4 +1,4 @@
-from transference.users import User,Client,Clerk
+from transference.users import Client,Clerk
 
 SAVE_USER = 'INSERT INTO User (name,status) VALUES(%s,%d)'
 SAVE_CLIENT = 'INSERT INTO Client (id,name,surname) VALUES(%d,%s,%s)'

@@ -11,7 +11,6 @@ SAVE_ITEM = 'INSERT INTO Item (id_demand,id_product,quantity) VALUES (%d, %d, %f
 DELETE_ITEM = 'DELETE FROM Item WHERE id_demand = %d AND id_product = %d'
 ALTER_ITEM = 'UPDATE Item SET quantity = %f WHERE id_demand = %d'
 SEARCH_ITEM = 'SELECT * FROM Item WHERE id = %d'
-SEARCH_ITEM = 'SELECT * FROM Item WHERE code = %s'
 LISTING_ITEM = 'SELECT * FROM Item'
 
 
@@ -22,7 +21,7 @@ class DemandDAO(object):
 
     def save(self, demand):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SAVE_PRODUCT, (demand.date, demand.time, demand.id_client, demand.id_clerk))
+        cursor.execute(SAVE_DEMAND, (demand.date, demand.time, demand.id_client, demand.id_clerk))
         itemdao = ItemDAO(self.__connection)
         for item in demand.items:
             itemdao.save(item)
@@ -32,36 +31,25 @@ class DemandDAO(object):
 
     def delete(self, id):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(DELETE_PRODUCT, (id))
+        cursor.execute(DELETE_DEMAND, (id))
         self.__connection.confirm_transaction()
-
-    def alter(self, product):
-        cursor = self.__connection.get_connection().cursor()
-        cursor.execute(ALTER_PRODUCT, (product.title, product.name, product.price, product.code))
-        self.__connection.confirm_transaction()
-        return product
 
     def search(self, id):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_PRODUCT, (id))
+        cursor.execute(SEARCH_DEMAND, (id))
         tuple = cursor.fetchone()
-        return Product(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
+        return Demand(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
 
-    def search_code(self, code):
-        cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_CODE, (code))
-        tuple = cursor.fetchone()
-        return Product(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
 
     def show_all(self):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(LISTING_PRODUCTS)
+        cursor.execute(LISTING_DEMAND)
         products = self.__tuple_to_addesses(cursor.fetchall())
         return products
 
     def __tuple_to_products(self, tuples):
         def __map_tuple_to_object(tuple):
-            return Product(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
+            return Demand(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
 
         return list(map(__map_tuple_to_object, tuples))
 
@@ -78,36 +66,30 @@ class ItemDAO(object):
 
     def delete(self, id):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(DELETE_PRODUCT, (id))
+        cursor.execute(DELETE_ITEM, (id))
 
 
     def alter(self, product):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(ALTER_PRODUCT, (product.title, product.name, product.price, product.code))
+        cursor.execute(ALTER_ITEM, (product.title, product.name, product.price, product.code))
         self.__connection.confirm_transaction()
         return product
 
     def search(self, id):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_PRODUCT, (id))
+        cursor.execute(SEARCH_ITEM, (id))
         tuple = cursor.fetchone()
-        return Product(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
-
-    def search_code(self, code):
-        cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_CODE, (code))
-        tuple = cursor.fetchone()
-        return Product(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
+        return Item(tuple[1], tuple[2], tuple[3])
 
     def show_all(self):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(LISTING_PRODUCTS)
+        cursor.execute(LISTING_ITEM)
         products = self.__tuple_to_addesses(cursor.fetchall())
         return products
 
     def __tuple_to_products(self, tuples):
         def __map_tuple_to_object(tuple):
-            return Product(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
+            return Item(tuple[1], tuple[2], tuple[3])
 
         return list(map(__map_tuple_to_object, tuples))
 
