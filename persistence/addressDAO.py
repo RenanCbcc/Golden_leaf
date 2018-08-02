@@ -45,10 +45,10 @@ class AddressDAO(object):
         clerks = self.__tuple_to_addesses(cursor.fetchall())
         return clerks
 
-    def __tuple_to_addesses(self, address):
+    def __tuple_to_addesses(self, tuples):
         def __map_tuple_to_object(tuple):
             return Address(tuple[0], tuple[1], tuple[2], tuple[3],tuple[4])
 
-        return list(map(__map_tuple_to_object,address))
+        return list(map(__map_tuple_to_object,tuples))
 
 
