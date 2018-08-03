@@ -1,9 +1,26 @@
 class Product(object):
-    def __init__(self, id, title, name, price, code):
+    def __init__(self,title, name, price, code,id=0):
+        self.__id = id
         self.__title = title
         self.__name = name
         self.__price = price
         self.__code = code
+
+    @property
+    def id(self):
+        """
+        :return: id
+        """
+        return self.__id
+
+    @id.setter
+    def id(self, value):
+        """
+        Sets an attribute
+        :param value: id
+        :return: void
+        """
+        self.__id = value
 
     @property
     def title(self):
@@ -37,7 +54,7 @@ class Product(object):
         return self.__code == other.__code
 
     def __str__(self):
-        return "Produto: {} {}, Código: {}, R$: {}" .format(self.__tittle,
+        return "Produto: {} {}, Código: {}, R$: {}" .format(self.__title,
                                                             self.__name,
                                                             self.__code,
                                                             self.__price,

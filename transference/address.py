@@ -1,18 +1,13 @@
 class Address(object):
-    def __init__(self,id,id_user,place,number,zip_code):
-        self.__id = id
-        self.__id_user = id_user
+    def __init__(self,id_client,place,number,zip_code):
+        self.__id_client = id_client
         self.__place = place
         self.__number = number
         self.__zip_code = zip_code
 
     @property
-    def id(self):
-        return self.__id
-
-    @property
-    def id_user(self):
-        return self.__id_user
+    def id_client(self):
+        return self.__id_client
 
     @property
     def place(self):

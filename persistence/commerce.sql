@@ -28,12 +28,10 @@ create table Clerk(
 ) ENGINE = INNODB;
 
 create table Address(
- id INT NOT NULL AUTO_INCREMENT,
  id_client INT NOT NULL,
  public_place VARCHAR (100) NOT NULL,
  number VARCHAR (5) NOT NULL,
  zip_code CHAR(9),
- PRIMARY KEY (id),
  UNIQUE (id_client)
 ) ENGINE = INNODB;
 
@@ -101,7 +99,7 @@ ALTER TABLE Item ADD CONSTRAINT FK_Item_Product
  FOREIGN KEY (id_product) REFERENCES Product(id)
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-/*
+
 SELECT 'Creating  Client';
 INSERT INTO User (cpf,status) VALUES("72259372007",TRUE);
 INSERT INTO Client (id_user,name,surname) VALUES(1,"Dorothy","King");
@@ -160,14 +158,14 @@ INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("63755750449","919
 INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("31710548410","91983087414",TRUE);
 
 SELECT 'Creating  Product';
-INSERT INTO Product (title, name, price, code) VALUES("Arroz","Fazanda",3.50,'1');
-INSERT INTO Product (title, name, price, code) VALUES("Arroz","Tio João",3.00,'2');
-INSERT INTO Product (title, name, price, code) VALUES("Feijão carioca","Tio pedro",5.50,'3');
-INSERT INTO Product (title, name, price, code) VALUES("Feijão cavalo","São pedro",6.50,'4');
-INSERT INTO Product (title, name, price, code) VALUES("Macarão","Hiléia",3.50,'5');
-INSERT INTO Product (title, name, price, code) VALUES("Óleo","Primor",4.00,'6');
-INSERT INTO Product (title, name, price, code) VALUES("Açúcar","Pricesa",3.20,'7');
-INSERT INTO Product (title, name, price, code) VALUES("Leite","Dubom",3.50,'8');
+INSERT INTO Product (title, name, price, code) VALUES("Arroz","Fazanda",3.50,"1");
+INSERT INTO Product (title, name, price, code) VALUES("Arroz","Tio João",3.00,"2");
+INSERT INTO Product (title, name, price, code) VALUES("Feijão carioca","Tio pedro",5.50,"3");
+INSERT INTO Product (title, name, price, code) VALUES("Feijão cavalo","São pedro",6.50,"4");
+INSERT INTO Product (title, name, price, code) VALUES("Macarão","Hiléia",3.50,"5");
+INSERT INTO Product (title, name, price, code) VALUES("Óleo","Primor",4.00,"6");
+INSERT INTO Product (title, name, price, code) VALUES("Açúcar","Pricesa",3.20,"7");
+INSERT INTO Product (title, name, price, code) VALUES("Leite","Dubom",3.50,"8");
 
 SELECT 'Creating  Demand';
 INSERT INTO Demand (date, time, id_client, id_clerk) VALUES((SELECT CURRENT_DATE()), (SELECT CURRENT_TIME()),1,9);
@@ -195,7 +193,7 @@ INSERT INTO Item (id_demand,id_product,quantity) VALUES(4,2,2);
 INSERT INTO Item (id_demand,id_product,quantity) VALUES(4,5,1);
 INSERT INTO Item (id_demand,id_product,quantity) VALUES(4,7,1.5);
 INSERT INTO Item (id_demand,id_product,quantity) VALUES(4,8,1);
-*/
+
 
 
 

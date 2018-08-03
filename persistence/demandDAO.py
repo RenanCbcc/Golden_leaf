@@ -26,7 +26,7 @@ class DemandDAO(object):
         for item in demand.items:
             itemdao.save(item)
         del(itemdao)
-        self.____connection.confirm_transaction()
+        self.__connection.confirm_transaction()
         return demand
 
     def delete(self, id):
