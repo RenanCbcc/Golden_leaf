@@ -15,13 +15,13 @@ class Connection(object):
         return self.__connection
 
     def close_connection(self):
-        if self.__connection.isClosed() or self.__connection is None:
+        if not self.__connection.open or self.__connection is None:
             return
         else:
-            self.__connection.cursos().closed()
+            self.__connection.close()
 
     def confirm_transaction(self):
-        if self.__connection.isClosed() or self.__connection is None:
+        if not self.__connection.open or self.__connection is None:
             return
         else:
-            self.__connection.cursos().commit()
+            self.__connection.commit()

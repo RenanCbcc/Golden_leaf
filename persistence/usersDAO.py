@@ -1,51 +1,54 @@
-from transference.users import Client,Clerk
+from transference.users import Client, Clerk
 
-SAVE_USER = 'INSERT INTO User (name,status) VALUES(%s,%d)'
-SAVE_CLIENT = 'INSERT INTO Client (id,name,surname) VALUES(%d,%s,%s)'
-SAVE_CLERK = 'INSERT INTO Clerk (id,name,email,password) VALUES(%d,%s,%s,%s)'
-SEARCH_CLIENT= 'SELECT u.id,c.name,c.surname,u.cpf,u.status FROM User u JOIN Client c on u.id = c.id_user ' \
-               'where u.id = %d'
-SEARCH_CLERK= 'SELECT u.id,c.name,c.email,u.cpf,u.status FROM User u JOIN Clerk c on u.id = c.id_user ' \
-              'WHERE c.id_user = %d'
+SAVE_USER = 'INSERT INTO User (cpf,status) VALUES(%s,%s)'
+SAVE_CLIENT = 'INSERT INTO Client (id_user,name,surname) VALUES(%s,%s,%s)'
+SAVE_CLERK = 'INSERT INTO Clerk (id_user,name,email,password) VALUES(%s,%s,%s,%s)'
+SEARCH_CLIENT = 'SELECT u.id,c.name,c.surname,u.cpf,u.status FROM User u JOIN Client c on u.id = c.id_user ' \
+                'WHERE u.id = %s'
+SEARCH_CLERK = 'SELECT u.id,c.name,c.email,c.password,u.cpf,u.status FROM User u JOIN Clerk c on u.id = c.id_user ' \
+               'WHERE c.id_user = %s'
 
-DELETE_USER= 'DELETE Client WHERE USER.id = %d'
-DELETE_CLIENT='DELETE Client WHERE Client.id_user = %d'
-DELETE_CLERK= 'DELETE Clerk WHERE CLERK.id_user = %d'
-UPDATE_USER='UPDATE User SET status=%d WHERE id = %d'
-UPDATE_CLIENT='UPDATE CLIENT SET name= %s, surname=%s WHERE id = %d'
-UPDATE_CLERK='UPDATE CLERK SET name= %s, email=%s, password=%s WHERE id = %d'
-LISTING_CLIENT='SELECT u.id,c.name,c.surname,u.cpf,u.status FROM User u JOIN Client c on u.id = c.id_user'
-LISTING_CLERK='SELECT u.id,c.name,c.email,u.cpf,u.status FROM User u JOIN Clerk c on u.id = c.id_user'
+DELETE_USER = 'DELETE Client WHERE USER.id = %s'
+DELETE_CLIENT = 'DELETE Client WHERE Client.id_user = %s'
+DELETE_CLERK = 'DELETE Clerk WHERE Clerk.id_user = %s'
+UPDATE_USER = 'UPDATE User SET status=%s WHERE id = %s'
+UPDATE_CLIENT = 'UPDATE Client SET name= %s, surname=%s WHERE id_user = %s'
+UPDATE_CLERK = 'UPDATE Clerk SET name= %s, email=%s, password=%s WHERE id_user = %s'
+LISTING_CLIENT = 'SELECT u.id,c.name,c.surname,u.cpf,u.status FROM User u JOIN Client c on u.id = c.id_user'
+LISTING_CLERK = 'SELECT u.id,c.name,c.email,u.cpf,u.status FROM User u JOIN Clerk c on u.id = c.id_user'
+
 
 class ClientDAO(object):
-    def __init__(self,connection):
+    def __init__(self, connection):
         self.__connection = connection
 
-    def save(self,client):
+    def save(self, client):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SAVE_USER, (client.identification,client.status))
+        cursor.execute(SAVE_USER, (client.identification, client.status))
         client.id = cursor.lastrowid
-        cursor.execute(SAVE_CLIENT, (client.id,client.name,client.surname))
-        self.____connection.confirm_transaction()
+        cursor.execute(SAVE_CLIENT, (client.id, client.name, client.surname))
+        self.__connection.confirm_transaction()
         return client
 
-    def search(self,id):
+    def search(self, id):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_CLIENT,(id))
+        cursor.execute(SEARCH_CLIENT, (id,))
         tuple = cursor.fetchone()
-        return Client(tuple[0],tuple[1], tuple[2], tuple[3],tuple[4])
+        "Client(name, surname, identification,status=True, id=0):"
+        return Client(tuple[1], tuple[2], tuple[3], status=tuple[4], id=tuple[0])
 
-    def delete(self,id):
+    def delete(self, id):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(DELETE_CLIENT,(id))
-        cursor.execute(DELETE_USER,(id))
-        self.____connection.confirm_transaction()
+        cursor.execute(DELETE_CLIENT, (id,))
+        cursor.execute(DELETE_USER, (id,))
+        self.__connection.confirm_transaction()
 
-    def alter(self,client):
+    def alter(self, client):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(UPDATE_USER, (client.name))
-        cursor.execute(UPDATE_CLIENT, (client.surname,client.status))
-        self.____connection.confirm_transaction()
+        cursor.execute(UPDATE_USER, (client.status,client.id))
+        cursor.execute(UPDATE_CLIENT, (client.name, client.surname,client.id))
+        self.__connection.confirm_transaction()
+        return client
 
     def show_all(self):
         cursor = self.__connection.get_connection().cursor()
@@ -53,9 +56,9 @@ class ClientDAO(object):
         clients = self.__tuple_to_client(cursor.fetchall())
         return clients
 
-    def __tuple_to_client(self,clients):
+    def __tuple_to_client(self, clients):
         def __map_tuple_to_object(tuple):
-            return Client(tuple[0],tuple[1], tuple[2], tuple[3],tuple[4])
+            return Client(tuple[1], tuple[2], tuple[3], status=tuple[4], id=tuple[0])
 
         return list(map(__map_tuple_to_object, clients))
 
@@ -66,45 +69,40 @@ class ClerkDAO(object):
 
     def save(self, clerk):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SAVE_USER, (clerk.identification,clerk.status))
+        cursor.execute(SAVE_USER, (clerk.identification, clerk.status))
         clerk.id = cursor.lastrowid
-        cursor.execute(SAVE_CLERK, (clerk.id, clerk.surname, clerk.status))
-        self.____connection.confirm_transaction()
+        cursor.execute(SAVE_CLERK, (clerk.id, clerk.name, clerk.email, clerk.password))
+        self.__connection.confirm_transaction()
         return clerk
 
     def search(self, id):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_CLERK, (id))
+        cursor.execute(SEARCH_CLERK, (id,))
         tuple = cursor.fetchone()
-        return Clerk(tuple[1], tuple[2], tuple[3],tuple[4],id=tuple[0])
+        "Clerk(name,email,password,identification,status=True,id=0)"
+        return Clerk(tuple[1], tuple[2], tuple[3], tuple[4], status=tuple[5], id=tuple[0])
 
     def delete(self, id):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(DELETE_CLERK, (id))
-        cursor.execute(DELETE_USER, (id))
-        self.____connection.confirm_transaction()
+        cursor.execute(DELETE_CLERK, (id,))
+        cursor.execute(DELETE_USER, (id,))
+        self.__connection.confirm_transaction()
 
     def alter(self, clerk):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(UPDATE_USER, (clerk.status))
-        cursor.execute(UPDATE_CLERK, (clerk.name,clerk.email,clerk.password))
-        self.____connection.confirm_transaction()
+        cursor.execute(UPDATE_USER, (clerk.status,clerk.id))
+        cursor.execute(UPDATE_CLERK, (clerk.name,clerk.email, clerk.password,clerk.id))
+        self.__connection.confirm_transaction()
+        return clerk
 
     def show_all(self):
         cursor = self.__connection.get_connection().cursor()
         cursor.execute(LISTING_CLERK)
-        clerks = self.__tuple_to_client(cursor.fetchall())
+        clerks = self.__tuple_to_clerks(cursor.fetchall())
         return clerks
 
     def __tuple_to_clerks(self, clerks):
         def __map_tuple_to_object(tuple):
-            return Client(tuple[1], tuple[2], tuple[3],tuple[4],id=tuple[0])
+            return Client(tuple[1], tuple[2], tuple[3], status=tuple[4], id=tuple[0])
 
-        return list(map(__map_tuple_to_object,clerks))
-
-
-
-
-
-
-
+        return list(map(__map_tuple_to_object, clerks))
