@@ -9,7 +9,7 @@ SEARCH_CLERK = 'SELECT u.id,c.name,c.email,c.password,u.cpf,u.status FROM User u
                'WHERE c.id_user = %(id)s'
 
 SEARCH_CLIENT_FOR_NAME = 'SELECT u.id,c.name,c.surname,u.cpf,u.status FROM User u JOIN Client c on u.id = c.id_user ' \
-                         'WHERE c.name LIKE %(name)s%'
+                         'WHERE c.name LIKE %(name)s %'
 SEARCH_CLERK_FOR_EMAIL = 'SELECT u.id,c.name,c.email,c.password,u.cpf,u.status FROM User u JOIN Clerk c on u.id = c.id_user ' \
                          'WHERE c.email = %(email)s'
 DELETE_USER = 'DELETE Client WHERE USER.id = %s'
@@ -91,7 +91,10 @@ class ClerkDAO(object):
         cursor.execute(SEARCH_CLERK, {'id': id})
         tuple = cursor.fetchone()
         "Clerk(name,email,password,identification,status=True,id=0)"
-        return Clerk(tuple[1], tuple[2], tuple[3], tuple[4], status=tuple[5], id=tuple[0])
+        if not tuple:
+            return None
+        else:
+            return Clerk(tuple[1], tuple[2], tuple[3], tuple[4], status=tuple[5], id=tuple[0])
 
     def delete(self, id):
         cursor = self.__connection.get_connection().cursor()
@@ -108,10 +111,13 @@ class ClerkDAO(object):
 
     def login(self, email):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_CLERK_FOR_EMAIL, (email,))
+        cursor.execute(SEARCH_CLERK_FOR_EMAIL,{'email':email})
         tuple = cursor.fetchone()
         "Clerk(name,email,password,identification,status=True,id=0)"
-        return Clerk(tuple[1], tuple[2], tuple[3], tuple[4], status=tuple[5], id=tuple[0])
+        if not tuple:
+            return None
+        else:
+            return Clerk(tuple[1], tuple[2], tuple[3], tuple[4], status=tuple[5], id=tuple[0])
 
     def show_all(self):
         cursor = self.__connection.get_connection().cursor()

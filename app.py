@@ -9,7 +9,7 @@ from transference.products import Product
 import re
 
 app = Flask(__name__)
-app.run(debug=True)
+app.run()
 app.secret_key = 'JRRT'
 
 
@@ -117,17 +117,18 @@ def login():
 @app.route('/authentication', methods=['POST'])
 def authenticate():
     clerkdao = ClerkDAO(Connection())
-    clerk = clerkdao.login(request.form['password'])
-    if not clerk:
-        flash('Erro, email não encontrado.')
-        return redirect('/{}'.format(request.form['next']))
-    elif request.form['password'] is not clerk.password:
-        flash('Erro, senha incorreta.')
+    clerk = clerkdao.login(request.form['email'])
+    if clerk is None:
+        flash('Erro, atendente não encontrado.')
         return redirect('/login')
-    else:
+    elif request.form['password'] == clerk.password:
         session[clerk.name] = request.form['email']
         result = re.match(r'.*@', session[clerk.name])
         flash(result.group() + ' logado com sucesso')
+        return redirect('/{}'.format(request.form['next']))
+    else:
+        flash('Erro, senha incorreta.')
+        return redirect('/login')
 
 
 @app.route('/logout')
