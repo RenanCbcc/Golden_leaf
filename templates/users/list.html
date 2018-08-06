@@ -1,21 +1,22 @@
 {% extends "template.html" %}
 {% block content %}
 
-        <h1 class="titulo-principal">Lista de produtos</h1>
+        <h1 class="titulo-principal">Lista de clientes</h1>
         <table class="table table-striped table-responsive table-bordered">
             <thead class="thead-default">
             <tr>
-                <th>Produto</th>
                 <th>Nome</th>
-                <th>R$</th>
+                <th>Sobrenome</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody>
-            {%for product in products%}
+            {%for client in clients%}
             <tr>
-                <td>{{product.title}}</td>
-                <td>{{product.name}}</td>
-                <td>{{product.price}}</td>
+                <td>{{client.name}}</td>
+                <td>{{client.surname}}</td>
+                <td>{{client.status}}</td>
+                <td><button type="submit" class="btn btn-primary btn-edit">Editar</button></td>
             </tr>
             {%endfor%}
             </tbody>

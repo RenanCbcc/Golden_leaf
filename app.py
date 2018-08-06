@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request, redirect, session, flash
 
+from persistence.addressDAO import AddressDAO, PhoneDAO
 from persistence.connection import Connection
 from persistence.productDAO import ProductDAO
+from persistence.usersDAO import ClientDAO, ClerkDAO
+from transference.address import Address, Phone
 from transference.products import Product
 import re
 
 app = Flask(__name__)
+app.run(debug=True)
 app.secret_key = 'JRRT'
 
 
@@ -26,7 +30,7 @@ def listing_product():
 
 
 @app.route('/new_product')
-def new():
+def new_product():
     if 'user_authenticated' not in session or session['user_authenticated'] is not None:
         return render_template('products/new.html')
     else:
@@ -35,7 +39,7 @@ def new():
 
 
 @app.route('/create_product', methods=['POST'])
-def create():
+def create_product():
     productdao = ProductDAO(Connection())
     productdao.save(Product(request.form['title'],
                             request.form['name'],
@@ -43,6 +47,65 @@ def create():
                             request.form['code']))
 
     return redirect('/')
+
+
+@app.route('/search_product', methods=['POST'])
+def search_product():
+    productdao = ProductDAO(Connection())
+    product = productdao.search(request.form['code'])
+    if product is not None:
+        list = [product]
+        return redirect('products/list.html', products=list)
+    else:
+        flash('Nenhum produto encontrado')
+        return redirect('/products/list.html')
+
+
+@app.route('/listing_clientes')
+def listing_clientes():
+    if 'user_authenticated' not in session or session['user_authenticated'] is not None:
+        clientdao = ClientDAO(Connection())
+        list = clientdao.show_all()
+        return render_template('users/list.html', products=list)
+    else:
+        flash('É preciso fazer login')
+        return redirect('/login?next_page=listing')
+
+
+@app.route('/new_client')
+def new_client():
+    if 'user_authenticated' not in session or session['user_authenticated'] is not None:
+        return render_template('users/new.html')
+    else:
+        flash('É preciso fazer login')
+        return redirect('/login?next_page=new_product')
+
+
+@app.route('/create_client', methods=['POST'])
+def create_client():
+    connection = Connection()
+    clientdao = ClientDAO(connection)
+    addressdao = AddressDAO(connection)
+    phonedao = PhoneDAO(connection)
+    client = clientdao.save(Product(request.form['name'],
+                                    request.form['surname'],
+                                    request.form['identification']))
+
+    addressdao.save(Address(client.id, client.identification, request.form['zip_code']))
+    phonedao.save(Phone(client.identification, request.form['phone_number']))
+    return redirect('/users/list.html')
+
+
+@app.route('/search_client', methods=['POST'])
+def search_client():
+    cliendao = ClientDAO(Connection())
+    list = cliendao.search_for_name(request.form['name'])
+    if not list:
+        flash('Nenhum cliente {} encontrado'.format(request.form['name']))
+        return redirect('/clients/list.html')
+
+    else:
+        return redirect('/clients/list.html', products=list)
 
 
 @app.route('/login')
@@ -53,14 +116,18 @@ def login():
 
 @app.route('/authentication', methods=['POST'])
 def authenticate():
-    if 'mestra' == request.form['password']:
-        session['user_authenticated'] = request.form['email']
-        result = re.match(r'.*@', session['user_authenticated'])
-        flash(result.group() + ' logado com sucesso')
+    clerkdao = ClerkDAO(Connection())
+    clerk = clerkdao.login(request.form['password'])
+    if not clerk:
+        flash('Erro, email não encontrado.')
         return redirect('/{}'.format(request.form['next']))
-    else:
-        flash('Erro no email ou senha')
+    elif request.form['password'] is not clerk.password:
+        flash('Erro, senha incorreta.')
         return redirect('/login')
+    else:
+        session[clerk.name] = request.form['email']
+        result = re.match(r'.*@', session[clerk.name])
+        flash(result.group() + ' logado com sucesso')
 
 
 @app.route('/logout')
@@ -68,6 +135,3 @@ def logout():
     session['user_authenticated'] = None
     flash('Deslogado com sucesso')
     return redirect('/login')
-
-
-app.run(debug=True)

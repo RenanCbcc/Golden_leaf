@@ -8,6 +8,10 @@ SEARCH_CLIENT = 'SELECT u.id,c.name,c.surname,u.cpf,u.status FROM User u JOIN Cl
 SEARCH_CLERK = 'SELECT u.id,c.name,c.email,c.password,u.cpf,u.status FROM User u JOIN Clerk c on u.id = c.id_user ' \
                'WHERE c.id_user = %(id)s'
 
+SEARCH_CLIENT_FOR_NAME = 'SELECT u.id,c.name,c.surname,u.cpf,u.status FROM User u JOIN Client c on u.id = c.id_user ' \
+                         'WHERE c.name LIKE %(name)s%'
+SEARCH_CLERK_FOR_EMAIL = 'SELECT u.id,c.name,c.email,c.password,u.cpf,u.status FROM User u JOIN Clerk c on u.id = c.id_user ' \
+                         'WHERE c.email = %(email)s'
 DELETE_USER = 'DELETE Client WHERE USER.id = %s'
 DELETE_CLIENT = 'DELETE Client WHERE Client.id_user = %(id)s'
 DELETE_CLERK = 'DELETE Clerk WHERE Clerk.id_user = %(id)s'
@@ -34,6 +38,13 @@ class ClientDAO(object):
         cursor = self.__connection.get_connection().cursor()
         cursor.execute(SEARCH_CLIENT, {'id': id})
         tuple = cursor.fetchone()
+        "Client(name, surname, identification,status=True, id=0):"
+        return Client(tuple[1], tuple[2], tuple[3], status=tuple[4], id=tuple[0])
+
+    def search_for_name(self, name):
+        cursor = self.__connection.get_connection().cursor()
+        cursor.execute(SEARCH_CLIENT_FOR_NAME, {'name': name})
+        tuple = cursor.fetchall()
         "Client(name, surname, identification,status=True, id=0):"
         return Client(tuple[1], tuple[2], tuple[3], status=tuple[4], id=tuple[0])
 
@@ -94,6 +105,13 @@ class ClerkDAO(object):
         cursor.execute(UPDATE_CLERK, (clerk.name, clerk.email, clerk.password, clerk.id))
         self.__connection.confirm_transaction()
         return clerk
+
+    def login(self, email):
+        cursor = self.__connection.get_connection().cursor()
+        cursor.execute(SEARCH_CLERK_FOR_EMAIL, (email,))
+        tuple = cursor.fetchone()
+        "Clerk(name,email,password,identification,status=True,id=0)"
+        return Clerk(tuple[1], tuple[2], tuple[3], tuple[4], status=tuple[5], id=tuple[0])
 
     def show_all(self):
         cursor = self.__connection.get_connection().cursor()

@@ -34,13 +34,13 @@ class Address(object):
         self.__zip_code = string
 
     def __str__(self):
-        return "Id_User: {}, Rua: {}, {}".format(self.__id_user,
-                                                 self.__street,
+        return "Id_User: {}, Rua: {}, {}".format(self.__id_client,
+                                                 self.__place,
                                                  self.__number)
 
 
 class Phone(object):
-    def __init__(self, identification, phone_number, notification):
+    def __init__(self,identification, phone_number, notification):
         self.__identification = identification
         self.__notification = notification
         self.__phone_number = phone_number
@@ -66,7 +66,7 @@ class Phone(object):
         self.__notification = boolean
 
     def __str__(self):
-        return "Usuário: {}, Número: {}, Notificação: {}".format(self.__id_user,
+        return "Usuário: {}, Número: {}, Notificação: {}".format(self.identification,
                                                                 self.__phone_number,
                                                                 self.__notification)
 
