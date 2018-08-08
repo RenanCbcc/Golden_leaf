@@ -21,9 +21,8 @@ def index():
 @app.route('/listing')
 def listing_product():
     if 'user_authenticated' not in session or session['user_authenticated'] is not None:
-        productdao = ProductDAO(Connection())
-        list = productdao.show_all()
-        return render_template('products/list.html', products=list)
+        list_of_products = ProductDAO(Connection()).show_all()
+        return render_template('products/list.html', products=list_of_products)
     else:
         flash('É preciso fazer login')
         return redirect('/login?next_page=listing')
@@ -58,14 +57,14 @@ def search_product():
         return redirect('products/list.html', products=list)
     else:
         flash('Nenhum produto encontrado')
-        return redirect('/products/list.html')
+        return redirect('products/list.html')
 
 
-@app.route('/edit_product/<string:code>', methods=['GET'])
+@app.route('/edit_product/<string:code>')
 def edit_product(code):
     if 'user_authenticated' not in session or session['user_authenticated'] is not None:
         flash('É preciso fazer login')
-        return redirect(url_for('login', next_page=url_for('products/edit')))
+        return redirect(url_for('users/login', next_page=url_for('products/edit.html')))
     else:
         product = ProductDAO(Connection()).search_code(code)
         return render_template('products/edit.html', product=product)
@@ -82,12 +81,11 @@ def update_product():
     return redirect('/products/list.html')
 
 
-@app.route('/listing_clientes')
+@app.route('/listing_clients')
 def listing_clientes():
     if 'user_authenticated' not in session or session['user_authenticated'] is not None:
-        clientdao = ClientDAO(Connection())
-        list = clientdao.show_all()
-        return render_template('users/list.html', products=list)
+        list_of_clients = ClientDAO(Connection()).show_all()
+        return render_template('users/list.html', clients=list_of_clients)
     else:
         flash('É preciso fazer login')
         return redirect('/login?next_page=listing')
@@ -119,14 +117,13 @@ def create_client():
 
 @app.route('/search_client', methods=['POST'])
 def search_client():
-    cliendao = ClientDAO(Connection())
-    list = cliendao.search_for_name(request.form['name'])
-    if not list:
+    list_of_clients = ClientDAO(Connection()).search_for_name(request.form['name'])
+    if not list_of_clients:
         flash('Nenhum cliente {} encontrado'.format(request.form['name']))
         return redirect('/clients/list.html')
 
     else:
-        return redirect('/clients/list.html', products=list)
+        return redirect('/clients/list.html', clients=list_of_clients)
 
 
 @app.route('/login')
@@ -137,8 +134,8 @@ def login():
 
 @app.route('/authentication', methods=['POST'])
 def authenticate():
-    clerkdao = ClerkDAO(Connection())
-    clerk = clerkdao.login(request.form['email'])
+    clerk = ClerkDAO(Connection()).login(request.form['email'])
+
     if clerk is None:
         flash('Erro, atendente não encontrado.')
         return redirect('/login')
@@ -152,10 +149,12 @@ def authenticate():
         return redirect('/login')
 
 
-@app.route('/logout')
-def logout():
-    session['user_authenticated'] = None
-    flash('Deslogado com sucesso')
+@app.route('/logout/<int:id>')
+def logout(id):
+    clerk = ClerkDAO(Connection()).search(id)
+    print(clerk)
+    session[clerk.email] = None
+    flash('{} deslogado com sucesso'.format(clerk.name))
     return redirect('/login')
 
 
