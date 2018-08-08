@@ -1,16 +1,16 @@
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, flash, url_for
 
 from persistence.addressDAO import AddressDAO, PhoneDAO
 from persistence.connection import Connection
 from persistence.productDAO import ProductDAO
 from persistence.usersDAO import ClientDAO, ClerkDAO
-from transference.address import Address, Phone
+from transference.addresses import Address, Phone
 from transference.products import Product
 import re
+import os
 
 app = Flask(__name__)
-app.run()
-app.secret_key = 'JRRT'
+app.secret_key = os.urandom(666)
 
 
 @app.route('/')
@@ -59,6 +59,27 @@ def search_product():
     else:
         flash('Nenhum produto encontrado')
         return redirect('/products/list.html')
+
+
+@app.route('/edit_product/<string:code>', methods=['GET'])
+def edit_product(code):
+    if 'user_authenticated' not in session or session['user_authenticated'] is not None:
+        flash('É preciso fazer login')
+        return redirect(url_for('login', next_page=url_for('products/edit')))
+    else:
+        product = ProductDAO(Connection()).search_code(code)
+        return render_template('products/edit.html', product=product)
+
+
+@app.route('/update_product', methods=['PUT'])
+def update_product():
+    productdao = ProductDAO(Connection())
+    productdao.alter(Product(request.form['title'],
+                             request.form['name'],
+                             request.form['price'],
+                             request.form['code']))
+
+    return redirect('/products/list.html')
 
 
 @app.route('/listing_clientes')
@@ -136,3 +157,7 @@ def logout():
     session['user_authenticated'] = None
     flash('Deslogado com sucesso')
     return redirect('/login')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

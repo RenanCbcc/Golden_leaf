@@ -1,5 +1,5 @@
 class Address(object):
-    def __init__(self,id_client,place,number,zip_code):
+    def __init__(self, id_client, place, number, zip_code):
         self.__id_client = id_client
         self.__place = place
         self.__number = number
@@ -40,7 +40,7 @@ class Address(object):
 
 
 class Phone(object):
-    def __init__(self,identification, phone_number, notification):
+    def __init__(self, identification, phone_number, notification):
         self.__identification = identification
         self.__notification = notification
         self.__phone_number = phone_number
@@ -67,6 +67,5 @@ class Phone(object):
 
     def __str__(self):
         return "Usuário: {}, Número: {}, Notificação: {}".format(self.identification,
-                                                                self.__phone_number,
-                                                                self.__notification)
-
+                                                                 self.__phone_number,
+                                                                 self.__notification)

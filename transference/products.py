@@ -1,9 +1,10 @@
 class Product(object):
-    def __init__(self,title, name, price, code,id=0):
+    def __init__(self, title, name, price, code, is_available=True, id=0):
         self.__id = id
         self.__title = title
         self.__name = name
         self.__price = price
+        self.__is_available = is_available
         self.__code = code
 
     @property
@@ -47,6 +48,14 @@ class Product(object):
         self.__price = price
 
     @property
+    def is_available(self):
+        return self.__is_available
+
+    @is_available.setter
+    def is_available(self, value):
+        self.__is_available = value
+
+    @property
     def code(self):
         return self.__code
 
@@ -54,9 +63,8 @@ class Product(object):
         return self.__code == other.__code
 
     def __str__(self):
-        return "Produto: {} {}, Código: {}, R$: {}" .format(self.__title,
-                                                            self.__name,
-                                                            self.__code,
-                                                            self.__price,
-                                                            )
-
+        return "Produto: {} {}, Código: {}, R$: {}".format(self.__title,
+                                                           self.__name,
+                                                           self.__code,
+                                                           self.__price,
+                                                           )

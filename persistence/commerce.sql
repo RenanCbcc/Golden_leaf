@@ -46,6 +46,7 @@ create table Product(
  title VARCHAR (20),
  name VARCHAR (10) NOT NULL,
  price DECIMAL (3,2) NOT NULL,
+ available BOOLEAN NOT NULL,
  code VARCHAR (10) NOT NULL,
  PRIMARY KEY (code),
  KEY (id)
@@ -158,14 +159,14 @@ INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("63755750449","919
 INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("31710548410","91983087414",TRUE);
 
 SELECT 'Creating  Product';
-INSERT INTO Product (title, name, price, code) VALUES("Arroz","Fazanda",3.50,"1");
-INSERT INTO Product (title, name, price, code) VALUES("Arroz","Tio João",3.00,"2");
-INSERT INTO Product (title, name, price, code) VALUES("Feijão carioca","Tio pedro",5.50,"3");
-INSERT INTO Product (title, name, price, code) VALUES("Feijão cavalo","São pedro",6.50,"4");
-INSERT INTO Product (title, name, price, code) VALUES("Macarão","Hiléia",3.50,"5");
-INSERT INTO Product (title, name, price, code) VALUES("Óleo","Primor",4.00,"6");
-INSERT INTO Product (title, name, price, code) VALUES("Açúcar","Pricesa",3.20,"7");
-INSERT INTO Product (title, name, price, code) VALUES("Leite","Dubom",3.50,"8");
+INSERT INTO Product (title, name, price, code) VALUES("Arroz","Fazanda",3.50,TRUE,"1");
+INSERT INTO Product (title, name, price, code) VALUES("Arroz","Tio João",3.00,TRUE,"2");
+INSERT INTO Product (title, name, price, code) VALUES("Feijão carioca","Tio pedro",5.50,TRUE,"3");
+INSERT INTO Product (title, name, price, code) VALUES("Feijão cavalo","São pedro",6.50,TRUE,"4");
+INSERT INTO Product (title, name, price, code) VALUES("Macarão","Hiléia",3.50,TRUE,"5");
+INSERT INTO Product (title, name, price, code) VALUES("Óleo","Primor",4.00,TRUE,"6");
+INSERT INTO Product (title, name, price, code) VALUES("Açúcar","Pricesa",3.20,TRUE,"7");
+INSERT INTO Product (title, name, price, code) VALUES("Leite","Dubom",3.50,TRUE,"8");
 
 SELECT 'Creating  Demand';
 INSERT INTO Demand (date, time, id_client, id_clerk) VALUES((SELECT CURRENT_DATE()), (SELECT CURRENT_TIME()),1,9);
