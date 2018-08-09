@@ -26,14 +26,13 @@
                        value="{{ product.code }}">
             </div>
 
-            <div class="btn-group">
-                <a href="{{ url_for('update_product',code=product.code) }}" class="btn btn-primary active">
-                    <i class="glyphicon glyphicon-ok" aria-hidden="true"/> Salvar
-                </a>
 
+            <div class="btn-group">
+                <a href="{{ url_for('edit_product',code=product.code) }}" class="btn btn-primary active">
+                    <i class="glyphicon glyphicon-ok" aria-hidden="true"></i> Salvar
+                </a>
                 <a href="{{ url_for('listing_product') }}" class="btn btn-default">Cancelar</a>
             </div>
-
         </fieldset>
     </form>
 

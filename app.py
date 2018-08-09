@@ -48,13 +48,12 @@ def create_product():
     return redirect('/')
 
 
-@app.route('/search_product', methods=['POST'])
-def search_product():
-    productdao = ProductDAO(Connection())
-    product = productdao.search(request.form['code'])
-    if product is not None:
-        list = [product]
-        return redirect('products/list.html', products=list)
+@app.route('/search_product/<string:code>', methods=['POST'])
+def search_product(code):
+    products = ProductDAO(Connection()).search(code)
+    if products is not None:
+        list_of_products = [products]
+        return redirect('products/list.html', products=list_of_products)
     else:
         flash('Nenhum produto encontrado')
         return redirect('products/list.html')
@@ -62,12 +61,8 @@ def search_product():
 
 @app.route('/edit_product/<string:code>')
 def edit_product(code):
-    if 'user_authenticated' not in session or session['user_authenticated'] is not None:
-        flash('É preciso fazer login')
-        return redirect(url_for('users/login', next_page=url_for('products/edit.html')))
-    else:
-        product = ProductDAO(Connection()).search_code(code)
-        return render_template('products/edit.html', product=product)
+    product = ProductDAO(Connection()).search_code(code)
+    return render_template('products/edit.html', product=product)
 
 
 @app.route('/update_product', methods=['PUT'])
@@ -160,3 +155,12 @@ def logout(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+"""
+    if 'user_authenticated' not in session or session['user_authenticated'] is not None:
+        flash('É preciso fazer login')
+        return redirect(url_for('users/login', next_page=url_for('edit_product')))
+    else:
+"""
