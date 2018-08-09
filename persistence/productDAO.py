@@ -5,9 +5,10 @@ DELETE_PRODUCT = 'DELETE FROM Product WHERE id = %(id)s'
 ALTER_PRODUCT = 'UPDATE Product SET title = %s name = %s, price = %s, code = %s WHERE id = %s'
 SEARCH_PRODUCT = 'SELECT * FROM Product WHERE id = %(id)s'
 SEARCH_CODE = 'SELECT * FROM Product WHERE code = %(code)s'
-LISTING_PRODUCTS='SELECT * FROM Product'
+LISTING_PRODUCTS = 'SELECT * FROM Product'
 
 SAVE_ITEM = 'INSERT INTO Product (id_demand,id_product,quantity) VALUES (%s, %s, %s)'
+
 
 class ProductDAO(object):
 
@@ -33,7 +34,7 @@ class ProductDAO(object):
 
     def search(self, id):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_PRODUCT,{'id': id})
+        cursor.execute(SEARCH_PRODUCT, {'id': id})
         tuple = cursor.fetchone()
         return Product(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
 
@@ -41,8 +42,8 @@ class ProductDAO(object):
         cursor = self.__connection.get_connection().cursor()
         cursor.execute(SEARCH_CODE, {'code': code})
         tuple = cursor.fetchone()
-        return Product(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
-
+        if tuple is not None:
+            return Product(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
 
     def show_all(self):
         cursor = self.__connection.get_connection().cursor()
@@ -52,11 +53,6 @@ class ProductDAO(object):
 
     def __tuple_to_products(self, tuples):
         def __map_tuple_to_object(tuple):
-            return Product(tuple[1], tuple[2], tuple[3],tuple[4], id=tuple[0])
+            return Product(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
 
-        return list(map(__map_tuple_to_object,tuples))
-
-
-
-
-
+        return list(map(__map_tuple_to_object, tuples))
