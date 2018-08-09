@@ -1,6 +1,28 @@
 {% extends "template.html" %}
 {% block content %}
 
+    <h1 class="titulo-principal">Buscar Cliente</h1>
+    <form form action="/product_search" method="post">
+        <fieldset>
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" id="name" name="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="surname">Sobrenome</label>
+                <input type="text" id="surname" name="surname" class="form-control">
+            </div>
+
+            <div class="btn-group">
+                <a href="{{ url_for('product_client',code=1) }}" class="btn btn-primary active">
+                    <i class="glyphicon glyphicon-search" aria-hidden="true"></i> Buscar
+                </a>
+                <a href="{{ url_for('listing_clients') }}" class="btn btn-default">Limpar</a>
+            </div>
+        </fieldset>
+    </form>
+
+
     <h1 class="titulo-principal">Lista de clientes</h1>
     <table class="table table-striped table-responsive table-bordered">
         <thead class="thead-default">
@@ -13,16 +35,24 @@
         <tbody>
         {% for client in clients %}
             <tr>
-                <td>{{ client.name }}</td>
-                <td>{{ client.surname }}</td>
-                {% if client.status == 1 %}
-                    <td>Ativo</td>
-                {% endif %}
+                <td>{{ clients.name }}</td>
+                <td>{{ clients.surname }}</td>
+                {% if product.status %}
+                    <td>ativo</td>
                 {% else %}
-                <td>Inativo</td>
-                {% andelse %}
+                    <td>inativo</td>
+                {% endif %}
+
                 <td>
-                    <button type="submit" class="btn btn-primary btn-edit">Editar</button>
+
+                    <div class="btn-group">
+                        <a href="{{ url_for('product_edit',client=clients.identification) }}"
+                           class="btn btn-primary active">
+                            <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> Editar
+                        </a>
+                        <a href="/cancel/1" class="btn btn-default">Cancel</a>
+                    </div>
+
                 </td>
             </tr>
         {% endfor %}

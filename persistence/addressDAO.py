@@ -70,7 +70,7 @@ class PhoneDAO(object):
 
     def delete(self, id_user):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(DELETE_ADDRESS,{'id_user': id_user})
+        cursor.execute(DELETE_ADDRESS, {'id_user': id_user})
         self.__connection.confirm_transaction()
 
     def alter(self, phone):
@@ -79,8 +79,8 @@ class PhoneDAO(object):
         self.__connection.confirm_transaction()
         return phone
 
-    def search(self, identification):
+    def search(self, id_user):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_ADDRESS, (identification))
+        cursor.execute(SEARCH_ADDRESS, {'id': id_user})
         tuple = cursor.fetchone()
         return Address(tuple[0], tuple[1], tuple[2])

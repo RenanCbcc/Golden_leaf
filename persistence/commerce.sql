@@ -36,7 +36,7 @@ create table Address(
 ) ENGINE = INNODB;
 
 create table Phone(
- id_cpf CHAR(11) NOT NULL,
+ id_user INT NOT NULL,
  phone_number CHAR(11) NOT NULL,
  notification BOOLEAN NOT NULL
 ) ENGINE = INNODB;
@@ -81,7 +81,7 @@ ALTER TABLE Address ADD CONSTRAINT FK_Address_Client
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE Phone ADD CONSTRAINT FK_Phone_User
- FOREIGN KEY (id_cpf) REFERENCES User(cpf)
+ FOREIGN KEY (id_user) REFERENCES User(id)
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE Demand ADD CONSTRAINT FK_Demand_Client
@@ -148,15 +148,15 @@ INSERT INTO Address (id_client,public_place,number,zip_code) VALUES(7,"Passagem 
 INSERT INTO Address (id_client,public_place,number,zip_code) VALUES(8,"Ladeira do Castelo","124","66020170");
 
 SELECT 'Creating  Phone';
-INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("72259372007","91984292065",TRUE);
-INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("68709620060","91996288947",TRUE);
-INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("87283561013","91996937507",TRUE);
-INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("56603582090","91999461580",TRUE);
-INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("56309984047","91992099760",TRUE);
-INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("27605414013","91985174469",TRUE);
-INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("89576228026","91995788281",TRUE);
-INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("63755750449","91994948439",TRUE);
-INSERT INTO Phone (id_cpf, phone_number, notification) VALUES("31710548410","91983087414",TRUE);
+INSERT INTO Phone (id_user, phone_number, notification) VALUES("1","91984292065",TRUE);
+INSERT INTO Phone (id_user, phone_number, notification) VALUES("2","91996288947",TRUE);
+INSERT INTO Phone (id_user, phone_number, notification) VALUES("3","91996937507",TRUE);
+INSERT INTO Phone (id_user, phone_number, notification) VALUES("4","91999461580",TRUE);
+INSERT INTO Phone (id_user, phone_number, notification) VALUES("5","91992099760",TRUE);
+INSERT INTO Phone (id_user, phone_number, notification) VALUES("6","91985174469",TRUE);
+INSERT INTO Phone (id_user, phone_number, notification) VALUES("7","91995788281",TRUE);
+INSERT INTO Phone (id_user, phone_number, notification) VALUES("8","91994948439",TRUE);
+INSERT INTO Phone (id_user, phone_number, notification) VALUES("9","91983087414",TRUE);
 
 SELECT 'Creating  Product';
 INSERT INTO Product (title, name, price, code) VALUES("Arroz","Fazanda",3.50,TRUE,"1");

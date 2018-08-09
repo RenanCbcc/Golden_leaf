@@ -40,8 +40,8 @@ class Address(object):
 
 
 class Phone(object):
-    def __init__(self, identification, phone_number, notification):
-        self.__identification = identification
+    def __init__(self, id_user, phone_number, notification):
+        self.__id_user = id_user
         self.__notification = notification
         self.__phone_number = phone_number
 
@@ -54,8 +54,8 @@ class Phone(object):
         self.__phone_number = number
 
     @property
-    def identification(self):
-        return self.__identification
+    def id_user(self):
+        return self.__id_user
 
     @property
     def notification(self):
@@ -66,6 +66,5 @@ class Phone(object):
         self.__notification = boolean
 
     def __str__(self):
-        return "Usuário: {}, Número: {}, Notificação: {}".format(self.identification,
-                                                                 self.__phone_number,
-                                                                 self.__notification)
+        return "Número: {}, Notificação: {}".format(self.__phone_number,
+                                                    self.__notification)
