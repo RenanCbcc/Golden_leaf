@@ -40,7 +40,6 @@ class AddressDAO(object):
         cursor = self.__connection.get_connection().cursor()
         cursor.execute(SEARCH_ADDRESS, {'id_user': id_user})
         tuple = cursor.fetchone()
-        print(tuple)
         return Address(tuple[0], tuple[1], tuple[2], tuple[3])
 
     def show_all(self):

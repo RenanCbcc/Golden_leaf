@@ -1,16 +1,19 @@
-from transference.demands import Demand,Item
+from transference.demands import Demand, Item
 
-SAVE_DEMAND = 'INSERT INTO Demand (date, time, id_client, id_clerk) VALUES (%s, %s, %d, %d)'
-DELETE_DEMAND = 'DELETE FROM Demand WHERE id = %d'
-SEARCH_DEMAND = 'SELECT * FROM Product WHERE id_client = %d'
+SAVE_DEMAND = 'INSERT INTO Demand (date, time, id_client, id_clerk) VALUES (%s, %s, %s, %s)'
+DELETE_DEMAND = 'DELETE FROM Demand WHERE id = %s'
+SEARCH_DEMAND = 'SELECT * FROM Product WHERE id_client = %s'
 SEARCH_DEMAND = 'SELECT * FROM Product WHERE code = %s'
-LISTING_DEMAND='SELECT d.id,d.date,d.time,c.name,a.name FROM Demand d ,Client c,Clerk a ' \
-               'WHERE d.id_client =c.id_user AND d.id_clerk = a.id_user'
+LISTING_DEMAND = 'SELECT d.id,d.date,d.time,c.name,a.name FROM Demand d ,Client c,Clerk a ' \
+                 'WHERE d.id_client =c.id_user AND d.id_clerk = a.id_user'
+LISTING_DEMAND_OF_CLIENT = 'SELECT d.id,d.date,d.time,c.name,a.name FROM Demand d ,Client c,Clerk a ' \
+                 'WHERE d.id_client =c.id_user AND d.id_clerk = a.id_user'
 
-SAVE_ITEM = 'INSERT INTO Item (id_demand,id_product,quantity) VALUES (%d, %d, %f)'
-DELETE_ITEM = 'DELETE FROM Item WHERE id_demand = %d AND id_product = %d'
-ALTER_ITEM = 'UPDATE Item SET quantity = %f WHERE id_demand = %d'
-SEARCH_ITEM = 'SELECT * FROM Item WHERE id = %d'
+
+SAVE_ITEM = 'INSERT INTO Item (id_demand,id_product,quantity) VALUES (%s, %s, %s)'
+DELETE_ITEM = 'DELETE FROM Item WHERE id_demand = %s AND id_product = %s'
+ALTER_ITEM = 'UPDATE Item SET quantity = %s WHERE id_demand = %s'
+SEARCH_ITEM = 'SELECT * FROM Item WHERE id = %s'
 LISTING_ITEM = 'SELECT * FROM Item'
 
 
@@ -25,7 +28,7 @@ class DemandDAO(object):
         itemdao = ItemDAO(self.__connection)
         for item in demand.items:
             itemdao.save(item)
-        del(itemdao)
+        del (itemdao)
         self.__connection.confirm_transaction()
         return demand
 
@@ -39,7 +42,6 @@ class DemandDAO(object):
         cursor.execute(SEARCH_DEMAND, (id))
         tuple = cursor.fetchone()
         return Demand(tuple[1], tuple[2], tuple[3], tuple[4], id=tuple[0])
-
 
     def show_all(self):
         cursor = self.__connection.get_connection().cursor()
@@ -63,11 +65,9 @@ class ItemDAO(object):
         cursor = self.__connection.get_connection().cursor()
         cursor.execute(SAVE_ITEM, (item.id_demand, item.id_product, item.quantity))
 
-
     def delete(self, id):
         cursor = self.__connection.get_connection().cursor()
         cursor.execute(DELETE_ITEM, (id))
-
 
     def alter(self, product):
         cursor = self.__connection.get_connection().cursor()
@@ -92,4 +92,3 @@ class ItemDAO(object):
             return Item(tuple[1], tuple[2], tuple[3])
 
         return list(map(__map_tuple_to_object, tuples))
-

@@ -100,7 +100,7 @@ ALTER TABLE Item ADD CONSTRAINT FK_Item_Product
  FOREIGN KEY (id_product) REFERENCES Product(id)
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-/*
+
 SELECT 'Creating  Client';
 INSERT INTO User (cpf,status) VALUES("72259372007",TRUE);
 INSERT INTO Client (id_user,name,surname) VALUES(1,"Dorothy","King");
@@ -195,6 +195,5 @@ INSERT INTO Item (id_demand,id_product,quantity) VALUES(4,5,1);
 INSERT INTO Item (id_demand,id_product,quantity) VALUES(4,7,1.5);
 INSERT INTO Item (id_demand,id_product,quantity) VALUES(4,8,1);
 
-*/
 
 

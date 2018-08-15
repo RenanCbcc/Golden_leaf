@@ -54,9 +54,27 @@
                     </div>
 
                 </td>
+
+                <td>
+                    <div class="btn-group">
+
+                        <a href="{{ url_for('listing_orders') }}" class="btn btn-primary active">
+                            <i class="glyphicon glyphicon-list-alt" aria-hidden="true"/>Pedidos
+                        </a>
+
+                        <a href="{{ url_for('new_order') }}" class="btn btn-default">
+                            <i class=" glyphicon glyphicon-shopping-cart"/>
+                            Novo pedido</a>
+
+                    </div>
+
+                </td>
+
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
 {% endblock %}
+
+

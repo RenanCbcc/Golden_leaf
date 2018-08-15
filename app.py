@@ -18,7 +18,7 @@ def index():
 
 
 @app.route('/products_list')
-def listing_product():
+def listing_products():
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
         return redirect('/login?next_page=products_list')
@@ -125,7 +125,6 @@ def edit_client(id):
         client = ClientDAO(connection).search(id)
         address = AddressDAO(connection).search(id)
         phone = PhoneDAO(connection).search(client.id)
-
         return render_template('users/edit.html', client=client,
                                address=address, phone=phone)
 
@@ -150,6 +149,25 @@ def search_client():
 
     else:
         return redirect('/clients/list.html', clients=list_of_clients)
+
+
+@app.route('/orders_list')
+def listing_orders():
+    if 'user_authenticated' not in session or session['user_authenticated'] is None:
+        flash('É preciso fazer login')
+        return redirect('/login?next_page=products_list')
+    else:
+        list_of_products = ProductDAO(Connection()).show_all()
+        return render_template('products/list.html', products=list_of_products)
+
+
+@app.route('/order_new')
+def new_order():
+    if 'user_authenticated' not in session or session['user_authenticated'] is None:
+        flash('É preciso fazer login')
+        return redirect('/login?next_page=new_product')
+    else:
+        return render_template('sales/new.html')
 
 
 @app.route('/login')

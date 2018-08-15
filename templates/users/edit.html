@@ -2,7 +2,7 @@
 {% block content %}
 
     <h1 class="titulo-principal">Dados do cliente</h1>
-    <form form action="{{ url_for('client_update') }}" method="POST">
+    <form form action="{{ url_for('update_client') }}" method="POST">
         <fieldset>
             <div class="form-group">
                 <label for="name">Nome</label>
@@ -30,7 +30,7 @@
             <div class="form-group">
                 <label for="contato">Contato</label>
                 <input type="text" id="contato" name="phone" class="form-control"
-                       value="{{ phone.number }}">
+                       value="{{ phone.phone_number }}">
                 <label for="notificação">Notificação</label>
                 <input type="text" id="notificação" name="notification" class="form-control"
                        value="{{ phone.notification }}">
