@@ -9,7 +9,7 @@ from transference.products import Product
 import re, os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(666)
+app.secret_key = os.urandom(26)
 
 
 @app.route('/')
@@ -81,11 +81,11 @@ def update_product():
     return redirect('/products/list.html')
 
 
-@app.route('/client_list')
+@app.route('/clients_list')
 def listing_clients():
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
-        return redirect('/login?next_page=client_list')
+        return redirect('/login?next_page=clients_list')
     else:
         list_of_clients = ClientDAO(Connection()).show_all()
         return render_template('users/list.html', clients=list_of_clients)
@@ -119,7 +119,7 @@ def create_client():
 def edit_client(id):
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
-        return redirect(url_for('/login', next_page=url_for('product_edit')))
+        return redirect(url_for('/login', next_page=url_for('client_edit')))
     else:
         connection = Connection()
         client = ClientDAO(connection).search(id)

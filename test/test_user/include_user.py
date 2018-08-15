@@ -11,16 +11,16 @@ class TestCaseIncludeUser(unittest.TestCase):
         cl = Client("Dorothy", "King", "72259372007")
         cl = clientDAO.save(cl)
         same = clientDAO.search(cl.id)
-        print(same.identification)
         self.assertEqual(cl, same)
+
 
     def test_save_another_client(self):
         clientDAO = ClientDAO(Connection())
         cl = Client("Caelan","Corrigan","63755750449")
         cl = clientDAO.save(cl)
         same = clientDAO.search(cl.id)
-        print(same.identification)
         self.assertEqual(cl, same)
+
 
     def test_save_clerk(self):
         clerkDAO = ClerkDAO(Connection())

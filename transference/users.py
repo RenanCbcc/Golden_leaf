@@ -1,4 +1,9 @@
+from abc import ABCMeta
+
+
 class User(object):
+    __metaclass__ = ABCMeta
+
     def __init__(self, id, identification, status):
         self.__identification = identification
         self.__status = status

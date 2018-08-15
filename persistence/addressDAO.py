@@ -1,18 +1,17 @@
-from transference.addresses import Address
+from transference.addresses import Address, Phone
 
 SAVE_ADDRESS = 'INSERT INTO Address (id_client,public_place,number,zip_code) values (%s, %s, %s, %s)'
 DELETE_ADDRESS = 'DELETE FROM Address WHERE id_user = %(id_user)s'
 ALTER_ADDRESS = 'UPDATE Address SET place = %s, number = %s, zip_code = %s WHERE id_user = $s'
-SEARCH_ADDRESS = 'SELECT c.name,a.public_place,a.zip_code,u.status FROM User u JOIN Client c ' \
-                 'ON u.id = c.id_user JOIN Address a on u.id = %(id_user)s'
+SEARCH_ADDRESS = 'SELECT c.name,a.public_place,a.number, a.zip_code FROM Address a JOIN Client c ' \
+                 'ON a.id_client = c.id_user WHERE id_user = %(id_user)s'
+LISTING_ADDRESS = 'SELECT c.name,a.public_place,a.number, a.zip_code FROM Address a JOIN Client c ' \
+                  'ON a.id_client = c.id_user'
 
-LISTING_ADDRESS = 'SELECT c.name,a.public_place,a.zip_code,c.status FROM User u ' \
-                  'JOIN Client c ON u.id = c.id JOIN Address a on u.id = a.id_client'
-
-SAVE_PHONE = 'INSERT INTO Phone (id_cpf, phone_number, notification) values (%s, %s, %s)'
-DELETE_PHONE = 'DELETE FROM Phone WHERE id_cpf = %s'
-ALTER_PHONE = 'UPDATE Phone SET SET number = %s WHERE id_cpf = %s'
-SEARCH_PHONE = 'SELECT p.phone_number FROM Phone p WHERE id_cpf = %s'
+SAVE_PHONE = 'INSERT INTO Phone (id_user, phone_number, notification) values (%s, %s, %s)'
+DELETE_PHONE = 'DELETE FROM Phone WHERE id_user = %s'
+UPDATE_PHONE = 'UPDATE Phone SET phone_number = %s, notification = %s WHERE id_user = %s'
+SEARCH_PHONE = 'SELECT * FROM Phone p WHERE p.id_user = %(id_user)s'
 
 
 class AddressDAO(object):
@@ -64,23 +63,23 @@ class PhoneDAO(object):
 
     def save(self, phone):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SAVE_ADDRESS, (phone.identification, phone.phone_number, phone.notification))
+        cursor.execute(SAVE_PHONE, (phone.id_user, phone.phone_number, phone.notification))
         self.__connection.confirm_transaction()
         return phone
 
     def delete(self, id_user):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(DELETE_ADDRESS, {'id_user': id_user})
+        cursor.execute(DELETE_PHONE, {'id_user': id_user})
         self.__connection.confirm_transaction()
 
     def alter(self, phone):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(ALTER_ADDRESS, (phone.identification, phone.phone_number, phone.notification))
+        cursor.execute(UPDATE_PHONE, (phone.phone_number, phone.notification, phone.id_user))
         self.__connection.confirm_transaction()
         return phone
 
     def search(self, id_user):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_ADDRESS, {'id': id_user})
+        cursor.execute(SEARCH_PHONE, {'id_user': id_user})
         tuple = cursor.fetchone()
-        return Address(tuple[0], tuple[1], tuple[2])
+        return Phone(tuple[0], tuple[1], tuple[2])

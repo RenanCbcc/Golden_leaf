@@ -100,7 +100,7 @@ ALTER TABLE Item ADD CONSTRAINT FK_Item_Product
  FOREIGN KEY (id_product) REFERENCES Product(id)
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-
+/*
 SELECT 'Creating  Client';
 INSERT INTO User (cpf,status) VALUES("72259372007",TRUE);
 INSERT INTO Client (id_user,name,surname) VALUES(1,"Dorothy","King");
@@ -159,14 +159,14 @@ INSERT INTO Phone (id_user, phone_number, notification) VALUES("8","91994948439"
 INSERT INTO Phone (id_user, phone_number, notification) VALUES("9","91983087414",TRUE);
 
 SELECT 'Creating  Product';
-INSERT INTO Product (title, name, price, code) VALUES("Arroz","Fazanda",3.50,TRUE,"1");
-INSERT INTO Product (title, name, price, code) VALUES("Arroz","Tio João",3.00,TRUE,"2");
-INSERT INTO Product (title, name, price, code) VALUES("Feijão carioca","Tio pedro",5.50,TRUE,"3");
-INSERT INTO Product (title, name, price, code) VALUES("Feijão cavalo","São pedro",6.50,TRUE,"4");
-INSERT INTO Product (title, name, price, code) VALUES("Macarão","Hiléia",3.50,TRUE,"5");
-INSERT INTO Product (title, name, price, code) VALUES("Óleo","Primor",4.00,TRUE,"6");
-INSERT INTO Product (title, name, price, code) VALUES("Açúcar","Pricesa",3.20,TRUE,"7");
-INSERT INTO Product (title, name, price, code) VALUES("Leite","Dubom",3.50,TRUE,"8");
+INSERT INTO Product (title, name, price,available, code) VALUES("Arroz","Fazanda",3.50,TRUE,"1");
+INSERT INTO Product (title, name, price,available, code) VALUES("Arroz","Tio João",3.00,TRUE,"2");
+INSERT INTO Product (title, name, price,available, code) VALUES("Feijão carioca","Tio pedro",5.50,TRUE,"3");
+INSERT INTO Product (title, name, price,available, code) VALUES("Feijão cavalo","São pedro",6.50,TRUE,"4");
+INSERT INTO Product (title, name, price,available, code) VALUES("Macarão","Hiléia",3.50,TRUE,"5");
+INSERT INTO Product (title, name, price,available, code) VALUES("Óleo","Primor",4.00,TRUE,"6");
+INSERT INTO Product (title, name, price,available, code) VALUES("Açúcar","Pricesa",3.20,TRUE,"7");
+INSERT INTO Product (title, name, price,available, code) VALUES("Leite","Dubom",3.50,TRUE,"8");
 
 SELECT 'Creating  Demand';
 INSERT INTO Demand (date, time, id_client, id_clerk) VALUES((SELECT CURRENT_DATE()), (SELECT CURRENT_TIME()),1,9);
@@ -195,6 +195,6 @@ INSERT INTO Item (id_demand,id_product,quantity) VALUES(4,5,1);
 INSERT INTO Item (id_demand,id_product,quantity) VALUES(4,7,1.5);
 INSERT INTO Item (id_demand,id_product,quantity) VALUES(4,8,1);
 
-
+*/
 
 

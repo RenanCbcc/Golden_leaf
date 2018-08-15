@@ -111,7 +111,7 @@ class ClerkDAO(object):
 
     def login(self, email):
         cursor = self.__connection.get_connection().cursor()
-        cursor.execute(SEARCH_CLERK_FOR_EMAIL,{'email':email})
+        cursor.execute(SEARCH_CLERK_FOR_EMAIL, {'email': email})
         tuple = cursor.fetchone()
         "Clerk(name,email,password,identification,status=True,id=0)"
         if not tuple:
