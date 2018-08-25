@@ -1,0 +1,30 @@
+{% extends "template.html" %}
+{% block content %}
+
+    <h1 class="titulo-principal">Lista de Pedidos ({{ orders[0].id_client }})</h1>
+    <table class="table table-striped table-responsive table-bordered">
+        <thead class="thead-default">
+        <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Atendente</th>
+            <th>Valor R$</th>
+            <th>Itens</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.date }}</td>
+                <td>{{ order.time }}</td>
+                <td>{{ order.id_clerk }}</td>
+                <td>0</td>
+                <td><a href="" class="btn btn-primary active">
+                    <i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i> Visualizar
+                </a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

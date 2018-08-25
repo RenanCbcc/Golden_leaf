@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, session, flash, url
 
 from persistence.addressDAO import AddressDAO, PhoneDAO
 from persistence.connection import Connection
+from persistence.demandDAO import DemandDAO
 from persistence.productDAO import ProductDAO
 from persistence.usersDAO import ClientDAO, ClerkDAO
 from transference.addresses import Address, Phone
@@ -151,14 +152,14 @@ def search_client():
         return redirect('/clients/list.html', clients=list_of_clients)
 
 
-@app.route('/orders_list')
-def listing_orders():
+@app.route('/orders_of/<int:id>')
+def listing_orders_of(id):
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
-        return redirect('/login?next_page=products_list')
+        return redirect('/login?next_page=orders_of')
     else:
-        list_of_products = ProductDAO(Connection()).show_all()
-        return render_template('products/list.html', products=list_of_products)
+        list_of_orders = DemandDAO(Connection()).search_demand_of_client(id)
+        return render_template('orders/list.html', orders=list_of_orders)
 
 
 @app.route('/order_new')

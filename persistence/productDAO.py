@@ -6,7 +6,6 @@ ALTER_PRODUCT = 'UPDATE Product SET title = %s name = %s, price = %s, code = %s 
 SEARCH_PRODUCT = 'SELECT * FROM Product WHERE id = %(id)s'
 SEARCH_CODE = 'SELECT * FROM Product WHERE code = %(code)s'
 LISTING_PRODUCTS = 'SELECT * FROM Product'
-
 SAVE_ITEM = 'INSERT INTO Product (id_demand,id_product,quantity) VALUES (%s, %s, %s)'
 
 
@@ -18,6 +17,7 @@ class ProductDAO(object):
     def save(self, product):
         cursor = self.__connection.get_connection().cursor()
         cursor.execute(SAVE_PRODUCT, (product.title, product.name, product.price, product.code))
+        product.id = cursor.lastrowid
         self.__connection.confirm_transaction()
         return product
 
