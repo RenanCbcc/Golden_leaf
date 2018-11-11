@@ -1,43 +1,49 @@
-<!DOCTYPE html>
-<html>
+{% extends "bootstrap/base.html" %}
+
 <head>
-    <meta charset="utf-8">
-    <link rel="icon" href="{{ url_for('static',filename='gl.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='app.css') }}">
-    <title>Palma de Ouro</title>
+    {% block head %}
+        {{ super() }}
+        <meta charset="utf-8">
+        <link rel="icon" href="{{ url_for('static',filename='gl.png') }}">
+        <title>Palma de Ouro</title>
+    {% endblock %}
 </head>
 <body>
+{% block navbar %}
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('index') }}">Palma de Ouro</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('listing_products') }}">Produtos</a></li>
+                    <li><a href="{{ url_for('listing_clients') }}">Clientes</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 <main>
     <div class="container">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul id="messages" class="list_unstyled">
-                    {% for message in messages %}
-                        <li class="alert alert-success">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
 
         {% block content %}{% endblock %}
     </div>
-
 </main>
-<!--This is a comment. Comments are not displayed in the browser
-<aside class="navegacao-site">
-    <h1>Menu</h1>
-    <nav>
-        <ul>
-            <li>Produtos</li>
-            <li>Clientes</li>
-            <li>Vendas</li>
-        </ul>
-    </nav>
-</aside>
 
-
-
--->
 <footer class="rodape-pagina"> &copy; Renan Rosa 2018</footer>
 </body>
+</html>
