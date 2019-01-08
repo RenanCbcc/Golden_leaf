@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, flash, url_for
-
+from flask import render_template, request, redirect, session, flash, url_for
 from persistence.addressDAO import AddressDAO, PhoneDAO
 from persistence.connection import Connection
 from persistence.demandDAO import DemandDAO
@@ -7,18 +6,18 @@ from persistence.productDAO import ProductDAO
 from persistence.usersDAO import ClientDAO, ClerkDAO
 from transference.addresses import Address, Phone
 from transference.products import Product
-import re, os
+from flask import Blueprint
+import re
 
-app = Flask(__name__)
-app.secret_key = os.urandom(26)
+main = Blueprint('main', __name__)
 
 
-@app.route('/')
+@main.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/products_list')
+@main.route('/products_list')
 def listing_products():
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
@@ -28,7 +27,7 @@ def listing_products():
         return render_template('products/list.html', products=list_of_products)
 
 
-@app.route('/product_new')
+@main.route('/product_new')
 def new_product():
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
@@ -37,7 +36,7 @@ def new_product():
         return render_template('products/new.html')
 
 
-@app.route('/product_create', methods=['POST'])
+@main.route('/product_create', methods=['POST'])
 def create_product():
     productdao = ProductDAO(Connection())
     productdao.save(Product(request.form['title'],
@@ -48,7 +47,7 @@ def create_product():
     return redirect('/')
 
 
-@app.route('/product_search/<string:code>', methods=['POST'])
+@main.route('/product_search/<string:code>', methods=['POST'])
 def search_product(code):
     products = ProductDAO(Connection()).search(code)
     if products is not None:
@@ -60,7 +59,7 @@ def search_product(code):
         return redirect('/products_list')
 
 
-@app.route('/product_edit/<string:code>')
+@main.route('/product_edit/<string:code>')
 def edit_product(code):
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
@@ -71,7 +70,7 @@ def edit_product(code):
             return render_template('products/edit.html', product=product)
 
 
-@app.route('/product_update', methods=['PUT'])
+@main.route('/product_update', methods=['PUT'])
 def update_product():
     productdao = ProductDAO(Connection())
     productdao.alter(Product(request.form['title'],
@@ -82,7 +81,7 @@ def update_product():
     return redirect('/products/list.html')
 
 
-@app.route('/clients_list')
+@main.route('/clients_list')
 def listing_clients():
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
@@ -92,7 +91,7 @@ def listing_clients():
         return render_template('users/list.html', clients=list_of_clients)
 
 
-@app.route('/client_new')
+@main.route('/client_new')
 def new_client():
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         return render_template('users/new.html')
@@ -101,7 +100,7 @@ def new_client():
         return redirect('/login?next_page=new_product')
 
 
-@app.route('/create_client', methods=['POST'])
+@main.route('/create_client', methods=['POST'])
 def create_client():
     connection = Connection()
     clientdao = ClientDAO(connection)
@@ -116,7 +115,7 @@ def create_client():
     return redirect('/users/list.html')
 
 
-@app.route('/client_edit/<int:id>')
+@main.route('/client_edit/<int:id>')
 def edit_client(id):
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
@@ -130,7 +129,7 @@ def edit_client(id):
                                address=address, phone=phone)
 
 
-@app.route('/client_update', methods=['PUT'])
+@main.route('/client_update', methods=['PUT'])
 def update_client():
     productdao = ProductDAO(Connection())
     productdao.alter(Product(request.form['title'],
@@ -141,7 +140,7 @@ def update_client():
     return redirect('/products/list.html')
 
 
-@app.route('/search_client', methods=['POST'])
+@main.route('/search_client', methods=['POST'])
 def search_client():
     list_of_clients = ClientDAO(Connection()).search_for_name(request.form['name'])
     if not list_of_clients:
@@ -152,7 +151,7 @@ def search_client():
         return redirect('/clients/list.html', clients=list_of_clients)
 
 
-@app.route('/orders_of/<int:id>')
+@main.route('/orders_of/<int:id>')
 def listing_orders_of(id):
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
@@ -162,7 +161,7 @@ def listing_orders_of(id):
         return render_template('orders/list.html', orders=list_of_orders)
 
 
-@app.route('/order_new')
+@main.route('/order_new')
 def new_order():
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
@@ -171,13 +170,13 @@ def new_order():
         return render_template('sales/new.html')
 
 
-@app.route('/login')
+@main.route('/login')
 def login():
     following = request.args.get('next_page')
     return render_template('users/login.html', next_page=following)
 
 
-@app.route('/authentication', methods=['POST'])
+@main.route('/authentication', methods=['POST'])
 def authenticate():
     clerk = ClerkDAO(Connection()).login(request.form['email'])
     if clerk is None:
@@ -193,22 +192,17 @@ def authenticate():
         return redirect('/login')
 
 
-@app.route('/logout')
+@main.route('/logout')
 def logout():
     session.pop('user_authenticated', None)
     return redirect('/login')
 
 
-@app.errorhandler(404)
+@main.errorhandler(404)
 def page_not_found(error):
     return redirect('https://http.cat/{}'.format(404))
 
 
-@app.errorhandler(500)
+@main.errorhandler(500)
 def internal_server_error(error):
     return redirect('https://http.cat/{}'.format(500))
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
