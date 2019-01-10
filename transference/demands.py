@@ -1,4 +1,6 @@
-class Demand(object):
+from manager import db
+
+class Demand(db.model):
     def __init__(self, date, time, id_client, id_clerk, items, id=0):
         self.__id = id
         self.__date = date
@@ -40,7 +42,7 @@ class Demand(object):
         self.__items = items
 
 
-class Item(object):
+class Item(db.model):
     def __init__(self, id_product, quantity, id_demand=0):
         self.__id_demand = id_demand
         self.__id_product = id_product

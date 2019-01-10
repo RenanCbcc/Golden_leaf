@@ -1,8 +1,9 @@
-from abc import ABCMeta
+from manager import db
 
-
-class User(object):
-    __metaclass__ = ABCMeta
+class User(db.Model):
+    __abstract__ = True
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), unique=True)
 
     def __init__(self, id, identification, status):
         self.__identification = identification
@@ -62,6 +63,7 @@ class User(object):
 
 
 class Client(User):
+    __tablename__ = 'clients'
     def __init__(self, name, surname, identification, status=True, id=0):
         super().__init__(id, identification, status)
         self.__name = name

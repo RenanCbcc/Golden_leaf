@@ -1,70 +1,26 @@
-class Address(object):
-    def __init__(self, id_client, place, number, zip_code):
-        self.__id_client = id_client
-        self.__place = place
-        self.__number = number
-        self.__zip_code = zip_code
+from manager import db
 
-    @property
-    def id_client(self):
-        return self.__id_client
 
-    @property
-    def place(self):
-        return self.__place
-
-    @place.setter
-    def place(self, string):
-        self.__place = string
-
-    @property
-    def number(self):
-        return self.__number
-
-    @number.setter
-    def number(self, number):
-        self.__number = number
-
-    @property
-    def zip_code(self):
-        return self.__zip_code
-
-    @zip_code.setter
-    def zip_code(self, string):
-        self.__zip_code = string
+class Address(db.Model):
+    __tablename__ = 'Addresses'
+    id = db.Column(db.Integer, primary_key=True)
+    place = db.Column(db.String(64))
+    number = db.Column(db.SmallInteger)
+    title = db.Column(db.String(64))
+    zip_code = db.Column(db.String(6))
+    client_id = db.Column(db.Integer, db.ForeignKey('client_id'))
 
     def __str__(self):
-        return "Id_User: {}, Rua: {}, {}".format(self.__id_client,
-                                                 self.__place,
-                                                 self.__number)
+        return "Rua: {}, {}".format(self.place, self.number)
 
 
-class Phone(object):
-    def __init__(self, id_user, phone_number, notification):
-        self.__id_user = id_user
-        self.__notification = notification
-        self.__phone_number = phone_number
+class Phone(db.Model):
+    __tablename__ = 'phones'
+    id = db.Column(db.Integer, primary_key=True)
+    phone_number = db.Column(db.String(64))
+    notifiable = db.Column(db.Boolean)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
-    @property
-    def phone_number(self):
-        return self.__phone_number
-
-    @phone_number.setter
-    def phone_number(self, number):
-        self.__phone_number = number
-
-    @property
-    def id_user(self):
-        return self.__id_user
-
-    @property
-    def notification(self):
-        return self.__notification
-
-    @notification.setter
-    def notification(self, boolean):
-        self.__notification = boolean
-
-    def __str__(self):
-        return "Número: {}, Notificação: {}".format(self.__phone_number,
-                                                    self.__notification)
+    def __repr__(self):
+        return "Número: {}, Notificação: {}".format(self.phone_number,
+                                                    self.notification)

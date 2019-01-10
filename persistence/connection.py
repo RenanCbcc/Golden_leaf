@@ -25,3 +25,5 @@ class Connection(object):
             return
         else:
             self.__connection.commit()
+
+
