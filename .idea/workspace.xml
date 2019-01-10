@@ -2,12 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/data/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transference/addresses.py" beforeDir="false" afterPath="$PROJECT_DIR$/transference/addresses.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transference/demands.py" beforeDir="false" afterPath="$PROJECT_DIR$/transference/demands.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transference/products.py" beforeDir="false" afterPath="$PROJECT_DIR$/transference/products.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transference/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/transference/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/persistence/addressDAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/persistence(deprecated)/addressDAO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/persistence/commerce.sql" beforeDir="false" afterPath="$PROJECT_DIR$/persistence(deprecated)/commerce.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/persistence/connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/persistence(deprecated)/connection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/persistence/demandDAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/persistence(deprecated)/demandDAO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/persistence/productDAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/persistence(deprecated)/productDAO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/persistence/usersDAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/persistence(deprecated)/usersDAO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/users/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/users/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_address/suite_for_address.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_address/suite_for_address.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_address/suite_for_phone.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_address/suite_for_phone.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_order/suite_for_orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_order/suite_for_orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_product/suite_for_product.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_product/suite_for_product.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_user/include_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_user/include_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transference/addresses.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transference/demands.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transference/products.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transference/users.py" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,13 +36,27 @@
     <SUITE FILE_PATH="coverage/Golden_leaf$Flask__app_py_.coverage" NAME="Flask (app.py) Coverage Results" MODIFIED="1546980940859" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/Golden_leaf$Flask__manage_py_.coverage" NAME="Flask (manage.py) Coverage Results" MODIFIED="1547056787165" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/transference/demands.py">
+        <entry file="file://$PROJECT_DIR$/manager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="225">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -37,22 +65,43 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/transference/addresses.py">
+        <entry file="file://$PROJECT_DIR$/main/controller.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="31" lean-forward="true" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="31" />
+            <state relative-caret-position="25">
+              <caret line="98" column="20" lean-forward="true" selection-start-line="98" selection-start-column="20" selection-end-line="98" selection-end-column="20" />
+              <folding>
+                <element signature="e#0#77#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/users/new.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="149">
+              <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/transference/users.py">
+        <entry file="file://$PROJECT_DIR$/data/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="70">
-              <caret line="6" column="45" lean-forward="true" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="45" />
+            <state relative-caret-position="115">
+              <caret line="84" column="4" lean-forward="true" selection-start-line="84" selection-start-column="4" selection-end-line="84" selection-end-column="4" />
               <folding>
-                <element signature="e#0#22#0" expanded="true" />
+                <element signature="e#0#39#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configuration/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -70,6 +119,7 @@
     <findStrings>
       <find>app</find>
       <find>application</find>
+      <find>Product</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -82,19 +132,23 @@
         <option value="$PROJECT_DIR$/run.py" />
         <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/templates/template.html" />
-        <option value="$PROJECT_DIR$/main/controller.py" />
         <option value="$PROJECT_DIR$/persistence/models.py" />
         <option value="$PROJECT_DIR$/__init__.py" />
         <option value="$PROJECT_DIR$/manage.py" />
         <option value="$PROJECT_DIR$/main/__init__.py" />
         <option value="$PROJECT_DIR$/main/manager.py" />
         <option value="$PROJECT_DIR$/persistence/connection.py" />
-        <option value="$PROJECT_DIR$/manager.py" />
         <option value="$PROJECT_DIR$/configuration/config.py" />
         <option value="$PROJECT_DIR$/transference/products.py" />
         <option value="$PROJECT_DIR$/transference/demands.py" />
         <option value="$PROJECT_DIR$/transference/addresses.py" />
         <option value="$PROJECT_DIR$/transference/users.py" />
+        <option value="$PROJECT_DIR$/models/demands.py" />
+        <option value="$PROJECT_DIR$/data/addresses.py" />
+        <option value="$PROJECT_DIR$/manager.py" />
+        <option value="$PROJECT_DIR$/templates/users/list.html" />
+        <option value="$PROJECT_DIR$/main/controller.py" />
+        <option value="$PROJECT_DIR$/data/models.py" />
       </list>
     </option>
   </component>
@@ -125,12 +179,12 @@
             <path>
               <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
               <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
               <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
-              <item name="transference" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -226,7 +280,7 @@
       <updated>1546976703788</updated>
       <workItem from="1546976705261" duration="7917000" />
       <workItem from="1547048843294" duration="8758000" />
-      <workItem from="1547121463955" duration="6005000" />
+      <workItem from="1547121463955" duration="16177000" />
     </task>
     <task id="LOCAL-00001" summary="Restructuring the project.">
       <created>1546986094389</created>
@@ -235,17 +289,23 @@
       <option name="project" value="LOCAL" />
       <updated>1546986094389</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Using Concrete Table Inheritance Mapping.">
+      <created>1547146517839</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1547146517839</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22680000" />
+    <option name="totallyTimeSpent" value="32852000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="43" y="27" width="1323" height="741" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2576351" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2576351" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -264,8 +324,8 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" id="Database" order="3" weight="0.32967892" />
+      <window_info anchor="right" id="SciView" order="4" weight="0.32967892" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,7 +333,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Restructuring the project." />
-    <option name="LAST_COMMIT_MESSAGE" value="Restructuring the project." />
+    <MESSAGE value="Using Concrete Table Inheritance Mapping." />
+    <MESSAGE value="Implementing relationships." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implementing relationships." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app.py" />
@@ -287,16 +349,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/manage.py" />
-    <entry file="file://$PROJECT_DIR$/main/controller.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#0#77#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/template.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="121">
@@ -304,7 +356,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistence/connection.py">
+    <entry file="file://$PROJECT_DIR$/persistence(deprecated)/connection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
           <caret line="29" selection-start-line="29" selection-end-line="29" />
@@ -314,53 +366,101 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/configuration/config.py">
+    <entry file="file://$PROJECT_DIR$/data/addresses.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="27" column="17" lean-forward="true" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+        <state relative-caret-position="15">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/transference/products.py">
+    <entry file="file://$PROJECT_DIR$/data/demands.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="19" lean-forward="true" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
+        <state relative-caret-position="460">
+          <caret line="82" lean-forward="true" selection-start-line="4" selection-end-line="82" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/products.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="77" lean-forward="true" selection-start-line="3" selection-end-line="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/users.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="23" lean-forward="true" selection-start-line="1" selection-end-line="1" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistence(deprecated)/demandDAO.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configuration/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/products/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="40" column="9" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/users/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/manager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="39" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="39" />
+        <state relative-caret-position="225">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/transference/demands.py">
+    <entry file="file://$PROJECT_DIR$/templates/users/new.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="149">
+          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/controller.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="98" column="20" lean-forward="true" selection-start-line="98" selection-start-column="20" selection-end-line="98" selection-end-column="20" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#77#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/transference/addresses.py">
+    <entry file="file://$PROJECT_DIR$/data/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="31" lean-forward="true" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/transference/users.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="6" column="45" lean-forward="true" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="45" />
+        <state relative-caret-position="115">
+          <caret line="84" column="4" lean-forward="true" selection-start-line="84" selection-start-column="4" selection-end-line="84" selection-end-column="4" />
           <folding>
-            <element signature="e#0#22#0" expanded="true" />
+            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -36,7 +36,7 @@
         {% for client in clients %}
             <tr>
                 <td>{{ client.name }}</td>
-                <td>{{ client.surname }}</td>
+                <td>{{ client.identification }}</td>
                 {% if client.status %}
                     <td>ativo</td>
                 {% else %}

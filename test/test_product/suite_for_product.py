@@ -2,7 +2,7 @@ import unittest
 
 from persistence.connection import Connection
 from persistence.productDAO import ProductDAO
-from transference.products import Product
+from data.products import Product
 
 
 class TestCaseIncludeProduct(unittest.TestCase):

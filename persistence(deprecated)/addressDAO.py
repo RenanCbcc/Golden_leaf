@@ -1,4 +1,4 @@
-from transference.addresses import Address, Phone
+from data.addresses import Address, Phone
 
 SAVE_ADDRESS = 'INSERT INTO Address (id_client,public_place,number,zip_code) values (%s, %s, %s, %s)'
 DELETE_ADDRESS = 'DELETE FROM Address WHERE id_user = %(id_user)s'

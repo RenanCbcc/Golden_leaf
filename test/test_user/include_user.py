@@ -1,7 +1,7 @@
 import unittest
 from persistence.usersDAO import ClientDAO, ClerkDAO
 from persistence.connection import Connection
-from transference.users import Client, Clerk
+from data.users import Client, Clerk
 
 
 class TestCaseIncludeUser(unittest.TestCase):

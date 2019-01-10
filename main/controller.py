@@ -1,11 +1,5 @@
 from flask import render_template, request, redirect, session, flash, url_for
-from persistence.addressDAO import AddressDAO, PhoneDAO
-from persistence.connection import Connection
-from persistence.demandDAO import DemandDAO
-from persistence.productDAO import ProductDAO
-from persistence.usersDAO import ClientDAO, ClerkDAO
-from transference.addresses import Address, Phone
-from transference.products import Product
+from data.models import *
 from flask import Blueprint
 import re
 
@@ -23,7 +17,7 @@ def listing_products():
         flash('É preciso fazer login')
         return redirect('/login?next_page=products_list')
     else:
-        list_of_products = ProductDAO(Connection()).show_all()
+        list_of_products = [product for product in Product.query.all()]
         return render_template('products/list.html', products=list_of_products)
 
 
@@ -38,34 +32,35 @@ def new_product():
 
 @main.route('/product_create', methods=['POST'])
 def create_product():
-    productdao = ProductDAO(Connection())
-    productdao.save(Product(request.form['title'],
-                            request.form['name'],
-                            request.form['price'],
-                            request.form['code']))
+    db.session.add(Product(request.form['title'],
+                           request.form['name'],
+                           request.form['price'],
+                           request.form['code']))
 
+    db.session.commit()
     return redirect('/')
 
 
 @main.route('/product_search/<string:code>', methods=['POST'])
 def search_product(code):
-    products = ProductDAO(Connection()).search(code)
-    if products is not None:
-        list_of_products = [products]
-        # , products=list_of_products
+    product = Product.query.filter_by(code=code).first()
+    if product is not None:
+        list_of_products = [product]
+        # TODO What this should do?
+        # products=list_of_products
         return redirect('/products_list')
     else:
         flash('Nenhum produto encontrado')
         return redirect('/products_list')
 
 
-@main.route('/product_edit/<string:code>')
+@main.route('/product_edit/<string:code>', methods=['PUT'])
 def edit_product(code):
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         flash('É preciso fazer login')
         return redirect(url_for('/login', next_page=url_for('product_edit')))
     else:
-        product = ProductDAO(Connection()).search_code(code)
+        product = Product.query.filter_by(code=code).first()
         if product is not None:
             return render_template('products/edit.html', product=product)
 
@@ -87,7 +82,7 @@ def listing_clients():
         flash('É preciso fazer login')
         return redirect('/login?next_page=clients_list')
     else:
-        list_of_clients = ClientDAO(Connection()).show_all()
+        list_of_clients = Client.query.all()
         return render_template('users/list.html', clients=list_of_clients)
 
 
@@ -106,9 +101,10 @@ def create_client():
     clientdao = ClientDAO(connection)
     addressdao = AddressDAO(connection)
     phonedao = PhoneDAO(connection)
-    client = clientdao.save(Product(request.form['name'],
-                                    request.form['surname'],
-                                    request.form['identification']))
+
+    db.session.add()
+    db.session.add(Client(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
+                          request.form['identification']))
 
     addressdao.save(Address(client.id, client.identification, request.form['zip_code']))
     phonedao.save(Phone(client.identification, request.form['phone_number']))

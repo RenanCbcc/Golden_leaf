@@ -1,4 +1,4 @@
-from transference.products import Product
+from data.products import Product
 
 SAVE_PRODUCT = 'INSERT INTO Product (title, name, price, code) VALUES (%s, %s, %s, %s)'
 DELETE_PRODUCT = 'DELETE FROM Product WHERE id = %(id)s'

@@ -2,7 +2,7 @@ import unittest
 import datetime
 from persistence.connection import Connection
 from persistence.demandDAO import DemandDAO
-from transference.demands import Demand, Item
+from data.demands import Demand, Item
 
 
 class TestCaseOrder(unittest.TestCase):

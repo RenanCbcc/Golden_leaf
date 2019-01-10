@@ -2,7 +2,7 @@ import unittest
 
 from persistence.addressDAO import PhoneDAO
 from persistence.connection import Connection
-from transference.addresses import Phone
+from data.addresses import Phone
 
 
 class TestCasePhone(unittest.TestCase):

@@ -2,7 +2,7 @@ import unittest
 
 from persistence.addressDAO import AddressDAO
 from persistence.connection import Connection
-from transference.addresses import Address
+from data.addresses import Address
 
 
 class TestCaseIncludeAddresses(unittest.TestCase):

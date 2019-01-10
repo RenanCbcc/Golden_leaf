@@ -1,4 +1,4 @@
-from transference.demands import Demand, Item
+from data.demands import Demand, Item
 
 SAVE_DEMAND = 'INSERT INTO Demand (date, time, id_client, id_clerk) VALUES (%s, %s, %s, %s)'
 DELETE_DEMAND = 'DELETE FROM Demand WHERE id = %s'
