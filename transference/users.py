@@ -1,9 +1,17 @@
 from manager import db
+from abc import ABCMeta
+
 
 class User(db.Model):
+    """
+    Using Concrete Table Inheritance Mapping.
+    """
+    __metaclass__ = ABCMeta
     __abstract__ = True
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(255), unique=True)
+    __id = db.Column(db.Integer, primary_key=True)
+    __identification = db.Column(db.String(11))
+    __email = db.Column(db.String(255), unique=True)
+    __status = db.Column(db.Boolean)
 
     def __init__(self, id, identification, status):
         self.__identification = identification
@@ -49,9 +57,6 @@ class User(db.Model):
         self.__status = boolean
 
     def __eq__(self, other):
-        return self.id == other.id
-
-    def __eq__(self, other):
         return self.identification == other.identification
 
     def __str__(self):
@@ -64,6 +69,14 @@ class User(db.Model):
 
 class Client(User):
     __tablename__ = 'clients'
+    __identification = db.Column(db.String(11))
+    __email = db.Column(db.String(255), unique=True)
+    __status = db.Column(db.Boolean)
+
+    __mapper_args__ = {
+        'concrete': True
+    }
+
     def __init__(self, name, surname, identification, status=True, id=0):
         super().__init__(id, identification, status)
         self.__name = name
@@ -107,6 +120,16 @@ class Client(User):
 
 
 class Clerk(User):
+    __tablename__ = 'clerks'
+    __id = db.Column(db.Integer, primary_key=True)
+    __identification = db.Column(db.String(11))
+    __email = db.Column(db.String(255), unique=True)
+    __status = db.Column(db.Boolean)
+
+    __mapper_args__ = {
+        'concrete': True
+    }
+
     def __init__(self, name, email, password, identification, status=True, id=0):
         super().__init__(id, identification, status)
         self.__name = name

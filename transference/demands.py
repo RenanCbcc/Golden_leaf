@@ -1,12 +1,20 @@
+from abc import ABCMeta
 from manager import db
 
+
 class Demand(db.model):
-    def __init__(self, date, time, id_client, id_clerk, items, id=0):
+
+    __tablename__ = 'orders'
+    __id = db.Column(db.Integer, primary_key=True)
+    __date = db.Column(db.DateTime)
+    __client_id = db.Column(db.Integer, db.ForeignKey('client_id'))
+    __clerk_id = db.Column(db.Integer, db.ForeignKey('clerk_id'))
+
+    def __init__(self, date, client_id, clerk_id, items, id=0):
         self.__id = id
         self.__date = date
-        self.__time = time
-        self.__id_client = id_client
-        self.__id_clerk = id_clerk
+        self.__client_id = client_id
+        self.__clerk_id = clerk_id
         self.__items = items
 
     @property
@@ -22,16 +30,12 @@ class Demand(db.model):
         return self.__date
 
     @property
-    def time(self):
-        return self.__time
-
-    @property
     def id_client(self):
-        return self.__id_client
+        return self.__client_id
 
     @property
     def id_clerk(self):
-        return self.__id_clerk
+        return self.__clerk_id
 
     @property
     def items(self):
@@ -43,9 +47,14 @@ class Demand(db.model):
 
 
 class Item(db.model):
-    def __init__(self, id_product, quantity, id_demand=0):
-        self.__id_demand = id_demand
-        self.__id_product = id_product
+    __tablename__ = 'items'
+    __quantity = db.Column(db.SmallInteger)
+    __product_id = db.Column(db.Integer, db.ForeignKey('product_id'))
+    __demand_id = db.Column(db.Integer, db.ForeignKey('demand_id'))
+
+    def __init__(self, product_id, quantity, demand_id=0):
+        self.__demand_id = demand_id
+        self.__product_id = product_id
         self.__quantity = quantity
 
     @property
@@ -54,7 +63,7 @@ class Item(db.model):
 
     @property
     def id_product(self):
-        return self.__id_product
+        return self.__product_id
 
     @property
     def quantity(self):
@@ -62,11 +71,11 @@ class Item(db.model):
 
     @id_demand.setter
     def id_demand(self, id):
-        self.__id_demand = id
+        self.__demand_id = id
 
     @id_product.setter
     def id_product(self, id):
-        self.__id_product = id
+        self.__product_id = id
 
     @quantity.setter
     def quantity(self, value):
