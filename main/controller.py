@@ -18,7 +18,7 @@ def listing_products():
         return redirect('/login?next_page=products_list')
     else:
         list_of_products = [product for product in Product.query.all()]
-        return render_template('products/list.html', products=list_of_products)
+        return render_template('product/list.html', products=list_of_products)
 
 
 @main.route('/product_new')
@@ -27,7 +27,7 @@ def new_product():
         flash('É preciso fazer login')
         return redirect('/login?next_page=new_product')
     else:
-        return render_template('products/new.html')
+        return render_template('product/new.html')
 
 
 @main.route('/product_create', methods=['POST'])
@@ -47,7 +47,7 @@ def search_product(code):
     if product is not None:
         list_of_products = [product]
         # TODO What this should do?
-        # products=list_of_products
+        # product=list_of_products
         return redirect('/products_list')
     else:
         flash('Nenhum produto encontrado')
@@ -62,18 +62,19 @@ def edit_product(code):
     else:
         product = Product.query.filter_by(code=code).first()
         if product is not None:
-            return render_template('products/edit.html', product=product)
+            return render_template('product/edit.html', product=product)
 
 
 @main.route('/product_update', methods=['PUT'])
 def update_product():
-    productdao = ProductDAO(Connection())
-    productdao.alter(Product(request.form['title'],
-                             request.form['name'],
-                             request.form['price'],
-                             request.form['code']))
+    product = Product.query.filter_by(code=request.form['code']).first()
+    product.title = request.form['title']
+    product.name = request.form['name']
+    product.price = request.form['price']
+    product.code = request.form['code']
+    db.session.add(product)
 
-    return redirect('/products/list.html')
+    return redirect('/product/list.html')
 
 
 @main.route('/clients_list')
@@ -83,13 +84,13 @@ def listing_clients():
         return redirect('/login?next_page=clients_list')
     else:
         list_of_clients = Client.query.all()
-        return render_template('users/list.html', clients=list_of_clients)
+        return render_template('client/list.html', clients=list_of_clients)
 
 
 @main.route('/client_new')
 def new_client():
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
-        return render_template('users/new.html')
+        return render_template('client/new.html')
     else:
         flash('É preciso fazer login')
         return redirect('/login?next_page=new_product')
@@ -97,18 +98,11 @@ def new_client():
 
 @main.route('/create_client', methods=['POST'])
 def create_client():
-    connection = Connection()
-    clientdao = ClientDAO(connection)
-    addressdao = AddressDAO(connection)
-    phonedao = PhoneDAO(connection)
-
-    db.session.add()
     db.session.add(Client(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
-                          request.form['identification']))
+                          request.form['identification'],
+                          Address(request.form['street'], request.form['number'], request.form['zip_code'])))
 
-    addressdao.save(Address(client.id, client.identification, request.form['zip_code']))
-    phonedao.save(Phone(client.identification, request.form['phone_number']))
-    return redirect('/users/list.html')
+    return redirect('/client/list.html')
 
 
 @main.route('/client_edit/<int:id>')
@@ -117,34 +111,40 @@ def edit_client(id):
         flash('É preciso fazer login')
         return redirect(url_for('/login', next_page=url_for('client_edit')))
     else:
-        connection = Connection()
-        client = ClientDAO(connection).search(id)
-        address = AddressDAO(connection).search(id)
-        phone = PhoneDAO(connection).search(client.id)
-        return render_template('users/edit.html', client=client,
-                               address=address, phone=phone)
+        client = Client.query.filter_by(id=id).first()
+        address = Address.query.filter_by(id=client.address_id).first()
+        return render_template('client/edit.html', client=client,
+                               address=address)
 
 
-@main.route('/client_update', methods=['PUT'])
-def update_client():
-    productdao = ProductDAO(Connection())
-    productdao.alter(Product(request.form['title'],
-                             request.form['name'],
-                             request.form['price'],
-                             request.form['code']))
+@main.route('/client_update/<int:id>', methods=['PUT'])
+def update_client(id):
+    client = Client.query.filter_by(id=id).first()
+    client.name = request.form['name']
+    client.phone_number = request.form['phone']
+    client.notifiable = request.form['notifiable']
+    client.status = request.form['status']
+    db.session.add(client)
 
-    return redirect('/products/list.html')
+    address = Address.query.filter_by(id=client.address_id)
+    address.street = request.form['street']
+    address.number = request.form['number']
+    address.zip_code = request.form['zip_code']
+
+    return redirect('/clients/list.html')
 
 
 @main.route('/search_client', methods=['POST'])
 def search_client():
-    list_of_clients = ClientDAO(Connection()).search_for_name(request.form['name'])
+    list_of_clients = Client.query.filter_by(name=request.form['name'])
     if not list_of_clients:
         flash('Nenhum cliente {} encontrado'.format(request.form['name']))
         return redirect('/clients/list.html')
 
     else:
-        return redirect('/clients/list.html', clients=list_of_clients)
+        return render_template('client/list.html', clients=list_of_clients)
+        # TODO I don't know if this will work.
+        # return redirect('/client/list.html', clients=list_of_clients)
 
 
 @main.route('/orders_of/<int:id>')
@@ -153,8 +153,8 @@ def listing_orders_of(id):
         flash('É preciso fazer login')
         return redirect('/login?next_page=orders_of')
     else:
-        list_of_orders = DemandDAO(Connection()).search_demand_of_client(id)
-        return render_template('orders/list.html', orders=list_of_orders)
+        list_of_orders = Demand.query.filter_by(client_id=id)
+        return render_template('order/list.html', orders=list_of_orders)
 
 
 @main.route('/order_new')
@@ -163,18 +163,19 @@ def new_order():
         flash('É preciso fazer login')
         return redirect('/login?next_page=new_product')
     else:
+        # TODO create the below template.
         return render_template('sales/new.html')
 
 
 @main.route('/login')
 def login():
     following = request.args.get('next_page')
-    return render_template('users/login.html', next_page=following)
+    return render_template('client/login.html', next_page=following)
 
 
 @main.route('/authentication', methods=['POST'])
 def authenticate():
-    clerk = ClerkDAO(Connection()).login(request.form['email'])
+    clerk = Clerk.query.filter_by(email=request.form['email'])
     if clerk is None:
         flash('Erro, atendente não encontrado.')
         return redirect('/login')

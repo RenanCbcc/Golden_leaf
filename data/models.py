@@ -11,8 +11,8 @@ class User(db.Model):
     __metaclass__ = ABCMeta
     __abstract__ = True
     __id = db.Column(db.Integer, primary_key=True)
-    __name = db.Column(db.String(255))
-    __phone_number = db.Column(db.String(64))
+    __name = db.Column(db.String(64))
+    __phone_number = db.Column(db.String(9))
     __status = db.Column(db.Boolean)
 
     def __init__(self, id, name, phone_number, status):
@@ -29,13 +29,13 @@ class User(db.Model):
         return self.__id
 
     @id.setter
-    def id(self, value):
+    def id(self, id):
         """
         Sets an attribute
         :param value: id
         :return: void
         """
-        self.__id = value
+        self.__id = id
 
     @property
     def name(self):
@@ -56,7 +56,7 @@ class User(db.Model):
 
     @property
     def phone_number(self):
-        return self.__phone_number
+        return self.__phone_number_id
 
     @phone_number.setter
     def phone_number(self, number):
@@ -88,10 +88,11 @@ class Client(User):
         'concrete': True
     }
 
-    def __init__(self, name, phone_number, identification, notifiable=True, status=True, id=0):
+    def __init__(self, name, phone_number, identification, address, notifiable=True, status=True, id=0):
         super().__init__(id, name, phone_number, status)
         self.__identification = identification
         self.__notifiable = notifiable
+        self.__address_id = address
 
     @property
     def identification(self):
@@ -108,6 +109,14 @@ class Client(User):
     def notifiable(self, boolean):
         self.__notifiable = boolean
 
+    @property
+    def address_id(self):
+        return self.__address_id
+
+    @address_id.setter
+    def address_id(self, address):
+        self.__address_id = address
+
     def __eq__(self, other):
         return self.__identification == other.identification
 
@@ -117,7 +126,7 @@ class Client(User):
 
 class Clerk(User):
     __tablename__ = 'clerks'
-    __email = db.Column(db.String(255), unique=True)
+    __email = db.Column(db.String(64), unique=True)
     __password = db.Column(db.String(32))
 
     __mapper_args__ = {
@@ -177,28 +186,32 @@ class Clerk(User):
 
 class Address(db.Model):
     __tablename__ = 'Addresses'
-    __place = db.Column(db.String(64))
+    __id = db.Column(db.Integer, primary_key=True)
+    __street = db.Column(db.String(64))
     __number = db.Column(db.SmallInteger)
     __zip_code = db.Column(db.String(6))
-    __client_id = db.Column(db.Integer, db.ForeignKey('client_id'))
 
-    def __init__(self, id_client, place, number, zip_code):
-        self.__client_id = id_client
-        self.__place = place
+    def __init__(self, street, number, zip_code, id=0):
+        self.__id = id
+        self.__street = street
         self.__number = number
         self.__zip_code = zip_code
 
     @property
-    def id_client(self):
-        return self.__client_id
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, id):
+        self.__id = id
 
     @property
-    def place(self):
-        return self.place
+    def street(self):
+        return self.street
 
-    @place.setter
-    def place(self, string):
-        self.__place = string
+    @street.setter
+    def street(self, string):
+        self.__street = string
 
     @property
     def number(self):
@@ -221,7 +234,7 @@ class Address(db.Model):
 
 
 class Demand(db.model):
-    __tablename__ = 'orders'
+    __tablename__ = 'order'
     __id = db.Column(db.Integer, primary_key=True)
     __date = db.Column(db.DateTime)
     __client_id = db.Column(db.Integer, db.ForeignKey('client_id'))
@@ -247,11 +260,11 @@ class Demand(db.model):
         return self.__date
 
     @property
-    def id_client(self):
+    def client_id(self):
         return self.__client_id
 
     @property
-    def id_clerk(self):
+    def clerk_id(self):
         return self.__clerk_id
 
     @property
@@ -265,8 +278,8 @@ class Demand(db.model):
 
 class Item(db.model):
     __tablename__ = 'items'
-    __quantity = db.Column(db.SmallInteger)
     __product_id = db.Column(db.Integer, db.ForeignKey('product_id'))
+    __quantity = db.Column(db.SmallInteger)
     __demand_id = db.Column(db.Integer, db.ForeignKey('demand_id'))
 
     def __init__(self, product_id, quantity, demand_id=0):
@@ -275,23 +288,23 @@ class Item(db.model):
         self.__quantity = quantity
 
     @property
-    def id_demand(self):
+    def demand_id(self):
         return self.__id_demand
 
     @property
-    def id_product(self):
+    def product_id(self):
         return self.__product_id
 
     @property
     def quantity(self):
         return self.__quantity
 
-    @id_demand.setter
-    def id_demand(self, id):
+    @demand_id.setter
+    def demand_id(self, id):
         self.__demand_id = id
 
-    @id_product.setter
-    def id_product(self, id):
+    @product_id.setter
+    def product_id(self, id):
         self.__product_id = id
 
     @quantity.setter
@@ -300,7 +313,7 @@ class Item(db.model):
 
 
 class Product(db.Model):
-    __tablename__ = 'products'
+    __tablename__ = 'product'
     __id = db.Column(db.Integer, primary_key=True)
     __title = db.Column(db.String(64))
     __name = db.Column(db.String(64))

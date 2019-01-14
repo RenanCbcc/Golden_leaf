@@ -2,7 +2,7 @@
 {% block content %}
 
     <h1 class="titulo-principal">Dados do cliente</h1>
-    <form form action="{{ url_for('update_client') }}" method="POST">
+    <form form action="{{ url_for('update_client') }}" method="PUT">
         <fieldset>
             <div class="form-group">
                 <label for="name">Nome</label>
@@ -10,11 +10,18 @@
                        value="{{ client.name }}">
 
             </div>
+
             <div class="form-group">
-                <label for="surname">Sobrenome</label>
-                <input type="text" id="surname" name="surname" class="form-control"
-                       value="{{ client.surname }}">
+                <label for="contato">Contato</label>
+                <input type="text" id="contato" name="phone" class="form-control"
+                       value="{{ client.phone_number }}">
+                <label for="notificação">Notificação</label>
+                <input type="text" id="notificacao" name="notifiable" class="form-control"
+                       value="{{ client.notifiable }}">
+
             </div>
+
+
             <div class="form-group">
                 <label for="cpf">Identificação</label>
                 <input type="text" id="cpf" name="cpf" class="form-control"
@@ -22,19 +29,9 @@
             </div>
 
             <div class="form-group">
-                <label for="status">Status</label>
-                <input type="text" id="status" name="status" class="form-control"
+                <label for="estado">Status</label>
+                <input type="text" id="estado" name="status" class="form-control"
                        value="{{ client.status }}">
-            </div>
-
-            <div class="form-group">
-                <label for="contato">Contato</label>
-                <input type="text" id="contato" name="phone" class="form-control"
-                       value="{{ phone.phone_number }}">
-                <label for="notificação">Notificação</label>
-                <input type="text" id="notificação" name="notification" class="form-control"
-                       value="{{ phone.notification }}">
-
             </div>
 
 
