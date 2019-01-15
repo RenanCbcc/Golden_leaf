@@ -1,7 +1,8 @@
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import PrimaryKeyConstraint
+from
 from abc import ABCMeta
 
-db = SQLAlchemy()
+
 
 
 class User(db.Model):
@@ -233,7 +234,7 @@ class Address(db.Model):
         return "Rua: {}, {}".format(self.__place, self.__number)
 
 
-class Demand(db.model):
+class Demand(db.Model):
     __tablename__ = 'order'
     __id = db.Column(db.Integer, primary_key=True)
     __date = db.Column(db.DateTime)
@@ -274,42 +275,6 @@ class Demand(db.model):
     @items.setter
     def items(self, items):
         self.__items = items
-
-
-class Item(db.model):
-    __tablename__ = 'items'
-    __product_id = db.Column(db.Integer, db.ForeignKey('product_id'))
-    __quantity = db.Column(db.SmallInteger)
-    __demand_id = db.Column(db.Integer, db.ForeignKey('demand_id'))
-
-    def __init__(self, product_id, quantity, demand_id=0):
-        self.__demand_id = demand_id
-        self.__product_id = product_id
-        self.__quantity = quantity
-
-    @property
-    def demand_id(self):
-        return self.__id_demand
-
-    @property
-    def product_id(self):
-        return self.__product_id
-
-    @property
-    def quantity(self):
-        return self.__quantity
-
-    @demand_id.setter
-    def demand_id(self, id):
-        self.__demand_id = id
-
-    @product_id.setter
-    def product_id(self, id):
-        self.__product_id = id
-
-    @quantity.setter
-    def quantity(self, value):
-        self.__quantity = value
 
 
 class Product(db.Model):
@@ -386,3 +351,49 @@ class Product(db.Model):
 
     def __repr__(self):
         return '<Product %r %r %r %r>' % (self.__title, self.__name, self.__price, self.__is_available)
+
+
+"""
+
+class Item(db.Model):
+    __tablename__ = 'items'
+
+    __product_id = db.Column(db.Integer, db.ForeignKey('product_id'))
+    __demand_id = db.Column(db.Integer, db.ForeignKey('demand_id'))
+    __quantity = db.Column(db.SmallInteger)
+
+    __table_args__ = (
+        PrimaryKeyConstraint('product_id', 'demand_id'),
+    )
+
+    def __init__(self, product_id, quantity, demand_id=0):
+        self.__demand_id = demand_id
+        self.__product_id = product_id
+        self.__quantity = quantity
+
+    @property
+    def demand_id(self):
+        return self.__id_demand
+
+    @property
+    def product_id(self):
+        return self.__product_id
+
+    @property
+    def quantity(self):
+        return self.__quantity
+
+    @demand_id.setter
+    def demand_id(self, id):
+        self.__demand_id = id
+
+    @product_id.setter
+    def product_id(self, id):
+        self.__product_id = id
+
+    @quantity.setter
+    def quantity(self, value):
+        self.__quantity = value
+
+
+"""

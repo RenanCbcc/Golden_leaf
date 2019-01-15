@@ -96,7 +96,21 @@ def new_client():
         return redirect('/login?next_page=new_product')
 
 
-@main.route('/create_client', methods=['POST'])
+@main.route('/clerk_new')
+def new_clerk():
+    return render_template('clerk/new.html')
+
+
+@main.route('/clerk_create', methods=['POST'])
+def create_clerk():
+    db.session.add(Clerk(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
+                         request.form['email'], request.form['password']))
+
+    return redirect('/clerk/list.html')
+
+
+# TODO Is that route necessary or just the method?
+@main.route('/client_create', methods=['POST'])
 def create_client():
     db.session.add(Client(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
                           request.form['identification'],
