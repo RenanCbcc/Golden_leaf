@@ -1,7 +1,13 @@
 from flask import render_template, request, redirect, session, flash, url_for
 from data.models import *
 from flask import Blueprint
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 import re
+
+engine = create_engine('sqlite:///:memory:')
+Session = sessionmaker(bind=engine)
+sessionDB = Session()
 
 main = Blueprint('main', __name__)
 
@@ -17,7 +23,7 @@ def listing_products():
         flash('É preciso fazer login')
         return redirect('/login?next_page=products_list')
     else:
-        list_of_products = [product for product in Product.query.all()]
+        list_of_products = sessionDB.query(Product).all()
         return render_template('product/list.html', products=list_of_products)
 
 
@@ -32,18 +38,18 @@ def new_product():
 
 @main.route('/product_create', methods=['POST'])
 def create_product():
-    db.session.add(Product(request.form['title'],
-                           request.form['name'],
-                           request.form['price'],
-                           request.form['code']))
+    sessionDB.add(Product(request.form['title'],
+                          request.form['name'],
+                          request.form['price'],
+                          request.form['code']))
 
-    db.session.commit()
+    sessionDB.commit()
     return redirect('/')
 
 
 @main.route('/product_search/<string:code>', methods=['POST'])
 def search_product(code):
-    product = Product.query.filter_by(code=code).first()
+    product = sessionDB.query(Product).filter_by(code=code).first()
     if product is not None:
         list_of_products = [product]
         # TODO What this should do?
@@ -60,20 +66,20 @@ def edit_product(code):
         flash('É preciso fazer login')
         return redirect(url_for('/login', next_page=url_for('product_edit')))
     else:
-        product = Product.query.filter_by(code=code).first()
+        product = sessionDB.query(Product).filter_by(code=code).first()
         if product is not None:
             return render_template('product/edit.html', product=product)
 
 
 @main.route('/product_update', methods=['PUT'])
 def update_product():
-    product = Product.query.filter_by(code=request.form['code']).first()
+    product = sessionDB.query(Product).filter_by(code=request.form['code']).one()
     product.title = request.form['title']
     product.name = request.form['name']
     product.price = request.form['price']
     product.code = request.form['code']
-    db.session.add(product)
-
+    sessionDB.add(product)
+    sessionDB.commit()
     return redirect('/product/list.html')
 
 
@@ -83,7 +89,7 @@ def listing_clients():
         flash('É preciso fazer login')
         return redirect('/login?next_page=clients_list')
     else:
-        list_of_clients = Client.query.all()
+        list_of_clients = sessionDB.query(Client).all()
         return render_template('client/list.html', clients=list_of_clients)
 
 
@@ -103,19 +109,18 @@ def new_clerk():
 
 @main.route('/clerk_create', methods=['POST'])
 def create_clerk():
-    db.session.add(Clerk(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
-                         request.form['email'], request.form['password']))
-
+    sessionDB.add(Clerk(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
+                        request.form['email'], request.form['password']))
+    sessionDB.commit()
     return redirect('/clerk/list.html')
 
 
-# TODO Is that route necessary or just the method?
 @main.route('/client_create', methods=['POST'])
 def create_client():
-    db.session.add(Client(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
-                          request.form['identification'],
-                          Address(request.form['street'], request.form['number'], request.form['zip_code'])))
-
+    sessionDB.add(Client(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
+                         request.form['identification'],
+                         Address(request.form['street'], request.form['number'], request.form['zip_code'])))
+    sessionDB.commit()
     return redirect('/client/list.html')
 
 
@@ -125,32 +130,32 @@ def edit_client(id):
         flash('É preciso fazer login')
         return redirect(url_for('/login', next_page=url_for('client_edit')))
     else:
-        client = Client.query.filter_by(id=id).first()
-        address = Address.query.filter_by(id=client.address_id).first()
+        client = sessionDB.query(Client).filter_by(id=id).one()
+        address = sessionDB.query(Address).filter_by(id=client.address_id).first()
         return render_template('client/edit.html', client=client,
                                address=address)
 
 
 @main.route('/client_update/<int:id>', methods=['PUT'])
 def update_client(id):
-    client = Client.query.filter_by(id=id).first()
+    client = sessionDB.query(Client).filter_by(id=id).one()
     client.name = request.form['name']
     client.phone_number = request.form['phone']
     client.notifiable = request.form['notifiable']
     client.status = request.form['status']
-    db.session.add(client)
+    sessionDB.add(client)
 
-    address = Address.query.filter_by(id=client.address_id)
+    address = sessionDB.query(Address).filter_by(id=client.address_id)
     address.street = request.form['street']
     address.number = request.form['number']
     address.zip_code = request.form['zip_code']
-
+    sessionDB.commit()
     return redirect('/clients/list.html')
 
 
 @main.route('/search_client', methods=['POST'])
 def search_client():
-    list_of_clients = Client.query.filter_by(name=request.form['name'])
+    list_of_clients = sessionDB.query(Client).filter_by(name=request.form['name'])
     if not list_of_clients:
         flash('Nenhum cliente {} encontrado'.format(request.form['name']))
         return redirect('/clients/list.html')
@@ -167,7 +172,7 @@ def listing_orders_of(id):
         flash('É preciso fazer login')
         return redirect('/login?next_page=orders_of')
     else:
-        list_of_orders = Demand.query.filter_by(client_id=id)
+        list_of_orders = sessionDB.query(Order).filter_by(client_id=id).all()
         return render_template('order/list.html', orders=list_of_orders)
 
 
@@ -189,7 +194,7 @@ def login():
 
 @main.route('/authentication', methods=['POST'])
 def authenticate():
-    clerk = Clerk.query.filter_by(email=request.form['email'])
+    clerk = sessionDB.query(Clerk).filter_by(email=request.form['email']).one()
     if clerk is None:
         flash('Erro, atendente não encontrado.')
         return redirect('/login')
