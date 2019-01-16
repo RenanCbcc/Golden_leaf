@@ -16,295 +16,50 @@ A proper class for use with the ORM must do four things:
 Base = declarative_base()
 
 
-class Product(Base):
-    __tablename__ = 'products'
-
-    __id = Column(Integer(), primary_key=True)
-    __title = Column(String(64))
-    __name = Column(String(64))
-    __price = Column(Numeric(6, 2), nullable=False)
-    __is_available = Column(Boolean())
-    __code = Column(String(64), nullable=False)
-
-    __table_args__ = (CheckConstraint(__price >= 0.00, name='unit_cost_positive'),)
-
-    def __init__(self, title, name, price, code, is_available=True, id=0):
-        self.__id = id
-        self.__title = title
-        self.__name = name
-        self.__price = price
-        self.__is_available = is_available
-        self.__code = code
-
-    @property
-    def id(self):
-        """
-        :return: id
-        """
-        return self.__id
-
-    @id.setter
-    def id(self, value):
-        """
-        Sets an attribute
-        :param value: id
-        :return: void
-        """
-        self.__id = value
-
-    @property
-    def title(self):
-        return self.__title
-
-    @title.setter
-    def title(self, string):
-        self.__title = string
-
-    @property
-    def name(self):
-        return self.__name
-
-    @name.setter
-    def name(self, string):
-        self.__name = string
-
-    @property
-    def price(self):
-        return self.__price
-
-    @price.setter
-    def price(self, price):
-        self.__price = price
-
-    @property
-    def is_available(self):
-        return self.__is_available
-
-    @is_available.setter
-    def is_available(self, value):
-        self.__is_available = value
-
-    @property
-    def code(self):
-        return self.__code
-
-    def __eq__(self, other):
-        return self.__code == other.__code
-
-    def __repr__(self):
-        return '<Product %r %r %r %r>' % (self.__title, self.__name, self.__price, self.__is_available)
-
-class Address(Base):
-    __tablename__ = 'addresses'
-    __id = Column(Integer(), primary_key=True)
-    __street = Column(String(64))
-    __number = Column(SmallInteger())
-    __zip_code = Column(String(6))
-
-    def __init__(self, street, number, zip_code, id=0):
-        self.__id = id
-        self.__street = street
-        self.__number = number
-        self.__zip_code = zip_code
-
-    @property
-    def id(self):
-        return self.__id
-
-    @id.setter
-    def id(self, id):
-        self.__id = id
-
-    @property
-    def street(self):
-        return self.street
-
-    @street.setter
-    def street(self, string):
-        self.__street = string
-
-    @property
-    def number(self):
-        return self.__number
-
-    @number.setter
-    def number(self, number):
-        self.__number = number
-
-    @property
-    def zip_code(self):
-        return self.__zip_code
-
-    @zip_code.setter
-    def zip_code(self, string):
-        self.__zip_code = string
-
-    def __str__(self):
-        return "Rua: {}, {}".format(self.__street, self.__number)
-
-
-class Item(Base):
-    __tablename__ = 'items'
-
-    __id = Column(Integer(), primary_key=True)
-    __product_id = Column(Integer(), ForeignKey('product.product_id'))
-    __demand_id = Column(Integer(), ForeignKey('demand.demand_id'))
-    __quantity = Column(SmallInteger())
-
-    def __init__(self, product_id, demand_id, quantity):
-        self.__demand_id = demand_id
-        self.__product_id = product_id
-        self.__quantity = quantity
-
-    @property
-    def demand_id(self):
-        return self.product_id
-
-    @property
-    def product_id(self):
-        return self.__product_id
-
-    @property
-    def quantity(self):
-        return self.__quantity
-
-    @demand_id.setter
-    def demand_id(self, id):
-        self.__demand_id = id
-
-    @product_id.setter
-    def product_id(self, id):
-        self.__product_id = id
-
-    @quantity.setter
-    def quantity(self, value):
-        self.__quantity = value
-
-
 class User(Base):
     """
     Using Concrete Table Inheritance Mapping.
     """
     __metaclass__ = ABCMeta
     __abstract__ = True
-    __id = Column(Integer(), primary_key=True)
-    __name = Column(String(64), index=True)
-    __phone_number = Column(String(9))
-    __status = Column(Boolean())
+    id = Column(Integer(), primary_key=True)
+    name = Column(String(64), index=True)
+    phone_number = Column(String(9))
+    status = Column(Boolean())
 
     def __init__(self, id, name, phone_number, status):
-        self.__id = id
-        self.__name = name
-        self.__status = status
-        self.__phone_number = phone_number
-
-    @property
-    def id(self):
-        """
-        :return: id
-        """
-        return self.__id
-
-    @id.setter
-    def id(self, id):
-        """
-        Sets an attribute
-        :param value: id
-        :return: void
-        """
-        self.__id = id
-
-    @property
-    def name(self):
-        """
-        This method returns the name of the client as a string.
-        :return: name
-        """
-        return self.__name
-
-    @name.setter
-    def name(self, string):
-        """
-        This method sets the name of the client.
-        :param string: name
-        :return:void
-        """
-        self.__name = string
-
-    @property
-    def phone_number(self):
-        return self.__phone_number
-
-    @phone_number.setter
-    def phone_number(self, number):
-        self.__phone_number = number
-
-    @property
-    def status(self):
-        """
-        :return: status
-        """
-        return self.__status
-
-    @status.setter
-    def status(self, boolean):
-        """
-        :param boolean:
-        :return: status
-        """
-        self.__status = boolean
+        self.id = id
+        self.name = name
+        self.status = status
+        self.phone_number = phone_number
 
 
 class Client(User):
     __tablename__ = 'clients'
-    __identification = Column(String(11))
-    __notifiable = Column(Boolean())
-    __address_id = Column(Integer(), ForeignKey('addresses.id'))
+    __mapper_args__ = {'concrete': True}
+    identification = Column(String(11))
+    notifiable = Column(Boolean())
+    address_id = Column(Integer(), ForeignKey('addresses.id'))
 
-    __mapper_args__ = {
-        'concrete': True
-    }
+    address = relationship("Address", uselist=False)
 
     def __init__(self, name, phone_number, identification, address, notifiable=True, status=True, id=0):
         super().__init__(id, name, phone_number, status)
-        self.__identification = identification
-        self.__notifiable = notifiable
-        self.__address_id = address
-
-    @property
-    def identification(self):
-        """
-        :return: identification
-        """
-        return self.__identification
-
-    @property
-    def notifiable(self):
-        return self.__notifiable
-
-    @notifiable.setter
-    def notifiable(self, boolean):
-        self.__notifiable = boolean
-
-    @property
-    def address_id(self):
-        return self.__address_id
-
-    @address_id.setter
-    def address_id(self, address):
-        self.__address_id = address
+        self.identification = identification
+        self.notifiable = notifiable
+        self.address_id = address
 
     def __eq__(self, other):
-        return self.__identification == other.identification
+        return self.identification == other.identification
 
     def __repr__(self):
-        return '<Cliente %r %r %r %r>' % (self.__name, self.__identification, self.__phone_number, self.__status)
+        return '<Cliente %r %r %r %r>' % (self.name, self.identification, self.phone_number, self.status)
 
 
 class Clerk(User):
     __tablename__ = 'clerks'
-    __email = Column(String(64), unique=True)
-    __password = Column(String(32))
+    email = Column(String(64), unique=True)
+    password = Column(String(32))
 
     __mapper_args__ = {
         'concrete': True
@@ -312,103 +67,96 @@ class Clerk(User):
 
     def __init__(self, name, phone_number, email, password, status=True, id=0):
         super().__init__(id, name, phone_number, status)
-        self.__email = email
-        self.__password = password
-
-    @property
-    def name(self):
-        return self.__name
-
-    @name.setter
-    def name(self, string):
-        self.__name = string
-
-    @property
-    def email(self):
-        """
-        This method returns the email of the clerk as a string.
-        :return: email
-        """
-        return self.__email
-
-    @email.setter
-    def email(self, string):
-        """
-        This method sets the email of the clerk.
-        :param string: email
-        :return: void
-        """
-        self.__email = string
-
-    @property
-    def password(self):
-        """
-        This method returns the password of the clerk as a string.
-        :return: password
-        """
-        return self.__password
-
-    @password.setter
-    def password(self, string):
-        """
-        This method sets the password of the clerk.
-        :param string: password
-        :return: void
-        """
-        self.__password = string
+        self.email = email
+        self.password = password
 
     def __repr__(self):
-        return '<Atendente %r %r %r>' % (self.__name, self.__email, self.__status)
+        return '<Atendente %r %r %r>' % (self.name, self.email, self.status)
+
+
+class Address(Base):
+    __tablename__ = 'addresses'
+    id = Column(Integer(), primary_key=True)
+    street = Column(String(64))
+    number = Column(SmallInteger())
+    zip_code = Column(String(6))
+
+    def __init__(self, street, number, zip_code, id=0):
+        self.id = id
+        self.street = street
+        self.number = number
+        self.zip_code = zip_code
+
+    def __str__(self):
+        return "Rua: {}, {}".format(self.street, self.number)
+
+
+class Product(Base):
+    __tablename__ = 'products'
+
+    id = Column(Integer(), primary_key=True)
+    title = Column(String(64))
+    name = Column(String(64))
+    price = Column(Numeric(6, 2), nullable=False)
+    is_available = Column(Boolean())
+    code = Column(String(64), nullable=False)
+
+    __table_args__ = (CheckConstraint(price >= 0.00, name='unit_cost_positive'),)
+
+    def __init__(self, title, name, price, code, is_available=True, id=0):
+        self.id = id
+        self.title = title
+        self.name = name
+        self.price = price
+        self.is_available = is_available
+        self.code = code
+
+    def __eq__(self, other):
+        return self.code == other.code
+
+    def __repr__(self):
+        return '<Product %r %r %r %r>' % (self.title, self.name, self.price, self.is_available)
 
 
 class Order(Base):
     __tablename__ = 'orders'
-    __id = Column(Integer(), primary_key=True)
-    __date = Column(DateTime(), default=datetime.now)
-    __client_id = Column(Integer(), ForeignKey('clients.client_id'))
-    __clerk_id = Column(Integer(), ForeignKey('clerks.clerk_id'))
+    id = Column(Integer(), primary_key=True)
+    date = Column(DateTime(), default=datetime.now)
+    client_id = Column(Integer(), ForeignKey('clients.id'))
+    clerk_id = Column(Integer(), ForeignKey('clerks.id'))
 
-    # client = relationship("Client", backref=backref('orders', order_by=__id))
-    # clerk = relationship("Clerk", backref=backref('orders', order_by=__id))
+    client = relationship("Client", backref=backref('orders', order_by=client_id))
+    clerk = relationship("Clerk", backref=backref('orders', order_by=clerk_id))
 
     def __init__(self, date, client_id, clerk_id, items, id=0):
-        self.__id = id
-        self.__date = date
-        self.__client_id = client_id
-        self.__clerk_id = clerk_id
-        self.__items = items
+        self.id = id
+        self.date = date
+        self.client_id = client_id
+        self.clerk_id = clerk_id
+        self.items = items
 
-    @property
-    def id(self):
-        return self.__id
+    def __repr__(self):
+        return '<Pedido %r >' % self.date
 
-    @id.setter
-    def id(self, id):
-        self.__id = id
 
-    @property
-    def date(self):
-        return self.__date
+class Item(Base):
+    __tablename__ = 'items'
 
-    @property
-    def client_id(self):
-        return self.__client_id
+    id = Column(Integer(), primary_key=True)
+    product_id = Column(Integer(), ForeignKey('products.id'))
+    order_id = Column(Integer(), ForeignKey('orders.id'))
+    quantity = Column(SmallInteger())
 
-    @property
-    def clerk_id(self):
-        return self.__clerk_id
+    order = relationship("Order", backref=backref('items', order_by=order_id))
+    product = relationship("Product", uselist=False)
 
-    @property
-    def items(self):
-        return self.__items
+    def __init__(self, product_id, demand_id, quantity):
+        self.demand_id = demand_id
+        self.product_id = product_id
+        self.quantity = quantity
 
-    @items.setter
-    def items(self, items):
-        self.__items = items
+    def __repr__(self):
+        return '<Item %r >' % self.quantity
 
 
 
-from sqlalchemy import create_engine
-
-engine = create_engine('sqlite:///:memory:')
-Base.metadata.create_all(engine)

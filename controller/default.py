@@ -6,10 +6,11 @@ from sqlalchemy.orm import sessionmaker
 import re
 
 engine = create_engine('sqlite:///:memory:')
+Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 sessionDB = Session()
 
-main = Blueprint('main', __name__)
+main = Blueprint('controller', __name__)
 
 
 @main.route('/')
