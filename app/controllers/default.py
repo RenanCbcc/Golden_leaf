@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect, session, flash, url_for
 from app.models.tables import Client, Clerk, Address, Product, Order, db
+from app.models.forms import NewClerkForm
 from app import app
 import re
 
@@ -96,7 +97,8 @@ def new_client():
 
 @app.route('/clerk_new')
 def new_clerk():
-    return render_template('clerk/new.html')
+    form = NewClerkForm()
+    return render_template('clerk/new.html', form=form)
 
 
 @app.route('/clerk_create', methods=['POST'])
@@ -204,5 +206,3 @@ def authenticate():
 def logout():
     session.pop('user_authenticated', None)
     return redirect('/login')
-
-

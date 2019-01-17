@@ -1,44 +1,17 @@
 {% extends "template.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
 
     <h1 class="titulo-principal">Dados do novo Atendente</h1>
 
     <form action="{{ url_for('controllers.create_clerk') }}" method="POST">
-        <fieldset>
-            <div class="form-group">
-                <label for="name">Nome</label>
-                <input type="text" id="clerk_name" name="name" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="surname">Sobrenome</label>
-                <input type="text" id="clerk_surname" name="surname" class="form-control">
-            </div>
 
-            <div class="form-group">
-                <label for="phone_number">Contato (Celular)</label>
-                <input type="text" id="clerk_phone_number" name="phone_number" class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="Email">Email</label>
-                <input type="text" id="email" name="email" class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="Senha">Senha</label>
-                <input type="text" id="clerk_password" name="password" class="form-control">
-            </div>
-
-
-            <label class="switch"><input type="checkbox" id="togBtn">
-                <div class="slider round"><!--ADDED HTML -->
-                    <span class="on">Sim</span>
-                    <span class="off">Não</span>
-                    <!--END-->
-                </div>
-            </label>
-
-            <button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
-        </fieldset>
+        {{ form.clerk_name }}
+        {{ form.clerk_phone_number }}
+        {{ form.clerk_email }}
+        {{ form.clerk_password }}
+        {{ form.cofirmed_clerk_password }}
     </form>
+
+    {{ wtf.quick_form(form) }}
 {% endblock %}
