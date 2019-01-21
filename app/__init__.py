@@ -18,5 +18,5 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 # This variable needs to be already declared even before these pages exist, otherwise
 # you'll get a ImportError: cannot import name 'app'.
-from app.controllers import default, errors
+from app.controllers import default,errors
 from app.models import tables, forms

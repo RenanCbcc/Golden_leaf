@@ -23,7 +23,7 @@
     </form>
 
 
-    <h1 class="titulo-principal">Lista de clientes</h1>
+    <h1 class="titulo-principal">Lista de Atendentes</h1>
     <table class="table table-striped table-responsive table-bordered">
         <thead class="thead-default">
         <tr>
@@ -33,11 +33,11 @@
         </tr>
         </thead>
         <tbody>
-        {% for client in clients %}
+        {% for clerk in clerks %}
             <tr>
-                <td>{{ client.name }}</td>
-                <td>{{ client.identification }}</td>
-                {% if client.status %}
+                <td>{{ clerk.name }}</td>
+                <td>{{ clerk.phone_number }}</td>
+                {% if clerk.status %}
                     <td>ativo</td>
                 {% else %}
                     <td>inativo</td>
@@ -62,9 +62,6 @@
                             <i class="glyphicon glyphicon-list-alt" aria-hidden="true"/>Pedidos
                         </a>
 
-                        <a href="{{ url_for('new_order') }}" class="btn btn-default">
-                            <i class=" glyphicon glyphicon-shopping-cart"/>
-                            Novo pedido</a>
 
                     </div>
 

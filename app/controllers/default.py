@@ -91,24 +91,26 @@ def listing_clients():
 def new_client():
     if 'user_authenticated' not in session or session['user_authenticated'] is None:
         form = NewClienteForm()
-        return render_template('client/new.html', form)
+        return render_template('client/new.html', form=form)
     else:
         flash('É preciso fazer login')
         return redirect('/login?next_page=new_product')
 
 
-@app.route('/clerk/new')
+@app.route('/clerk/new',methods=['GET'])
 def new_clerk():
     form = NewClerkForm()
     return render_template('clerk/new.html', form=form)
 
 
-@app.route('/clerk/create', methods=['POST'])
+@app.route('/clerk_create', methods=['POST'])
 def create_clerk():
-    db.session.add(Clerk(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
-                         request.form['email'], request.form['password']))
+    cl = Clerk(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
+               request.form['email'], request.form['password'])
+    db.session.add()
+    print(cl)
     db.session.commit()
-    return redirect('/clerk/list.html')
+    return redirect('/')
 
 
 @app.route('/client/create', methods=['POST'])
@@ -210,3 +212,17 @@ def authenticate():
 def logout():
     session.pop('user_authenticated', None)
     return redirect('/login')
+
+@app.errorhandler(404)
+def page_not_found():
+    return redirect('https://http.cat/{}'.format(404))
+
+
+@app.errorhandler(500)
+def internal_server_error():
+    return redirect('https://http.cat/{}'.format(500))
+
+
+@app.errorhandler(400)
+def page_not_found():
+    return redirect('https://http.cat/{}'.format(400))
