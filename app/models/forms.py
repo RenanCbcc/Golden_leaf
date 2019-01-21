@@ -1,21 +1,19 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField, DecimalField, validators
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
 
 
 class LoginForm(FlaskForm):
-    clerk_email = StringField('Seu endereço de email?', validators=[DataRequired(), Email()])
-    clerk_password = PasswordField(label='Escolha uma senha', validators=[Length(min=5, max=70)])
-
-    submit = SubmitField('Submit')
+    email = StringField('Login', validators=[DataRequired(), Email()])
+    password = PasswordField(label='Senha', validators=[Length(min=5, max=70)])
 
 
 class NewClerkForm(FlaskForm):
-    clerk_name = StringField('What is your name?', validators=[DataRequired()])
-    clerk_phone_number = StringField('What is your phone name?', validators=[DataRequired()])
-    clerk_email = StringField('Seu endereço de email?', validators=[DataRequired(), Email()])
-    clerk_password = PasswordField(label='Escolha uma senha', validators=[Length(min=8, max=32)])
-    cofirmed_clerk_password = PasswordField(label='Confirme uma senha', validators=[EqualTo(clerk_password)])
+    name = StringField('Qual é o seu nome?', validators=[DataRequired()])
+    phone_number = StringField('Qual é o número do ceu celular?', validators=[DataRequired()])
+    email = StringField('Seu endereço de email?', validators=[DataRequired(), Email()])
+    password = PasswordField(label='Escolha uma senha', validators=[Length(min=8, max=32)])
+    cofirmed_password = PasswordField(label='Confirme uma senha', validators=[EqualTo(password)])
 
     submit = SubmitField('Submit')
 
@@ -34,6 +32,6 @@ class NewClienteForm(FlaskForm):
 class NewProductForm(FlaskForm):
     title = StringField('Título do produto?', validators=[DataRequired()])
     name = StringField('Nome do produto?', validators=[DataRequired()])
-    price = DecimalField('Preço do produto?', validators=[DataRequired()])
+    price = DecimalField('Preço do produto?', validators=[DataRequired(), NumberRange(min=0.5, max=100.0)])
     code = DecimalField('Código do produto?', validators=[DataRequired()])
     submit = SubmitField('Submit')

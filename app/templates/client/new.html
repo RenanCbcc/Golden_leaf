@@ -1,45 +1,10 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
 
     <h1 class="titulo-principal">Dados do novo Atendente</h1>
-    <form action="/create_client" method="post">
-        <fieldset>
-            <div class="form-group">
-                <label for="name">Nome</label>
-                <input type="text" id="client_name" name="name" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="surname">Sobrenome</label>
-                <input type="text" id="client_surname" name="surname" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="identification">Cpf</label>
-                <input type="text" id="client_cpf" name="identification" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="zip_code">CEP</label>
-                <input type="text" id="client_zip_code" name="zip_code" class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="public_place">Rua</label>
-                <input type="text" id="client_street" name="public_place" class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="number">Número</label>
-                <input type="text" id="client_number" name="number" class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="phone_number">Contato (Celular)</label>
-                <input type="text" id="client_phone_number" name="phone_number" class="form-control">
-            </div>
-
-
-
-            <button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
-        </fieldset>
+    <form action="{{ url_for('create_client') }}" method="post">
+        {{ wtf.quick_form(form) }}
     </form>
 
 {% endblock %}

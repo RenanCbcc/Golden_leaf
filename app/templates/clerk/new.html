@@ -1,17 +1,11 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
 
     <h1 class="titulo-principal">Dados do novo Atendente</h1>
 
-    <form action="{{ url_for('controllers.create_clerk') }}" method="POST">
-
-        {{ form.clerk_name }}
-        {{ form.clerk_phone_number }}
-        {{ form.clerk_email }}
-        {{ form.clerk_password }}
-        {{ form.cofirmed_clerk_password }}
+    <form action="{{ url_for('create_clerk') }}" method="POST">
+        {{ wtf.quick_form(form) }}
     </form>
 
-    {{ wtf.quick_form(form) }}
 {% endblock %}

@@ -8,7 +8,7 @@ from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
 app = Flask(__name__)
-app.config.from_object('app.configuration.config.DevelopmentConfig')
+app.config.from_object('app.configuration.config.TestingConfig')
 db = SQLAlchemy(app)
 Bootstrap(app)
 Mail(app)
@@ -18,4 +18,5 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 # This variable needs to be already declared even before these pages exist, otherwise
 # you'll get a ImportError: cannot import name 'app'.
-from app.controllers import *
+from app.controllers import default, errors
+from app.models import tables, forms
