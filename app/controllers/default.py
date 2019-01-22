@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, session, flash, url_for
 from app.models.tables import Client, Clerk, Address, Product, Order, db
 from app.models.forms import NewClerkForm, NewProductForm, NewClienteForm, LoginForm
+from flask_login import login_user
 from app import app
 import re
 
@@ -97,7 +98,7 @@ def new_client():
         return redirect('/login?next_page=new_product')
 
 
-@app.route('/clerk/new',methods=['GET'])
+@app.route('/clerk/new', methods=['GET'])
 def new_clerk():
     form = NewClerkForm()
     return render_template('clerk/new.html', form=form)
@@ -105,12 +106,10 @@ def new_clerk():
 
 @app.route('/clerk_create', methods=['POST'])
 def create_clerk():
-    cl = Clerk(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
-               request.form['email'], request.form['password'])
-    db.session.add()
-    print(cl)
+    cl = Clerk(request.form['name'], request.form['phone_number'], request.form['email'], request.form['password'])
+    db.session.add(cl)
     db.session.commit()
-    return redirect('/')
+    return redirect('/login')
 
 
 @app.route('/client/create', methods=['POST'])
@@ -188,7 +187,15 @@ def new_order(id):
 def login():
     following = request.args.get('next_page')
     form = LoginForm()
-    # TODO implement form.validate_on_submit()
+    if form.validate_on_submit():
+        clerk = Clerk.query.filter_by(email=form.email.data).one()
+        if clerk.password == form.password.data:
+            login_user(clerk)
+            flash(clerk.name + ' logado com sucesso!')
+            return redirect('/{}'.format(request.form['next']))
+        else:
+            flash('Erro, login ou senha inválidos!')
+            return redirect('/login')
     return render_template('client/login.html', next_page=following, form=form)
 
 
@@ -212,17 +219,3 @@ def authenticate():
 def logout():
     session.pop('user_authenticated', None)
     return redirect('/login')
-
-@app.errorhandler(404)
-def page_not_found():
-    return redirect('https://http.cat/{}'.format(404))
-
-
-@app.errorhandler(500)
-def internal_server_error():
-    return redirect('https://http.cat/{}'.format(500))
-
-
-@app.errorhandler(400)
-def page_not_found():
-    return redirect('https://http.cat/{}'.format(400))

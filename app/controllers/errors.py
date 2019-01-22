@@ -10,3 +10,8 @@ def page_not_found():
 @app.errorhandler(500)
 def internal_server_error():
     return redirect('https://http.cat/{}'.format(500))
+
+
+@app.errorhandler(400)
+def page_not_found():
+    return redirect('https://http.cat/{}'.format(400))
