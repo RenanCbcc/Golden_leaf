@@ -16,7 +16,7 @@ def listing_products():
     return render_template('product/list.html', products=list_of_products)
 
 
-@app.route('/product/new', methods=['POST'])
+@app.route('/product/new', methods=['GET', 'POST'])
 @login_required
 def new_product():
     form = NewProductForm()
@@ -31,17 +31,9 @@ def new_product():
     return render_template('product/new.html', form=form)
 
 
-@app.route('/product/search/<string:code>', methods=['POST'])
-def search_product(code):
-    product = Product.query.filter_by(code=code).first()
-    if product is not None:
-        list_of_products = [product]
-        # TODO What this should do?
-        # product=list_of_products
-        return redirect('/products_list')
-    else:
-        flash('Nenhum produto encontrado')
-        return redirect('/product/list')
+@app.route('/product/search', methods=['GET'])
+def search_product():
+    return '<html><h1>TODO</h1><html>'
 
 
 @app.route('/product/<string:code>/edit', methods=['PUT'])
@@ -65,7 +57,7 @@ def edit_product(code):
 @app.route('/client/list')
 @login_required
 def listing_clients():
-    list_of_clients = Client.query.all()
+    list_of_clients = Client.query.order_by()
     return render_template('client/list.html', clients=list_of_clients)
 
 
@@ -106,7 +98,7 @@ def edit_client(id):
                            address=address)
 
 
-@app.route('/client/search', methods=['POST'])
+@app.route('/client/search', methods=['GET','POST'])
 @login_required
 def search_client():
     list_of_clients = Client.query.filter_by(name=request.form['name'])
@@ -135,8 +127,7 @@ def listing_orders(id):
 @app.route('/client/<int:id>/order/new')
 @login_required
 def new_order(id):
-    # TODO create the below template.
-    return '<html><h1>Orders</h1><html>'
+    return '<html><h1>TODO</h1><html>'
 
 
 @app.route('/clerk/new', methods=['GET', 'POST'])
