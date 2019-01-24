@@ -14,8 +14,7 @@
 
     <div class="col-md-4 col-md-offset-4">
         <h2 class="subtitulo-texto">Autentique-se no sistema </h2>
-        <form method="POST">
-            <input type="hidden" name="next" value="{{ next_page or '/' }}"/>
+        <form action="" method="POST">
 
             {{ wtf.quick_form(form) }}
 

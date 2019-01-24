@@ -15,6 +15,8 @@ Bootstrap(app)
 Mail(app)
 Moment(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'  # Function's name of route login.
+login_manager.login_message_category = 'info'
 migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)

@@ -3,7 +3,8 @@
 {% block content %}
 
     <h1 class="titulo-principal">Dados do novo Atendente</h1>
-    <form method="POST">
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
         {{ wtf.quick_form(form) }}
     </form>
 

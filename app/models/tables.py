@@ -1,8 +1,10 @@
 from abc import ABCMeta
 from datetime import datetime
+from flask_login import UserMixin
 from sqlalchemy import CheckConstraint, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from werkzeug.security import generate_password_hash, check_password_hash
+from app import login_manager
 
 from app import db
 
@@ -12,6 +14,11 @@ A proper class for use with the ORM must do four things:
 • Contain one or more attributes that are Columns objects.
 • Ensure one or more attributes make up a primary key.
 """
+
+
+@login_manager.user_loader
+def load_user(id):
+    return Clerk.query.get(int(id))
 
 
 class User(db.Model):
@@ -53,7 +60,7 @@ class Client(User):
         return '<Cliente %r %r %r %r>' % (self.name, self.identification, self.phone_number, self.status)
 
 
-class Clerk(User):
+class Clerk(User, UserMixin):
     __tablename__ = 'clerks'
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128))
@@ -66,38 +73,6 @@ class Clerk(User):
         super().__init__(name, phone_number, status)
         self.email = email
         self.password = password
-
-    @property
-    def is_authenticated(self):
-        """
-        This property should return True if the user is authenticated, i.e. they have provided valid credentials.
-        (Only authenticated users will fulfill the criteria of login_required.)
-        :return:
-        """
-        return True
-
-    @property
-    def is_active(self):
-        """
-        This property should return True if this is an active user - in addition to being authenticated, they also
-        have activated their account, not been suspended, or any condition your application has for rejecting an account.
-        Inactive accounts may not log in (without being forced of course).
-        :return:
-        """
-        return True
-
-    @property
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        """
-        This method must return a unicode that uniquely identifies this user, and can be used to load the user
-        from the user_loader callback. Note that this must be a unicode - if the ID is natively an int or some other
-        type, you will need to convert it to unicode.
-        :return: String
-        """
-        return str(self.id)
 
     @property
     def password(self):

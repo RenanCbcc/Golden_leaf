@@ -12,6 +12,7 @@
 {% block navbar %}
     <div class="navbar navbar-inverse" role="navigation">
         <div class="container">
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle"
                         data-toggle="collapse" data-target=".navbar-collapse">
@@ -22,10 +23,12 @@
                 </button>
                 <a class="navbar-brand" href="{{ url_for('index') }}">Palma de Ouro</a>
             </div>
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('listing_products') }}">Produtos</a></li>
                     <li><a href="{{ url_for('listing_clients') }}">Clientes</a></li>
+                    <li><a href="{{ url_for('listing_orders') }}">Pedidos</a></li>
                     {% if current_user.is_authenticated %}
                         <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     {% else %}

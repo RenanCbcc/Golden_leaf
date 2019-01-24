@@ -18,10 +18,10 @@ class NewClerkForm(FlaskForm):
     phone_number = StringField('Qual é o número do ceu celular?', validators=[DataRequired()])
     email = StringField('Seu endereço de email?', validators=[DataRequired(), Email()])
     password = PasswordField(label='Escolha uma senha',
-                             validators=[Length(min=8, max=32), EqualTo('cofirmed_password')])
-    cofirmed_password = PasswordField(label='Confirme uma senha', validators=[DataRequired()])
+                             validators=[Length(min=8, max=32)])
+    cofirm_password = PasswordField(label='Confirme sua senha', validators=[DataRequired(), EqualTo('password')])
 
-    submit = SubmitField('Register')
+    submit = SubmitField('Registrar')
 
 
 class NewClienteForm(FlaskForm):

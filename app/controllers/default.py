@@ -1,13 +1,8 @@
-from flask import render_template, request, redirect, session, flash, url_for
+from flask import render_template, request, redirect, flash, url_for
 from app.models.tables import Client, Clerk, Address, Product, Order, db
 from app.models.forms import NewClerkForm, NewProductForm, NewClienteForm, LoginForm
-from flask_login import login_user, logout_user, login_required
-from app import app, login_manager
-
-
-@login_manager.user_loader
-def load_user(id):
-    return Clerk.query.get(id)
+from flask_login import login_user, logout_user, current_user, login_required
+from app import app
 
 
 @app.route('/')
@@ -17,19 +12,13 @@ def index():
 
 @app.route('/product/list')
 def listing_products():
-    if 'user_authenticated' not in session or session['user_authenticated'] is None:
-        flash('É preciso fazer login')
-        return redirect('/login?next_page=products/list')
-    else:
-        list_of_products = Product.query.all()
-        return render_template('product/list.html', products=list_of_products)
+    list_of_products = Product.query.all()
+    return render_template('product/list.html', products=list_of_products)
 
 
-@app.route('/product/new')
+@app.route('/product/new', methods=['POST'])
+@login_required
 def new_product():
-    if 'user_authenticated' not in session or session['user_authenticated'] is None:
-        flash('É preciso fazer login')
-        return redirect('/login?next_page=new_product')
     form = NewProductForm()
     if form.validate_on_submit():
         db.session.add(Product(form.title.data,
@@ -56,12 +45,9 @@ def search_product(code):
 
 
 @app.route('/product/<string:code>/edit', methods=['PUT'])
+@login_required
 def edit_product(code):
     form = NewProductForm()
-    if 'user_authenticated' not in session or session['user_authenticated'] is None:
-        flash('É preciso fazer login')
-        return redirect(url_for('/login', next_page=url_for('edit_product')))
-
     if form.validate_on_submit():
         product = Product.queryfilter_by(code=form.code.data).one()
         product.title = form.title.data
@@ -77,41 +63,33 @@ def edit_product(code):
 
 
 @app.route('/client/list')
+@login_required
 def listing_clients():
-    if 'user_authenticated' not in session or session['user_authenticated'] is None:
-        flash('É preciso fazer login')
-        return redirect('/login?next_page=clients_list')
-    else:
-        list_of_clients = Client.query.all()
-        return render_template('client/list.html', clients=list_of_clients)
+    list_of_clients = Client.query.all()
+    return render_template('client/list.html', clients=list_of_clients)
 
 
 @app.route('/client/new', methods=['GET', 'POST'])
+@login_required
 def new_client():
     form = NewClienteForm()
-    if 'user_authenticated' not in session or session['user_authenticated'] is None:
-        if form.validate_on_submit():
-            db.session.add(Client(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
-                                  request.form['identification'],
-                                  Address(request.form['street'], request.form['number'], request.form['zip_code'])))
-            db.session.commit()
-            return redirect('/client/list')
+    if form.validate_on_submit():
+        db.session.add(Client(request.form['name'] + " " + request.form['surname'], request.form['phone_number'],
+                              request.form['identification'],
+                              Address(request.form['street'], request.form['number'], request.form['zip_code'])))
+        db.session.commit()
+        return redirect('/client/list')
 
-        return render_template('client/new.html', form=form)
-    else:
-        flash('É preciso fazer login')
-        return redirect('/login?next_page=new_client')
+    return render_template('client/new.html', form=form)
 
 
 @app.route('/client/<int:id>/edit', methods=['PUT'])
+@login_required
 def edit_client(id):
     form = NewClienteForm()
     client = Client.query.filter_by(id=id).one()
     address = Address.queryfilter_by(id=client.address_id).first()
-    if 'user_authenticated' not in session or session['user_authenticated'] is None:
-        flash('É preciso fazer login')
-        return redirect(url_for('/login', next_page=url_for('/client/' + id + '/edit')))
-    elif form.validate_on_submit():
+    if form.validate_on_submit():
         client.name = form.name.data
         client.phone_number = form.phone_number.data
         client.notifiable = form.notifiable.data
@@ -129,6 +107,7 @@ def edit_client(id):
 
 
 @app.route('/client/search', methods=['POST'])
+@login_required
 def search_client():
     list_of_clients = Client.query.filter_by(name=request.form['name'])
     if not list_of_clients:
@@ -141,32 +120,33 @@ def search_client():
         # return redirect('/client/list.html', clients=list_of_clients)
 
 
+@app.route('/client/order', defaults={'id': None})
 @app.route('/client/<int:id>/order')
-def listing_orders_of(id):
-    if 'user_authenticated' not in session or session['user_authenticated'] is None:
-        flash('É preciso fazer login')
-        return redirect('/login?next_page=orders_of')
+@login_required
+def listing_orders(id):
+    if id is not None:
+        list_of_orders = Order.query.filter_by(client_id=id).first()
+        return render_template('order/list.html', orders=list_of_orders)
     else:
-        list_of_orders = Order.query.filter_by(client_id=id).all()
+        list_of_orders = Order.query.all()
         return render_template('order/list.html', orders=list_of_orders)
 
 
 @app.route('/client/<int:id>/order/new')
+@login_required
 def new_order(id):
-    if 'user_authenticated' not in session or session['user_authenticated'] is None:
-        flash('É preciso fazer login')
-        return redirect('/login?next_page=new_product')
-    else:
-        # TODO create the below template.
-        return render_template('sales/new.html')
+    # TODO create the below template.
+    return '<html><h1>Orders</h1><html>'
 
 
 @app.route('/clerk/new', methods=['GET', 'POST'])
 def new_clerk():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = NewClerkForm()
     if form.validate_on_submit():
         clerk = Clerk(form.name.data, form.phone_number.data, form.email.data,
-                      form.cofirmed_password.data)
+                      form.cofirm_password.data)
         db.session.add(clerk)
         db.session.commit()
         flash('Você pode fazer login agora.')
@@ -176,23 +156,22 @@ def new_clerk():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    following = request.args.get('next_page')
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
         clerk = Clerk.query.filter_by(email=form.email.data).first()
         if clerk is not None and clerk.verify_password(form.password.data):
             login_user(clerk)
-            session['user_authenticated'] = request.form['email']
-            flash(clerk.name + ', você foi logado com sucesso!')
-            return redirect('/{}'.format(request.form['next']))
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('index'))
         else:
             flash('Erro, login ou senha inválidos!')
             return redirect(url_for('login'))
-    return render_template('client/login.html', next_page=following, form=form)
+    return render_template('client/login.html', form=form)
 
 
 @app.route('/logout')
 def logout():
     logout_user()
-    session.pop('user_authenticated', None)
     return redirect(url_for('login'))
