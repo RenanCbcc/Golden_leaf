@@ -35,8 +35,7 @@ class NewClienteForm(FlaskForm):
     number = StringField('Número da residência?', validators=[DataRequired()])
     address_detail = StringField('Complemento', validators=[DataRequired()])
     phone_number = StringField('Número do celular?', validators=[DataRequired()])
-    notifiable = BooleanField('Deseja receber notificações?', validators=[DataRequired()])
-    status = BooleanField('Cliente ativo?', validators=[DataRequired()])
+    notifiable = BooleanField('Deseja receber notificações?')
     submit = SubmitField('Submit')
 
 
@@ -74,3 +73,15 @@ class UpdateProductForm(FlaskForm):
     price = DecimalField('Preço do produto?', validators=[DataRequired(), NumberRange(min=0.5, max=100.0)])
     code = StringField('Código do produto?', validators=[DataRequired(), Length(min=13, max=13)])
     submit = SubmitField('Salvar')
+
+
+class UpdateClienteForm(FlaskForm):
+    name = StringField('Qual é o seu seu?', validators=[DataRequired()])
+    zip_code = StringField('C.E.P?', validators=[DataRequired()])
+    street = StringField('Nome da rua?', validators=[DataRequired()])
+    number = StringField('Número da residência?', validators=[DataRequired()])
+    address_detail = StringField('Complemento', validators=[DataRequired()])
+    phone_number = StringField('Número do celular?', validators=[DataRequired()])
+    notifiable = BooleanField('Deseja receber notificações?')
+    status = BooleanField('Cliente ativo?')
+    submit = SubmitField('Submit')

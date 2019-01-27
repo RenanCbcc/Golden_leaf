@@ -30,7 +30,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
     phone_number = db.Column(db.String(9))
-    status = db.Column(db.Boolean())
+    status = db.Column(db.Boolean)
 
     def __init__(self, name, phone_number, status):
         self.name = name
@@ -42,13 +42,13 @@ class Client(User):
     __tablename__ = 'clients'
     __mapper_args__ = {'concrete': True}
     identification = db.Column(db.String(11))
-    notifiable = db.Column(db.Boolean())
+    notifiable = db.Column(db.Boolean)
     address_id = db.Column(db.Integer, ForeignKey('addresses.id'))
 
     address = relationship("Address", uselist=False)
 
-    def __init__(self, name, phone_number, identification, address, notifiable=True, status=True, id=0):
-        super().__init__(id, name, phone_number, status)
+    def __init__(self, name, phone_number, identification, address, notifiable, status=True):
+        super().__init__(name, phone_number, status)
         self.identification = identification
         self.notifiable = notifiable
         self.address_id = address
