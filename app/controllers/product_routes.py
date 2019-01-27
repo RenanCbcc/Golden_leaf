@@ -7,6 +7,7 @@ from app import app
 
 @app.route('/product/list')
 def listing_products():
+    flash('Nenhum cliente encontrado')
     products = Product.query.all()
     return render_template('product/list.html', products=products)
 
@@ -26,18 +27,19 @@ def new_product():
     return render_template('product/new.html', form=form)
 
 
-@app.route('/product/search', methods=['GET,POST'])
+@app.route('/product/search', methods=["GET", 'POST'])
 def search_product():
     form = SearchProductForm()
     if form.validate_on_submit():
-        products = Product.query.filter(Product.name.like(form.name.data + '%')).all()
+        products = Product.query.filter(Product.title.like('%' + form.title.data + '%')).all()
         if not products:
-            flash('Nenhum cliente {} encontrado'.format(form.name.data))
+            flash('Nenhum cliente {} encontrado'.format(form.title.data))
             return redirect(url_for('search_product'))
         else:
+            flash('Mostrando todos os produtos com {} encontrados'.format(form.title.data))
             return render_template('product/list.html', products=products)
 
-    return render_template('client/search.html', form=form)
+    return render_template('product/search.html', form=form)
 
 
 @app.route('/product/<string:code>/update', methods=["GET", 'POST'])

@@ -50,8 +50,7 @@ class NewProductForm(FlaskForm):
 
 class SearchProductForm(FlaskForm):
     title = StringField('Título do produto?')
-    name = StringField('Nome do produto?')
-    code = DecimalField('Código do produto?')
+    code = StringField('Código do produto?')
     submit = SubmitField('Buscar')
 
 

@@ -22,7 +22,7 @@ def login():
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('index'))
         else:
-            flash('Erro, login ou senha inválidos!')
+            flash('Erro, login ou senha inválidos!','error')
             return redirect(url_for('login'))
     return render_template('clerk/login.html', form=form)
 
