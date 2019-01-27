@@ -109,11 +109,11 @@ class Product(db.Model):
     __tablename__ = 'products'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(64), index=True)
-    name = db.Column(db.String(64))
+    title = db.Column(db.String(32), index=True)
+    name = db.Column(db.String(32))
     price = db.Column(db.Numeric(6, 2), nullable=False)
     is_available = db.Column(db.Boolean)
-    code = db.Column(db.String(64), nullable=False)
+    code = db.Column(db.String(13), nullable=False)
 
     __table_args__ = (CheckConstraint(price >= 0.00, name='unit_cost_positive'),)
 
