@@ -4,9 +4,7 @@ from flask_login import UserMixin
 from sqlalchemy import CheckConstraint, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import login_manager
-
-from app import db
+from app import db, login_manager
 
 """
 A proper class for use with the ORM must do four things:
@@ -14,7 +12,6 @@ A proper class for use with the ORM must do four things:
 • Contain one or more attributes that are Columns objects.
 • Ensure one or more attributes make up a primary key.
 """
-
 
 @login_manager.user_loader
 def load_user(id):
@@ -39,7 +36,7 @@ class User(db.Model):
 
 
 class Client(User):
-    __tablename__ = 'clients'
+    __tablename__ = 'client'
     __mapper_args__ = {'concrete': True}
     identification = db.Column(db.String(11))
     notifiable = db.Column(db.Boolean)
@@ -106,7 +103,7 @@ class Clerk(User, UserMixin):
 
 
 class Product(db.Model):
-    __tablename__ = 'products'
+    __tablename__ = 'product'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32), index=True)
@@ -135,7 +132,7 @@ class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime, default=datetime.now)
-    client_id = db.Column(db.Integer, ForeignKey('clients.id'))
+    client_id = db.Column(db.Integer, ForeignKey('client.id'))
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'))
 
     client = db.relationship("Client", backref=backref('orders', order_by=client_id))
@@ -155,7 +152,7 @@ class Item(db.Model):
     __tablename__ = 'items'
 
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, ForeignKey('products.id'))
+    product_id = db.Column(db.Integer, ForeignKey('product.id'))
     order_id = db.Column(db.Integer, ForeignKey('orders.id'))
     quantity = db.Column(db.Integer)
 

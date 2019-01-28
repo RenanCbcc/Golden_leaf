@@ -17,17 +17,17 @@
                         data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                 </button>
-                <a class="navbar-brand" href="{{ url_for('index') }}">Palma de Ouro</a>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">Palma de Ouro</a>
             </div>
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav mr-auto">
                     <ul class="nav navbar-nav">
-                        <li><a class="nav-item nav-link" href="{{ url_for('listing_products') }}">Produtos</a>
+                        <li><a class="nav-item nav-link" href="{{ url_for('products.listing_products') }}">Produtos</a>
                         </li>
                         <li><a class="nav-item nav-link"
-                               href="{{ url_for('listing_clients') }}">Clientes</a></li>
+                               href="{{ url_for('clients.listing_clients') }}">Clientes</a></li>
                         <li><a class="nav-item nav-link"
-                               href="{{ url_for('listing_orders_of') }}">Pedidos</a></li>
+                               href="{{ url_for('orders.listing_orders_of') }}">Pedidos</a></li>
 
                     </ul>
                 </div>
@@ -35,9 +35,9 @@
                 <div class="navbar-nav">
                     <ul class="nav navbar-nav">
                         {% if current_user.is_authenticated %}
-                            <li><a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                            <li><a class="nav-item nav-link" href="{{ url_for('clerks.logout') }}">Logout</a></li>
                         {% else %}
-                            <li><a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a></li>
+                            <li><a class="nav-item nav-link" href="{{ url_for('clerks.login') }}">Login</a></li>
                         {% endif %}
 
                     </ul>

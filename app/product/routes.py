@@ -1,18 +1,19 @@
-from flask import render_template, redirect, flash, url_for
+from flask import render_template, redirect, flash, url_for, Blueprint
 from app.models.tables import Product, db
-from app.models.forms import NewProductForm, SearchProductForm, UpdateProductForm
+from app.product.forms import NewProductForm, SearchProductForm, UpdateProductForm
 from flask_login import login_required
-from app import app
+
+products = Blueprint('products', __name__)
 
 
-@app.route('/product/list')
+@products.route('/product/list')
 def listing_products():
     flash('Nenhum cliente encontrado')
     products = Product.query.all()
     return render_template('product/list.html', products=products)
 
 
-@app.route('/product/create', methods=['GET', 'POST'])
+@products.route('/product/create', methods=['GET', 'POST'])
 @login_required
 def new_product():
     form = NewProductForm()
@@ -27,7 +28,7 @@ def new_product():
     return render_template('product/new.html', form=form)
 
 
-@app.route('/product/search', methods=["GET", 'POST'])
+@products.route('/product/search', methods=["GET", 'POST'])
 def search_product():
     form = SearchProductForm()
     if form.validate_on_submit():
@@ -42,7 +43,7 @@ def search_product():
     return render_template('product/search.html', form=form)
 
 
-@app.route('/product/<string:code>/update', methods=["GET", 'POST'])
+@products.route('/product/<string:code>/update', methods=["GET", 'POST'])
 @login_required
 def update_product(code):
     form = UpdateProductForm()
