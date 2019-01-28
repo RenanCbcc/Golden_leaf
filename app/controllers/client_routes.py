@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, flash, url_for
 from app.models.tables import Client, Address, db
-from app.models.forms import NewClienteForm, SearchClientForm
+from app.models.forms import NewClienteForm, SearchClientForm, UpdateClienteForm
 from flask_login import login_required
 from app import app
 
@@ -8,8 +8,8 @@ from app import app
 @app.route('/client/list')
 @login_required
 def listing_clients():
-    list_of_clients = Client.query.order_by(Client.name)
-    return render_template('client/list.html', clients=list_of_clients)
+    clients = Client.query.order_by(Client.name)
+    return render_template('client/list.html', clients=clients)
 
 
 @app.route('/client/new', methods=['GET', 'POST'])
@@ -18,49 +18,55 @@ def new_client():
     form = NewClienteForm()
     if form.validate_on_submit():
         db.session.add(Client(form.name.data, form.phone_number.data, form.identification.data,
-                              Address(form.street.data, form.number.data, form.zip_code.data), form.notifiable.data))
+                              Address(form.street.data, form.address_detail.data, form.zip_code.data),
+                              form.notifiable.data))
         db.session.commit()
-        return redirect('/client/list')
+        return redirect(url_for('listing_clients'))
 
     return render_template('client/new.html', form=form)
 
 
-@app.route('/client/<int:id>/edit', methods=['PUT'])
+@app.route('/client/<int:id>/update', methods=['GET', 'POST'])
 @login_required
-def edit_client(id):
-    form = NewClienteForm()
+def update_client(id):
+    form = UpdateClienteForm()
     client = Client.query.filter_by(id=id).one()
-    address = Address.queryfilter_by(id=client.address_id).one()
     if form.validate_on_submit():
         client.name = form.name.data
         client.phone_number = form.phone_number.data
         client.notifiable = form.notifiable.data
         client.status = form.status.data
 
-        address.street = form.street.data
-        address.number = form.number.data
-        address.zip_code = form.zip_code.data
+        client.address.street = form.street.data
+        client.address.detail = form.address_detail.data
+        client.address.zip_code = form.zip_code.data
 
         db.session.add(client)
         db.session.commit()
-        return redirect('/client/list')
+        return redirect(url_for('listing_clients'))
+    form.name.data = client.name
+    form.phone_number.data = client.phone_number
+    form.notifiable.data = client.notifiable
+    form.status.data = client.status
 
-    return render_template('client/edit.html', form=form, client=client,
-                           address=address)
+    form.street.data = client.address.street
+    form.address_detail.data = client.address.detail
+    form.zip_code.data = client.address.zip_code
+    return render_template('client/edit.html', form=form)
 
 
-@app.route('/client/search', methods=['GET'])
+@app.route('/client/search', methods=["GET", 'POST'])
 @login_required
 def search_client():
     form = SearchClientForm()
     if form.validate_on_submit():
         # Finding names with “form.name.data” in them:
-        clients = Client.query.filter(Client.name.like('%' + form.name.data + '%'))
+        clients = Client.query.filter(Client.name.like('%' + form.name.data + '%')).all()
         if not clients:
             flash('Nenhum cliente {} encontrado'.format(form.name.data))
             return redirect(url_for('search_client'))
-
         else:
+            flash('Mostrando cliente(s) encontrado(s) com nome: {}'.format(form.name.data))
             return render_template('client/list.html', clients=clients)
 
-    return render_template(url_for('search_client'))
+    return render_template("client/search.html", form=form)

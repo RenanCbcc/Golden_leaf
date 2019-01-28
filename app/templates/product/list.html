@@ -30,8 +30,8 @@
 
                                 <div class="btn-group">
                                     <a href="{{ url_for('update_product',code=product.code) }}"
-                                       class="btn btn-primary active">
-                                        <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> Editar
+                                       class="btn btn-primary">
+                                        <i class="glyphicon glyphicon-pencil"></i> Editar
                                     </a>
 
                                 </div>
@@ -47,14 +47,24 @@
             <div class="content-section">
                 <h3>Gerenciar Produtos</h3>
                 <p class='text-muted'>You can put any information here you'd like.
+
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-light"><a
-                            href="{{ url_for('new_product') }}">Adicionar Produto</a>
+                    <li class="list-group-item list-group-item-light">
+                        <a href="{{ url_for('new_product') }}" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Adicionar Produto
+                        </a>
                     </li>
-                    <li class="list-group-item list-group-item-light"><a href="{{ url_for('search_product') }}">Buscar
-                        Produto</a></li>
+
+                    <li class=" list-group-item list-group-item-light">
+                        <a href="{{ url_for('search_product') }}" class="btn btn-primary">
+                            <span class="glyphicon glyphicon glyphicon-search"></span>
+                            Buscar Produto
+                        </a>
+                    </li>
 
                 </ul>
+
 
             </div>
         </div>

@@ -44,20 +44,36 @@ class Client(User):
     identification = db.Column(db.String(11))
     notifiable = db.Column(db.Boolean)
     address_id = db.Column(db.Integer, ForeignKey('addresses.id'))
-
-    address = relationship("Address", uselist=False)
+    address = db.relationship("Address", back_populates="dweller", lazy=False)
 
     def __init__(self, name, phone_number, identification, address, notifiable, status=True):
         super().__init__(name, phone_number, status)
         self.identification = identification
         self.notifiable = notifiable
-        self.address_id = address
+        self.address = address
 
     def __eq__(self, other):
         return self.identification == other.identification
 
     def __repr__(self):
         return '<Cliente %r %r %r %r>' % (self.name, self.identification, self.phone_number, self.status)
+
+
+class Address(db.Model):
+    __tablename__ = 'addresses'
+    id = db.Column(db.Integer, primary_key=True)
+    street = db.Column(db.String(64))
+    detail = db.Column(db.String(64))
+    zip_code = db.Column(db.String(6))
+    dweller = relationship("Client", uselist=False, back_populates="address")
+
+    def __init__(self, street, detail, zip_code):
+        self.street = street
+        self.detail = detail
+        self.zip_code = zip_code
+
+    def __str__(self):
+        return "Rua: {}, {}".format(self.street, self.detail)
 
 
 class Clerk(User, UserMixin):
@@ -87,22 +103,6 @@ class Clerk(User, UserMixin):
 
     def __repr__(self):
         return '<Atendente %r %r %r>' % (self.name, self.email, self.status)
-
-
-class Address(db.Model):
-    __tablename__ = 'addresses'
-    id = db.Column(db.Integer, primary_key=True)
-    street = db.Column(db.String(64))
-    detail = db.Column(db.String(64))
-    zip_code = db.Column(db.String(6))
-
-    def __init__(self, street, detail, zip_code):
-        self.street = street
-        self.detail = detail
-        self.zip_code = zip_code
-
-    def __str__(self):
-        return "Rua: {}, {}".format(self.street, self.detail)
 
 
 class Product(db.Model):
@@ -138,8 +138,8 @@ class Order(db.Model):
     client_id = db.Column(db.Integer, ForeignKey('clients.id'))
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'))
 
-    client = relationship("Client", backref=backref('orders', order_by=client_id))
-    clerk = relationship("Clerk", backref=backref('orders', order_by=clerk_id))
+    client = db.relationship("Client", backref=backref('orders', order_by=client_id))
+    clerk = db.relationship("Clerk", backref=backref('orders', order_by=clerk_id))
 
     def __init__(self, date, client_id, clerk_id, items):
         self.date = date
@@ -159,8 +159,8 @@ class Item(db.Model):
     order_id = db.Column(db.Integer, ForeignKey('orders.id'))
     quantity = db.Column(db.Integer)
 
-    order = relationship("Order", backref=backref('items', order_by=order_id))
-    product = relationship("Product", uselist=False)
+    order = db.relationship("Order", backref=backref('items', order_by=order_id))
+    product = db.relationship("Product", uselist=False)
 
     def __init__(self, product_id, demand_id, quantity):
         self.demand_id = demand_id
