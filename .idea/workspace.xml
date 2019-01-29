@@ -2,14 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/error/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/error/handler.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/error/400.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/error/404.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/error/500.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clerk/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/clerk/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/clerk/list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/client/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/client/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/product/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/product/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clerk/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/clerk/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/client/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/errors.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/__init__.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,22 +46,49 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/run.py">
+        <entry file="file://$PROJECT_DIR$/app/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+            <state relative-caret-position="95">
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
               <folding>
-                <element signature="e#0#32#0" expanded="true" />
+                <element signature="e#19#42#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/templates/clerk/new.html">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/error/404.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="14" lean-forward="true" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+            <state relative-caret-position="75">
+              <caret line="5" column="10" lean-forward="true" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/error/500.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="14" lean-forward="true" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/error/handler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="36" lean-forward="true" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/templates/error/400.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="14" lean-forward="true" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -68,8 +98,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -113,13 +143,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/main/controller.py" />
-        <option value="$PROJECT_DIR$/__init__.py" />
-        <option value="$PROJECT_DIR$/controller/default.py" />
-        <option value="$PROJECT_DIR$/manager.py" />
-        <option value="$PROJECT_DIR$/app/data/models.py" />
-        <option value="$PROJECT_DIR$/app/controller/default.py" />
-        <option value="$PROJECT_DIR$/app/controllers/error.py" />
         <option value="$PROJECT_DIR$/app/controllers/form.py" />
         <option value="$PROJECT_DIR$/app/controllers/forms.py" />
         <option value="$PROJECT_DIR$/app/templates/template.html" />
@@ -128,7 +151,6 @@
         <option value="$PROJECT_DIR$/app/test/test_user/include_user.py" />
         <option value="$PROJECT_DIR$/app/test/test_address/suite_for_address.py" />
         <option value="$PROJECT_DIR$/app/templates/clerk/list.html" />
-        <option value="$PROJECT_DIR$/app/controllers/errors.py" />
         <option value="$PROJECT_DIR$/app/templates/clerk/new.html" />
         <option value="$PROJECT_DIR$/app/templates/client/login.html" />
         <option value="$PROJECT_DIR$/app/configuration/config.py" />
@@ -159,11 +181,19 @@
         <option value="$PROJECT_DIR$/app/controllers/order_routes.py" />
         <option value="$PROJECT_DIR$/app/models/forms.py" />
         <option value="$PROJECT_DIR$/run.py" />
-        <option value="$PROJECT_DIR$/app/__init__.py" />
         <option value="$PROJECT_DIR$/app/models/tables.py" />
         <option value="$PROJECT_DIR$/app/templates/product/list.html" />
         <option value="$PROJECT_DIR$/app/templates/client/list.html" />
         <option value="$PROJECT_DIR$/app/clerk/routes.py" />
+        <option value="$PROJECT_DIR$/app/clerk/__init__.py" />
+        <option value="$PROJECT_DIR$/app/client/__init__.py" />
+        <option value="$PROJECT_DIR$/app/main/__init__.py" />
+        <option value="$PROJECT_DIR$/app/controllers/errors.py" />
+        <option value="$PROJECT_DIR$/app/__init__.py" />
+        <option value="$PROJECT_DIR$/app/error/handler.py" />
+        <option value="$PROJECT_DIR$/app/templates/error/404.html" />
+        <option value="$PROJECT_DIR$/app/templates/error/500.html" />
+        <option value="$PROJECT_DIR$/app/templates/error/400.html" />
       </list>
     </option>
   </component>
@@ -195,19 +225,7 @@
               <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
               <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="clerk" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="configuration" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="order" type="462c0819:PsiDirectoryNode" />
+              <item name="error" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
@@ -220,7 +238,7 @@
               <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="clerk" type="462c0819:PsiDirectoryNode" />
+              <item name="error" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -358,7 +376,7 @@
       <workItem from="1548350598346" duration="18621000" />
       <workItem from="1548609096817" duration="27041000" />
       <workItem from="1548692094797" duration="20678000" />
-      <workItem from="1548721283972" duration="4949000" />
+      <workItem from="1548721283972" duration="7006000" />
     </task>
     <task id="LOCAL-00001" summary="Restructuring the project.">
       <created>1546986094389</created>
@@ -493,11 +511,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548715236985</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Blueprints and Configuration implemented.">
+      <created>1548726558827</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1548726558827</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="212967000" />
+    <option name="totallyTimeSpent" value="215024000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="43" y="27" width="1323" height="741" extended-state="6" />
@@ -571,32 +596,10 @@
     <MESSAGE value="Attempting to fix (sqlite3.InterfaceError)" />
     <MESSAGE value="Client-related CRUD has been implemented." />
     <MESSAGE value="Implementing blueprints" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementing blueprints" />
+    <MESSAGE value="Blueprints and Configuration implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Blueprints and Configuration implemented." />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="1548" selection-start-line="1548" selection-end-line="1548" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../.local/lib/python3.6/site-packages/flask_sqlalchemy/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="956" column="8" selection-start-line="956" selection-start-column="8" selection-end-line="956" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../.local/lib/python3.6/site-packages/sqlalchemy/sql/schema.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="4008" lean-forward="true" selection-start-line="4008" selection-end-line="4008" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manager.py" />
-    <entry file="file://$PROJECT_DIR$/app/models/__init__.py" />
     <entry file="file://$PROJECT_DIR$/../.local/lib/python3.6/site-packages/werkzeug/routing.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -709,9 +712,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/main/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/client/search.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -729,9 +729,6 @@
           </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/clerk/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/product/forms.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -775,9 +772,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/order/forms.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -799,13 +793,6 @@
     <entry file="file://$PROJECT_DIR$/app/controllers/product_routes.py" />
     <entry file="file://$PROJECT_DIR$/app/controllers/default_routes.py" />
     <entry file="file://$PROJECT_DIR$/app/models/forms.py" />
-    <entry file="file://$PROJECT_DIR$/app/controllers/errors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2">
-          <caret column="26" lean-forward="true" selection-start-column="26" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/configuration/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -837,16 +824,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="e#19#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/client/list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="169">
@@ -871,30 +848,100 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/clerk/new.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="14" lean-forward="true" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/client/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/main/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/errors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/clerk/routes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="27" lean-forward="true" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/clerk/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="35" selection-start-column="35" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        <state relative-caret-position="135">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/clerk/routes.py">
+    <entry file="file://$PROJECT_DIR$/app/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+        <state relative-caret-position="95">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
           <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#19#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/clerk/new.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="14" lean-forward="true" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+        <state relative-caret-position="15">
+          <caret line="1" column="19" lean-forward="true" selection-start-line="1" selection-end-line="1" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/error/handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="36" lean-forward="true" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/error/500.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="14" lean-forward="true" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/error/404.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="10" lean-forward="true" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/error/400.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="14" lean-forward="true" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
         </state>
       </provider>
     </entry>

@@ -19,6 +19,9 @@ def create_app(config_class):
     bootstrap.init_app(app)
     login_manager.init_app(app)
 
+    from app.error.handler import errors
+    app.register_blueprint(errors)
+
     from app.clerk.routes import clerks
     app.register_blueprint(clerks)
 
