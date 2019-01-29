@@ -4,6 +4,8 @@ from flask import render_template
 
 from flask import Blueprint
 
+from app.order.forms import SearchOrderForm, NewOrderForm
+
 orders = Blueprint('orders', __name__)
 
 
@@ -23,4 +25,25 @@ def listing_orders_of(id):
 @orders.route('/client/<int:id>/order/new')
 @login_required
 def new_order(id):
+    form = NewOrderForm()
+    if form.validate_on_submit():
+        pass
+    else:
+        pass
+    return render_template('order/new.html', form=form)
+
+
+@orders.route('/order/<int:id>/update', methods=["GET", 'POST'])
+def update_order(id):
     return '<html><h1>TODO</h1><html>'
+
+
+@orders.route('/order/search', methods=["GET", 'POST'])
+def search_order():
+    form = SearchOrderForm()
+    if form.validate_on_submit():
+        pass
+    else:
+        pass
+
+    return render_template("order/search.html", form=form)

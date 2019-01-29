@@ -4,8 +4,8 @@ from flask_login import UserMixin
 from sqlalchemy import CheckConstraint, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from app import login_manager, db
+import enum
 
 """
 A proper class for use with the ORM must do four things:
@@ -17,7 +17,12 @@ A proper class for use with the ORM must do four things:
 
 @login_manager.user_loader
 def load_user(id):
-    return Clerk.query.get(int(id))
+    return Clerk.query.get(id)
+
+
+class Status(enum.Enum):
+    PAGO = "Pago"
+    PENDENTE = "Pendente"
 
 
 class User(db.Model):
@@ -38,12 +43,13 @@ class User(db.Model):
 
 
 class Client(User):
-    __tablename__ = 'client'
+    __tablename__ = 'clients'
     __mapper_args__ = {'concrete': True}
     identification = db.Column(db.String(11))
     notifiable = db.Column(db.Boolean)
     address_id = db.Column(db.Integer, ForeignKey('addresses.id'))
     address = db.relationship("Address", back_populates="dweller", lazy=False)
+    orders = relationship("Order", back_populates="client")
 
     def __init__(self, name, phone_number, identification, address, notifiable, status=True):
         super().__init__(name, phone_number, status)
@@ -58,27 +64,11 @@ class Client(User):
         return '<Cliente %r %r %r %r>' % (self.name, self.identification, self.phone_number, self.status)
 
 
-class Address(db.Model):
-    __tablename__ = 'addresses'
-    id = db.Column(db.Integer, primary_key=True)
-    street = db.Column(db.String(64))
-    detail = db.Column(db.String(64))
-    zip_code = db.Column(db.String(6))
-    dweller = relationship("Client", uselist=False, back_populates="address")
-
-    def __init__(self, street, detail, zip_code):
-        self.street = street
-        self.detail = detail
-        self.zip_code = zip_code
-
-    def __str__(self):
-        return "Rua: {}, {}".format(self.street, self.detail)
-
-
 class Clerk(User, UserMixin):
     __tablename__ = 'clerks'
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128))
+    orders = relationship("Order", back_populates="clerk")
 
     __mapper_args__ = {
         'concrete': True
@@ -102,6 +92,45 @@ class Clerk(User, UserMixin):
 
     def __repr__(self):
         return '<Atendente %r %r %r>' % (self.name, self.email, self.status)
+
+
+class Order(db.Model):
+    __tablename__ = 'orders'
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime, default=datetime.now)
+    status = db.Column(db.Enum(Status), default=Status.PENDENTE)
+
+    client_id = db.Column(db.Integer, ForeignKey('clients.id'))
+    client = relationship("Client", back_populates="orders")
+
+    clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'))
+    clerk = relationship("Clerk", back_populates="orders")
+
+    def __init__(self, date, client, clerk, items):
+        self.date = date
+        self.client = client
+        self.clerk = clerk
+        self.items = items
+
+    def __repr__(self):
+        return '<Pedido %r >' % self.date
+
+
+class Address(db.Model):
+    __tablename__ = 'addresses'
+    id = db.Column(db.Integer, primary_key=True)
+    street = db.Column(db.String(64))
+    detail = db.Column(db.String(64))
+    zip_code = db.Column(db.String(6))
+    dweller = relationship("Client", uselist=False, back_populates="address")
+
+    def __init__(self, street, detail, zip_code):
+        self.street = street
+        self.detail = detail
+        self.zip_code = zip_code
+
+    def __str__(self):
+        return "Rua: {}, {}".format(self.street, self.detail)
 
 
 class Product(db.Model):
@@ -130,33 +159,13 @@ class Product(db.Model):
         return '<Product %r %r %r %r>' % (self.title, self.name, self.price, self.is_available)
 
 
-class Order(db.Model):
-    __tablename__ = 'orders'
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, default=datetime.now)
-    client_id = db.Column(db.Integer, ForeignKey('client.id'))
-    clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'))
-
-    client = db.relationship("Client", backref=backref('orders', order_by=client_id))
-    clerk = db.relationship("Clerk", backref=backref('orders', order_by=clerk_id))
-
-    def __init__(self, date, client_id, clerk_id, items):
-        self.date = date
-        self.client_id = client_id
-        self.clerk_id = clerk_id
-        self.items = items
-
-    def __repr__(self):
-        return '<Pedido %r >' % self.date
-
-
 class Item(db.Model):
     __tablename__ = 'items'
 
     id = db.Column(db.Integer, primary_key=True)
     product_id = db.Column(db.Integer, ForeignKey('product.id'))
     order_id = db.Column(db.Integer, ForeignKey('orders.id'))
-    quantity = db.Column(db.Integer)
+    quantity = db.Column(db.Numeric(5, 2))
 
     order = db.relationship("Order", backref=backref('items', order_by=order_id))
     product = db.relationship("Product", uselist=False)
@@ -167,4 +176,4 @@ class Item(db.Model):
         self.quantity = quantity
 
     def __repr__(self):
-        return '<Item %r >' % self.quantity
+        return '<Item %r %r Quantidade %r>' % (self.product.title, self.product.name, self.quantity)

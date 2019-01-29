@@ -11,7 +11,7 @@ class NewClientForm(FlaskForm):
     street = StringField('Nome da rua?', validators=[DataRequired()])
     address_detail = StringField('Complemento', validators=[DataRequired()])
     notifiable = BooleanField('Deseja receber notificações?')
-    submit = SubmitField('Submit')
+    submit = SubmitField('Salvar')
 
 
 class SearchClientForm(FlaskForm):
