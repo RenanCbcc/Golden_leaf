@@ -4,7 +4,8 @@ from flask_login import UserMixin
 from sqlalchemy import CheckConstraint, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import db, login_manager
+
+from app import login_manager, db
 
 """
 A proper class for use with the ORM must do four things:
@@ -12,6 +13,7 @@ A proper class for use with the ORM must do four things:
 • Contain one or more attributes that are Columns objects.
 • Ensure one or more attributes make up a primary key.
 """
+
 
 @login_manager.user_loader
 def load_user(id):

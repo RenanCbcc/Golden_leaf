@@ -20,7 +20,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('main.index'))
         else:
             flash('Erro, login ou senha inválidos!', 'error')
-            return redirect(url_for('login'))
+            return redirect(url_for('clerks.login'))
     return render_template('clerk/login.html', form=form)
 
 
@@ -40,5 +40,5 @@ def new_clerk():
         db.session.add(clerk)
         db.session.commit()
         flash('Você pode fazer login agora.')
-        return redirect(url_for('login'))
+        return redirect(url_for('clerks.login'))
     return render_template('clerk/new.html', form=form)
