@@ -34,6 +34,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
     phone_number = db.Column(db.String(9))
+    # TODO Does this field make sense to clerk?
     status = db.Column(db.Boolean)
 
     def __init__(self, name, phone_number, status):
@@ -45,7 +46,7 @@ class User(db.Model):
 class Client(User):
     __tablename__ = 'clients'
     __mapper_args__ = {'concrete': True}
-    identification = db.Column(db.String(11))
+    identification = db.Column(db.String(11), unique=True)
     notifiable = db.Column(db.Boolean)
     address_id = db.Column(db.Integer, ForeignKey('addresses.id'))
     address = db.relationship("Address", back_populates="dweller", lazy=False)
@@ -135,13 +136,12 @@ class Address(db.Model):
 
 class Product(db.Model):
     __tablename__ = 'product'
-
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32), index=True)
     name = db.Column(db.String(32))
     price = db.Column(db.Numeric(6, 2), nullable=False)
     is_available = db.Column(db.Boolean)
-    code = db.Column(db.String(13), nullable=False)
+    code = db.Column(db.String(13), unique=True, nullable=False)
 
     __table_args__ = (CheckConstraint(price >= 0.00, name='unit_cost_positive'),)
 

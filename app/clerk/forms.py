@@ -1,11 +1,26 @@
+from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, DecimalField, validators
-from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange, Regexp
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, ValidationError
+
+from app.models.tables import Clerk
+
 
 class LoginForm(FlaskForm):
     email = StringField('Login', validators=[DataRequired(), Email()])
     password = PasswordField(label='Senha', validators=[Length(min=8, max=32)])
     submit = SubmitField('Entrar')
+
+
+class UpdateClerkForm(FlaskForm):
+    email = StringField('Email', validators=[Email()])
+    submit = SubmitField('Salvar')
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            clerk = Clerk.query.filter_by(email=email.data).first()
+            if clerk:
+                raise ValidationError("Este endereço de email já existe!")
 
 
 class NewClerkForm(FlaskForm):
@@ -23,3 +38,8 @@ class NewClerkForm(FlaskForm):
     cofirm_password = PasswordField(label='Confirme sua senha', validators=[DataRequired(), EqualTo('password')])
 
     submit = SubmitField('Registrar')
+
+    def validate_email(self, email):
+        clerk = Clerk.query.filter_by(email=email.data).first()
+        if clerk:
+            raise ValidationError("Este endereço de email já existe")

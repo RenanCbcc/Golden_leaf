@@ -18,7 +18,8 @@
                         data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                 </button>
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">Palma de Ouro</a>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}"><span
+                        class="glyphicon glyphicon-leaf"></span> Palma de Ouro</a>
             </div>
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav mr-auto">
@@ -36,9 +37,22 @@
                 <div class="navbar-nav">
                     <ul class="nav navbar-nav">
                         {% if current_user.is_authenticated %}
-                            <li><a class="nav-item nav-link" href="{{ url_for('clerks.logout') }}">Logout</a></li>
+                            <li>
+                                <a class="nav-item nav-link" href="{{ url_for('clerks.account') }}">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    {{ current_user.name }}</a>
+
+                            </li>
+                            <li>
+                                <a class="nav-item nav-link" href="{{ url_for('clerks.logout') }}">
+                                    <span class="glyphicon glyphicon-log-in"></span>
+                                    Logout</a>
+
+                            </li>
+
                         {% else %}
-                            <li><a class="nav-item nav-link" href="{{ url_for('clerks.login') }}">Login</a></li>
+                            <li><a class="nav-item nav-link" href="{{ url_for('clerks.login') }}">
+                                <span class="glyphicon glyphicon-user"></span>Login</a></li>
                         {% endif %}
 
                     </ul>
@@ -49,12 +63,15 @@
 {% endblock %}
 <main>
     <div class="container">
-        {% for message in get_flashed_messages() %}
-            <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ message }}
-            </div>
-        {% endfor %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
         {% block content %}{% endblock %}
 

@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask import render_template, request, redirect, flash, url_for
-from app.clerk.forms import NewClerkForm, LoginForm
+from app.clerk.forms import NewClerkForm, LoginForm, UpdateClerkForm
 from app.models.tables import Clerk, db
 from flask_login import login_user, logout_user, current_user
 
@@ -27,6 +27,20 @@ def login():
 @clerks.route('/logout')
 def logout():
     logout_user()
+    return redirect(url_for('main.index'))
+
+
+@clerks.route('/clerk/account', methods=['GET', 'POST'])
+def account():
+    form = UpdateClerkForm()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Seu endereço de email foi atualizado', 'success')
+        return redirect(url_for('clerks.account'))
+    elif request.method == 'GET':
+        form.email.data = current_user.email
+    return render_template('clerk/account.html', form=form)
 
 
 @clerks.route('/clerk/new', methods=['GET', 'POST'])
@@ -39,6 +53,6 @@ def new_clerk():
                       form.cofirm_password.data)
         db.session.add(clerk)
         db.session.commit()
-        flash('Você pode fazer login agora.')
+        flash('Você pode fazer login agora.', 'success')
         return redirect(url_for('clerks.login'))
     return render_template('clerk/new.html', form=form)

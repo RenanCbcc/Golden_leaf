@@ -1,4 +1,4 @@
-from flask import render_template, redirect, flash, url_for, Blueprint
+from flask import render_template, redirect, flash, url_for, Blueprint, request
 from app.models.tables import Client, Address, db
 from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
 from flask_login import login_required
@@ -22,7 +22,7 @@ def new_client():
                               Address(form.street.data, form.address_detail.data, form.zip_code.data),
                               form.notifiable.data))
         db.session.commit()
-        return redirect(url_for('listing_clients'))
+        return redirect(url_for('clients.listing_clients'))
 
     return render_template('client/new.html', form=form)
 
@@ -44,15 +44,16 @@ def update_client(id):
 
         db.session.add(client)
         db.session.commit()
-        return redirect(url_for('listing_clients'))
-    form.name.data = client.name
-    form.phone_number.data = client.phone_number
-    form.notifiable.data = client.notifiable
-    form.status.data = client.status
+        return redirect(url_for('clients.listing_clients'))
+    elif request.method == 'GET':
+        form.name.data = client.name
+        form.phone_number.data = client.phone_number
+        form.notifiable.data = client.notifiable
+        form.status.data = client.status
 
-    form.street.data = client.address.street
-    form.address_detail.data = client.address.detail
-    form.zip_code.data = client.address.zip_code
+        form.street.data = client.address.street
+        form.address_detail.data = client.address.detail
+        form.zip_code.data = client.address.zip_code
     return render_template('client/edit.html', form=form)
 
 
@@ -65,7 +66,7 @@ def search_client():
         clients = Client.query.filter(Client.name.like('%' + form.name.data + '%')).all()
         if not clients:
             flash('Nenhum cliente {} encontrado'.format(form.name.data))
-            return redirect(url_for('search_client'))
+            return redirect(url_for('clients.search_client'))
         else:
             flash('Mostrando cliente(s) encontrado(s) com nome: {}'.format(form.name.data))
             return render_template('client/list.html', clients=clients)

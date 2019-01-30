@@ -1,6 +1,6 @@
 from flask_login import login_required
 from app.models.tables import Order
-from flask import render_template
+from flask import render_template, redirect, url_for
 
 from flask import Blueprint
 
@@ -27,9 +27,9 @@ def listing_orders_of(id):
 def new_order(id):
     form = NewOrderForm()
     if form.validate_on_submit():
-        pass
+        return redirect(url_for('orders.listing_orders_of'))
     else:
-        pass
+        return redirect(url_for('orders.new_order'))
     return render_template('order/new.html', form=form)
 
 

@@ -8,7 +8,7 @@ products = Blueprint('products', __name__)
 
 @products.route('/product/list')
 def listing_products():
-    flash('Nenhum cliente encontrado')
+    flash('Nenhum cliente encontrado','success')
     products = Product.query.all()
     return render_template('product/list.html', products=products)
 
@@ -24,7 +24,7 @@ def new_product():
                                form.code.data))
 
         db.session.commit()
-        return redirect(url_for('listing_products'))
+        return redirect(url_for('products.listing_products'))
     return render_template('product/new.html', form=form)
 
 
@@ -34,10 +34,11 @@ def search_product():
     if form.validate_on_submit():
         products = Product.query.filter(Product.title.like('%' + form.title.data + '%')).all()
         if not products:
-            flash('Nenhum cliente {} encontrado'.format(form.title.data))
-            return redirect(url_for('search_product'))
+            flash('ERROR', 'error')
+            flash('Nenhum cliente {} encontrado'.format(form.title.data),'error')
+            return redirect(url_for('products.search_product'))
         else:
-            flash('Mostrando todos os produtos com {} encontrados'.format(form.title.data))
+            flash('Mostrando todos os produtos com {} encontrados'.format(form.title.data),'success')
             return render_template('product/list.html', products=products)
 
     return render_template('product/search.html', form=form)
@@ -55,7 +56,7 @@ def update_product(code):
         product.code = form.code.data
         db.session.add(product)
         db.session.commit()
-        return redirect(url_for('listing_products'))
+        return redirect(url_for('products.listing_products'))
 
     form.title.data = product.title
     form.name.data = product.name
