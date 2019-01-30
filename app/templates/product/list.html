@@ -2,7 +2,6 @@
 {% block page_content %}
     <div class="row">
         <div class="col-md-7 col-md-offset-1">
-
             <h2 class="titulo-principal">Lista de produtos</h2>
             <div>
                 <table class="table table-striped table-responsive table-bordered">
@@ -16,7 +15,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for product in products %}
+                    {% for product in products.items %}
                         <tr>
                             <td>{{ product.title }}</td>
                             <td>{{ product.name }}</td>
@@ -42,6 +41,20 @@
                     {% endfor %}
                     </tbody>
                 </table>
+
+                {% for page_number in products.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+                    {% if page_number %}
+                        {% if products.page == page_number %}
+                            <a class="btn btn-info mb-4"
+                               href="{{ url_for('products.listing_products',page=page_number) }}">{{ page_number }}</a>
+                        {% else %}
+                            <a class="btn btn-outline-info mb-4"
+                               href="{{ url_for('products.listing_products',page=page_number) }}">{{ page_number }}</a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
         <div class="col-md-3">
@@ -63,10 +76,7 @@
                             Buscar Produto
                         </a>
                     </li>
-
                 </ul>
-
-
             </div>
         </div>
     </div>

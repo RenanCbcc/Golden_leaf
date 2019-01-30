@@ -9,7 +9,8 @@ clients = Blueprint('clients', __name__)
 @clients.route('/client/list')
 @login_required
 def listing_clients():
-    clients = Client.query.order_by(Client.name)
+    page = request.args.get('page', 1, type=int)
+    clients = Client.query.order_by(Client.name).paginate(page=page, per_page=10)
     return render_template('client/list.html', clients=clients)
 
 

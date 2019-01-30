@@ -32,8 +32,8 @@ class User(db.Model):
     __metaclass__ = ABCMeta
     __abstract__ = True
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True)
-    phone_number = db.Column(db.String(9))
+    name = db.Column(db.String(64), nullable=False, index=True)
+    phone_number = db.Column(db.String(9), nullable=False)
     # TODO Does this field make sense to clerk?
     status = db.Column(db.Boolean)
 
@@ -68,7 +68,7 @@ class Client(User):
 class Clerk(User, UserMixin):
     __tablename__ = 'clerks'
     email = db.Column(db.String(64), unique=True)
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.String(128), nullable=False)
     orders = relationship("Order", back_populates="clerk")
 
     __mapper_args__ = {
@@ -120,9 +120,9 @@ class Order(db.Model):
 class Address(db.Model):
     __tablename__ = 'addresses'
     id = db.Column(db.Integer, primary_key=True)
-    street = db.Column(db.String(64))
+    street = db.Column(db.String(64), nullable=False)
     detail = db.Column(db.String(64))
-    zip_code = db.Column(db.String(6))
+    zip_code = db.Column(db.String(6), nullable=False)
     dweller = relationship("Client", uselist=False, back_populates="address")
 
     def __init__(self, street, detail, zip_code):
@@ -137,10 +137,10 @@ class Address(db.Model):
 class Product(db.Model):
     __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(32), index=True)
-    name = db.Column(db.String(32))
+    title = db.Column(db.String(32), index=True, nullable=False)
+    name = db.Column(db.String(32), nullable=False)
     price = db.Column(db.Numeric(6, 2), nullable=False)
-    is_available = db.Column(db.Boolean)
+    is_available = db.Column(db.Boolean, nullable=False)
     code = db.Column(db.String(13), unique=True, nullable=False)
 
     __table_args__ = (CheckConstraint(price >= 0.00, name='unit_cost_positive'),)

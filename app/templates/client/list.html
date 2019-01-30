@@ -12,10 +12,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for client in clients %}
+                {% for client in clients.items %}
                     <tr>
                         <td>{{ client.name }}</td>
-                        <td>{{ client.phone_number}}</td>
+                        <td>{{ client.phone_number }}</td>
                         {% if client.status %}
                             <td>ativo</td>
                         {% else %}
@@ -39,12 +39,12 @@
 
                                 <a href="{{ url_for('orders.listing_orders_of',id=client.id) }}"
                                    class="btn btn-primary">
-                                    <span class="glyphicon glyphicon-list-alt" ></span>
+                                    <span class="glyphicon glyphicon-list-alt"></span>
                                     Pedidos
                                 </a>
 
                                 <a href="{{ url_for('orders.new_order') }}" class="btn btn-default">
-                                      <span class="glyphicon glyphicon-shopping-cart"></span>
+                                    <span class="glyphicon glyphicon-shopping-cart"></span>
                                     Novo pedido</a>
 
                             </div>
@@ -56,6 +56,20 @@
                 {% endfor %}
                 </tbody>
             </table>
+
+            {% for page_number in clients.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+                {% if page_number %}
+                    {% if clients.page == page_number %}
+                        <a class="btn btn-info mb-4"
+                           href="{{ url_for('clients.listing_clients',page=page_number) }}">{{ page_number }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4"
+                           href="{{ url_for('clients.listing_clients',page=page_number) }}">{{ page_number }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="col-md-2">
             <div class="content-section">
@@ -72,7 +86,7 @@
                     <li class=" list-group-item list-group-item-light">
                         <a href="{{ url_for('clients.search_client') }}" class="btn btn-primary">
                             <span class="glyphicon glyphicon glyphicon-search"></span>
-                        Buscar cliente
+                            Buscar cliente
                         </a>
                     </li>
 

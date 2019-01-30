@@ -1,6 +1,6 @@
 from flask_login import login_required
 from app.models.tables import Order
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 
 from flask import Blueprint
 
@@ -13,12 +13,13 @@ orders = Blueprint('orders', __name__)
 @orders.route('/client/<int:id>/order')
 @login_required
 def listing_orders_of(id):
+    page = request.args.get('page', 1, type=int)
     if id is not None:
-        list_of_orders = Order.query.filter_by(client_id=id).first()
-        return render_template('order/list.html', orders=list_of_orders)
+        orders = Order.query.filter_by(client_id=id).order_by(Order.date.desc()).paginate(page=page, per_page=10)
+        return render_template('order/list.html', orders=orders)
     else:
-        list_of_orders = Order.query.all()
-        return render_template('order/list.html', orders=list_of_orders)
+        orders = Order.query.order_by(Order.date.desc()).paginate(page=page, per_page=10)
+        return render_template('order/list.html', orders=orders)
 
 
 @orders.route('/client/order/new', defaults={'id': None})

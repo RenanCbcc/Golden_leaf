@@ -14,7 +14,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for order in orders %}
+                {% for order in orders.items %}
                     <tr>
                         <td>{{ order.date }}</td>
                         <td>{{ order.client.name }}</td>
@@ -36,6 +36,19 @@
                 {% endfor %}
                 </tbody>
             </table>
+            {% for page_number in orders.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+                {% if page_number %}
+                    {% if orders.page == page_number %}
+                        <a class="btn btn-info mb-4"
+                           href="{{ url_for('orders.listing_orders',page=page_number) }}">{{ page_number }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4"
+                           href="{{ url_for('orders.listing_orders',page=page_number) }}">{{ page_number }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="col-md-2">
             <div class="content-section">

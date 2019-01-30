@@ -1,4 +1,4 @@
-from flask import render_template, redirect, flash, url_for, Blueprint
+from flask import render_template, redirect, flash, url_for, Blueprint, request
 from app.models.tables import Product, db
 from app.product.forms import NewProductForm, SearchProductForm, UpdateProductForm
 from flask_login import login_required
@@ -8,7 +8,8 @@ products = Blueprint('products', __name__)
 
 @products.route('/product/list')
 def listing_products():
-    products = Product.query.all()
+    page = request.args.get('page', 1, type=int)
+    products = Product.query.order_by(Product.title, Product.name).paginate(page=page, per_page=10)
     return render_template('product/list.html', products=products)
 
 
@@ -33,7 +34,7 @@ def search_product():
     if form.validate_on_submit():
         products = Product.query.filter(Product.title.like('%' + form.title.data + '%')).all()
         if not products:
-            flash('Nenhum produto encontrado', 'error')
+            flash('Produto algum encontrado', 'danger')
             return redirect(url_for('products.search_product'))
         else:
             flash('Mostrando todos os produtos com "{}" encontrados'.format(form.title.data), 'success')
@@ -52,6 +53,7 @@ def update_product(code):
         product.name = form.name.data
         product.price = form.price.data
         product.code = form.code.data
+        product.is_available = form.is_available.data
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('products.listing_products'))
@@ -60,4 +62,5 @@ def update_product(code):
     form.name.data = product.name
     form.price.data = product.price
     form.code.data = product.code
+    form.is_available.data = product.is_available
     return render_template('product/edit.html', form=form)
