@@ -65,10 +65,10 @@ def search_client():
         # Finding names with “form.name.data” in them:
         clients = Client.query.filter(Client.name.like('%' + form.name.data + '%')).all()
         if not clients:
-            flash('Nenhum cliente {} encontrado'.format(form.name.data))
+            flash('Nenhum cliente {} encontrado'.format(form.name.data), 'error')
             return redirect(url_for('clients.search_client'))
         else:
-            flash('Mostrando cliente(s) encontrado(s) com nome: {}'.format(form.name.data))
+            flash('Mostrando cliente(s) encontrado(s) com nome: {}'.format(form.name.data), 'success')
             return render_template('client/list.html', clients=clients)
 
     return render_template("client/search.html", form=form)

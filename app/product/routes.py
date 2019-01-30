@@ -8,7 +8,6 @@ products = Blueprint('products', __name__)
 
 @products.route('/product/list')
 def listing_products():
-    flash('Nenhum cliente encontrado','success')
     products = Product.query.all()
     return render_template('product/list.html', products=products)
 
@@ -34,11 +33,10 @@ def search_product():
     if form.validate_on_submit():
         products = Product.query.filter(Product.title.like('%' + form.title.data + '%')).all()
         if not products:
-            flash('ERROR', 'error')
-            flash('Nenhum cliente {} encontrado'.format(form.title.data),'error')
+            flash('Nenhum produto encontrado', 'error')
             return redirect(url_for('products.search_product'))
         else:
-            flash('Mostrando todos os produtos com {} encontrados'.format(form.title.data),'success')
+            flash('Mostrando todos os produtos com "{}" encontrados'.format(form.title.data), 'success')
             return render_template('product/list.html', products=products)
 
     return render_template('product/search.html', form=form)
