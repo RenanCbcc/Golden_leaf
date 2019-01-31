@@ -34,7 +34,7 @@ def search_product():
     if form.validate_on_submit():
         products = Product.query.filter(Product.title.like('%' + form.title.data + '%')).all()
         if not products:
-            flash('Produto algum encontrado', 'danger')
+            flash('Produto algum encontrado', 'warning')
             return redirect(url_for('products.search_product'))
         else:
             flash('Mostrando todos os produtos com "{}" encontrados'.format(form.title.data), 'success')

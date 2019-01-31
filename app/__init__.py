@@ -3,9 +3,11 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
+mail = Mail()
 login_manager = LoginManager()
 login_manager.login_view = 'clerks.login'  # Function's name of route login from the blueprint.
 login_manager.login_message_category = 'info'
@@ -14,10 +16,10 @@ login_manager.login_message_category = 'info'
 def create_app(config_class):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    from app.models import tables
     db.init_app(app)
     bootstrap.init_app(app)
     login_manager.init_app(app)
+    mail.init_app(app)
 
     from app.error.handler import errors
     app.register_blueprint(errors)

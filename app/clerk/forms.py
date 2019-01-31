@@ -43,3 +43,21 @@ class NewClerkForm(FlaskForm):
         clerk = Clerk.query.filter_by(email=email.data).first()
         if clerk:
             raise ValidationError("Este endereço de email já existe")
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Seu endereço de email?', validators=[DataRequired(), Email()])
+    submit = SubmitField('Requisitar redefinição de senha')
+
+    def validate_email(self, email):
+        clerk = Clerk.query.filter_by(email=email.data).first()
+        if clerk is None:
+            raise ValidationError("Não há atendente com este email. Registre-se")
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(label='Escolha uma senha',
+                             validators=[Length(min=8, max=32)])
+    cofirm_password = PasswordField(label='Confirme sua senha', validators=[DataRequired(), EqualTo('password')])
+
+    submit = SubmitField('Redefinir senha')

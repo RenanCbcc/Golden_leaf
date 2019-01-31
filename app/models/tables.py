@@ -5,6 +5,8 @@ from sqlalchemy import CheckConstraint, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login_manager, db
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask import current_app
 import enum
 
 """
@@ -79,6 +81,24 @@ class Clerk(User, UserMixin):
         super().__init__(name, phone_number, status)
         self.email = email
         self.password = password
+
+    def get_token(self, expires_sec=1800):
+        """
+        The token is an encrypted version of a dictionary that has the id of the user
+        :param expires_sec:
+        :return:
+        """
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'clerk_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            clerk_id = s.loads(token)['clerk_id']
+        except:
+            return None
+        return Clerk.query.get(clerk_id)
 
     @property
     def password(self):
