@@ -1,1 +1,1 @@
-web: gunicorn Golden_leaf.wsgi --log-file -
+web gunicorn run:app

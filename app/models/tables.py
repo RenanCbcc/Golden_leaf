@@ -134,7 +134,7 @@ class Order(db.Model):
         self.items = items
 
     def __repr__(self):
-        return '<Pedido %r >' % self.date
+        return '<Pedido %r %r %r >' % (self.date, self.client.name, self.clerk.name)
 
 
 class Address(db.Model):

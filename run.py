@@ -11,7 +11,7 @@ manager.add_command('db', MigrateCommand)
 # To  create a migration folder type: Golden_leaf$ python3 run.py db init
 # To  perform a migration type: Golden_leaf$ python3 run.py db migrate
 # To  commit a migration type: Golden_leaf$ python3 run.py db upgrade
-# To get the application running type: Golden_leaf$ python3 run.py runserver
+# To get the application running type: Golden_leaf$ python3 run.py runserver or even $gunicorn run:app
 
 
 if __name__ == '__main__':
