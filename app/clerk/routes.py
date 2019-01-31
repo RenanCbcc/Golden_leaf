@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, current_app
 from flask import render_template, request, redirect, flash, url_for
 from flask_mail import Message
 from app import mail
@@ -62,7 +62,8 @@ def new_clerk():
 
 def send_email(clerk):
     token = clerk.get_token()
-    msg = Message('Requisição de redefinição de senha', recipients=[clerk.email])
+    msg = Message('Requisição de redefinição de senha', sender=current_app.config['FLASKY_MAIL_SENDER'],
+                  recipients=[clerk.email])
     msg.body = f''' Para redefinir sua senha, visite o seguinte endereço: {url_for('reset_token', token=token,
                                                                                    _external=True)}
             Se você não fez esta requisição então ignore este email e mudança alguma será feita.

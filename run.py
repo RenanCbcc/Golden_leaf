@@ -13,5 +13,6 @@ manager.add_command('db', MigrateCommand)
 # To  commit a migration type: Golden_leaf$ python3 run.py db upgrade
 # To get the application running type: Golden_leaf$ python3 run.py runserver
 
+
 if __name__ == '__main__':
     manager.run()
