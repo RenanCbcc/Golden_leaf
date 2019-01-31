@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/api/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clerk/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/clerk/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/error/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/error/handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/error/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/error/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/error/500.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/error/500.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/test/test_address/suite_for_address.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_address/suite_for_address.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/test/test_order/suite_for_orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_order/suite_for_orders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/test/test_product/suite_for_product.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_product/suite_for_product.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/test/test_user/alter_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_user/alter_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/test/test_user/include_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_user/include_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/test/test_user/login_clerk.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_user/login_clerk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/configuration/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/configuration/config.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -86,8 +74,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/configuration/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
-              <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+            <state relative-caret-position="180">
+              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
             </state>
           </provider>
         </entry>
@@ -191,8 +179,8 @@
         <option value="$PROJECT_DIR$/app/templates/error/404.html" />
         <option value="$PROJECT_DIR$/app/templates/error/500.html" />
         <option value="$PROJECT_DIR$/app/clerk/routes.py" />
-        <option value="$PROJECT_DIR$/app/configuration/config.py" />
         <option value="$PROJECT_DIR$/run.py" />
+        <option value="$PROJECT_DIR$/app/configuration/config.py" />
       </list>
     </option>
   </component>
@@ -367,7 +355,7 @@
       <workItem from="1548809541726" duration="6735000" />
       <workItem from="1548861266202" duration="21549000" />
       <workItem from="1548896345375" duration="5860000" />
-      <workItem from="1548952921051" duration="4340000" />
+      <workItem from="1548952921051" duration="4899000" />
     </task>
     <task id="LOCAL-00001" summary="Restructuring the project.">
       <created>1546986094389</created>
@@ -551,11 +539,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548902583957</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Some small changes.">
+      <created>1548958878317</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1548958878318</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="269021000" />
+    <option name="totallyTimeSpent" value="269580000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="43" y="27" width="1323" height="741" extended-state="6" />
@@ -636,7 +631,8 @@
     <MESSAGE value="Fixing flash messages" />
     <MESSAGE value="Pagination implemented." />
     <MESSAGE value="Email and Password Reset has been implemented." />
-    <option name="LAST_COMMIT_MESSAGE" value="Email and Password Reset has been implemented." />
+    <MESSAGE value="Some small changes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Some small changes." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/../.local/lib/python3.6/site-packages/wtforms/fields/simple.py">
@@ -952,8 +948,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/configuration/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+        <state relative-caret-position="180">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
         </state>
       </provider>
     </entry>

@@ -26,7 +26,8 @@ class DevelopmentConfig(BaseConfig):
 
 
 class ProductionConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@hostname/database'
+    # SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@hostname/database'
+    SQLALCHEMY_DATABASE_URI = 'postgres://yfepsfknwjycne:4c75c5d2fe875b87706b264b20de4f977fa7d3561e977cd8f9f7ab54fd341ba1@ec2-54-83-50-174.compute-1.amazonaws.com:5432/ddca94vvt6qsno'
 
 
 class TestingConfig(BaseConfig):
