@@ -2,11 +2,9 @@ from flask import render_template, redirect, flash, url_for, Blueprint, request
 from app.models.tables import Client, Address, db
 from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
 from flask_login import login_required
+from app.client import blueprint_clients
 
-clients = Blueprint('clients', __name__)
-
-
-@clients.route('/client/list')
+@blueprint_clients.route('/clients/list')
 @login_required
 def listing_clients():
     page = request.args.get('page', 1, type=int)
@@ -14,7 +12,7 @@ def listing_clients():
     return render_template('client/list.html', clients=clients)
 
 
-@clients.route('/client/new', methods=['GET', 'POST'])
+@blueprint_clients.route('/clients/new', methods=['GET', 'POST'])
 @login_required
 def new_client():
     form = NewClientForm()
@@ -23,12 +21,12 @@ def new_client():
                               Address(form.street.data, form.address_detail.data, form.zip_code.data),
                               form.notifiable.data))
         db.session.commit()
-        return redirect(url_for('clients.listing_clients'))
+        return redirect(url_for('blueprint_clients.listing_clients'))
 
     return render_template('client/new.html', form=form)
 
 
-@clients.route('/client/<int:id>/update', methods=['GET', 'POST'])
+@blueprint_clients.route('/clients/<int:id>/update', methods=['GET', 'POST'])
 @login_required
 def update_client(id):
     form = UpdateClientForm()
@@ -45,7 +43,7 @@ def update_client(id):
 
         db.session.add(client)
         db.session.commit()
-        return redirect(url_for('clients.listing_clients'))
+        return redirect(url_for('blueprint_clients.listing_clients'))
     elif request.method == 'GET':
         form.name.data = client.name
         form.phone_number.data = client.phone_number
@@ -58,7 +56,7 @@ def update_client(id):
     return render_template('client/edit.html', form=form)
 
 
-@clients.route('/client/search', methods=["GET", 'POST'])
+@blueprint_clients.route('/clients/search', methods=["GET", 'POST'])
 @login_required
 def search_client():
     form = SearchClientForm()
@@ -67,7 +65,7 @@ def search_client():
         clients = Client.query.filter(Client.name.like('%' + form.name.data + '%')).all()
         if not clients:
             flash('Nenhum cliente {} encontrado'.format(form.name.data), 'warning')
-            return redirect(url_for('clients.search_client'))
+            return redirect(url_for('blueprint_clients.search_client'))
         else:
             flash('Mostrando cliente(s) encontrado(s) com nome: {}'.format(form.name.data), 'success')
             return render_template('client/list.html', clients=clients)

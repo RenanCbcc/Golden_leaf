@@ -1,12 +1,14 @@
+import decimal
 from abc import ABCMeta
 from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy import CheckConstraint, ForeignKey
 from sqlalchemy.orm import relationship, backref
+from werkzeug.routing import ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login_manager, db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app
+from flask import current_app, url_for
 import enum
 
 """
@@ -171,6 +173,34 @@ class Product(db.Model):
         self.price = price
         self.is_available = is_available
         self.code = code
+
+    def to_json(self):
+        json_product = {
+            'id': self.id,
+            'title': self.title,
+            'name': self.name,
+            'price': str(self.price),
+            'is_available': self.is_available,
+            'code': self.code
+        }
+        return json_product
+
+    @staticmethod
+    def from_json(json_product):
+
+        title = json_product.get('title')
+        name = json_product.get('name')
+        price = decimal.Decimal(json_product.get('price'))
+        code = json_product.get('code')
+
+        if name is None or name == '':
+            raise ValidationError('Produto tem com nome inválido')
+        if code is None or len(code) is not 11:
+            raise ValidationError('Código de produto inválido')
+        if price is None or price <= 0:
+            raise ValidationError('Produto co preço inválido')
+
+        return Product(title, name, price, code)
 
     def __eq__(self, other):
         return self.code == other.code

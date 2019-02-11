@@ -24,19 +24,22 @@ def create_app(config_class):
     from app.error.handler import errors
     app.register_blueprint(errors)
 
-    from app.clerk.routes import clerks
-    app.register_blueprint(clerks)
+    from app.clerk.routes import blueprint_clerks
+    app.register_blueprint(blueprint_clerks)
 
-    from app.client.routes import clients
-    app.register_blueprint(clients)
+    from app.client.routes import blueprint_clients
+    app.register_blueprint(blueprint_clients)
 
-    from app.product.routes import products
-    app.register_blueprint(products)
+    from app.product.routes import blueprint_products
+    app.register_blueprint(blueprint_products)
 
-    from app.order.routes import orders
-    app.register_blueprint(orders)
+    from app.order.routes import blueprint_orders
+    app.register_blueprint(blueprint_orders)
 
     from app.main.routes import main
     app.register_blueprint(main)
+
+    from app.api import api
+    app.register_blueprint(api, url_prefix='/api')
 
     return app

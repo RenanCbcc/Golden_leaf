@@ -1,16 +1,12 @@
 from flask_login import login_required
 from app.models.tables import Order
 from flask import render_template, redirect, url_for, request
-
-from flask import Blueprint
-
+from app.order import blueprint_orders
 from app.order.forms import SearchOrderForm, NewOrderForm
 
-orders = Blueprint('orders', __name__)
 
-
-@orders.route('/client/order', defaults={'id': None})
-@orders.route('/client/<int:id>/order')
+@blueprint_orders.route('/client/order', defaults={'id': None})
+@blueprint_orders.route('/client/<int:id>/order')
 @login_required
 def listing_orders_of(id):
     page = request.args.get('page', 1, type=int)
@@ -22,24 +18,24 @@ def listing_orders_of(id):
         return render_template('order/list.html', orders=orders)
 
 
-@orders.route('/client/order/new', defaults={'id': None})
-@orders.route('/client/<int:id>/order/new')
+@blueprint_orders.route('/client/order/new', defaults={'id': None})
+@blueprint_orders.route('/client/<int:id>/order/new')
 @login_required
 def new_order(id):
     form = NewOrderForm()
     if form.validate_on_submit():
-        return redirect(url_for('orders.listing_orders_of'))
+        return redirect(url_for('blueprint_orders.listing_orders_of'))
     else:
-        return redirect(url_for('orders.new_order'))
+        return redirect(url_for('blueprint_orders.new_order'))
     return render_template('order/new.html', form=form)
 
 
-@orders.route('/order/<int:id>/update', methods=["GET", 'POST'])
+@blueprint_orders.route('/order/<int:id>/update', methods=["GET", 'POST'])
 def update_order(id):
     return '<html><h1>TODO</h1><html>'
 
 
-@orders.route('/order/search', methods=["GET", 'POST'])
+@blueprint_orders.route('/order/search', methods=["GET", 'POST'])
 def search_order():
     form = SearchOrderForm()
     if form.validate_on_submit():
