@@ -2,10 +2,11 @@ from flask import current_app
 from flask import render_template, request, redirect, flash, url_for
 from flask_mail import Message
 from app import mail
+from app.clerk import blueprint_clerks
 from app.clerk.forms import NewClerkForm, LoginForm, UpdateClerkForm, RequestResetForm, ResetPasswordForm
 from app.models.tables import Clerk, db
 from flask_login import login_user, logout_user, current_user
-from app.clerk import blueprint_clerks
+
 
 
 @blueprint_clerks.route('/login', methods=['GET', 'POST'])

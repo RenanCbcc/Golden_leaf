@@ -13,19 +13,19 @@ def listing_products():
     return response
 
 
-@api.route('/products/<int:id>', methods=['GET'])
-@login_required
-def get_product(id):
-    product = Product.query.get_or_404(id)
-    return jsonify(product.to_json())
-
-
 @api.route('/products', methods=['POST'])
 def create_product():
     product = Product.from_json(request.json)
     db.session.add(product)
     db.session.commit()
     return jsonify(product.to_json()), 201, {'Location': url_for('api.get_product', id=product.id, _external=True)}
+
+
+@api.route('/products/<int:id>', methods=['GET'])
+@login_required
+def get_product(id):
+    product = Product.query.get_or_404(id)
+    return jsonify(product.to_json())
 
 
 @api.route('/products/<int:id>', methods=['PUT'])

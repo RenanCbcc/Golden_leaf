@@ -62,6 +62,18 @@ class Client(User):
         self.notifiable = notifiable
         self.address = address
 
+    def to_json(self):
+        json_client = {
+            'id': self.id,
+            'name': self.name,
+            'phone_number': self.phone_number,
+            'identification': self.identification,
+            'address': url_for('api.get_client_address', id=self.id),
+            'notifiable': self.notifiable,
+            'status': self.status
+        }
+        return json_client
+
     def __eq__(self, other):
         return self.identification == other.identification
 
@@ -151,6 +163,16 @@ class Address(db.Model):
         self.street = street
         self.detail = detail
         self.zip_code = zip_code
+
+    def to_json(self):
+        json_address = {
+            'id': self.id,
+            'street': self.street,
+            'detail': self.detail,
+            'zip_code': self.zip_code,
+
+        }
+        return json_address
 
     def __str__(self):
         return "Rua: {}, {}".format(self.street, self.detail)

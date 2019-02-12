@@ -1,8 +1,10 @@
 from flask import render_template, redirect, flash, url_for, Blueprint, request
+
+from app.client import blueprint_clients
 from app.models.tables import Client, Address, db
 from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
 from flask_login import login_required
-from app.client import blueprint_clients
+
 
 @blueprint_clients.route('/clients/list')
 @login_required

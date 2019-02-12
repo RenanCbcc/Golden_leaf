@@ -1,11 +1,11 @@
 from flask import render_template, redirect, flash, url_for, request
 from app.models.tables import Product, db
+from app.product import blueprint_products
 from app.product.forms import NewProductForm, SearchProductForm, UpdateProductForm
 from flask_login import login_required
-from app.product import blueprint_products
 
 
-@blueprint_products.route('/products/list')
+@blueprint_products.route('/products/list', methods=['GET'])
 def listing_products():
     page = request.args.get('page', 1, type=int)
     products = Product.query.order_by(Product.title, Product.name).paginate(page=page, per_page=10)
