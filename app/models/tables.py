@@ -11,6 +11,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, url_for
 import enum
 
+
 """
 A proper class for use with the ORM must do four things:
 • Contain __tablename__ , which is the table name to be used in the database.
@@ -73,6 +74,14 @@ class Client(User):
             'status': self.status
         }
         return json_client
+
+    @staticmethod
+    def from_json(content):
+        if content['name'] == "" or content['phone_number'] == "" or content['identification'] == "":
+            raise ValidationError("Cliente não pode ter valores nulos")
+        client = Client(content.get('name'), content.get('phone_number'), content.get('identification'),
+                        Address.from_json(content['address']), content.get('notifiable'))
+        return client
 
     def __eq__(self, other):
         return self.identification == other.identification
@@ -174,6 +183,13 @@ class Address(db.Model):
         }
         return json_address
 
+    @staticmethod
+    def from_json(content):
+        if content['street'] == "" or content['address_detail'] == "" or content['zip_code'] == "":
+            raise ValidationError("Endereço não pode ter valores nulos")
+        address = Address(content.get('street'), content.get('address_detail'), content.get('zip_code'))
+        return address
+
     def __str__(self):
         return "Rua: {}, {}".format(self.street, self.detail)
 
@@ -217,7 +233,7 @@ class Product(db.Model):
 
         if name is None or name == '':
             raise ValidationError('Produto tem com nome inválido')
-        if code is None or len(code) is not 11:
+        if code is None or len(code) is not 13:
             raise ValidationError('Código de produto inválido')
         if price is None or price <= 0:
             raise ValidationError('Produto co preço inválido')

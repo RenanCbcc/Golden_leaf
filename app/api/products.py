@@ -1,6 +1,4 @@
 from flask import request, jsonify, url_for
-from flask_login import login_required
-
 from app.api import api
 from app.models.tables import Product, db
 
@@ -22,14 +20,12 @@ def create_product():
 
 
 @api.route('/products/<int:id>', methods=['GET'])
-@login_required
 def get_product(id):
     product = Product.query.get_or_404(id)
     return jsonify(product.to_json())
 
 
 @api.route('/products/<int:id>', methods=['PUT'])
-@login_required
 def edit_product(id):
     product = Product.query.get_or_404(id)
     product.title = request.json.get('title')
@@ -39,4 +35,4 @@ def edit_product(id):
     product.is_available = request.json.get('is_available')
     db.session.add(product)
     db.session.commit()
-    return jsonify(product.to_json()), 201, {'Location': url_for('api.get_product', id=product.id, _external=True)}
+    return jsonify(product.to_json()), 200, {'Location': url_for('api.get_product', id=product.id, _external=True)}
