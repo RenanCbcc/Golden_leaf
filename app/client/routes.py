@@ -1,12 +1,13 @@
-from flask import render_template, redirect, flash, url_for, Blueprint, request
-
-from app.client import blueprint_clients
+from flask import render_template, redirect, flash, url_for, request
+from app.client import blueprint_client
 from app.models.tables import Client, Address, db
 from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
-from flask_login import login_required
+from flask_login import login_required, current_user
+
+from app.order.forms import NewOrderForm
 
 
-@blueprint_clients.route('/clients/list')
+@blueprint_client.route('/client/list')
 @login_required
 def listing_clients():
     page = request.args.get('page', 1, type=int)
@@ -14,7 +15,7 @@ def listing_clients():
     return render_template('client/list.html', clients=clients)
 
 
-@blueprint_clients.route('/clients/new', methods=['GET', 'POST'])
+@blueprint_client.route('/client/new', methods=['GET', 'POST'])
 @login_required
 def new_client():
     form = NewClientForm()
@@ -28,7 +29,21 @@ def new_client():
     return render_template('client/new.html', form=form)
 
 
-@blueprint_clients.route('/clients/<int:id>/update', methods=['GET', 'POST'])
+@blueprint_client.route('/client/<int:id>/order/new')
+@login_required
+def new_order(id):
+    client = Client.query.filter_by(id=id).one()
+    form = NewOrderForm()
+    if form.validate_on_submit():
+        return redirect(url_for('blueprint_orders.listing_orders_of'))
+
+    elif request.method == 'GET':
+        form.client.data = client.name
+        form.clerk.data = current_user
+    return render_template('order/new.html', form=form)
+
+
+@blueprint_client.route('/client/<int:id>/update', methods=['GET', 'POST'])
 @login_required
 def update_client(id):
     form = UpdateClientForm()
@@ -58,7 +73,7 @@ def update_client(id):
     return render_template('client/edit.html', form=form)
 
 
-@blueprint_clients.route('/clients/search', methods=["GET", 'POST'])
+@blueprint_client.route('/client/search', methods=["GET", 'POST'])
 @login_required
 def search_client():
     form = SearchClientForm()

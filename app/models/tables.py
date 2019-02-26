@@ -11,7 +11,6 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, url_for
 import enum
 
-
 """
 A proper class for use with the ORM must do four things:
 • Contain __tablename__ , which is the table name to be used in the database.
@@ -194,11 +193,41 @@ class Address(db.Model):
         return "Rua: {}, {}".format(self.street, self.detail)
 
 
+class Category(db.Model):
+    __tablename__ = 'category'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(32), index=True, nullable=False)
+    products = relationship("Product",backref("category"))
+
+    def __init__(self, title):
+        self.title = title
+
+    def to_json(self):
+        json_product = {
+            'id': self.id,
+            'title': self.title
+        }
+        return json_product
+
+    @staticmethod
+    def from_json(json_product):
+        title = json_product.get('title')
+
+        if title is None or title == '':
+            raise ValidationError('Categoria tem com título inválido')
+
+        return Category(title)
+
+    def __repr__(self):
+        return '<Category %r>' % self.title
+
+
 class Product(db.Model):
     __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(32), index=True, nullable=False)
-    name = db.Column(db.String(32), nullable=False)
+    category_id = db.Column(db.Integer, ForeignKey('category.id'))
+    brand = db.Column(db.String(32), nullable=False)
+    description = db.Column(db.String(128))
     price = db.Column(db.Numeric(6, 2), nullable=False)
     is_available = db.Column(db.Boolean, nullable=False)
     code = db.Column(db.String(13), unique=True, nullable=False)

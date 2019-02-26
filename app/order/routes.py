@@ -1,13 +1,12 @@
 from flask_login import login_required
-from app.models.tables import Order
+from app.models.tables import Order, Client
 from flask import render_template, redirect, url_for, request
-
 from app.order import blueprint_orders
 from app.order.forms import SearchOrderForm, NewOrderForm
 
 
-@blueprint_orders.route('/client/order', defaults={'id': None})
-@blueprint_orders.route('/client/<int:id>/order')
+@blueprint_orders.route('/client/orders', defaults={'id': None})
+@blueprint_orders.route('/client/<int:id>/orders')
 @login_required
 def listing_orders_of(id):
     page = request.args.get('page', 1, type=int)
@@ -19,15 +18,18 @@ def listing_orders_of(id):
         return render_template('order/list.html', orders=orders)
 
 
-@blueprint_orders.route('/client/order/new', defaults={'id': None})
+@blueprint_orders.route('/order/new', defaults={'id': None})
 @blueprint_orders.route('/client/<int:id>/order/new')
 @login_required
 def new_order(id):
-    form = NewOrderForm()
+    if id is None:
+        # Creating a list of tuples for conviniense
+        clients = [(client.name) for client in Client.query.order_by(Client.name).all()]
+    else:
+        clients = [(client.name) for client in Client.query.filter_by(id=id).one()]
+    form = NewOrderForm(clients)
     if form.validate_on_submit():
         return redirect(url_for('blueprint_orders.listing_orders_of'))
-    else:
-        return redirect(url_for('blueprint_orders.new_order'))
     return render_template('order/new.html', form=form)
 
 
@@ -38,7 +40,7 @@ def update_order(id):
 
 @blueprint_orders.route('/order/search', methods=["GET", 'POST'])
 def search_order():
-    form = SearchOrderForm()
+    form = SearchOrderForm(Client.query.order_by(Client.name).all())
     if form.validate_on_submit():
         pass
     else:

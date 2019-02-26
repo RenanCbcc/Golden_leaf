@@ -27,8 +27,8 @@ def create_app(config_class):
     from app.clerk.routes import blueprint_clerks
     app.register_blueprint(blueprint_clerks)
 
-    from app.client.routes import blueprint_clients
-    app.register_blueprint(blueprint_clients)
+    from app.client.routes import blueprint_client
+    app.register_blueprint(blueprint_client)
 
     from app.product.routes import blueprint_products
     app.register_blueprint(blueprint_products)
