@@ -234,9 +234,10 @@ class Product(db.Model):
 
     __table_args__ = (CheckConstraint(price >= 0.00, name='unit_cost_positive'),)
 
-    def __init__(self, title, name, price, code, is_available=True):
-        self.title = title
-        self.name = name
+    def __init__(self, category, brand, description, price, code, is_available=True):
+        self.category = category  # This field is 'virtual' and was declared in Category as a backref
+        self.brand = brand
+        self.description = description
         self.price = price
         self.is_available = is_available
         self.code = code

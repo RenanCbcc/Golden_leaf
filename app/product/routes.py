@@ -10,6 +10,7 @@ def listing_products():
     page = request.args.get('page', 1, type=int)
     # products = Product.query.order_by(Product.brand, Product.description).paginate(page=page, per_page=10)
     # Avoiding the N+1 problem by querying first the category
+    # TODO function is showing categories without products
     all_products_by_category = Category.query.order_by(Category.title).paginate(page=page, per_page=10)
     return render_template('product/list.html', all_products=all_products_by_category)
 
@@ -18,8 +19,12 @@ def listing_products():
 @login_required
 def create_product():
     form = NewProductForm()
+    form.category.choices = [(category.id, category.title) for category in
+                             Category.query.order_by(Category.title).all()]
+
     if form.validate_on_submit():
-        db.session.add(Product(form.brand.data,
+        category = Category.query.filter_by(id=form.category.data).one()
+        db.session.add(Product(category, form.brand.data,
                                form.descriptio.data,
                                form.price.data,
                                form.code.data))

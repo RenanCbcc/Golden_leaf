@@ -19,7 +19,7 @@
                 {% for category in all_products.items %}
                 <tr>
                     <td>{{ category.title }}</td>
-                    {% for product in category.products.all() %}
+                    {% for product in category.products %}
                     <td>{{ product.brand }}</td>
                     <td>{{ product.description }}</td>
                     <td>{{ product.price }}</td>
@@ -46,9 +46,9 @@
                 </tbody>
             </table>
 
-            {% for page_number in products.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+            {% for page_number in all_products.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
             {% if page_number %}
-            {% if products.page == page_number %}
+            {% if all_products.page == page_number %}
             <a class="btn btn-info mb-4"
                href="{{ url_for('blueprint_products.listing_products',page=page_number) }}">{{ page_number }}</a>
             {% else %}
