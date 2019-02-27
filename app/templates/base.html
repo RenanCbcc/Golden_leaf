@@ -17,31 +17,32 @@
                     class="glyphicon glyphicon-leaf"></span> Palma de Ouro</a>
         </div>
         <ul class="nav navbar-nav">
-
+            <li><a class="nav-item nav-link" href="{{ url_for('blueprint_category.listing_categories') }}">Categorias</a>
+            </li>
             <li><a class="nav-item nav-link" href="{{ url_for('blueprint_products.listing_products') }}">Produtos</a>
             </li>
             <li><a class="nav-item nav-link"
                    href="{{ url_for('blueprint_client.listing_clients') }}">Clientes</a></li>
             <li><a class="nav-item nav-link"
-                   href="{{ url_for('blueprint_orders.listing_orders_of') }}">Pedidos</a></li>
+                   href="{{ url_for('blueprint_order.listing_orders_of') }}">Pedidos</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_authenticated %}
             <li>
-                <a class="nav-item nav-link" href="{{ url_for('blueprint_clerks.account') }}">
+                <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.account') }}">
                     <span class="glyphicon glyphicon-user"></span>
                     {{ current_user.name }}</a>
 
             </li>
             <li>
-                <a class="nav-item nav-link" href="{{ url_for('blueprint_clerks.logout') }}">
+                <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.logout') }}">
                     <span class="glyphicon glyphicon-log-in"></span>
                     Logout</a>
 
             </li>
 
             {% else %}
-            <li><a class="nav-item nav-link" href="{{ url_for('blueprint_clerks.login') }}">
+            <li><a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.login') }}">
                 <span class="glyphicon glyphicon-user"></span> Login</a></li>
             {% endif %}
         </ul>
@@ -68,5 +69,5 @@
     {% endblock %}
 </main>
 
-<footer class="rodape-pagina"> &copy; Renan Rosa 2018</footer>
+<footer class="rodape-pagina"> &copy; Renan Rosa 2019</footer>
 </body>

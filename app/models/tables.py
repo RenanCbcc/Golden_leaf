@@ -194,10 +194,10 @@ class Address(db.Model):
 
 
 class Category(db.Model):
-    __tablename__ = 'category'
+    __tablename__ = 'categories'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32), index=True, nullable=False)
-    products = relationship("Product",backref("category"))
+    products = relationship("Product", backref=backref("category"))
 
     def __init__(self, title):
         self.title = title
@@ -225,7 +225,7 @@ class Category(db.Model):
 class Product(db.Model):
     __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, ForeignKey('category.id'))
+    category_id = db.Column(db.Integer, ForeignKey('categories.id'))
     brand = db.Column(db.String(32), nullable=False)
     description = db.Column(db.String(128))
     price = db.Column(db.Numeric(6, 2), nullable=False)

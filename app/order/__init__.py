@@ -1,3 +1,3 @@
 from flask import Blueprint
 
-blueprint_orders = Blueprint('blueprint_orders', __name__)
+blueprint_order = Blueprint('blueprint_order', __name__)

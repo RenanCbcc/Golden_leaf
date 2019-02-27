@@ -1,5 +1,5 @@
 from flask import render_template, redirect, flash, url_for, request
-from app.models.tables import Product, db
+from app.models.tables import Product, db, Category
 from app.product import blueprint_products
 from app.product.forms import NewProductForm, SearchProductForm, UpdateProductForm
 from flask_login import login_required
@@ -8,8 +8,10 @@ from flask_login import login_required
 @blueprint_products.route('/products/list', methods=['GET'])
 def listing_products():
     page = request.args.get('page', 1, type=int)
-    products = Product.query.order_by(Product.title, Product.name).paginate(page=page, per_page=10)
-    return render_template('product/list.html', products=products)
+    # products = Product.query.order_by(Product.brand, Product.description).paginate(page=page, per_page=10)
+    # Avoiding the N+1 problem by querying first the category
+    all_products_by_category = Category.query.order_by(Category.title).paginate(page=page, per_page=10)
+    return render_template('product/list.html', all_products=all_products_by_category)
 
 
 @blueprint_products.route('/products/create', methods=['GET', 'POST'])
@@ -17,8 +19,8 @@ def listing_products():
 def create_product():
     form = NewProductForm()
     if form.validate_on_submit():
-        db.session.add(Product(form.title.data,
-                               form.name.data,
+        db.session.add(Product(form.brand.data,
+                               form.descriptio.data,
                                form.price.data,
                                form.code.data))
 
@@ -31,12 +33,12 @@ def create_product():
 def search_product():
     form = SearchProductForm()
     if form.validate_on_submit():
-        products = Product.query.filter(Product.title.like('%' + form.title.data + '%')).all()
+        products = Product.query.filter(Product.brand.like('%' + form.brand.data + '%')).all()
         if not products:
             flash('Produto algum encontrado', 'warning')
             return redirect(url_for('blueprint_products.search_product'))
         else:
-            flash('Mostrando todos os produtos com "{}" encontrados'.format(form.title.data), 'success')
+            flash('Mostrando todos os produtos com "{}" encontrados'.format(form.brand.data), 'success')
             return render_template('product/list.html', products=products)
 
     return render_template('product/search.html', form=form)
@@ -48,8 +50,8 @@ def update_product(code):
     form = UpdateProductForm()
     product = Product.query.filter_by(code=code).one()
     if form.validate_on_submit():
-        product.title = form.title.data
-        product.name = form.name.data
+        product.brand = form.brand.data
+        product.descriptio = form.descriptio.data
         product.price = form.price.data
         product.code = form.code.data
         product.is_available = form.is_available.data
@@ -57,8 +59,8 @@ def update_product(code):
         db.session.commit()
         return redirect(url_for('blueprint_products.listing_products'))
 
-    form.title.data = product.title
-    form.name.data = product.name
+    form.brand.data = product.brand
+    form.descriptio.data = product.description
     form.price.data = product.price
     form.code.data = product.code
     form.is_available.data = product.is_available

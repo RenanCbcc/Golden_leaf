@@ -2,14 +2,13 @@ from flask import current_app
 from flask import render_template, request, redirect, flash, url_for
 from flask_mail import Message
 from app import mail
-from app.clerk import blueprint_clerks
+from app.clerk import blueprint_clerk
 from app.clerk.forms import NewClerkForm, LoginForm, UpdateClerkForm, RequestResetForm, ResetPasswordForm
 from app.models.tables import Clerk, db
 from flask_login import login_user, logout_user, current_user
 
 
-
-@blueprint_clerks.route('/login', methods=['GET', 'POST'])
+@blueprint_clerk.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -22,30 +21,30 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('main.index'))
         else:
             flash('Erro, login ou senha inválidos!', 'danger')
-            return redirect(url_for('blueprint_clerks.login'))
+            return redirect(url_for('blueprint_clerk.login'))
     return render_template('clerk/login.html', form=form)
 
 
-@blueprint_clerks.route('/logout')
+@blueprint_clerk.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
 
-@blueprint_clerks.route('/clerk/account', methods=['GET', 'POST'])
+@blueprint_clerk.route('/clerk/account', methods=['GET', 'POST'])
 def account():
     form = UpdateClerkForm()
     if form.validate_on_submit():
         current_user.email = form.email.data
         db.session.commit()
         flash('Seu endereço de email foi atualizado.', 'success')
-        return redirect(url_for('blueprint_clerks.account'))
+        return redirect(url_for('blueprint_clerk.account'))
     elif request.method == 'GET':
         form.email.data = current_user.email
     return render_template('clerk/account.html', form=form)
 
 
-@blueprint_clerks.route('/clerk/new', methods=['GET', 'POST'])
+@blueprint_clerk.route('/clerk/new', methods=['GET', 'POST'])
 def new_clerk():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -55,8 +54,8 @@ def new_clerk():
                       form.cofirm_password.data)
         db.session.add(clerk)
         db.session.commit()
-        flash('Você pode fazer login agora.', 'info')
-        return redirect(url_for('blueprint_clerks.login'))
+        flash('Você foi registrado com sucesso!', 'info')
+        return redirect(url_for('blueprint_clerk.account'))
     return render_template('clerk/new.html', form=form)
 
 
@@ -71,7 +70,7 @@ def send_email(clerk):
     mail.send(msg)
 
 
-@blueprint_clerks.route('/clerk/reset_password', methods=['GET', 'POST'])
+@blueprint_clerk.route('/clerk/reset_password', methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -80,18 +79,18 @@ def reset_request():
         clerk = Clerk.query.filter_by(email=form.email.data).one()
         send_email(clerk)
         flash('Um email foi enviado com intruções para redefinir sua senha.', 'info')
-        return redirect(url_for('blueprint_clerks.login'))
+        return redirect(url_for('blueprint_clerk.login'))
     return render_template('clerk/reset_request.html', form=form)
 
 
-@blueprint_clerks.route('/clerk/reset_password/<token>', methods=['GET', 'POST'])
+@blueprint_clerk.route('/clerk/reset_password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     clerk = Clerk.verify_token(token)
     if clerk is None:
         flash('O token recebido é inválido ou está expirado.', 'warning')
-        return redirect(url_for('blueprint_clerks.reset_request'))
+        return redirect(url_for('blueprint_clerk.reset_request'))
     form = ResetPasswordForm()
     if form.is_submitted():
         clerk.password = form.password.data
