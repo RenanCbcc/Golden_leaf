@@ -1,8 +1,8 @@
 from flask import render_template, redirect, flash, url_for, request
 from app.client import blueprint_client
-from app.models.tables import Client, Address, db
+from app.models.tables import Client, Address, db, Category
 from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
-from flask_login import login_required, current_user
+from flask_login import login_required
 
 from app.order.forms import NewOrderForm
 
@@ -24,22 +24,25 @@ def new_client():
                               Address(form.street.data, form.address_detail.data, form.zip_code.data),
                               form.notifiable.data))
         db.session.commit()
-        return redirect(url_for('blueprint_clients.listing_clients'))
+        return redirect(url_for('blueprint_client.listing_clients'))
 
     return render_template('client/new.html', form=form)
 
 
-@blueprint_client.route('/client/<int:id>/order/new')
+@blueprint_client.route('/client/<int:id>/order/new', methods=['GET', 'POST'])
 @login_required
 def new_order(id):
     client = Client.query.filter_by(id=id).one()
     form = NewOrderForm()
+    categories = Category.query.order_by(Category.title)
+    form.category.choices = [(category.id, category.title) for category in categories.all()]
+
     if form.validate_on_submit():
-        return redirect(url_for('blueprint_orders.listing_orders_of'))
+        return redirect(url_for('blueprint_order.listing_orders_of'))
 
     elif request.method == 'GET':
         form.client.data = client.name
-        form.clerk.data = current_user
+
     return render_template('order/new.html', form=form)
 
 
@@ -60,7 +63,7 @@ def update_client(id):
 
         db.session.add(client)
         db.session.commit()
-        return redirect(url_for('blueprint_clients.listing_clients'))
+        return redirect(url_for('blueprint_client.listing_clients'))
     elif request.method == 'GET':
         form.name.data = client.name
         form.phone_number.data = client.phone_number
@@ -82,7 +85,7 @@ def search_client():
         clients = Client.query.filter(Client.name.like('%' + form.name.data + '%')).all()
         if not clients:
             flash('Nenhum cliente {} encontrado'.format(form.name.data), 'warning')
-            return redirect(url_for('blueprint_clients.search_client'))
+            return redirect(url_for('blueprint_client.search_client'))
         else:
             flash('Mostrando cliente(s) encontrado(s) com nome: {}'.format(form.name.data), 'success')
             return render_template('client/list.html', clients=clients)

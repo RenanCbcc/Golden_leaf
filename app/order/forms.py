@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField, DateField, SelectField, DecimalField
+from wtforms import StringField, SubmitField, DateField, SelectField, DecimalField
 from wtforms.validators import DataRequired, NumberRange
 
 
@@ -20,12 +20,9 @@ class SearchOrderForm(FlaskForm):
 
 
 class NewOrderForm(FlaskForm):
-    client = StringField("Cliente")
-    clerk = StringField("Atendente")
-    category = SelectField("Categoria")
-    title = StringField("Produto")
-    name = StringField("Nome")
+    client = StringField("Cliente", render_kw={'disabled': ''})
+    category = SelectField('Categorias', coerce=int, choices=[])
+    product = SelectField('Produtos', coerce=int, choices=[])
     quantity = DecimalField("Quantidade", validators=[DataRequired(), NumberRange(min=0.01, max=100.0)])
-    status = SelectField("Status", choices=['Pago', 'Pendente'])
-    date = DateField("Data")
+    status = SelectField("Status", choices=[('pg', 'PAGO'), ('pd', 'PENDENTE')])
     submit = SubmitField('Salvar')

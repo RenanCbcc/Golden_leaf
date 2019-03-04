@@ -26,9 +26,10 @@ class SearchClientForm(FlaskForm):
 
 
 class UpdateClientForm(FlaskForm):
-    name = StringField('Nome', validators=[DataRequired()])
+    name = StringField('Nome', render_kw={'disabled': ''})
     phone_number = StringField('Número do celular?',
                                validators=[DataRequired(), Length(min=11, max=11), Regexp('^[0-9]*$')])
+    identification = StringField('C.P.F?', render_kw={'disabled': ''})
     zip_code = StringField('C.E.P?', validators=[DataRequired(), Length(min=8, max=8), Regexp('^[0-9]*$')])
     street = StringField('Nome da rua', validators=[DataRequired()])
     address_detail = StringField('Complemento', validators=[DataRequired()])

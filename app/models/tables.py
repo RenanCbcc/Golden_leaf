@@ -245,8 +245,8 @@ class Product(db.Model):
     def to_json(self):
         json_product = {
             'id': self.id,
-            'title': self.title,
-            'name': self.name,
+            'brand': self.brand,
+            'description': self.description,
             'price': str(self.price),
             'is_available': self.is_available,
             'code': self.code
@@ -274,7 +274,7 @@ class Product(db.Model):
         return self.code == other.code
 
     def __repr__(self):
-        return '<Product %r %r %r %r>' % (self.title, self.name, self.price, self.is_available)
+        return '<Product %r %r %r %r>' % (self.brand, self.description, self.price, self.is_available)
 
 
 class Item(db.Model):

@@ -8,5 +8,30 @@
         {{ form.hidden_tag() }}
         {{ wtf.quick_form(form) }}
     </form>
+
+    <script>
+        var category_select = document.getElementById("category");
+        var product_select = document.getElementById("product");
+        category_select.onchange = function()  {
+
+            category_id = category_select.value;
+
+
+            fetch('/product/category/' + category_id).then(function(response) {
+                response.json().then(function(data) {
+                    var option = '';
+                    for (var product of data.products) {
+                        option += '<option value="' + product.id + '">' + product.description + '</option>';
+                    }
+                    product_select.innerHTML = option;
+                })
+
+            });
+        }
+
+
+
+
+    </script>
 </div>
 {% endblock %}
