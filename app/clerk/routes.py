@@ -1,3 +1,5 @@
+import os, secrets
+from PIL import Image
 from flask import current_app
 from flask import render_template, request, redirect, flash, url_for
 from flask_mail import Message
@@ -35,13 +37,17 @@ def logout():
 def account():
     form = UpdateClerkForm()
     if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
         current_user.email = form.email.data
         db.session.commit()
-        flash('Seu endereço de email foi atualizado.', 'success')
+        flash('Sua conta foi atualizada com sucesso.', 'success')
         return redirect(url_for('blueprint_clerk.account'))
     elif request.method == 'GET':
         form.email.data = current_user.email
-    return render_template('clerk/account.html', form=form)
+    image_file = url_for('static', filename='profile_pic/' + current_user.image_file)
+    return render_template('clerk/account.html', form=form, image_file=image_file)
 
 
 @blueprint_clerk.route('/clerk/new', methods=['GET', 'POST'])
@@ -97,3 +103,18 @@ def reset_token(token):
         db.session.commit()
         flash('Sua senha foi atualizada! Você pode agora fazer log in.', 'success')
     return render_template('clerk/reset_token.html', form=form)
+
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(16)
+    # I do not want the file file name, so I use _ instead
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_filename = random_hex + f_ext
+    picture_path = os.path.join(current_app.root_path, 'static/profile_pic', picture_filename)
+
+    output_size = (125, 125)
+    image = Image.open(form_picture)
+    image.thumbnail(output_size)
+    # Saves the picture in file system
+    image.save(picture_path)
+    return picture_filename

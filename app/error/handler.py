@@ -1,13 +1,13 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import render_template
 
-errors = Blueprint('errors', __name__)
+from app.error import blueprint_error
 
 
-@errors.app_errorhandler(404)
+@blueprint_error.app_errorhandler(404)
 def page_not_found(error):
     return render_template('error/404.html'), 404
 
 
-@errors.app_errorhandler(500)
+@blueprint_error.app_errorhandler(500)
 def internal_server_error(error):
     return render_template('error/500.html'), 500

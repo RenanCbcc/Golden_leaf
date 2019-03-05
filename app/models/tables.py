@@ -38,12 +38,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False, index=True)
     phone_number = db.Column(db.String(9), nullable=False)
-    # TODO Does this field make sense to clerk?
-    status = db.Column(db.Boolean)
 
-    def __init__(self, name, phone_number, status):
+    def __init__(self, name, phone_number):
         self.name = name
-        self.status = status
         self.phone_number = phone_number
 
 
@@ -54,13 +51,15 @@ class Client(User):
     notifiable = db.Column(db.Boolean)
     address_id = db.Column(db.Integer, ForeignKey('addresses.id'))
     address = db.relationship("Address", back_populates="dweller", lazy=False)
+    status = db.Column(db.Boolean)
     orders = relationship("Order", back_populates="client")
 
     def __init__(self, name, phone_number, identification, address, notifiable, status=True):
-        super().__init__(name, phone_number, status)
+        super().__init__(name, phone_number)
         self.identification = identification
         self.notifiable = notifiable
         self.address = address
+        self.status = status
 
     def to_json(self):
         json_client = {
@@ -91,6 +90,7 @@ class Client(User):
 
 class Clerk(User, UserMixin):
     __tablename__ = 'clerks'
+    image_file = db.Column(db.String(24), default='default.jpg')
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128), nullable=False)
     orders = relationship("Order", back_populates="clerk")
@@ -99,8 +99,8 @@ class Clerk(User, UserMixin):
         'concrete': True
     }
 
-    def __init__(self, name, phone_number, email, password, status=True):
-        super().__init__(name, phone_number, status)
+    def __init__(self, name, phone_number, email, password):
+        super().__init__(name, phone_number)
         self.email = email
         self.password = password
 
@@ -134,7 +134,7 @@ class Clerk(User, UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '<Atendente %r %r %r>' % (self.name, self.email, self.status)
+        return '<Atendente %r %r>' % (self.name, self.email)
 
 
 class Order(db.Model):
@@ -227,7 +227,8 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_id = db.Column(db.Integer, ForeignKey('categories.id'))
     brand = db.Column(db.String(32), nullable=False)
-    description = db.Column(db.String(128))
+    description = db.Column(db.String(64))
+    image_file = db.Column(db.String(32), default='default.jpg')
     price = db.Column(db.Numeric(6, 2), nullable=False)
     is_available = db.Column(db.Boolean, nullable=False)
     code = db.Column(db.String(13), unique=True, nullable=False)

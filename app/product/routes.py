@@ -1,11 +1,11 @@
 from flask import render_template, redirect, flash, url_for, request, jsonify
 from app.models.tables import Product, db, Category
-from app.product import blueprint_products
+from app.product import blueprint_product
 from app.product.forms import NewProductForm, SearchProductForm, UpdateProductForm
 from flask_login import login_required
 
 
-@blueprint_products.route('/product/list', methods=['GET'])
+@blueprint_product.route('/product/list', methods=['GET'])
 def listing_products():
     page = request.args.get('page', 1, type=int)
     # products = Product.query.order_by(Product.brand, Product.description).paginate(page=page, per_page=10)
@@ -15,7 +15,7 @@ def listing_products():
     return render_template('product/list.html', all_products=all_products_by_category)
 
 
-@blueprint_products.route('/product/create', methods=['GET', 'POST'])
+@blueprint_product.route('/product/create', methods=['GET', 'POST'])
 @login_required
 def create_product():
     form = NewProductForm()
@@ -25,7 +25,7 @@ def create_product():
     if form.validate_on_submit():
         category = Category.query.filter_by(id=form.category.data).one()
         db.session.add(Product(category, form.brand.data,
-                               form.descriptio.data,
+                               form.description.data,
                                form.price.data,
                                form.code.data))
 
@@ -34,7 +34,7 @@ def create_product():
     return render_template('product/new.html', form=form)
 
 
-@blueprint_products.route('/product/search', methods=["GET", 'POST'])
+@blueprint_product.route('/product/search', methods=["GET", 'POST'])
 def search_product():
     form = SearchProductForm()
     if form.validate_on_submit():
@@ -49,7 +49,7 @@ def search_product():
     return render_template('product/search.html', form=form)
 
 
-@blueprint_products.route('/product/<string:code>/update', methods=["GET", 'POST'])
+@blueprint_product.route('/product/<string:code>/update', methods=["GET", 'POST'])
 @login_required
 def update_product(code):
     form = UpdateProductForm()
@@ -62,7 +62,7 @@ def update_product(code):
         product.is_available = form.is_available.data
         db.session.add(product)
         db.session.commit()
-        return redirect(url_for('blueprint_products.listing_products'))
+        return redirect(url_for('blueprint_product.listing_products'))
 
     form.brand.data = product.brand
     form.descriptio.data = product.description
@@ -72,7 +72,7 @@ def update_product(code):
     return render_template('product/edit.html', form=form)
 
 
-@blueprint_products.route('/product/category/<id>')
+@blueprint_product.route('/product/category/<id>')
 def product(id):
     products = Product.query.filter_by(category_id=id).all()
     print(products)

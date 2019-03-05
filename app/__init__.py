@@ -20,8 +20,8 @@ def create_app(config_class):
     login_manager.init_app(app)
     mail.init_app(app)
 
-    from app.error.handler import errors
-    app.register_blueprint(errors)
+    from app.error.handler import blueprint_error
+    app.register_blueprint(blueprint_error)
 
     from app.clerk.routes import blueprint_clerk
     app.register_blueprint(blueprint_clerk)
@@ -32,8 +32,8 @@ def create_app(config_class):
     from app.category.routes import blueprint_category
     app.register_blueprint(blueprint_category)
 
-    from app.product.routes import blueprint_products
-    app.register_blueprint(blueprint_products)
+    from app.product.routes import blueprint_product
+    app.register_blueprint(blueprint_product)
 
     from app.order.routes import blueprint_order
     app.register_blueprint(blueprint_order)
