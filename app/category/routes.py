@@ -1,6 +1,6 @@
 from app import db
 from app.category import blueprint_category
-from flask import render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, request, flash, jsonify
 from app.category.forms import CategoryForm
 from app.models.tables import Category
 
@@ -38,7 +38,7 @@ def search_category():
     return render_template('category/search.html', form=form)
 
 
-@blueprint_category.route("/category/<int:id>/update", methods=['GET', 'POST'])
+@blueprint_category.route('/category/<int:id>/update', methods=['GET', 'POST'])
 def update_category(id):
     form = CategoryForm()
     category = Category.query.filter_by(id=id).one()
@@ -50,3 +50,11 @@ def update_category(id):
     elif request.method == 'GET':
         form.title.data = category.title
     return render_template('category/edit.html', form=form)
+
+
+@blueprint_category.route('/category/<int:id>/product')
+def products_of(id):
+    category = Category.query.filter_by(id=id).one()
+    page = request.args.get('page', 1, type=int)
+    products = category.products.paginate(page, per_page=10)
+    return render_template('category/productsof.html', category=category, all_products=products)

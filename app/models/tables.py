@@ -193,35 +193,6 @@ class Address(db.Model):
         return "Rua: {}, {}".format(self.street, self.detail)
 
 
-class Category(db.Model):
-    __tablename__ = 'categories'
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(32), index=True, nullable=False)
-    products = relationship("Product", backref=backref("category"))
-
-    def __init__(self, title):
-        self.title = title
-
-    def to_json(self):
-        json_product = {
-            'id': self.id,
-            'title': self.title
-        }
-        return json_product
-
-    @staticmethod
-    def from_json(json_product):
-        title = json_product.get('title')
-
-        if title is None or title == '':
-            raise ValidationError('Categoria tem com título inválido')
-
-        return Category(title)
-
-    def __repr__(self):
-        return '<Category %r>' % self.title
-
-
 class Product(db.Model):
     __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
@@ -276,6 +247,37 @@ class Product(db.Model):
 
     def __repr__(self):
         return '<Product %r %r %r %r>' % (self.brand, self.description, self.price, self.is_available)
+
+
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(32), index=True, nullable=False)
+    products = db.relationship('Product', foreign_keys=[Product.category_id],
+                               backref=db.backref('category', lazy='joined'),
+                               lazy='dynamic')
+
+    def __init__(self, title):
+        self.title = title
+
+    def to_json(self):
+        json_product = {
+            'id': self.id,
+            'title': self.title
+        }
+        return json_product
+
+    @staticmethod
+    def from_json(json_product):
+        title = json_product.get('title')
+
+        if title is None or title == '':
+            raise ValidationError('Categoria tem com título inválido')
+
+        return Category(title)
+
+    def __repr__(self):
+        return '<Category %r>' % self.title
 
 
 class Item(db.Model):

@@ -2,29 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/api/category.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/category/productsof.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/categories.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/clerk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/clerks.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/clients.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/orders.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/products.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/product.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/category/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/category/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clerk/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/clerk/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clerk/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/clerk/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/error/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/error/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/error/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/error/handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/category/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/category/routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/product/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/product/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/product/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/product/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/product/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/product/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/category/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/category/list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/clerk/account.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/clerk/account.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/order/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/product/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/product/edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/product/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/product/list.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -58,74 +42,42 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/api/product.py">
+        <entry file="file://$PROJECT_DIR$/app/templates/category/list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#43#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="100">
+              <caret line="30" column="26" lean-forward="true" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/clerk/account.html">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/app/templates/category/productsof.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-68">
+              <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/category/routes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="117">
+              <caret line="58" column="28" selection-start-line="58" selection-start-column="28" selection-end-line="58" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/clerk/routes.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="118" column="20" selection-start-line="118" selection-start-column="20" selection-end-line="118" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/base.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="68" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="68" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/run.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="102" selection-start-line="13" selection-start-column="86" selection-end-line="13" selection-end-column="102" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/tables.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="823">
-              <caret line="102" selection-start-line="102" selection-end-line="102" />
+            <state relative-caret-position="109">
+              <caret line="257" column="24" selection-start-line="257" selection-start-column="24" selection-end-line="257" selection-end-column="24" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/clerk/forms.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="63" selection-start-line="63" selection-end-line="63" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -136,14 +88,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>create_product</find>
       <find>ValidationError</find>
       <find>new_order</find>
       <find>listing_orders_of</find>
@@ -173,6 +124,7 @@
       <find>blueprint_products.create_product</find>
       <find>blueprint_products.update_product</find>
       <find>profile_pic</find>
+      <find>relationship</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -181,7 +133,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/templates/index.html" />
         <option value="$PROJECT_DIR$/app/templates/clerk/reset_request.html" />
         <option value="$PROJECT_DIR$/app/templates/clerk/reset_token.html" />
         <option value="$PROJECT_DIR$/app/templates/error/400.html" />
@@ -205,8 +156,6 @@
         <option value="$PROJECT_DIR$/app/category/__init__.py" />
         <option value="$PROJECT_DIR$/app/clerk/__init__.py" />
         <option value="$PROJECT_DIR$/app/templates/clerk/login.html" />
-        <option value="$PROJECT_DIR$/app/templates/category/list.html" />
-        <option value="$PROJECT_DIR$/app/category/routes.py" />
         <option value="$PROJECT_DIR$/app/templates/client/list.html" />
         <option value="$PROJECT_DIR$/app/client/forms.py" />
         <option value="$PROJECT_DIR$/app/client/routes.py" />
@@ -224,14 +173,17 @@
         <option value="$PROJECT_DIR$/app/__init__.py" />
         <option value="$PROJECT_DIR$/app/templates/base.html" />
         <option value="$PROJECT_DIR$/app/templates/product/list.html" />
-        <option value="$PROJECT_DIR$/app/product/routes.py" />
         <option value="$PROJECT_DIR$/app/api/category.py" />
         <option value="$PROJECT_DIR$/app/api/__init__.py" />
         <option value="$PROJECT_DIR$/app/templates/product/edit.html" />
         <option value="$PROJECT_DIR$/app/clerk/forms.py" />
-        <option value="$PROJECT_DIR$/app/models/tables.py" />
-        <option value="$PROJECT_DIR$/app/templates/clerk/account.html" />
         <option value="$PROJECT_DIR$/app/clerk/routes.py" />
+        <option value="$PROJECT_DIR$/app/templates/clerk/account.html" />
+        <option value="$PROJECT_DIR$/app/product/routes.py" />
+        <option value="$PROJECT_DIR$/app/templates/category/productlist.html" />
+        <option value="$PROJECT_DIR$/app/templates/category/list.html" />
+        <option value="$PROJECT_DIR$/app/category/routes.py" />
+        <option value="$PROJECT_DIR$/app/models/tables.py" />
       </list>
     </option>
   </component>
@@ -263,31 +215,6 @@
               <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
               <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="clerk" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="clerk" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="configuration" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="product" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -295,6 +222,20 @@
               <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="category" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Golden_leaf" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Golden_leaf" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="product" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -309,19 +250,19 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/static" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/app/templates/clerk" />
+      <recent name="$PROJECT_DIR$/app/models" />
+      <recent name="$PROJECT_DIR$/app" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/templates/category" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/app/templates/order" />
       <recent name="$PROJECT_DIR$/app/clerk" />
       <recent name="$PROJECT_DIR$/app/products" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/app/templates/clerk" />
-      <recent name="$PROJECT_DIR$/app/models" />
-      <recent name="$PROJECT_DIR$/app" />
-      <recent name="$PROJECT_DIR$/app/configuration" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -687,7 +628,14 @@
       <option name="project" value="LOCAL" />
       <updated>1551736944802</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Clerk account and Profile Picture implemented">
+      <created>1551820755024</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1551820755024</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -696,7 +644,7 @@
   <component name="ToolWindowManager">
     <frame x="43" y="27" width="1323" height="741" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2723077" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2723077" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -710,7 +658,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50039154" side_tool="true" weight="0.45785123" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.37190083" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.5173554" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.3289256" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -747,8 +695,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Implementing flask forms." />
-    <MESSAGE value="Flask forms implemented." />
     <MESSAGE value="Trying to solve page_not_found() error." />
     <MESSAGE value="Implementing flask-login." />
     <MESSAGE value="Login with flask-login implemented." />
@@ -772,30 +718,11 @@
     <MESSAGE value="Category routes implemented." />
     <MESSAGE value="Product route improved." />
     <MESSAGE value=" Dynamic select field for product implemented." />
-    <option name="LAST_COMMIT_MESSAGE" value=" Dynamic select field for product implemented." />
+    <MESSAGE value="Clerk account and Profile Picture implemented" />
+    <MESSAGE value="Pagination for all products within a category implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Pagination for all products within a category implemented." />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/werkzeug/routing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="312" column="6" selection-start-line="312" selection-start-column="6" selection-end-line="312" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/client/edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/client/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/category/new.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -856,23 +783,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="55" selection-start-line="5" selection-start-column="55" selection-end-line="5" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/category/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="33" column="13" lean-forward="true" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/category/list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="29" lean-forward="true" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -1031,23 +941,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/product/list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="66" column="78" lean-forward="true" selection-start-line="66" selection-start-column="78" selection-end-line="66" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/product/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" />
-          <folding>
-            <element signature="e#0#77#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/api/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1090,6 +983,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/werkzeug/security.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="203" column="4" selection-start-line="203" selection-start-column="4" selection-end-line="203" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/clerk/account.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="21" lean-forward="true" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/api/product.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -1100,30 +1007,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/werkzeug/security.py">
+    <entry file="file://$PROJECT_DIR$/app/clerk/routes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="203" column="4" selection-start-line="203" selection-start-column="4" selection-end-line="203" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/clerk/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="63" selection-start-line="63" selection-end-line="63" />
+        <state relative-caret-position="205">
+          <caret line="118" column="20" selection-start-line="118" selection-start-column="20" selection-end-line="118" selection-end-column="20" />
           <folding>
-            <element signature="e#0#36#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/tables.py">
+    <entry file="file://$PROJECT_DIR$/app/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="823">
-          <caret line="102" selection-start-line="102" selection-end-line="102" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="90">
+          <caret line="6" column="68" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="68" />
         </state>
       </provider>
     </entry>
@@ -1137,25 +1034,76 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/static/profile_pic/a6ad12356c9259104053c621f45083d5.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/base.html">
+    <entry file="file://$PROJECT_DIR$/app/clerk/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="68" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="68" />
+        <state relative-caret-position="223">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/clerk/account.html">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/app/static/profile_pic/9900146acecff9f2879a44699942b203.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/clerk/routes.py">
+    <entry file="file://$PROJECT_DIR$/app/static/profile_pic/a6ad12356c9259104053c621f45083d5.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/product/routes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="118" column="20" selection-start-line="118" selection-start-column="20" selection-end-line="118" selection-end-column="20" />
+        <state relative-caret-position="180">
+          <caret line="13" column="102" lean-forward="true" selection-start-line="13" selection-start-column="91" selection-end-line="13" selection-end-column="102" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#77#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/flask_sqlalchemy/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="429" column="8" selection-start-line="429" selection-start-column="8" selection-end-line="429" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/product/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="59" lean-forward="true" selection-start-line="4" selection-start-column="59" selection-end-line="4" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/category/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="30" column="26" lean-forward="true" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/category/productsof.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-68">
+          <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/category/routes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="58" column="28" selection-start-line="58" selection-start-column="28" selection-end-line="58" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/tables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="109">
+          <caret line="257" column="24" selection-start-line="257" selection-start-column="24" selection-end-line="257" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>

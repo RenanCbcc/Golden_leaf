@@ -30,7 +30,7 @@ def create_product():
                                form.code.data))
 
         db.session.commit()
-        return redirect(url_for('blueprint_products.listing_products'))
+        return redirect(url_for('blueprint_product.listing_products'))
     return render_template('product/new.html', form=form)
 
 
@@ -41,7 +41,7 @@ def search_product():
         products = Product.query.filter(Product.brand.like('%' + form.brand.data + '%')).all()
         if not products:
             flash('Produto algum encontrado', 'warning')
-            return redirect(url_for('blueprint_products.search_product'))
+            return redirect(url_for('blueprint_product.search_product'))
         else:
             flash('Mostrando todos os produtos com "{}" encontrados'.format(form.brand.data), 'success')
             return render_template('product/list.html', products=products)
