@@ -1,4 +1,8 @@
-from flask import render_template, redirect, flash, url_for, request, jsonify
+import os
+import secrets
+
+from PIL import Image
+from flask import render_template, redirect, flash, url_for, request, jsonify, current_app
 from app.models.tables import Product, db, Category
 from app.product import blueprint_product
 from app.product.forms import NewProductForm, SearchProductForm, UpdateProductForm
@@ -8,11 +12,8 @@ from flask_login import login_required
 @blueprint_product.route('/product/list', methods=['GET'])
 def listing_products():
     page = request.args.get('page', 1, type=int)
-    # products = Product.query.order_by(Product.brand, Product.description).paginate(page=page, per_page=10)
-    # Avoiding the N+1 problem by querying first the category
-    # TODO function is showing categories without products
-    all_products_by_category = Category.query.order_by(Category.title).paginate(page=page, per_page=10)
-    return render_template('product/list.html', all_products=all_products_by_category)
+    products = Product.query.order_by(Product.brand, Product.description).paginate(page=page, per_page=10)
+    return render_template('product/list.html', all_products=products)
 
 
 @blueprint_product.route('/product/create', methods=['GET', 'POST'])
@@ -55,21 +56,27 @@ def update_product(code):
     form = UpdateProductForm()
     product = Product.query.filter_by(code=code).one()
     if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            product.image_file = picture_file
+            print(picture_file)
         product.brand = form.brand.data
-        product.descriptio = form.descriptio.data
+        product.description = form.description.data
         product.price = form.price.data
         product.code = form.code.data
         product.is_available = form.is_available.data
         db.session.add(product)
         db.session.commit()
-        return redirect(url_for('blueprint_product.listing_products'))
-
-    form.brand.data = product.brand
-    form.descriptio.data = product.description
-    form.price.data = product.price
-    form.code.data = product.code
-    form.is_available.data = product.is_available
-    return render_template('product/edit.html', form=form)
+        flash('Categoria atualizada com sucesso.', 'success')
+        return redirect(url_for('blueprint_product.update_product', code=product.code))
+    elif request.method == 'GET':
+        form.brand.data = product.brand
+        form.description.data = product.description
+        form.price.data = product.price
+        form.code.data = product.code
+        form.is_available.data = product.is_available
+    image_file = url_for('static', filename='product_pic/' + product.image_file)
+    return render_template('product/edit.html', form=form, image_file=image_file)
 
 
 @blueprint_product.route('/product/category/<id>')
@@ -78,3 +85,18 @@ def product(id):
     print(products)
     response = jsonify({'products': [{'id': product.id, 'description': product.description} for product in products]})
     return response
+
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(16)
+    # I do not want the file file name, so I use _ instead
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_filename = random_hex + f_ext
+    picture_path = os.path.join(current_app.root_path, 'static/product_pic', picture_filename)
+
+    output_size = (320, 320)
+    image = Image.open(form_picture)
+    image.thumbnail(output_size)
+    # Saves the picture in file system
+    image.save(picture_path)
+    return picture_filename

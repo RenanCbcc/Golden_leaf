@@ -2,7 +2,7 @@ from app import db
 from app.category import blueprint_category
 from flask import render_template, redirect, url_for, request, flash, jsonify
 from app.category.forms import CategoryForm
-from app.models.tables import Category
+from app.models.tables import Category, Product
 
 
 @blueprint_category.route("/category/list", methods=['GET'])
@@ -56,5 +56,5 @@ def update_category(id):
 def products_of(id):
     category = Category.query.filter_by(id=id).one()
     page = request.args.get('page', 1, type=int)
-    products = category.products.paginate(page, per_page=10)
+    products = Product.query.filter_by(category=category).order_by(Product.description).paginate(page, per_page=10)
     return render_template('category/productsof.html', category=category, all_products=products)

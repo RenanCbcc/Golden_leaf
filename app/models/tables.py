@@ -196,13 +196,13 @@ class Address(db.Model):
 class Product(db.Model):
     __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, ForeignKey('categories.id'))
     brand = db.Column(db.String(32), nullable=False)
     description = db.Column(db.String(64))
     image_file = db.Column(db.String(32), default='default.jpg')
     price = db.Column(db.Numeric(6, 2), nullable=False)
     is_available = db.Column(db.Boolean, nullable=False)
     code = db.Column(db.String(13), unique=True, nullable=False)
+    category_id = db.Column(db.Integer, ForeignKey('categories.id'), nullable=False)
 
     __table_args__ = (CheckConstraint(price >= 0.00, name='unit_cost_positive'),)
 
@@ -253,9 +253,7 @@ class Category(db.Model):
     __tablename__ = 'categories'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32), index=True, nullable=False)
-    products = db.relationship('Product', foreign_keys=[Product.category_id],
-                               backref=db.backref('category', lazy='joined'),
-                               lazy='dynamic')
+    products = db.relationship('Product', backref='category', lazy=True)
 
     def __init__(self, title):
         self.title = title
