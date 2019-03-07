@@ -41,7 +41,7 @@ def search_category():
 @blueprint_category.route('/category/<int:id>/update', methods=['GET', 'POST'])
 def update_category(id):
     form = CategoryForm()
-    category = Category.query.filter_by(id=id).one()
+    category = Category.query.get_or_404(id)
     if form.validate_on_submit():
         category.title = form.title.data
         db.session.add(category)
@@ -54,7 +54,7 @@ def update_category(id):
 
 @blueprint_category.route('/category/<int:id>/product')
 def products_of(id):
-    category = Category.query.filter_by(id=id).one()
+    category = Category.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     products = Product.query.filter_by(category=category).order_by(Product.description).paginate(page, per_page=10)
     return render_template('category/productsof.html', category=category, all_products=products)

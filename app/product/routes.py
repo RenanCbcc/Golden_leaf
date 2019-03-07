@@ -9,10 +9,19 @@ from app.product.forms import NewProductForm, SearchProductForm, UpdateProductFo
 from flask_login import login_required
 
 
+
 @blueprint_product.route('/product/list', methods=['GET'])
 def listing_products():
     page = request.args.get('page', 1, type=int)
-    products = Product.query.order_by(Product.brand, Product.description).paginate(page=page, per_page=10)
+    products = Product.query.order_by(Product.description).paginate(page=page, per_page=10)
+    return render_template('product/list.html', all_products=products)
+
+
+@blueprint_product.route('/product/available/list', methods=['GET'])
+def available_products():
+    page = request.args.get('page', 1, type=int)
+    products = Product.query.filter_by(is_available=False).order_by(Product.description).paginate(
+        page=page, per_page=10)
     return render_template('product/list.html', all_products=products)
 
 
