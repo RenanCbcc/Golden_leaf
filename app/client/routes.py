@@ -1,4 +1,3 @@
-import nexmo
 from flask import render_template, redirect, flash, url_for, request
 from app.client import blueprint_client
 from app.models.tables import Client, Address, db, Category
