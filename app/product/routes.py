@@ -9,7 +9,6 @@ from app.product.forms import NewProductForm, SearchProductForm, UpdateProductFo
 from flask_login import login_required
 
 
-
 @blueprint_product.route('/product/list', methods=['GET'])
 def listing_products():
     page = request.args.get('page', 1, type=int)
@@ -27,7 +26,7 @@ def available_products():
 
 @blueprint_product.route('/product/create', methods=['GET', 'POST'])
 @login_required
-def create_product():
+def new_product():
     form = NewProductForm()
     form.category.choices = [(category.id, category.title) for category in
                              Category.query.order_by(Category.title).all()]
@@ -36,7 +35,7 @@ def create_product():
         category = Category.query.filter_by(id=form.category.data).one()
         db.session.add(Product(category, form.brand.data,
                                form.description.data,
-                               form.price.data,
+                               form.unit_cost.data,
                                form.code.data))
 
         db.session.commit()
@@ -71,7 +70,7 @@ def update_product(code):
             print(picture_file)
         product.brand = form.brand.data
         product.description = form.description.data
-        product.price = form.price.data
+        product.unit_cost = form.unit_cost.data
         product.code = form.code.data
         product.is_available = form.is_available.data
         db.session.add(product)
@@ -81,7 +80,7 @@ def update_product(code):
     elif request.method == 'GET':
         form.brand.data = product.brand
         form.description.data = product.description
-        form.price.data = product.price
+        form.unit_cost.data = product.unit_cost
         form.code.data = product.code
         form.is_available.data = product.is_available
     image_file = url_for('static', filename='product_pic/' + product.image_file)

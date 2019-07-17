@@ -27,7 +27,7 @@ def new_client():
 
     return render_template('client/new.html', form=form)
 
-
+"""
 def send_message():
     sender = nexmo.Client(key='mykey',secret='mysecret')
     sender.send_message({
@@ -35,7 +35,7 @@ def send_message():
         'to': '5591998291510',
         'text': 'Você realizou uma compra no valor de  ',
     })
-
+"""
 
 @blueprint_client.route('/client/<int:id>/order/new', methods=['GET', 'POST'])
 @login_required
@@ -46,7 +46,7 @@ def new_order(id):
     form.category.choices = [(category.id, category.title) for category in categories.all()]
 
     if form.validate_on_submit():
-        send_message()
+        #send_message()
         return redirect(url_for('blueprint_order.listing_orders_of'))
         
 

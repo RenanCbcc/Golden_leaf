@@ -25,7 +25,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/home/renan/.local/share/Trash/files/Golden_leaf.2/venv"
+$VIRTUAL_ENV = r"/home/renan/PycharmProjects/Golden_leaf/venv"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]

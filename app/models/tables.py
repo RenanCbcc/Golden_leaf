@@ -11,13 +11,6 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, url_for
 import enum
 
-"""
-A proper class for use with the ORM must do four things:
-• Contain __tablename__ , which is the table name to be used in the database.
-• Contain one or more attributes that are Columns objects.
-• Ensure one or more attributes make up a primary key.
-"""
-
 
 @login_manager.user_loader
 def load_user(id):
@@ -194,23 +187,23 @@ class Address(db.Model):
 
 
 class Product(db.Model):
-    __tablename__ = 'product'
+    __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
     brand = db.Column(db.String(32), nullable=False)
     description = db.Column(db.String(64))
     image_file = db.Column(db.String(32), default='default.jpg')
-    price = db.Column(db.Numeric(6, 2), nullable=False)
+    unit_cost = db.Column(db.Numeric(6, 2), nullable=False)
     is_available = db.Column(db.Boolean, nullable=False)
     code = db.Column(db.String(13), unique=True, nullable=False)
     category_id = db.Column(db.Integer, ForeignKey('categories.id'), nullable=False)
 
-    __table_args__ = (CheckConstraint(price >= 0.00, name='unit_cost_positive'),)
+    __table_args__ = (CheckConstraint(unit_cost >= 0.00, name='unit_cost_positive'),)
 
-    def __init__(self, category, brand, description, price, code, is_available=True):
+    def __init__(self, category, brand, description, unit_cost, code, is_available=True):
         self.category = category  # This field is 'virtual' and was declared in Category as a backref
         self.brand = brand
         self.description = description
-        self.price = price
+        self.unit_cost = unit_cost
         self.is_available = is_available
         self.code = code
 
@@ -219,7 +212,7 @@ class Product(db.Model):
             'id': self.id,
             'brand': self.brand,
             'description': self.description,
-            'price': str(self.price),
+            'price': str(self.unit_cost),
             'is_available': self.is_available,
             'code': self.code
         }
@@ -228,25 +221,27 @@ class Product(db.Model):
     @staticmethod
     def from_json(json_product):
 
-        title = json_product.get('title')
-        name = json_product.get('name')
-        price = decimal.Decimal(json_product.get('price'))
+        brand = json_product.get('brand')
+        description = json_product.get('name')
+        unit_cost = decimal.Decimal(json_product.get('unit_cost'))
         code = json_product.get('code')
 
-        if name is None or name == '':
-            raise ValidationError('Produto tem com nome inválido')
+        if brand is None or brand == '':
+            raise ValidationError('Produto tem com marca inválida')
+        if description is None or description == '':
+            raise ValidationError('Produto tem com descriçao inválida')
         if code is None or len(code) is not 13:
             raise ValidationError('Código de produto inválido')
-        if price is None or price <= 0:
+        if unit_cost is None or unit_cost <= 0:
             raise ValidationError('Produto co preço inválido')
 
-        return Product(title, name, price, code)
+        return Product(brand, description, unit_cost, code)
 
     def __eq__(self, other):
         return self.code == other.code
 
     def __repr__(self):
-        return '<Product %r %r %r %r>' % (self.brand, self.description, self.price, self.is_available)
+        return '<Product %r %r %r %r>' % (self.brand, self.description, self.unit_cost, self.is_available)
 
 
 class Category(db.Model):
@@ -282,12 +277,12 @@ class Item(db.Model):
     __tablename__ = 'items'
 
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, ForeignKey('product.id'))
-    order_id = db.Column(db.Integer, ForeignKey('orders.id'))
+    product_id = db.Column(db.Integer, ForeignKey('products.id'), nullable=False)
+    order_id = db.Column(db.Integer, ForeignKey('orders.id'), nullable=False)
     quantity = db.Column(db.Numeric(5, 2))
+    extended_cost = db.Column(db.Numeric(12, 2))
 
     order = db.relationship("Order", backref=backref('items', order_by=order_id))
-    product = db.relationship("Product", uselist=False)
 
     def __init__(self, product_id, demand_id, quantity):
         self.demand_id = demand_id
@@ -295,4 +290,4 @@ class Item(db.Model):
         self.quantity = quantity
 
     def __repr__(self):
-        return '<Item %r %r Quantidade %r>' % (self.product.title, self.product.name, self.quantity)
+        return '<Item %r Quantidade %r>' % (self.product.description, self.quantity)

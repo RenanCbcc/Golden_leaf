@@ -23,7 +23,7 @@ class BaseConfig:
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql://flask:showmethemoney@localhost:3306/commerce'
+    SQLALCHEMY_DATABASE_URI = 'mysql://flask:Sh0wM3Th3M0n3y@localhost:3306/commerce'
 
 
 class ProductionConfig(BaseConfig):
