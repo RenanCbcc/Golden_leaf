@@ -26,18 +26,13 @@ def new_order(id):
     categories = Category.query.order_by(Category.title)
     form.category.choices = [(category.id, category.title) for category in categories.all()]
     form.product.choices = [(product.id, product.description) for product in
-                            Product.query.filter_by(category_id=form.category.choices[0][0]).all()]
+                            Product.query.filter_by(is_available=True, category_id=form.category.choices[0][0]).all()]
+
 
     if request.method == 'POST':
-
-        if form.validate_on_submit():
-            pass
-
-        else:
+        if not form.validate_on_submit():
             flash('Produto invalido', 'warning')
-            print(form.errors)
-            print(form.product.data)
-            print(type(form.product.data))
+            # return redirect(url_for('blueprint_order.new_order'))
 
     return render_template('order/new.html', form=form)
 

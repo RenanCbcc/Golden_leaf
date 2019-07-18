@@ -24,8 +24,10 @@ class SearchOrderForm(FlaskForm):
 
 class NewOrderForm(FlaskForm):
     # client = StringField("Cliente", render_kw={'disabled': ''})
-    category = SelectField('Categorias', coerce=int, choices=[])
-    product = SelectField('Produtos', coerce=int, choices=[])
-    quantity = DecimalField("Quantidade", validators=[DataRequired(), NumberRange(min=0.01, max=100.0)])
+    category = SelectField('Categoria', coerce=int, choices=[])
+    product = SelectField('Produto', coerce=int, choices=[])
+    unit_cost = DecimalField('Preço do produto', render_kw={'disabled': ''})
+    quantity = DecimalField("Quantidade",
+                            validators=[DataRequired(), NumberRange(min=0.01, max=100.0, message="Quantidade inválida.")])
     # status = SelectField("Status", choices=[('pg', 'PAGO'), ('pd', 'PENDENTE')])
-    submit = SubmitField('Adicionar')
+    #submit = SubmitField('Adicionar')

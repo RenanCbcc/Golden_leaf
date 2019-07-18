@@ -212,7 +212,7 @@ class Product(db.Model):
             'id': self.id,
             'brand': self.brand,
             'description': self.description,
-            'price': str(self.unit_cost),
+            'unit_cost': str(self.unit_cost),
             'is_available': self.is_available,
             'code': self.code
         }

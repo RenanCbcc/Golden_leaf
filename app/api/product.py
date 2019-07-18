@@ -29,7 +29,7 @@ def edit_product(id):
     product = Product.query.get_or_404(id)
     product.brand = request.json.get('brand')
     product.description = request.json.get('description')
-    product.price = request.json.get('price')
+    product.unit_cost = request.json.get('unit_cost')
     product.code = request.json.get('code')
     product.is_available = request.json.get('is_available')
     db.session.add(product)

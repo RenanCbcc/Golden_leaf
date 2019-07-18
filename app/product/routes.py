@@ -90,8 +90,16 @@ def update_product(code):
 @blueprint_product.route('/product/category/<id>')
 def product(id):
     products = Product.query.filter_by(category_id=id).all()
-    print(products)
-    response = jsonify({'products': [{'id': product.id, 'description': product.description} for product in products]})
+    response = jsonify({'products': [
+        {'id': product.id, 'description': product.description, 'unit_cost': str(product.unit_cost)} for product in
+        products]})
+    return response
+
+
+@blueprint_product.route('/product/unit_cost/<id>')
+def product_cost(id):
+    product = Product.query.filter_by(id=id).one()
+    response = jsonify({'id': product.id, 'unit_cost': str(product.unit_cost)})
     return response
 
 

@@ -2,73 +2,78 @@
 
 <head>
     {% block head %}
-    {{ super() }}
-    <meta charset="utf-8">
-    <link rel="icon" href="{{ url_for('static',filename='gl.png') }}">
-    <title>Palma de Ouro</title>
+        {{ super() }}
+        <meta charset="utf-8">
+        <link rel="icon" href="{{ url_for('static',filename='gl.png') }}">
+        <title>Palma de Ouro</title>
     {% endblock %}
 </head>
 <body>
 {% block navbar %}
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{{ url_for('main.index') }}"><span
-                    class="glyphicon glyphicon-leaf"></span> Palma de Ouro</a>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ url_for('main.index') }}"><span
+                        class="glyphicon glyphicon-leaf"></span> Palma de Ouro</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a class="nav-item nav-link"
+                       href="{{ url_for('blueprint_category.listing_categories') }}">Categorias</a>
+                </li>
+                <li><a class="nav-item nav-link" href="{{ url_for('blueprint_product.listing_products') }}">Produtos</a>
+                </li>
+                <li><a class="nav-item nav-link"
+                       href="{{ url_for('blueprint_client.listing_clients') }}">Clientes</a></li>
+                <li><a class="nav-item nav-link"
+                       href="{{ url_for('blueprint_order.listing_orders_of') }}">Pedidos</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                    <li>
+                        <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.account') }}">
+                            <span class="glyphicon glyphicon-user"></span>
+                            {{ current_user.name }}</a>
+
+                    </li>
+                    <li>
+                        <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.logout') }}">
+                            <span class="glyphicon glyphicon-log-in"></span>
+                            Logout</a>
+
+                    </li>
+
+                {% else %}
+                    <li><a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.login') }}">
+                        <span class="glyphicon glyphicon-user"></span> Login</a></li>
+                {% endif %}
+            </ul>
         </div>
-        <ul class="nav navbar-nav">
-            <li><a class="nav-item nav-link"
-                   href="{{ url_for('blueprint_category.listing_categories') }}">Categorias</a>
-            </li>
-            <li><a class="nav-item nav-link" href="{{ url_for('blueprint_product.listing_products') }}">Produtos</a>
-            </li>
-            <li><a class="nav-item nav-link"
-                   href="{{ url_for('blueprint_client.listing_clients') }}">Clientes</a></li>
-            <li><a class="nav-item nav-link"
-                   href="{{ url_for('blueprint_order.listing_orders_of') }}">Pedidos</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            {% if current_user.is_authenticated %}
-            <li>
-                <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.account') }}">
-                    <span class="glyphicon glyphicon-user"></span>
-                    {{ current_user.name }}</a>
-
-            </li>
-            <li>
-                <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.logout') }}">
-                    <span class="glyphicon glyphicon-log-in"></span>
-                    Logout</a>
-
-            </li>
-
-            {% else %}
-            <li><a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.login') }}">
-                <span class="glyphicon glyphicon-user"></span> Login</a></li>
-            {% endif %}
-        </ul>
-    </div>
-</nav>
+    </nav>
 
 {% endblock %}
 <main>
     {% block content %}
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
-        {% block page_content %}{% endblock %}
-    </div>
+            {% block page_content %}{% endblock %}
+        </div>
     {% endblock %}
 </main>
 
 <footer class="rodape-pagina"> &copy; Renan Rosa 2019</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
 </body>
