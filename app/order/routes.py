@@ -2,7 +2,7 @@ from flask_login import login_required
 from app.models.tables import Order, Client, Category, Product
 from flask import render_template, redirect, url_for, request, flash
 from app.order import blueprint_order
-from app.order.forms import SearchOrderForm, NewOrderForm
+from app.order.forms import SearchOrderForm, AutomaticNewOrderForm, ManualNewOrderForm
 
 
 @blueprint_order.route('/client/orders', defaults={'id': None}, methods=["GET", 'POST'])
@@ -22,19 +22,19 @@ def listing_orders_of(id):
 @blueprint_order.route('/client/<int:id>/order/new', methods=["GET", 'POST'])
 @login_required
 def new_order(id):
-    form = NewOrderForm()
+    automaticform = AutomaticNewOrderForm()
+    manualForm = ManualNewOrderForm()
     categories = Category.query.order_by(Category.title)
-    form.category.choices = [(category.id, category.title) for category in categories.all()]
-    form.product.choices = [(product.id, product.description) for product in
-                            Product.query.filter_by(is_available=True, category_id=form.category.choices[0][0]).all()]
-
+    manualForm.category.choices = [(category.id, category.title) for category in categories.all()]
+    manualForm.product.choices = [(product.id, product.description) for product in
+                                  Product.query.filter_by(is_available=True,
+                                                          category_id=manualForm.category.choices[0][0]).all()]
 
     if request.method == 'POST':
-        if not form.validate_on_submit():
+        if not manualForm.validate_on_submit():
             flash('Produto invalido', 'warning')
-            # return redirect(url_for('blueprint_order.new_order'))
 
-    return render_template('order/new.html', form=form)
+    return render_template('order/new.html', automaticform=automaticform)
 
 
 @blueprint_order.route('/order/<int:id>/update', methods=["GET", 'POST'])

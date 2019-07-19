@@ -3,7 +3,7 @@ from app.client import blueprint_client
 from app.models.tables import Client, Address, db, Category
 from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
 from flask_login import login_required
-from app.order.forms import NewOrderForm
+from app.order.forms import ManualNewOrderForm
 
 
 @blueprint_client.route('/client/list')
@@ -41,7 +41,7 @@ def send_message():
 @login_required
 def new_order(id):
     client = Client.query.filter_by(id=id).one()
-    form = NewOrderForm()
+    form = ManualNewOrderForm
     categories = Category.query.order_by(Category.title)
     form.category.choices = [(category.id, category.title) for category in categories.all()]
 
