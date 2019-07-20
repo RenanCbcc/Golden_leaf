@@ -16,6 +16,21 @@ def get_product(id):
         return response
 
 
+@api.route('/product/code/<int:code>', methods=['GET'])
+def get_product_by_code(code):
+    product = Product.query.filter_by(code=code).one_or_none()
+    if product is not None:
+        response = jsonify(
+            {'id': product.id, 'description': product.description, 'unit_cost': str(product.unit_cost),
+             'code': product.code})
+        response.status_code = 200
+        return response
+    else:
+        response = jsonify({"error": "Not found"})
+        response.status_code = 404
+        return response
+
+
 @api.route('/product', methods=['POST'])
 def create_product():
     product = Product.from_json(request.json)

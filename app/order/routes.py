@@ -22,19 +22,7 @@ def listing_orders_of(id):
 @blueprint_order.route('/client/<int:id>/order/new', methods=["GET", 'POST'])
 @login_required
 def new_order(id):
-    automaticform = AutomaticNewOrderForm()
-    manualForm = ManualNewOrderForm()
-    categories = Category.query.order_by(Category.title)
-    manualForm.category.choices = [(category.id, category.title) for category in categories.all()]
-    manualForm.product.choices = [(product.id, product.description) for product in
-                                  Product.query.filter_by(is_available=True,
-                                                          category_id=manualForm.category.choices[0][0]).all()]
-
-    if request.method == 'POST':
-        if not manualForm.validate_on_submit():
-            flash('Produto invalido', 'warning')
-
-    return render_template('order/new.html', automaticform=automaticform)
+    return render_template('order/new.html')
 
 
 @blueprint_order.route('/order/<int:id>/update', methods=["GET", 'POST'])
