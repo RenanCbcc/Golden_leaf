@@ -32,7 +32,7 @@ def get_product_by_code(code):
 
 
 @api.route('/product', methods=['POST'])
-def create_product():
+def new_product():
     product = Product.from_json(request.json)
     db.session.add(product)
     db.session.commit()

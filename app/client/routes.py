@@ -41,19 +41,7 @@ def send_message():
 @login_required
 def new_order(id):
     client = Client.query.filter_by(id=id).one()
-    form = ManualNewOrderForm
-    categories = Category.query.order_by(Category.title)
-    form.category.choices = [(category.id, category.title) for category in categories.all()]
-
-    if form.validate_on_submit():
-        #send_message()
-        return redirect(url_for('blueprint_order.listing_orders_of'))
-        
-
-    elif request.method == 'GET':
-        form.client.data = client.name
-
-    return render_template('order/new.html', form=form)
+    return render_template('order/new.html', client=client)
 
 
 @blueprint_client.route('/client/<int:id>/update', methods=['GET', 'POST'])

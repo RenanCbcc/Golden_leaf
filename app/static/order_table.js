@@ -3,7 +3,7 @@ $("#categories").change(getProductsByCategory);
 $("#products").change(updateUnitcost);
 $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
-
+$("#save-items-btn").click(saveitems);
 
 function getProductsByCategory() {
     let category_id = $(this).val();
@@ -25,7 +25,7 @@ function updateUnitcost() {
 
 function insert_order_from_manual_form() {
     let product = $("#products");
-    let body_table = $("#orders").find("tbody");
+    let body_table = $("#items-table").find("tbody");
     let product_id = product.val();
     let product_description = product.text();
     let product_cost = $("#unit_cost").val();
@@ -40,10 +40,10 @@ function insert_order_from_manual_form() {
 
 function new_line(id, description, unit_cost, quantity) {
     let line = $("<tr>");
-    let column_id = $("<td>").text(id);
+    let column_id = $("<td>").text(id).attr('id', 'product_id').hide();
     let column_description = $("<td>").text(description);
     let column_price = $("<td>").text(unit_cost);
-    let column_quantity = $("<td>").text(quantity);
+    let column_quantity = $("<td>").text(quantity).attr('id', 'product_quantity');
     let column_total = $("<td>").text(unit_cost * quantity);
     let column_remove = $("<td>");
     let column_edit = $("<td>");
@@ -53,13 +53,6 @@ function new_line(id, description, unit_cost, quantity) {
 
     link_remove.append(span_remove);
     column_remove.append(link_remove);
-
-    let link_edit = $("<a>").addClass("btn btn-primary").attr("href", "#").text("Editar");
-    let span_edit = $("<i>").addClass("small").addClass("glyphicon glyphicon-pencil");
-
-
-    link_edit.append(span_edit);
-    column_edit.append(link_edit);
 
 
     line.append(column_id);
@@ -107,7 +100,7 @@ $("#code").blur(function () {
 
 function insert_order_from_automatic_form() {
     let product_id = $("#product-id");
-    let body_table = $("#orders").find("tbody");
+    let body_table = $("#items-table").find("tbody");
     let product_description = $("#description_automatic_form").val();
     let product_cost = $("#unit_cost_automatic_form").val();
     let product_quantity = $("#quantity_automatic_form").val();
@@ -115,4 +108,29 @@ function insert_order_from_automatic_form() {
     let line = new_line(product_id, product_description, product_cost, product_quantity);
     body_table.append(line);
 
+}
+
+
+function saveitems() {
+    let items = [];
+
+    $("tbody>tr").each(function () {
+        var product_id = $(this).find("td:nth-child(1)").text();
+        var product_quantity = $(this).find("td:nth-child(3)").text();
+        var item = {
+            id: product_id,
+            quantity: product_quantity
+        };
+        items.push(item)
+    });
+
+    let data = {
+        items: items
+    };
+
+     console.log(data);
+    $.post("http://127.0.0.1:8000/api/order", items, function (response) {
+            console.log(response);
+        }
+    );
 }

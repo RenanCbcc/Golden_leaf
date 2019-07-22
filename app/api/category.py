@@ -1,5 +1,4 @@
 from flask import jsonify, request, url_for
-
 from app import db
 from app.api import api
 from app.models.tables import Category
