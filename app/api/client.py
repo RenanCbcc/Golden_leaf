@@ -24,7 +24,7 @@ def get_client_address(id):
 
 
 @api.route('/client', methods=['POST'])
-def create_client():
+def new_client():
     client = Client.from_json(request.json)
     db.session.add(client)
     db.session.commit()
@@ -41,7 +41,7 @@ def edit_client(id):
 
     db.session.add(client)
     db.session.commit()
-    return jsonify(client.to_json()), 200, {'Location': url_for('api.get_product', id=client.id, _external=True)}
+    return jsonify(client.to_json()), 200, {'Location': url_for('api.get_client', id=client.id, _external=True)}
 
 
 @api.route('/client/<int:id>/address', methods=['PUT'])
@@ -54,4 +54,4 @@ def edit_address(id):
 
     db.session.add(client)
     db.session.commit()
-    return jsonify(client.to_json()), 200, {'Location': url_for('api.get_product', id=client.id, _external=True)}
+    return jsonify(client.to_json()), 200, {'Location': url_for('api.get_client', id=client.id, _external=True)}

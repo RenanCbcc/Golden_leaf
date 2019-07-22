@@ -3,7 +3,7 @@ from abc import ABCMeta
 from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy import CheckConstraint, ForeignKey
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 from werkzeug.routing import ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login_manager, db
@@ -45,7 +45,7 @@ class Client(User):
     address_id = db.Column(db.Integer, ForeignKey('addresses.id'))
     address = db.relationship("Address", back_populates="dweller", lazy=False)
     status = db.Column(db.Boolean)
-    orders = relationship("Order", back_populates="client")
+    orders = db.relationship('Order', backref='client', lazy='dynamic')
 
     def __init__(self, name, phone_number, identification, address, notifiable, status=True):
         super().__init__(name, phone_number)
@@ -86,7 +86,7 @@ class Clerk(User, UserMixin):
     image_file = db.Column(db.String(24), default='default.jpg')
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128), nullable=False)
-    orders = relationship("Order", back_populates="clerk")
+    orders = db.relationship('Order', backref='clerk', lazy='dynamic')
 
     __mapper_args__ = {
         'concrete': True
@@ -128,28 +128,6 @@ class Clerk(User, UserMixin):
 
     def __repr__(self):
         return '<Atendente %r %r>' % (self.name, self.email)
-
-
-class Order(db.Model):
-    __tablename__ = 'orders'
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, default=datetime.now)
-    status = db.Column(db.Enum(Status), default=Status.PENDENTE)
-
-    client_id = db.Column(db.Integer, ForeignKey('clients.id'))
-    client = relationship("Client", back_populates="orders")
-
-    clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'))
-    clerk = relationship("Clerk", back_populates="orders")
-
-    def __init__(self, date, client, clerk, items):
-        self.date = date
-        self.client = client
-        self.clerk = clerk
-        self.items = items
-
-    def __repr__(self):
-        return '<Pedido %r %r %r >' % (self.date, self.client.name, self.clerk.name)
 
 
 class Address(db.Model):
@@ -273,21 +251,97 @@ class Category(db.Model):
         return '<Category %r>' % self.title
 
 
+class Order(db.Model):
+    __tablename__ = 'orders'
+    id = db.Column(db.Integer, primary_key=True)
+    client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
+    clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
+    date = db.Column(db.DateTime, index=True, default=datetime.now)
+    status = db.Column(db.Enum(Status), default=Status.PENDENTE)
+
+    items = db.relationship('Item', backref='order', lazy='dynamic')
+
+    def __init__(self, client, clerk, date, items, status):
+        self.date = date
+        self.client = client
+        self.clerk = clerk
+        self.items = items
+        self.status = status
+
+    def to_json(self):
+        json_product = {
+            'id': self.id,
+            'client_id': self.client_id,
+            'clerk_id': self.clerk_id,
+            'date': self.date,
+            'status': self.status,
+            'items': self.items
+        }
+        return json_product
+
+    @staticmethod
+    def from_json(json_order):
+
+        client_id = json_order.get('client_id')
+        clerk_id = json_order.get('clerk_id')
+        date = json_order.get('date')
+        status = json_order.get('status')
+        items = json_order.get('items')
+
+        if client_id is None or client_id == '':
+            raise ValidationError('Pedido com client inválido')
+        if clerk_id is None or clerk_id == '':
+            raise ValidationError('Pedido com vendendor inválido')
+        if date is None or date == '':
+            raise ValidationError('Pedido com data inválida')
+        if status is None or status == '':
+            raise ValidationError('Pedido com estado inválido')
+
+        return Order(client_id, clerk_id, date, items, status)
+
+    def __repr__(self):
+        return '<Pedido %r %r %r >' % (self.date, self.client.name, self.clerk.name)
+
+
 class Item(db.Model):
     __tablename__ = 'items'
 
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, ForeignKey('products.id'), nullable=False)
     order_id = db.Column(db.Integer, ForeignKey('orders.id'), nullable=False)
-    quantity = db.Column(db.Numeric(5, 2))
-    extended_cost = db.Column(db.Numeric(12, 2))
+    product_id = db.Column(db.Integer, ForeignKey('products.id'), nullable=False)
+    quantity = db.Column(db.Numeric(5, 2), nullable=False)
+    extended_cost = db.Column(db.Numeric(12, 2), nullable=False)
 
-    order = db.relationship("Order", backref=backref('items', order_by=order_id))
+    __table_args__ = (CheckConstraint(quantity >= 0.01, name='quantity_positive'),)
 
-    def __init__(self, product_id, demand_id, quantity):
-        self.demand_id = demand_id
-        self.product_id = product_id
-        self.quantity = quantity
+    def to_json(self):
+        json_item = {
+            'id': self.id,
+            'order_id': self.order_id,
+            'product_id': self.product_id,
+            'quantity': self.quantity,
+            'extended_cost': self.extended_cost
+        }
+        return json_item
+
+    @staticmethod
+    def from_json(json_item):
+
+        product_id = json_item.get('brand')
+        quantity = json_item.get('name')
+
+
+
+        if brand is None or brand == '':
+            raise ValidationError('Produto tem com marca inválida')
+        if description is None or description == '':
+            raise ValidationError('Produto tem com descriçao inválida')
+        if code is None or len(code) is not 13:
+            raise ValidationError('Código de produto inválido')
+        if unit_cost is None or unit_cost <= 0:
+            raise ValidationError('Produto co preço inválido')
+
+        return Product(brand, description, unit_cost, code)
 
     def __repr__(self):
         return '<Item %r Quantidade %r>' % (self.product.description, self.quantity)

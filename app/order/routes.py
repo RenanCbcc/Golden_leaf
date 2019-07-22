@@ -1,8 +1,7 @@
 from flask_login import login_required
 
-from app import db
-from app.models.tables import Order, Client, Item
-from flask import render_template, request, jsonify, url_for
+from app.models.tables import Order, Client
+from flask import render_template, request
 from app.order import blueprint_order
 from app.order.forms import SearchOrderForm
 
@@ -45,7 +44,6 @@ def search_order():
 
 @blueprint_order.route('/order/save', methods=['POST'])
 def save_order():
-    print(request.json)
     # product = Product.from_json(request.json)
     # db.session.add(order)
     # db.session.commit()
