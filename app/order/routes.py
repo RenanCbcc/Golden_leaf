@@ -1,22 +1,17 @@
 from flask_login import login_required
 
-from app.models.tables import Order, Client
+from app.models.tables import Order, Client, Item
 from flask import render_template, request
 from app.order import blueprint_order
 from app.order.forms import SearchOrderForm
 
 
-@blueprint_order.route('/client/orders', defaults={'id': None}, methods=["GET", 'POST'])
-@blueprint_order.route('/client/<int:id>/orders', methods=["GET", 'POST'])
+@blueprint_order.route('/orders', methods=['GET'])
 @login_required
-def listing_orders_of(id):
+def get_orders():
     page = request.args.get('page', 1, type=int)
-    if id is not None:
-        orders = Order.query.filter_by(client_id=id).order_by(Order.date.desc()).paginate(page=page, per_page=10)
-        return render_template('order/list.html', orders=orders)
-    else:
-        orders = Order.query.order_by(Order.date.desc()).paginate(page=page, per_page=10)
-        return render_template('order/list.html', orders=orders)
+    orders = Order.query.order_by(Order.date.desc()).paginate(page=page, per_page=10)
+    return render_template('order/list.html', orders=orders)
 
 
 @blueprint_order.route('/order/new', defaults={'id': None}, methods=["GET", 'POST'])
@@ -48,3 +43,11 @@ def save_order():
     # db.session.add(order)
     # db.session.commit()
     return request.json, 201, {'Location': "www.goldenleaf.com"}
+
+
+@blueprint_order.route('/orders/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_order(id):
+    page = request.args.get('page', 1, type=int)
+    items = Item.query.filter_by(order_id=id).order_by(Order.date.desc()).paginate(page=page, per_page=10)
+    return render_template('order/edit.html', orders=items)

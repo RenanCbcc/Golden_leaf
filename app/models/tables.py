@@ -257,6 +257,7 @@ class Order(db.Model):
     client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
     date = db.Column(db.DateTime, index=True, default=datetime.now)
+    cost = db.Column(db.Numeric(10, 2), nullable=False)
     status = db.Column(db.Enum(Status), default=Status.PENDENTE)
 
     items = db.relationship('Item', backref='order', lazy='dynamic')
@@ -310,9 +311,13 @@ class Item(db.Model):
     order_id = db.Column(db.Integer, ForeignKey('orders.id'), nullable=False)
     product_id = db.Column(db.Integer, ForeignKey('products.id'), nullable=False)
     quantity = db.Column(db.Numeric(5, 2), nullable=False)
-    extended_cost = db.Column(db.Numeric(12, 2), nullable=False)
+    extended_cost = db.Column(db.Numeric(7, 2), nullable=False)
 
     __table_args__ = (CheckConstraint(quantity >= 0.01, name='quantity_positive'),)
+
+    def __init__(self, product_id, quantity):
+        self.product_id = product_id
+        self.quantity = quantity
 
     def to_json(self):
         json_item = {
@@ -330,18 +335,12 @@ class Item(db.Model):
         product_id = json_item.get('brand')
         quantity = json_item.get('name')
 
+        if product_id is None or product_id == '':
+            raise ValidationError('Item com produto inválido')
+        if quantity is None or quantity == '':
+            raise ValidationError('Item com quantidade inválida')
 
-
-        if brand is None or brand == '':
-            raise ValidationError('Produto tem com marca inválida')
-        if description is None or description == '':
-            raise ValidationError('Produto tem com descriçao inválida')
-        if code is None or len(code) is not 13:
-            raise ValidationError('Código de produto inválido')
-        if unit_cost is None or unit_cost <= 0:
-            raise ValidationError('Produto co preço inválido')
-
-        return Product(brand, description, unit_cost, code)
+        return Item(product_id, quantity)
 
     def __repr__(self):
         return '<Item %r Quantidade %r>' % (self.product.description, self.quantity)

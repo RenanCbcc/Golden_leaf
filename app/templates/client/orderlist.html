@@ -19,7 +19,9 @@
                         <td>{{ order.date }}</td>
                         <td>{{ order.client.name }}</td>
                         <td>{{ order.clerk.name }}</td>
-                        <td>0</td>
+                        <td>
+                            {{ order.cost }}
+                        </td>
                         <td>{{ order.status }}</td>
                         <td>
 
@@ -53,15 +55,8 @@
         <div class="col-md-3">
             <div class="content-section">
                 <h3>Gerenciar pedidos</h3>
-                <p class='text-muted'>Opções.
-                <ul class="list-group">
-                    <li class="list-group-item list-group-item-light">
-                        <a href="{{ url_for('blueprint_order.new_order') }}" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-shopping-cart"></span>
-                            Novo pedido
-                        </a>
-                    </li>
 
+                <ul class="list-group">
                     <li class=" list-group-item list-group-item-light">
                         <a href="{{ url_for('blueprint_order.search_order') }}" class="btn btn-primary">
                             <span class="glyphicon glyphicon glyphicon-search"></span>

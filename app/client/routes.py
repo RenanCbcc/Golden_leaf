@@ -1,9 +1,8 @@
 from flask import render_template, redirect, flash, url_for, request
 from app.client import blueprint_client
-from app.models.tables import Client, Address, db, Category
+from app.models.tables import Client, Address, db, Order
 from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
 from flask_login import login_required
-from app.order.forms import ManualNewOrderForm
 
 
 @blueprint_client.route('/client/list')
@@ -27,6 +26,7 @@ def new_client():
 
     return render_template('client/new.html', form=form)
 
+
 """
 def send_message():
     sender = nexmo.Client(key='mykey',secret='mysecret')
@@ -36,12 +36,6 @@ def send_message():
         'text': 'Você realizou uma compra no valor de  ',
     })
 """
-
-@blueprint_client.route('/client/<int:id>/order/new', methods=['GET', 'POST'])
-@login_required
-def new_order(id):
-    client = Client.query.filter_by(id=id).one()
-    return render_template('order/new.html', client=client)
 
 
 @blueprint_client.route('/client/<int:id>/update', methods=['GET', 'POST'])
@@ -89,3 +83,27 @@ def search_client():
             return render_template('client/list.html', clients=clients)
 
     return render_template("client/search.html", form=form)
+
+
+@blueprint_client.route('/client/<int:id>/orders', methods=['GET'])
+@login_required
+def get_orders(id):
+    page = request.args.get('page', 1, type=int)
+    orders = Order.query.filter_by(client_id=id).order_by(Order.date.desc()).paginate(page=page, per_page=10)
+    return render_template('client/orderlist.html', orders=orders)
+
+
+@blueprint_client.route('/client/<int:id>/order/new', methods=['GET', 'POST'])
+@login_required
+def new_order(id):
+    client = Client.query.filter_by(id=id).one()
+    return render_template('order/new.html', client=client)
+
+
+@blueprint_client.route('/client/<int:id>/orders/<int:order_id>', methods=['GET'])
+@login_required
+def edit_order(id, order_id):
+    page = request.args.get('page', 1, type=int)
+    order = Order.query.filter_by(client_id=id, order_id=order_id).order_by(Order.date.desc()).paginate(page=page,
+                                                                                                        per_page=10)
+    return render_template('order/detail.html', orders=order)
