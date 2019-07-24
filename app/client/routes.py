@@ -19,7 +19,7 @@ def new_client():
     form = NewClientForm()
     if form.validate_on_submit():
         db.session.add(Client(form.name.data, form.phone_number.data, form.identification.data,
-                              Address(form.street.data, form.address_detail.data, form.zip_code.data),
+                              Address(form.street.data, form.zip_code.data),
                               form.notifiable.data))
         db.session.commit()
         return redirect(url_for('blueprint_client.listing_clients'))

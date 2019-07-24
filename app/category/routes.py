@@ -1,8 +1,11 @@
+from flask_login import login_required
+
 from app import db
 from app.category import blueprint_category
 from flask import render_template, redirect, url_for, request, flash, jsonify
 from app.category.forms import CategoryForm
 from app.models.tables import Category, Product
+from app.product.forms import NewProductForm
 
 
 @blueprint_category.route("/category/list", methods=['GET'])
@@ -58,3 +61,21 @@ def products_of(id):
     page = request.args.get('page', 1, type=int)
     products = Product.query.filter_by(category=category).order_by(Product.description).paginate(page, per_page=10)
     return render_template('category/productsof.html', category=category, all_products=products)
+
+
+@blueprint_category.route('/category/<int:id>/product/new', methods=['GET', 'POST'])
+@login_required
+def new_product(id):
+    form = NewProductForm()
+    category = Category.query.filter_by(id=id).one()
+    form.category.choices = [(category.id, category.title)]
+
+    if form.validate_on_submit():
+        db.session.add(Product(category, form.brand.data,
+                               form.description.data,
+                               form.unit_cost.data,
+                               form.code.data))
+
+        db.session.commit()
+        return redirect(url_for('blueprint_category.products_of', id=category.id))
+    return render_template('product/new.html', form=form)

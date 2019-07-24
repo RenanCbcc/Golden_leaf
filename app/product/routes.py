@@ -24,7 +24,7 @@ def available_products():
     return render_template('product/list.html', all_products=products)
 
 
-@blueprint_product.route('/product/create', methods=['GET', 'POST'])
+@blueprint_product.route('/product/new', methods=['GET', 'POST'])
 @login_required
 def new_product():
     form = NewProductForm()

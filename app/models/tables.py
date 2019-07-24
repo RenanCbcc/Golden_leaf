@@ -30,7 +30,7 @@ class User(db.Model):
     __abstract__ = True
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False, index=True)
-    phone_number = db.Column(db.String(9), nullable=False)
+    phone_number = db.Column(db.String(13), nullable=False)
 
     def __init__(self, name, phone_number):
         self.name = name
@@ -74,11 +74,29 @@ class Client(User):
                         Address.from_json(content['address']), content.get('notifiable'))
         return client
 
-    def __eq__(self, other):
-        return self.identification == other.identification
+    @staticmethod
+    def generate_fake(count=10):
+        from sqlalchemy.exc import IntegrityError
+        from faker import Faker
+        fake = Faker('pt_BR')
+        for i in range(count):
+            c = Client(name=fake.name(), phone_number=fake.msisdn(), identification=fake.cpf(),
+                       address=Address(street=fake.street_address(), zip_code=fake.postcode())
+                       , notifiable=True)
+            db.session.add(c)
 
-    def __repr__(self):
-        return '<Cliente %r %r %r %r>' % (self.name, self.identification, self.phone_number, self.status)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+
+
+def __eq__(self, other):
+    return self.identification == other.identification
+
+
+def __repr__(self):
+    return '<Cliente %r %r %r %r>' % (self.name, self.identification, self.phone_number, self.status)
 
 
 class Clerk(User, UserMixin):
@@ -134,20 +152,17 @@ class Address(db.Model):
     __tablename__ = 'addresses'
     id = db.Column(db.Integer, primary_key=True)
     street = db.Column(db.String(64), nullable=False)
-    detail = db.Column(db.String(64))
     zip_code = db.Column(db.String(6), nullable=False)
     dweller = relationship("Client", uselist=False, back_populates="address")
 
-    def __init__(self, street, detail, zip_code):
+    def __init__(self, street, zip_code):
         self.street = street
-        self.detail = detail
         self.zip_code = zip_code
 
     def to_json(self):
         json_address = {
             'id': self.id,
             'street': self.street,
-            'detail': self.detail,
             'zip_code': self.zip_code,
 
         }
@@ -157,11 +172,11 @@ class Address(db.Model):
     def from_json(content):
         if content['street'] == "" or content['address_detail'] == "" or content['zip_code'] == "":
             raise ValidationError("Endereço não pode ter valores nulos")
-        address = Address(content.get('street'), content.get('address_detail'), content.get('zip_code'))
+        address = Address(content.get('street'), content.get('zip_code'))
         return address
 
     def __str__(self):
-        return "Rua: {}, {}".format(self.street, self.detail)
+        return "Rua: {}, {}".format(self.street, self.zip_code)
 
 
 class Product(db.Model):

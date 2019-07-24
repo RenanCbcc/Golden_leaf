@@ -12,7 +12,6 @@ class NewClientForm(FlaskForm):
     identification = StringField('C.P.F?', validators=[DataRequired(), Length(min=11, max=11)])
     zip_code = StringField('C.E.P?', validators=[DataRequired(), Length(min=8, max=8), Regexp('^[0-9]*$')])
     street = StringField('Nome da rua?', validators=[DataRequired()])
-    address_detail = StringField('Complemento', validators=[DataRequired()])
     notifiable = BooleanField('Deseja receber notificações?')
     submit = SubmitField('Salvar')
 
@@ -32,7 +31,6 @@ class UpdateClientForm(FlaskForm):
     identification = StringField('C.P.F?', render_kw={'disabled': ''})
     zip_code = StringField('C.E.P?', validators=[DataRequired(), Length(min=8, max=8), Regexp('^[0-9]*$')])
     street = StringField('Nome da rua', validators=[DataRequired()])
-    address_detail = StringField('Complemento', validators=[DataRequired()])
     notifiable = BooleanField('Deseja receber notificações?')
     status = BooleanField('Cliente ativo?')
     submit = SubmitField('Submit')
