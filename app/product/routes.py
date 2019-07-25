@@ -58,11 +58,11 @@ def search_product():
     return render_template('product/search.html', form=form)
 
 
-@blueprint_product.route('/product/<string:code>/update', methods=["GET", 'POST'])
+@blueprint_product.route('/product/<int:id>/update', methods=["GET", 'POST'])
 @login_required
-def update_product(code):
+def update_product(id):
     form = UpdateProductForm()
-    product = Product.query.filter_by(code=code).one()
+    product = Product.query.filter_by(id=id).one()
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)

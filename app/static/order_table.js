@@ -3,7 +3,7 @@ $("#categories").change(getProductsByCategory);
 $("#products").change(updateUnitcost);
 $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
-$("#save-items-btn").click(saveitems);
+$("#save-items-btn").click(saveItems);
 
 function getProductsByCategory() {
     let category_id = $(this).val();
@@ -27,7 +27,7 @@ function insert_order_from_manual_form() {
     let product = $("#products");
     let body_table = $("#items-table").find("tbody");
     let product_id = product.val();
-    let product_description = product.text();
+    let product_description = $(product).children("option:selected").text();
     let product_cost = $("#unit_cost").val();
     let product_quantity = $("#quantity").val();
 
@@ -111,9 +111,10 @@ function insert_order_from_automatic_form() {
 }
 
 
-function saveitems() {
+function saveItems() {
     let items = [];
-
+    let clerk_id = $('#clerk-id').data('clerk-id');
+    let client_id = $('#client-id').data('client-id');
     $("tbody>tr").each(function () {
         var product_id = $(this).find("td:nth-child(1)").text();
         var product_quantity = $(this).find("td:nth-child(3)").text();
@@ -125,10 +126,14 @@ function saveitems() {
     });
 
     let data = {
+        clerk_id: clerk_id,
+        client_id: client_id,
         items: items
     };
 
-     console.log(data);
+    console.log(response)
+
+    console.log(data);
     $.post("http://127.0.0.1:8000/api/order", items, function (response) {
             console.log(response);
         }
