@@ -21,16 +21,12 @@ def get_order():
 
 @api.route('/order', methods=['POST'])
 def save_order():
-    """
-    order = Order(client_id=2, clerk_id=1)
+    order = Order.from_json(request.json)
     db.session.add(order)
     db.session.flush()  # Get the id before committing the object
-    item = [Item(product_id=2, order=order, extended_cost=12.0, quantity=2),
-            Item(product_id=2, order=order, extended_cost=15.0, quantity=3)]
-
-    # product = Product.from_json(request.json)
+    print(order.id)
+    item = Item.from_json(request.json.get('items'), order)
+    print(order.cost)
     db.session.add_all(item)
     db.session.commit()
-    """
-    order = Order.from_json(request.json)
     return jsonify({"result": "success!"})

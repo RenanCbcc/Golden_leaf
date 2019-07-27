@@ -272,23 +272,17 @@ class Order(db.Model):
     client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
     date = db.Column(db.DateTime, index=True, default=datetime.now)
-    cost = db.Column(db.Numeric(10, 2), nullable=False)
+    cost = db.Column(db.Numeric(10, 2), default=0)
     status = db.Column(db.Enum(Status), default=Status.PENDENTE)
 
     items = db.relationship('Item', backref='order', lazy='dynamic')
-
-    def __init__(self, client, clerk, date, items, status):
-        self.date = date
-        self.client = client
-        self.clerk = clerk
-        self.items = items
-        self.status = status
 
     def to_json(self):
         json_product = {
             'id': self.id,
             'client_id': self.client_id,
             'clerk_id': self.clerk_id,
+            'cost': self.cost,
             'date': self.date,
             'status': self.status,
             'items': self.items
@@ -300,20 +294,16 @@ class Order(db.Model):
 
         client_id = json_order.get('client_id')
         clerk_id = json_order.get('clerk_id')
-        date = json_order.get('date')
         status = json_order.get('status')
-        items = Item.from_json(json_order.get('items'))
 
         if client_id is None or client_id == '':
             raise ValidationError('Pedido com client inválido')
         if clerk_id is None or clerk_id == '':
             raise ValidationError('Pedido com vendendor inválido')
-        if date is None or date == '':
-            raise ValidationError('Pedido com data inválida')
         if status is None or status == '':
             raise ValidationError('Pedido com estado inválido')
 
-        return Order(client_id, clerk_id, date, items, status)
+        return Order(client_id=client_id, clerk_id=clerk_id, status=Status[status])
 
     def __repr__(self):
         return '<Pedido %r %r %r >' % (self.date, self.client.name, self.clerk.name)
@@ -347,14 +337,21 @@ class Item(db.Model):
         return json_item
 
     @staticmethod
-    def from_json(product_id, order, quantity):
-        product = Product.query.filter_by(id=product_id).one_or_none()
-        if product is None:
-            raise ValidationError('Item com produto inválida')
-        if quantity is None or quantity == '':
-            raise ValidationError('Item com quantidade inválida')
-        extended_cost = product.unit_cost * quantity
-        return Item(product_id, order, quantity, extended_cost)
+    def from_json(items_json, order):
+        items = []
+        order.cost = 0
+        for item in items_json:
+            product_id = item['product_id']
+            product = Product.query.filter_by(id=product_id).one_or_none()
+            if product is None:
+                raise ValidationError('Item com produto inválida')
+            quantity = item['quantity']
+            if quantity is None or quantity == '':
+                raise ValidationError('Item com quantidade inválida')
+            extended_cost = product.unit_cost * decimal.Decimal(quantity)
+            order.cost += extended_cost
+            items.append(Item(product_id, order, quantity, extended_cost))
+        return items
 
     def __repr__(self):
         return '<Item %r Quantidade %r>' % (self.product.description, self.quantity)
