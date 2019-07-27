@@ -114,11 +114,13 @@ function insert_order_from_automatic_form() {
 function saveItems() {
     let items = [];
     let clerk_id = $('#clerk-id').data('clerk-id');
+    console.log(clerk_id)
     let client_id = $('#client-id').data('client-id');
+    console.log(client_id)
     $("tbody>tr").each(function () {
-        var product_id = $(this).find("td:nth-child(1)").text();
-        var product_quantity = $(this).find("td:nth-child(3)").text();
-        var item = {
+        let product_id = $(this).find("td:nth-child(1)").text();
+        let product_quantity = $(this).find("td:nth-child(3)").text();
+        let item = {
             id: product_id,
             quantity: product_quantity
         };
@@ -131,11 +133,9 @@ function saveItems() {
         items: items
     };
 
-    console.log(response)
-
     console.log(data);
-    $.post("http://127.0.0.1:8000/api/order", items, function (response) {
-            console.log(response);
+    $.post("http://127.0.0.1:8000/api/order", data, function () {
+
         }
     );
 }

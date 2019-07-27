@@ -302,7 +302,7 @@ class Order(db.Model):
         clerk_id = json_order.get('clerk_id')
         date = json_order.get('date')
         status = json_order.get('status')
-        items = json_order.get('items')
+        items = Item.from_json(json_order.get('items'))
 
         if client_id is None or client_id == '':
             raise ValidationError('Pedido com client inválido')
@@ -330,9 +330,11 @@ class Item(db.Model):
 
     __table_args__ = (CheckConstraint(quantity >= 0.01, name='quantity_positive'),)
 
-    def __init__(self, product_id, quantity):
+    def __init__(self, product_id, order, quantity, extended_cost):
         self.product_id = product_id
+        self.order = order
         self.quantity = quantity
+        self.extended_cost = extended_cost
 
     def to_json(self):
         json_item = {
@@ -345,17 +347,14 @@ class Item(db.Model):
         return json_item
 
     @staticmethod
-    def from_json(json_item):
-
-        product_id = json_item.get('brand')
-        quantity = json_item.get('name')
-
-        if product_id is None or product_id == '':
-            raise ValidationError('Item com produto inválido')
+    def from_json(product_id, order, quantity):
+        product = Product.query.filter_by(id=product_id).one_or_none()
+        if product is None:
+            raise ValidationError('Item com produto inválida')
         if quantity is None or quantity == '':
             raise ValidationError('Item com quantidade inválida')
-
-        return Item(product_id, quantity)
+        extended_cost = product.unit_cost * quantity
+        return Item(product_id, order, quantity, extended_cost)
 
     def __repr__(self):
         return '<Item %r Quantidade %r>' % (self.product.description, self.quantity)

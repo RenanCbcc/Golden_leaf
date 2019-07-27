@@ -9,6 +9,7 @@ from app.models.tables import Item, Order
 @api.route('/order/<int:id>', methods=['GET'])
 def get_order():
     if id is not None:
+
         order = Order.query.get_or_404(id)
         return jsonify(order.to_json())
     else:
@@ -20,6 +21,7 @@ def get_order():
 
 @api.route('/order', methods=['POST'])
 def save_order():
+    """
     order = Order(client_id=2, clerk_id=1)
     db.session.add(order)
     db.session.flush()  # Get the id before committing the object
@@ -29,4 +31,6 @@ def save_order():
     # product = Product.from_json(request.json)
     db.session.add_all(item)
     db.session.commit()
-    return request.json, 201, {'Location': "www.goldenleaf.com"}
+    """
+    order = Order.from_json(request.json)
+    return jsonify({"result": "success!"})
