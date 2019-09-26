@@ -1,10 +1,23 @@
 from flask import jsonify, request, url_for, g
 from flask_httpauth import HTTPBasicAuth
 from app.models.tables import Clerk
-from app.api.erros import unauthorized, forbidden
+from app.api.erros import unauthorized, forbidden, resource_not_found
 from app.api import api
 
 auth = HTTPBasicAuth()
+
+
+@api.route('/login', methods=['GET', 'POST'])
+def login(email, password):
+    clerk = Clerk.query.filter_by(email=email).first()
+    if not clerk:
+        return resource_not_found()
+    else:
+        if Clerk.verify_password(password):
+            g.current_user = clerk
+            return jsonify(clerk.to_json())
+        else:
+            return unauthorized()
 
 
 @auth.verify_password

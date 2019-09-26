@@ -74,21 +74,21 @@ class Client(User):
                         Address.from_json(content['address']), content.get('notifiable'))
         return client
 
-    @staticmethod
-    def generate_fake(count=10):
-        from sqlalchemy.exc import IntegrityError
-        from faker import Faker
-        fake = Faker('pt_BR')
-        for i in range(count):
-            c = Client(name=fake.name(), phone_number=fake.msisdn(), identification=fake.cpf(),
-                       address=Address(street=fake.street_address(), zip_code=fake.postcode())
-                       , notifiable=True)
-            db.session.add(c)
-
-        try:
-            db.session.commit()
-        except IntegrityError:
-            db.session.rollback()
+    # @staticmethod
+    # def generate_fake(count=10):
+    #     from sqlalchemy.exc import IntegrityError
+    #     from faker import Faker
+    #     fake = Faker('pt_BR')
+    #     for i in range(count):
+    #         c = Client(name=fake.name(), phone_number=fake.msisdn(), identification=fake.cpf(),
+    #                    address=Address(street=fake.street_address(), zip_code=fake.postcode())
+    #                    , notifiable=True)
+    #         db.session.add(c)
+    #
+    #     try:
+    #         db.session.commit()
+    #     except IntegrityError:
+    #         db.session.rollback()
 
 
 def __eq__(self, other):
@@ -143,6 +143,15 @@ class Clerk(User, UserMixin):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def to_json(self):
+        json_clerk = {
+            'id': self.id,
+            'email': self.email,
+            'name': self.name,
+            'phone_number': self.phone_number
+        }
+        return json_clerk
 
     def __repr__(self):
         return '<Atendente %r %r>' % (self.name, self.email)
