@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 from werkzeug.routing import ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login_manager, db
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from flask import current_app, url_for
 import enum
 
@@ -124,14 +124,21 @@ class Clerk(User, UserMixin):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'clerk_id': self.id}).decode('utf-8')
 
+    def generate_auth_token(self, expiration=2400):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
+        return s.dumps({'id': self.id})
+
     @staticmethod
-    def verify_token(token):
+    def verify_auth_token(token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
-            clerk_id = s.loads(token)['clerk_id']
-        except:
-            return None
-        return Clerk.query.get(clerk_id)
+            data = s.loads(token)
+        except SignatureExpired:
+            return None  # valid token, but expired
+        except BadSignature:
+            return None  # invalid token
+        clerk = Clerk.query.get(data['id'])
+        return clerk
 
     @property
     def password(self):
