@@ -30,3 +30,9 @@ def auth_error():
 def get_auth_token():
     token = g.current_user.generate_auth_token(600)
     return jsonify({'token': token.decode('ascii'), 'duration': 600})
+
+
+@api.route('clerk')
+@auth.login_required
+def get_resource():
+    return jsonify(g.current_user.to_json())
