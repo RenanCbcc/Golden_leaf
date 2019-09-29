@@ -1,5 +1,6 @@
 from flask import request, jsonify, url_for
 from app.api import api
+from app.api.erros import resource_not_found
 from app.models.tables import Product, db
 
 
@@ -50,3 +51,23 @@ def edit_product(id):
     db.session.add(product)
     db.session.commit()
     return jsonify(product.to_json()), 200, {'Location': url_for('api.get_product', id=product.id, _external=True)}
+
+
+@api.route('/product/unit_cost/<id>')
+def product_cost(id):
+    product = Product.query.filter_by(id=id).one()
+    if product is not None:
+        response = jsonify({'id': product.id, 'unit_cost': str(product.unit_cost)})
+        response.status_code = 200
+        return response
+    else:
+        return resource_not_found()
+
+
+@api.route('/product/category/<id>')
+def product(id):
+    products = Product.query.filter_by(category_id=id).all()
+    response = jsonify({'products': [
+        {'id': product.id, 'description': product.description, 'unit_cost': str(product.unit_cost)} for product in
+        products]})
+    return response

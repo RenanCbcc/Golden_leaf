@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/static/jquery-3.4.0.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/clerk.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/clerk.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/erros.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/erros.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/product.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/product.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/client/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/tables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/product/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/product/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/product/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/product/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/order_table.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/order_table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/client/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/client/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,8 +47,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -222,14 +232,9 @@
       <workItem from="1569513391454" duration="3496000" />
       <workItem from="1569517915380" duration="1449000" />
       <workItem from="1569619965046" duration="5350000" />
-      <workItem from="1569689821037" duration="1175000" />
-    </task>
-    <task id="LOCAL-00003" summary="Implementing relationships.">
-      <created>1547160391493</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1547160391493</updated>
+      <workItem from="1569689821037" duration="2150000" />
+      <workItem from="1569692638710" duration="13829000" />
+      <workItem from="1569710490190" duration="9713000" />
     </task>
     <task id="LOCAL-00004" summary="Updating the controller class">
       <created>1547494126384</created>
@@ -567,7 +572,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569626278113</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Getting the current clerk implemented.">
+      <created>1569691776008</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1569691776008</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -588,7 +600,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Email and Password Reset has been implemented." />
     <MESSAGE value="Some small changes." />
     <MESSAGE value="Implementing the API." />
     <MESSAGE value="Some problems with the API fixed." />
@@ -613,7 +624,8 @@
     <MESSAGE value="User Authentication with Flask-HTTPAuth implemented." />
     <MESSAGE value="Implementing Clerk authentication." />
     <MESSAGE value="Clerk authentication implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clerk authentication implemented" />
+    <MESSAGE value="Getting the current clerk implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Getting the current clerk implemented." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Golden_leaf$run.coverage" NAME="run Coverage Results" MODIFIED="1555783129365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

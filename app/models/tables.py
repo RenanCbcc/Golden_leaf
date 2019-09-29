@@ -8,7 +8,7 @@ from werkzeug.routing import ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login_manager, db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
-from flask import current_app, url_for
+from flask import current_app, url_for, abort
 import enum
 
 
@@ -69,7 +69,7 @@ class Client(User):
     @staticmethod
     def from_json(content):
         if content['name'] == "" or content['phone_number'] == "" or content['identification'] == "":
-            raise ValidationError("Cliente não pode ter valores nulos")
+            abort(400, "Cliente não pode ter valores nulos")
         client = Client(content.get('name'), content.get('phone_number'), content.get('identification'),
                         Address.from_json(content['address']), content.get('notifiable'))
         return client
@@ -186,7 +186,7 @@ class Address(db.Model):
 
     @staticmethod
     def from_json(content):
-        if content['street'] == "" or content['address_detail'] == "" or content['zip_code'] == "":
+        if content['street'] == "" or content['zip_code'] == "":
             raise ValidationError("Endereço não pode ter valores nulos")
         address = Address(content.get('street'), content.get('zip_code'))
         return address
@@ -307,17 +307,26 @@ class Order(db.Model):
 
     @staticmethod
     def from_json(json_order):
+        if json_order.get('client_id') is not None:
+            client_id = json_order.get('client_id')
+            if client_id == '':
+                abort(400, 'Pedido com client inválido')
+        else:
+            abort(400, 'Pedido com client inválido')
 
-        client_id = json_order.get('client_id')
-        clerk_id = json_order.get('clerk_id')
-        status = json_order.get('status')
+        if json_order.get('clerk_id') is not None:
+            clerk_id = json_order.get('clerk_id')
+            if clerk_id == '':
+                abort(400, 'Pedido com atendent inválido')
+        else:
+            abort(400, 'Pedido com atendent inválido')
 
-        if client_id is None or client_id == '':
-            raise ValidationError('Pedido com client inválido')
-        if clerk_id is None or clerk_id == '':
-            raise ValidationError('Pedido com vendendor inválido')
-        if status is None or status == '':
-            raise ValidationError('Pedido com estado inválido')
+        if json_order.get('status') is not None:
+            status = json_order.get('status')
+            if status == '':
+                abort(400, 'Pedido com estado inválido')
+        else:
+            abort(400, 'Pedido com estado inválido')
 
         return Order(client_id=client_id, clerk_id=clerk_id, status=Status[status])
 

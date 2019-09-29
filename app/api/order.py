@@ -1,26 +1,26 @@
-from flask import request, jsonify
+from flask import request, jsonify, url_for
 
 from app import db
 from app.api import api
-from app.models.tables import Item, Order
+from app.models.tables import Item, Order, Status
 
 
 @api.route('/order', defaults={'id': None})
 @api.route('/order/<int:id>', methods=['GET'])
-def get_order():
+def get_order(id):
     if id is not None:
-
         order = Order.query.get_or_404(id)
         return jsonify(order.to_json())
     else:
-        products = Order.query.all()
-        response = jsonify({'products': [product.to_json() for product in products]})
+        orders = Order.query.all()
+        response = jsonify({'orders': [order.to_json() for order in orders]})
         response.status_code = 200
         return response
 
 
 @api.route('/order', methods=['POST'])
 def save_order():
+    print(request.json)
     order = Order.from_json(request.json)
     db.session.add(order)
     db.session.flush()  # Get the id before committing the object
@@ -29,4 +29,9 @@ def save_order():
     print(order.cost)
     db.session.add_all(item)
     db.session.commit()
-    return jsonify({"result": "success!"})
+    response = jsonify(
+        {'OK': 'The request was completed successfully.', 'location': url_for('api.get_order', id=order.id)})
+    response.status_code = 200
+    return response
+
+

@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired, Length, NumberRange, Regexp
 
 class NewProductForm(FlaskForm):
     category = SelectField('Escolha a categoria', coerce=int, choices=[])
-    description = StringField('Descrição do produto?', validators=[Length(min=3, max=64), Regexp(
+    description = StringField('Descrição do produto?', validators=[Length(min=3, max=128), Regexp(
         '^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s\.\-]*)$')])
     brand = StringField('Marca do produto?', validators=[Length(min=3, max=32),
                                                          Regexp(

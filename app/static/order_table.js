@@ -5,9 +5,16 @@ $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
 $("#save-items-btn").click(saveItems);
 
+BASE_URL = 'http://127.0.0.1:5000/api';
+CATEGORY_URL = BASE_URL + '/category';
+PRODUCT_BY_CODE_URL = BASE_URL + '/product/code/';
+PRODUCT_BY_CATEGORY_URL = BASE_URL + '/product/category/';
+PRODUCT_UNIT_COST_URL = BASE_URL + '/product/unit_cost/';
+ORDER_URL = BASE_URL + '/order';
+
 function getProductsByCategory() {
     let category_id = $(this).val();
-    $.get('http://127.0.0.1:8000//product/category/' + category_id, function (response) {
+    $.get(PRODUCT_BY_CATEGORY_URL + category_id, function (response) {
         let option = '';
         $.each(response.products, function (idx, product) {
             option += '<option value="' + product.id + '">' + product.description + '</option>';
@@ -17,7 +24,7 @@ function getProductsByCategory() {
 }
 
 function updateUnitcost() {
-    $.get('http://127.0.0.1:8000/product/unit_cost/' + $("#products").val(), function (response) {
+    $.get(PRODUCT_UNIT_COST_URL + $("#products").val(), function (response) {
         $("#unit_cost").val(response.unit_cost)
     });
 
@@ -67,7 +74,7 @@ function new_line(id, description, unit_cost, quantity) {
 }
 
 function populateCategories() {
-    $.get('http://127.0.0.1:8000/api/category', function (response) {
+    $.get(CATEGORY_URL, function (response) {
         let option = '';
         $.each(response.categories, function (idx, category) {
             option += '<option value="' + category.id + '">' + category.title + '</option>';
@@ -84,7 +91,7 @@ $("#code").blur(function () {
         $("#description_automatic_form").val("...");
         $("#unit_cost_automatic_form").val("...");
 
-        $.getJSON("http://127.0.0.1:8000/api/product/code/" + code, function (response) {
+        $.getJSON(PRODUCT_BY_CODE_URL + code, function (response) {
 
             if (!("error" in response)) {
                 //Atualiza os campos com os valores da consulta.
@@ -114,28 +121,35 @@ function insert_order_from_automatic_form() {
 function saveItems() {
     let items = [];
     let clerk_id = $('#clerk-id').data('clerk-id');
-    console.log(clerk_id)
+    console.log(clerk_id);
     let client_id = $('#client-id').data('client-id');
-    console.log(client_id)
+    console.log(client_id);
     $("tbody>tr").each(function () {
         let product_id = $(this).find("td:nth-child(1)").text();
         let product_quantity = $(this).find("td:nth-child(3)").text();
         let item = {
-            id: product_id,
+            product_id: product_id,
             quantity: product_quantity
         };
         items.push(item)
     });
 
-    let data = {
-        clerk_id: clerk_id,
-        client_id: client_id,
+    const order = {
+        clerk_id: '1',
+        client_id: '2',
+        status: "PENDENTE",
         items: items
     };
 
-    console.log(data);
-    $.post("http://127.0.0.1:8000/api/order", data, function () {
-
+    $.ajax({
+        url: ORDER_URL,
+        data: JSON.stringify(order),
+        type: 'POST',
+        traditional: true,
+        contentType: 'application/json',
+        success: function (data) {
+            alert(data)
         }
-    );
+    });
+
 }

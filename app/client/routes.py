@@ -93,7 +93,7 @@ def get_orders(id):
     return render_template('client/orderlist.html', orders=orders)
 
 
-@blueprint_client.route('/client/<int:id>/order/new', methods=['GET', 'POST'])
+@blueprint_client.route('/client/<int:id>/order/new', methods=['GET'])
 @login_required
 def new_order(id):
     client = Client.query.filter_by(id=id).one()

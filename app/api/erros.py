@@ -12,28 +12,29 @@ def page_not_found(error):
 
 
 @api.app_errorhandler(404)
-def resource_not_found():
+def resource_not_found(error):
     response = jsonify({'error': 'Not found', 'message': 'The resource referenced in the URL was not found.'})
     response.status_code = 404
     return response
 
 
 @api.app_errorhandler(ValidationError)
-def internal_server_error(message):
-    response = jsonify({'error': 'Internal server error', 'message': message})
+def internal_server_error(error):
+    response = jsonify(
+        {'error': 'Internal server error', 'message': 'An unexpected error has occurred while processing the request.'})
     response.status_code = 500
     return response
 
 
 @api.errorhandler(400)
-def validation_error(message):
-    response = jsonify({'error': 'Bad request', 'message': message})
+def validation_error(error):
+    response = jsonify({'error': 'Bad request', 'message': 'The request is invalid or inconsistent.'})
     response.status_code = 400
     return response
 
 
 @api.errorhandler(401)
-def unauthorized():
+def unauthorized(error):
     response = jsonify(
         {'error': 'Invalid credentials', 'message': 'The request does not include authentication information.'})
     response.status_code = 401
@@ -41,8 +42,9 @@ def unauthorized():
 
 
 @api.errorhandler(403)
-def forbidden(message):
-    response = jsonify({'error': 'forbidden', 'message': message})
+def forbidden(error):
+    response = jsonify({'error': 'forbidden',
+                        'message': 'The authentication credentials sent with the request are insufficient for the request.'})
     response.status_code = 403
     return response
 

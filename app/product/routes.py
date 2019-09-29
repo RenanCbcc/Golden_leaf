@@ -87,22 +87,6 @@ def update_product(id):
     return render_template('product/edit.html', form=form, image_file=image_file)
 
 
-@blueprint_product.route('/product/category/<id>')
-def product(id):
-    products = Product.query.filter_by(category_id=id).all()
-    response = jsonify({'products': [
-        {'id': product.id, 'description': product.description, 'unit_cost': str(product.unit_cost)} for product in
-        products]})
-    return response
-
-
-@blueprint_product.route('/product/unit_cost/<id>')
-def product_cost(id):
-    product = Product.query.filter_by(id=id).one()
-    response = jsonify({'id': product.id, 'unit_cost': str(product.unit_cost)})
-    return response
-
-
 def save_picture(form_picture):
     random_hex = secrets.token_hex(16)
     # I do not want the file file name, so I use _ instead
