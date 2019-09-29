@@ -20,15 +20,12 @@ def get_order(id):
 
 @api.route('/order', methods=['POST'])
 def save_order():
-    print(request.json)
     order = Order.from_json(request.json)
     db.session.add(order)
     db.session.flush()  # Get the id before committing the object
-    print(order.id)
     item = Item.from_json(request.json.get('items'), order)
-    print(order.cost)
     db.session.add_all(item)
-    db.session.commit()
+    #db.session.commit()
     response = jsonify(
         {'OK': 'The request was completed successfully.', 'location': url_for('api.get_order', id=order.id)})
     response.status_code = 200

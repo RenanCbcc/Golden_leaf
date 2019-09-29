@@ -1,6 +1,7 @@
 $(document).ready(populateCategories);
 $("#categories").change(getProductsByCategory);
 $("#products").change(updateUnitcost);
+$("#statusList li").click(changeOrderStatus);
 $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
 $("#save-items-btn").click(saveItems);
@@ -55,11 +56,16 @@ function new_line(id, description, unit_cost, quantity) {
     let column_remove = $("<td>");
     let column_edit = $("<td>");
 
-    let link_remove = $("<a>").addClass("btn btn-danger").attr("href", "#").text("Remover");
+    let button_remove = $("<button>")
+        .addClass("btn btn-danger")
+        .attr("type", "button")
+        .attr("id", "buttonRemove")
+        .text("Remover")
+        .click(removeLine);
     let span_remove = $("<span>").addClass("glyphicon glyphicon-remove");
 
-    link_remove.append(span_remove);
-    column_remove.append(link_remove);
+    button_remove.append(span_remove);
+    column_remove.append(button_remove);
 
 
     line.append(column_id);
@@ -71,6 +77,10 @@ function new_line(id, description, unit_cost, quantity) {
     line.append(column_edit);
 
     return line;
+}
+
+function removeLine() {
+    $(this).parent().parent().remove();
 }
 
 function populateCategories() {
@@ -117,16 +127,18 @@ function insert_order_from_automatic_form() {
 
 }
 
+function changeOrderStatus() {
+    $('#stateButton').text($(this).text());
+}
 
 function saveItems() {
     let items = [];
-    let clerk_id = $('#clerk-id').data('clerk-id');
-    console.log(clerk_id);
-    let client_id = $('#client-id').data('client-id');
-    console.log(client_id);
+    let clerk_id = $('#clerk-id').attr('data-url');
+    let client_id = $('#client-id').attr('data-url');
+    let status = $('#stateButton').text();
     $("tbody>tr").each(function () {
         let product_id = $(this).find("td:nth-child(1)").text();
-        let product_quantity = $(this).find("td:nth-child(3)").text();
+        let product_quantity = $(this).find("td:nth-child(4)").text();
         let item = {
             product_id: product_id,
             quantity: product_quantity
@@ -135,9 +147,9 @@ function saveItems() {
     });
 
     const order = {
-        clerk_id: '1',
-        client_id: '2',
-        status: "PENDENTE",
+        clerk_id: clerk_id,
+        client_id: client_id,
+        status: status,
         items: items
     };
 
@@ -148,7 +160,7 @@ function saveItems() {
         traditional: true,
         contentType: 'application/json',
         success: function (data) {
-            alert(data)
+            alert(data['location'])
         }
     });
 
