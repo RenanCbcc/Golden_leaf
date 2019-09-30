@@ -9,7 +9,7 @@ from app.product.forms import NewProductForm
 
 
 @blueprint_category.route("/category/list", methods=['GET'])
-def listing_categories():
+def get_categories():
     page = request.args.get('page', 1, type=int)
     categories = Category.query.order_by(Category.title).paginate(page=page, per_page=10)
     return render_template('category/list.html', categories=categories)

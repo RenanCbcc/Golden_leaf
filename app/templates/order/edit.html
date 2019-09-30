@@ -2,41 +2,37 @@
 {% block page_content %}
     <div class="row">
         <div class="col-md-7 col-md-offset-1">
-            <h2 class="titulo-principal">Lista de produtos</h2>
+            <h2 class="titulo-principal">Lista de itens</h2>
             <div>
                 <table class="table table-striped table-responsive table-bordered">
                     <thead class="thead-default">
                     <tr>
-
-                        <th>Marca</th>
                         <th>Descrição</th>
-                        <th>R$</th>
-                        <th>Status</th>
-                        <th>Código</th>
+                        <th>Quantidade</th>
+                        <th>Preço Unitátio</th>
+                        <th>Preto Total</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for item in items.items %}
+                    {% for item in order_items.items %}
                         <tr>
-
                             <td>{{ item.product.description }}</td>
                             <td>{{ item.quantity }}</td>
+                            <td>{{ item.product.unit_cost }}</td>
                             <td>{{ item.extended_cost }}</td>
-
-
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
 
-                {% for page_number in items.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+                {% for page_number in order_items.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
                     {% if page_number %}
-                        {% if all_products.page == page_number %}
+                        {% if order_items.page == page_number %}
                             <a class="btn btn-info mb-4"
-                               href="{{ url_for('blueprint_order.edit_order',page=page_number) }}">{{ page_number }}</a>
+                               href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
                         {% else %}
                             <a class="btn btn-outline-info mb-4"
-                               href="{{ url_for('blueprint_order.edit_order',page=page_number) }}">{{ page_number }}</a>
+                               href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
                         {% endif %}
                     {% else %}
                         ...

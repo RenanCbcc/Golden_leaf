@@ -1,7 +1,7 @@
 from flask_login import login_required
 
-from app.models.tables import Order, Client, Item
-from flask import render_template, request
+from app.models.tables import Order, Client, Item, Product
+from flask import render_template, request, jsonify
 from app.order import blueprint_order
 from app.order.forms import SearchOrderForm
 
@@ -21,9 +21,13 @@ def new_order(id):
     return render_template('order/new.html')
 
 
-@blueprint_order.route('/order/<int:id>/update', methods=["GET", 'POST'])
+@blueprint_order.route('/orders/<int:id>/update', methods=['GET', 'POST'])
+@login_required
 def update_order(id):
-    return '<html><h1>TODO</h1><html>'
+    order = Order.query.get_or_404(id)
+    page = request.args.get('page', 1, type=int)
+    all_items = Item.query.filter_by(order=order).paginate(page, per_page=10)
+    return render_template('order/edit.html', order_items=all_items)
 
 
 @blueprint_order.route('/order/search', methods=["GET", 'POST'])
@@ -35,19 +39,3 @@ def search_order():
         pass
 
     return render_template("order/search.html", form=form)
-
-
-@blueprint_order.route('/order/save', methods=['POST'])
-def save_order():
-    # product = Product.from_json(request.json)
-    # db.session.add(order)
-    # db.session.commit()
-    return request.json, 201, {'Location': "www.goldenleaf.com"}
-
-
-@blueprint_order.route('/orders/<int:id>/edit', methods=['GET', 'POST'])
-@login_required
-def edit_order(id):
-    page = request.args.get('page', 1, type=int)
-    items = Item.query.filter_by(order_id=id).order_by(Order.date.desc()).paginate(page=page, per_page=10)
-    return render_template('order/edit.html', orders=items)

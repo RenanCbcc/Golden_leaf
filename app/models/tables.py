@@ -3,7 +3,7 @@ from abc import ABCMeta
 from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy import CheckConstraint, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from werkzeug.routing import ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login_manager, db
@@ -45,7 +45,6 @@ class Client(User):
     address_id = db.Column(db.Integer, ForeignKey('addresses.id'))
     address = db.relationship("Address", back_populates="dweller", lazy=False)
     status = db.Column(db.Boolean)
-    orders = db.relationship('Order', backref='client', lazy='dynamic')
 
     def __init__(self, name, phone_number, identification, address, notifiable, status=True):
         super().__init__(name, phone_number)
@@ -74,22 +73,6 @@ class Client(User):
                         Address.from_json(content['address']), content.get('notifiable'))
         return client
 
-    # @staticmethod
-    # def generate_fake(count=10):
-    #     from sqlalchemy.exc import IntegrityError
-    #     from faker import Faker
-    #     fake = Faker('pt_BR')
-    #     for i in range(count):
-    #         c = Client(name=fake.name(), phone_number=fake.msisdn(), identification=fake.cpf(),
-    #                    address=Address(street=fake.street_address(), zip_code=fake.postcode())
-    #                    , notifiable=True)
-    #         db.session.add(c)
-    #
-    #     try:
-    #         db.session.commit()
-    #     except IntegrityError:
-    #         db.session.rollback()
-
 
 def __eq__(self, other):
     return self.identification == other.identification
@@ -104,7 +87,6 @@ class Clerk(User, UserMixin):
     image_file = db.Column(db.String(24), default='default.jpg')
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128), nullable=False)
-    orders = db.relationship('Order', backref='clerk', lazy='dynamic')
 
     __mapper_args__ = {
         'concrete': True
@@ -206,6 +188,8 @@ class Product(db.Model):
     code = db.Column(db.String(13), unique=True, nullable=False)
     category_id = db.Column(db.Integer, ForeignKey('categories.id'), nullable=False)
 
+    category = relationship("Category", backref=backref('products', order_by=description))
+
     __table_args__ = (CheckConstraint(unit_cost >= 0.00, name='unit_cost_positive'),)
 
     def __init__(self, category, brand, description, unit_cost, code, is_available=True):
@@ -257,7 +241,6 @@ class Category(db.Model):
     __tablename__ = 'categories'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32), index=True, nullable=False)
-    products = db.relationship('Product', backref='category', lazy=True)
 
     def __init__(self, title):
         self.title = title
@@ -291,7 +274,8 @@ class Order(db.Model):
     cost = db.Column(db.Numeric(10, 2), default=0)
     status = db.Column(db.Enum(Status), default=Status.PENDENTE)
 
-    items = db.relationship('Item', backref='order', lazy='dynamic')
+    client = relationship("Client", backref=backref('orders', order_by=id))
+    clerk = relationship("Clerk", backref=backref('orders', order_by=id))
 
     def to_json(self):
         json_product = {
@@ -306,29 +290,10 @@ class Order(db.Model):
         return json_product
 
     @staticmethod
-    def from_json(json_order):
-        if json_order.get('client_id') is not None:
-            client_id = json_order.get('client_id')
-            if client_id == '':
-                abort(400, 'Pedido com client inválido')
-        else:
-            abort(400, 'Pedido com client inválido')
-
-        if json_order.get('clerk_id') is not None:
-            clerk_id = json_order.get('clerk_id')
-            if clerk_id == '':
-                abort(400, 'Pedido com atendent inválido')
-        else:
-            abort(400, 'Pedido com atendent inválido')
-
-        if json_order.get('status') is not None:
-            status = json_order.get('status')
-            if status == '':
-                abort(400, 'Pedido com estado inválido')
-        else:
-            abort(400, 'Pedido com estado inválido')
-
-        return Order(client_id=client_id, clerk_id=clerk_id, status=Status[status])
+    def from_json(content):
+        client = Client.query.get(content.get('client_id'))
+        clerk = Clerk.query.get(content.get('clerk_id'))
+        return Order(client=client, clerk=clerk, status=Status[content.get('status')])
 
     def __repr__(self):
         return '<Pedido %r %r %r >' % (self.date, self.client.name, self.clerk.name)
@@ -342,6 +307,9 @@ class Item(db.Model):
     product_id = db.Column(db.Integer, ForeignKey('products.id'), nullable=False)
     quantity = db.Column(db.Numeric(5, 2), nullable=False)
     extended_cost = db.Column(db.Numeric(7, 2), nullable=False)
+
+    order = relationship("Order", backref=backref('items', order_by=id), lazy=True)
+    product = relationship("Product", uselist=False)
 
     __table_args__ = (CheckConstraint(quantity >= 0.01, name='quantity_positive'),)
 
@@ -363,7 +331,6 @@ class Item(db.Model):
 
     @staticmethod
     def from_json(items_json, order):
-        items = []
         order.cost = 0
         for item in items_json:
             product_id = item['product_id']
@@ -375,8 +342,7 @@ class Item(db.Model):
                 raise ValidationError('Item com quantidade inválida')
             extended_cost = product.unit_cost * decimal.Decimal(quantity)
             order.cost += extended_cost
-            items.append(Item(product_id, order, quantity, extended_cost))
-        return items
+            order.items.append(Item(product_id, order, quantity, extended_cost))
 
     def __repr__(self):
-        return '<Item %r Quantidade %r>' % (self.product.description, self.quantity)
+        return '<Item: %r Quantidade %r>' % (self.product.description, self.quantity)

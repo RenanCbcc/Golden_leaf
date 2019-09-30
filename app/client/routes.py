@@ -50,7 +50,6 @@ def update_client(id):
         client.status = form.status.data
 
         client.address.street = form.street.data
-        client.address.detail = form.address_detail.data
         client.address.zip_code = form.zip_code.data
 
         db.session.add(client)
@@ -63,7 +62,6 @@ def update_client(id):
         form.status.data = client.status
 
         form.street.data = client.address.street
-        form.address_detail.data = client.address.detail
         form.zip_code.data = client.address.zip_code
     return render_template('client/edit.html', form=form)
 

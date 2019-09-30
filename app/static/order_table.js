@@ -1,19 +1,21 @@
 $(document).ready(populateCategories);
-$("#categories").change(getProductsByCategory);
-$("#products").change(updateUnitcost);
+$("#categories").click(getProductsByCategory);
+$("#products").click(updateUnitcost);
 $("#statusList li").click(changeOrderStatus);
 $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
 $("#save-items-btn").click(saveItems);
 
-BASE_URL = 'http://127.0.0.1:5000/api';
-CATEGORY_URL = BASE_URL + '/category';
-PRODUCT_BY_CODE_URL = BASE_URL + '/product/code/';
-PRODUCT_BY_CATEGORY_URL = BASE_URL + '/product/category/';
-PRODUCT_UNIT_COST_URL = BASE_URL + '/product/unit_cost/';
-ORDER_URL = BASE_URL + '/order';
+BASE_APP_URL = 'http://127.0.0.1:5000/orders/'
+BASE_API_URL = 'http://127.0.0.1:5000/api';
+CATEGORY_URL = BASE_API_URL + '/category';
+PRODUCT_BY_CODE_URL = BASE_API_URL + '/product/code/';
+PRODUCT_BY_CATEGORY_URL = BASE_API_URL + '/product/category/';
+PRODUCT_UNIT_COST_URL = BASE_API_URL + '/product/unit_cost/';
+ORDER_URL = BASE_API_URL + '/order';
 
 function getProductsByCategory() {
+    $("#unit_cost").val("")
     let category_id = $(this).val();
     $.get(PRODUCT_BY_CATEGORY_URL + category_id, function (response) {
         let option = '';
@@ -104,7 +106,7 @@ $("#code").blur(function () {
         $.getJSON(PRODUCT_BY_CODE_URL + code, function (response) {
 
             if (!("error" in response)) {
-                //Atualiza os campos com os valores da consulta.
+                //Update the fields with the fetched value
                 $("#description_automatic_form").val(response.description);
                 $("#unit_cost_automatic_form").val(response.unit_cost);
                 $("#product-id").val(response.id);
@@ -160,8 +162,12 @@ function saveItems() {
         traditional: true,
         contentType: 'application/json',
         success: function (data) {
-            alert(data['location'])
+            window.location.replace(BASE_APP_URL + data['order_id'] + '/update');
+        },
+        error: function () {
+            alert("Não foi possível salvar o pedido.")
         }
     });
+
 
 }
