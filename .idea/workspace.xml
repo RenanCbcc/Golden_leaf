@@ -3,22 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/erros.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/erros.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/category/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/category/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/tables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/order/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/order/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/product/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/product/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/order_table.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/order_table.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/category/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/category/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/category/productsof.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/category/productsof.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/client/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/client/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/order/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/order/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/product/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/product/list.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -241,14 +225,10 @@
       <workItem from="1569692638710" duration="13829000" />
       <workItem from="1569710490190" duration="9755000" />
       <workItem from="1569776442435" duration="15659000" />
-      <workItem from="1569845074489" duration="26331000" />
-    </task>
-    <task id="LOCAL-00006" summary="Trying to fix sqlalchemy.exc.OperationalError">
-      <created>1547664093200</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1547664093200</updated>
+      <workItem from="1569845074489" duration="26395000" />
+      <workItem from="1570043746531" duration="16000" />
+      <workItem from="1570044090829" duration="24000" />
+      <workItem from="1570208714685" duration="924000" />
     </task>
     <task id="LOCAL-00007" summary="Several improvements implemented.">
       <created>1547678210872</created>
@@ -586,7 +566,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569796952767</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Order page fully implemented.">
+      <created>1569882252490</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1569882252494</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -607,7 +594,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Some problems with the API fixed." />
     <MESSAGE value="Implementing rest services from cliente and product." />
     <MESSAGE value="Implementing category model" />
     <MESSAGE value="Category routes implemented." />
@@ -632,7 +618,8 @@
     <MESSAGE value="Getting the current clerk implemented." />
     <MESSAGE value="Saving order implemented." />
     <MESSAGE value="Some improvements is order page." />
-    <option name="LAST_COMMIT_MESSAGE" value="Some improvements is order page." />
+    <MESSAGE value="Order page fully implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Order page fully implemented." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Golden_leaf$run.coverage" NAME="run Coverage Results" MODIFIED="1555783129365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
