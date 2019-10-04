@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -229,14 +228,7 @@
       <workItem from="1569845074489" duration="26395000" />
       <workItem from="1570043746531" duration="16000" />
       <workItem from="1570044090829" duration="24000" />
-      <workItem from="1570208714685" duration="1469000" />
-    </task>
-    <task id="LOCAL-00008" summary="Implementing flask forms.">
-      <created>1547762220207</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1547762220207</updated>
+      <workItem from="1570208714685" duration="1711000" />
     </task>
     <task id="LOCAL-00009" summary="Flask forms implemented.">
       <created>1548099350308</created>
@@ -574,7 +566,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570210983702</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Updating requirements for heroku.">
+      <created>1570211319549</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1570211319549</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
