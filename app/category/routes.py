@@ -16,12 +16,13 @@ def get_categories():
 
 
 @blueprint_category.route("/category/new", methods=['GET', 'POST'])
+@login_required
 def new_category():
     form = CategoryForm()
     if form.validate_on_submit():
         db.session.add(Category(form.title.data))
         db.session.commit()
-        return redirect(url_for('blueprint_category.listing_categories'))
+        return redirect(url_for('blueprint_category.get_categories'))
     return render_template('category/new.html', form=form)
 
 
@@ -42,6 +43,7 @@ def search_category():
 
 
 @blueprint_category.route('/category/<int:id>/update', methods=['GET', 'POST'])
+@login_required
 def update_category(id):
     form = CategoryForm()
     category = Category.query.get_or_404(id)

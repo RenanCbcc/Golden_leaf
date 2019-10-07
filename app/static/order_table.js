@@ -16,6 +16,7 @@ ORDER_URL = BASE_API_URL + '/order';
 
 function getProductsByCategory() {
     $("#unit_cost").val("")
+    $("#quantity_manual_form").val("");
     let category_id = $(this).val();
     $.get(PRODUCT_BY_CATEGORY_URL + category_id, function (response) {
         let option = '';
@@ -27,6 +28,7 @@ function getProductsByCategory() {
 }
 
 function updateUnitcost() {
+    $("#quantity_manual_form").val("");
     $.get(PRODUCT_UNIT_COST_URL + $("#products").val(), function (response) {
         $("#unit_cost").val(response.unit_cost)
     });
@@ -39,7 +41,7 @@ function insert_order_from_manual_form() {
     let product_id = product.val();
     let product_description = $(product).children("option:selected").text();
     let product_cost = $("#unit_cost").val();
-    let product_quantity = $("#quantity").val();
+    let product_quantity = $("#quantity_manual_form").val();
 
     let line = new_line(product_id, product_description, product_cost, product_quantity);
     body_table.append(line);

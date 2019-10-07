@@ -1,7 +1,7 @@
 from flask_login import login_required
 
-from app.models.tables import Order, Client, Item, Product
-from flask import render_template, request, jsonify
+from app.models.tables import Order, Client, Item
+from flask import render_template, request
 from app.order import blueprint_order
 from app.order.forms import SearchOrderForm
 
@@ -39,3 +39,8 @@ def search_order():
         pass
 
     return render_template("order/search.html", form=form)
+
+
+@blueprint_order.route('client/order/payment')
+def process_payment():
+    return request.form['value']

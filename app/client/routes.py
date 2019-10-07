@@ -1,13 +1,13 @@
 from flask import render_template, redirect, flash, url_for, request
 from app.client import blueprint_client
-from app.models.tables import Client, Address, db, Order
+from app.models.tables import Client, Address, db, Order, Status
 from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
 from flask_login import login_required
 
 
 @blueprint_client.route('/client/list')
 @login_required
-def listing_clients():
+def get_clients():
     page = request.args.get('page', 1, type=int)
     clients = Client.query.order_by(Client.name).paginate(page=page, per_page=10)
     return render_template('client/list.html', clients=clients)
@@ -22,20 +22,9 @@ def new_client():
                               Address(form.street.data, form.zip_code.data),
                               form.notifiable.data))
         db.session.commit()
-        return redirect(url_for('blueprint_client.listing_clients'))
+        return redirect(url_for('blueprint_client.get_clients'))
 
     return render_template('client/new.html', form=form)
-
-
-"""
-def send_message():
-    sender = nexmo.Client(key='mykey',secret='mysecret')
-    sender.send_message({
-        'from': 'Casa Palma de Ouro',
-        'to': '5591998291510',
-        'text': 'Você realizou uma compra no valor de  ',
-    })
-"""
 
 
 @blueprint_client.route('/client/<int:id>/update', methods=['GET', 'POST'])
@@ -44,7 +33,6 @@ def update_client(id):
     form = UpdateClientForm()
     client = Client.query.filter_by(id=id).one()
     if form.validate_on_submit():
-        client.name = form.name.data
         client.phone_number = form.phone_number.data
         client.notifiable = form.notifiable.data
         client.status = form.status.data
@@ -54,9 +42,10 @@ def update_client(id):
 
         db.session.add(client)
         db.session.commit()
-        return redirect(url_for('blueprint_client.listing_clients'))
+        return redirect(url_for('blueprint_client.get_clients'))
     elif request.method == 'GET':
         form.name.data = client.name
+        form.identification.data = client.identification
         form.phone_number.data = client.phone_number
         form.notifiable.data = client.notifiable
         form.status.data = client.status
@@ -88,7 +77,7 @@ def search_client():
 def get_orders(id):
     page = request.args.get('page', 1, type=int)
     orders = Order.query.filter_by(client_id=id).order_by(Order.date.desc()).paginate(page=page, per_page=10)
-    return render_template('client/orderlist.html', orders=orders)
+    return render_template('client/orderlist.html', orders=orders, client_id=id)
 
 
 @blueprint_client.route('/client/<int:id>/order/new', methods=['GET'])
@@ -98,10 +87,10 @@ def new_order(id):
     return render_template('order/new.html', client=client)
 
 
-@blueprint_client.route('/client/<int:id>/orders/<int:order_id>', methods=['GET'])
+@blueprint_client.route('/client/<int:id>/orders/pending', methods=['GET'])
 @login_required
-def edit_order(id, order_id):
+def pending_order(id):
     page = request.args.get('page', 1, type=int)
-    order = Order.query.filter_by(client_id=id, order_id=order_id).order_by(Order.date.desc()).paginate(page=page,
-                                                                                                        per_page=10)
-    return render_template('order/detail.html', orders=order)
+    order = Order.query.filter_by(client_id=id, status=Status.PENDENTE).order_by(Order.date.desc()).paginate(page=page,
+                                                                                                             per_page=10)
+    return render_template('order/pending_order.html', orders=order)

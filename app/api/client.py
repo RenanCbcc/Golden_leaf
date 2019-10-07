@@ -7,8 +7,8 @@ from app.models.tables import Client, db
 @api.route('/client/<int:id>', methods=['GET'])
 def get_client(id):
     if id is not None:
-        product = Client.query.get_or_404(id)
-        return jsonify(product.to_json())
+        client = Client.query.get_or_404(id)
+        return jsonify(client.to_json())
     else:
         clients = Client.query.all()
         response = jsonify({'clients': [client.to_json() for client in clients]})

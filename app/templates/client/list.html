@@ -65,10 +65,10 @@
                 {% if page_number %}
                     {% if clients.page == page_number %}
                         <a class="btn btn-info mb-4"
-                           href="{{ url_for('blueprint_client.listing_clients',page=page_number) }}">{{ page_number }}</a>
+                           href="{{ url_for('blueprint_client.get_clients',page=page_number) }}">{{ page_number }}</a>
                     {% else %}
                         <a class="btn btn-outline-info mb-4"
-                           href="{{ url_for('blueprint_client.listing_clients',page=page_number) }}">{{ page_number }}</a>
+                           href="{{ url_for('blueprint_client.get_clients',page=page_number) }}">{{ page_number }}</a>
                     {% endif %}
                 {% else %}
                     ...

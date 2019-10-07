@@ -2,7 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/order/payment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/category/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/category/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/client/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/client/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/configuration/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/configuration/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/order/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/order/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/order_table.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/order_table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/client/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/client/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/client/orderlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/client/orderlist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/order/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/order/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/new.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +72,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/bin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/templates/order" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -66,19 +82,19 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/templates/order" />
+      <recent name="$PROJECT_DIR$/app/templates/client" />
+      <recent name="$PROJECT_DIR$/app/templates/category" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/app/clerk" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/static" />
       <recent name="$PROJECT_DIR$/app/static/js" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/app/templates/clerk" />
       <recent name="$PROJECT_DIR$/app/models" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/templates/client" />
-      <recent name="$PROJECT_DIR$/app/templates/category" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/app/templates/order" />
-      <recent name="$PROJECT_DIR$/app/clerk" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -107,7 +123,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/manage.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -229,6 +245,9 @@
       <workItem from="1570043746531" duration="16000" />
       <workItem from="1570044090829" duration="24000" />
       <workItem from="1570208714685" duration="1711000" />
+      <workItem from="1570389472695" duration="637000" />
+      <workItem from="1570390209114" duration="9619000" />
+      <workItem from="1570468081096" duration="10214000" />
     </task>
     <task id="LOCAL-00009" summary="Flask forms implemented.">
       <created>1548099350308</created>
