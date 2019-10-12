@@ -70,27 +70,3 @@ def search_client():
             return render_template('client/list.html', clients=clients)
 
     return render_template("client/search.html", form=form)
-
-
-@blueprint_client.route('/client/<int:id>/orders', methods=['GET'])
-@login_required
-def get_orders(id):
-    page = request.args.get('page', 1, type=int)
-    orders = Order.query.filter_by(client_id=id).order_by(Order.date.desc()).paginate(page=page, per_page=10)
-    return render_template('client/orderlist.html', orders=orders, client_id=id)
-
-
-@blueprint_client.route('/client/<int:id>/order/new', methods=['GET'])
-@login_required
-def new_order(id):
-    client = Client.query.filter_by(id=id).one()
-    return render_template('order/new.html', client=client)
-
-
-@blueprint_client.route('/client/<int:id>/orders/pending', methods=['GET'])
-@login_required
-def pending_order(id):
-    page = request.args.get('page', 1, type=int)
-    order = Order.query.filter_by(client_id=id, status=Status.PENDENTE).order_by(Order.date.desc()).paginate(page=page,
-                                                                                                             per_page=10)
-    return render_template('order/pending_order.html', orders=order)

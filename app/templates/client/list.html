@@ -37,7 +37,7 @@
                         <td>
                             <div class="btn-group">
 
-                                <a href="{{ url_for('blueprint_client.get_orders',id=client.id) }}"
+                                <a href="{{ url_for('blueprint_order.get_orders',id=client.id) }}"
                                    class="btn btn-primary">
                                     <span class="glyphicon glyphicon-list-alt"></span>
                                     Pedidos
@@ -46,7 +46,7 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="{{ url_for('blueprint_client.new_order',id=client.id) }}"
+                                <a href="{{ url_for('blueprint_order.new_order',id=client.id) }}"
                                    class="btn btn-default">
                                     <span class="glyphicon glyphicon-shopping-cart"></span>
                                     Novo pedido</a>

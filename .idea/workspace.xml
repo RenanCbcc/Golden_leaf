@@ -2,23 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/templates/order/payment.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/category/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/category/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/client/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/configuration/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/configuration/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/order/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/order/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/order_table.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/order_table.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/client/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/client/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/client/orderlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/client/orderlist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/order/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/order/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/new.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/client/orderlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/client_orders.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/order/pending_order.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/pending_order.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -82,19 +72,19 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/templates/order" />
-      <recent name="$PROJECT_DIR$/app/templates/client" />
-      <recent name="$PROJECT_DIR$/app/templates/category" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/app/clerk" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/static" />
       <recent name="$PROJECT_DIR$/app/static/js" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/app/templates/clerk" />
       <recent name="$PROJECT_DIR$/app/models" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/templates/order" />
+      <recent name="$PROJECT_DIR$/app/templates/client" />
+      <recent name="$PROJECT_DIR$/app/templates/category" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/app/clerk" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -247,14 +237,8 @@
       <workItem from="1570208714685" duration="1711000" />
       <workItem from="1570389472695" duration="637000" />
       <workItem from="1570390209114" duration="9619000" />
-      <workItem from="1570468081096" duration="10214000" />
-    </task>
-    <task id="LOCAL-00009" summary="Flask forms implemented.">
-      <created>1548099350308</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1548099350309</updated>
+      <workItem from="1570468081096" duration="10503000" />
+      <workItem from="1570898816729" duration="17165000" />
     </task>
     <task id="LOCAL-00010" summary="Trying to solve page_not_found() error.">
       <created>1548110416916</created>
@@ -592,7 +576,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570211319549</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Implementing order's payments.">
+      <created>1570487028465</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1570487028466</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -613,8 +604,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Implementing category model" />
-    <MESSAGE value="Category routes implemented." />
     <MESSAGE value="Product route improved." />
     <MESSAGE value=" Dynamic select field for product implemented." />
     <MESSAGE value="Clerk account and Profile Picture implemented" />
@@ -638,7 +627,9 @@
     <MESSAGE value="Some improvements is order page." />
     <MESSAGE value="Order page fully implemented." />
     <MESSAGE value="Updating requirements for heroku." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating requirements for heroku." />
+    <MESSAGE value="Implementing order's payments." />
+    <MESSAGE value="Payment fully implemented (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Payment fully implemented (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧!" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Golden_leaf$run.coverage" NAME="run Coverage Results" MODIFIED="1555783129365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
