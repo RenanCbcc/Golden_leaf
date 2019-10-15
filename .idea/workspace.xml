@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/renan.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/paying_order.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/order/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/order/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/client/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/client/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/client/orderlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/client_orders.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/order_table.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/order_table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/order/client_orders.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/client_orders.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/order/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/new.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/order/pending_order.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/pending_order.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -238,14 +239,9 @@
       <workItem from="1570389472695" duration="637000" />
       <workItem from="1570390209114" duration="9619000" />
       <workItem from="1570468081096" duration="10503000" />
-      <workItem from="1570898816729" duration="17165000" />
-    </task>
-    <task id="LOCAL-00010" summary="Trying to solve page_not_found() error.">
-      <created>1548110416916</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1548110416916</updated>
+      <workItem from="1570898816729" duration="17191000" />
+      <workItem from="1570972931705" duration="401000" />
+      <workItem from="1571074872369" duration="16683000" />
     </task>
     <task id="LOCAL-00011" summary="Implementing flask-login.">
       <created>1548196189977</created>
@@ -583,7 +579,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570487028466</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Payment fully implemented (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧!">
+      <created>1570918363482</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1570918363482</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

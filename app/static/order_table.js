@@ -6,7 +6,7 @@ $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
 $("#save-items-btn").click(saveItems);
 
-BASE_APP_URL = 'http://127.0.0.1:5000/orders/'
+BASE_APP_URL = 'http://127.0.0.1:5000/order/'
 BASE_API_URL = 'http://127.0.0.1:5000/api';
 CATEGORY_URL = BASE_API_URL + '/category';
 PRODUCT_BY_CODE_URL = BASE_API_URL + '/product/code/';
@@ -42,13 +42,30 @@ function insert_order_from_manual_form() {
     let product_description = $(product).children("option:selected").text();
     let product_cost = $("#unit_cost").val();
     let product_quantity = $("#quantity_manual_form").val();
-
+    if (!validateQuantity(product_quantity)) {
+        alert("Erro. Quantidade do produto inválida.");
+        return;
+    }
     let line = new_line(product_id, product_description, product_cost, product_quantity);
     body_table.append(line);
 
 
 }
 
+function insert_order_from_automatic_form() {
+    let product_id = $("#product-id");
+    let body_table = $("#items-table").find("tbody");
+    let product_description = $("#description_automatic_form").val();
+    let product_cost = $("#unit_cost_automatic_form").val();
+    let product_quantity = $("#quantity_automatic_form").val();
+    if (!validateQuantity(product_quantity)) {
+        alert("Erro. Quantidade do produto inválida.");
+        return;
+    }
+    let line = new_line(product_id, product_description, product_cost, product_quantity);
+    body_table.append(line);
+
+}
 
 function new_line(id, description, unit_cost, quantity) {
     let line = $("<tr>");
@@ -64,10 +81,12 @@ function new_line(id, description, unit_cost, quantity) {
         .addClass("btn btn-danger")
         .attr("type", "button")
         .attr("id", "buttonRemove")
-        .text("Remover")
         .click(removeLine);
-    let span_remove = $("<span>").addClass("glyphicon glyphicon-remove");
 
+    let i_remove = $("<i>").addClass("glyphicon glyphicon-remove");
+    let span_remove = $("<span>").text("Remover");
+
+    button_remove.append(i_remove);
     button_remove.append(span_remove);
     column_remove.append(button_remove);
 
@@ -119,27 +138,20 @@ $("#code").blur(function () {
     }
 );
 
-function insert_order_from_automatic_form() {
-    let product_id = $("#product-id");
-    let body_table = $("#items-table").find("tbody");
-    let product_description = $("#description_automatic_form").val();
-    let product_cost = $("#unit_cost_automatic_form").val();
-    let product_quantity = $("#quantity_automatic_form").val();
-
-    let line = new_line(product_id, product_description, product_cost, product_quantity);
-    body_table.append(line);
-
-}
-
 function changeOrderStatus() {
     $('#stateButton').text($(this).text());
 }
 
 function saveItems() {
+    let status = $('#stateButton').text();
+    if (!validateStatus(status)) {
+        alert("Erro. Estado do pagamento inválido.");
+        return;
+    }
     let items = [];
     let clerk_id = $('#clerk-id').attr('data-url');
     let client_id = $('#client-id').attr('data-url');
-    let status = $('#stateButton').text();
+
     $("tbody>tr").each(function () {
         let product_id = $(this).find("td:nth-child(1)").text();
         let product_quantity = $(this).find("td:nth-child(4)").text();
@@ -172,4 +184,12 @@ function saveItems() {
     });
 
 
+}
+
+function validateQuantity(quantity) {
+    return quantity > 0;
+}
+
+function validateStatus(status) {
+    return status === 'PAGO' || status === 'PENDENTE';
 }
