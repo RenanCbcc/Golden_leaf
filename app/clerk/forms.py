@@ -8,7 +8,8 @@ from app.models.tables import Clerk
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Login', validators=[DataRequired(), Email()])
+    email = StringField('Login', validators=[DataRequired('Por favos, entre com o seu endereço de email.'),
+                                             Email('Este campo requer um endereçode email válido.')])
     password = PasswordField(label='Senha', validators=[Length(min=8, max=32)])
     submit = SubmitField('Entrar')
 

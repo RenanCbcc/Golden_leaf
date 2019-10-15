@@ -1,9 +1,9 @@
+from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_required
 from sqlalchemy import func
 
 from app import db
 from app.models.tables import Order, Client, Item, Status
-from flask import render_template, request, jsonify, redirect, url_for
 from app.order import blueprint_order
 from app.order.forms import SearchOrderForm
 
@@ -44,11 +44,31 @@ def update_order(id):
 
 @blueprint_order.route('/order/search', methods=["GET", 'POST'])
 def search_order():
-    form = SearchOrderForm(Client.query.order_by(Client.name).all())
+    page = request.args.get('page', 1, type=int)
+    form = SearchOrderForm()
     if form.validate_on_submit():
-        pass
-    else:
-        pass
+        client = form.clients.data
+        clerk = form.clerks.data
+        status = Status[form.status.data]
+        orders = None
+        if clerk is not None:
+            if client is not None:
+                orders = Order.query.filter_by(client=client, clerk=clerk, status=status).paginate(page=page,
+                                                                                                   per_page=10)
+            else:
+                orders = Order.query.filter_by(clerk=clerk, status=status).paginate(page=page,
+                                                                                    per_page=10)
+
+        elif client is not None:
+            orders = Order.query.filter_by(client=client, status=status).paginate(page=page,
+                                                                                  per_page=10)
+
+        if not orders:
+            flash('Pedido algum encontrado', 'warning')
+            return redirect(url_for('blueprint_order.search_order'))
+        else:
+            flash('Mostrando todos os pedidos encontrados', 'success')
+            return render_template('order/list.html', orders=orders)
 
     return render_template("order/search.html", form=form)
 

@@ -58,10 +58,11 @@ def update_client(id):
 @blueprint_client.route('/client/search', methods=["GET", 'POST'])
 @login_required
 def search_client():
+    page = request.args.get('page', 1, type=int)
     form = SearchClientForm()
     if form.validate_on_submit():
         # Finding names with “form.name.data” in them:
-        clients = Client.query.filter(Client.name.like('%' + form.name.data + '%')).all()
+        clients = Client.query.filter(Client.name.like('%' + form.name.data + '%')).paginate(page=page, per_page=10)
         if not clients:
             flash('Nenhum cliente {} encontrado'.format(form.name.data), 'warning')
             return redirect(url_for('blueprint_client.search_client'))

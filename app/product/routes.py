@@ -2,7 +2,7 @@ import os
 import secrets
 
 from PIL import Image
-from flask import render_template, redirect, flash, url_for, request, jsonify, current_app
+from flask import render_template, redirect, flash, url_for, request, current_app
 from app.models.tables import Product, db, Category
 from app.product import blueprint_product
 from app.product.forms import NewProductForm, SearchProductForm, UpdateProductForm
@@ -45,15 +45,25 @@ def new_product():
 
 @blueprint_product.route('/product/search', methods=["GET", 'POST'])
 def search_product():
+    page = request.args.get('page', 1, type=int)
     form = SearchProductForm()
+    products = None
+    term = None
     if form.validate_on_submit():
-        products = Product.query.filter(Product.brand.like('%' + form.brand.data + '%')).all()
+        if form.brand.data is not "":
+            term = form.brand.data
+            products = Product.query.filter(Product.brand.like('%' + term + '%')).paginate(page=page,
+                                                                                           per_page=10)
+        elif form.code.data is not "":
+            term = form.code.data
+            products = Product.query.filter_by(code=term).paginate(page=page, per_page=10)
+
         if not products:
             flash('Produto algum encontrado', 'warning')
             return redirect(url_for('blueprint_product.search_product'))
         else:
-            flash('Mostrando todos os produtos com "{}" encontrados'.format(form.brand.data), 'success')
-            return render_template('product/list.html', products=products)
+            flash('Mostrando todos os produtos com "{}" encontrados'.format(term), 'success')
+            return render_template('product/list.html', all_products=products)
 
     return render_template('product/search.html', form=form)
 

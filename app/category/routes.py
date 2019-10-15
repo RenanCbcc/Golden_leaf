@@ -2,8 +2,8 @@ from flask_login import login_required
 
 from app import db
 from app.category import blueprint_category
-from flask import render_template, redirect, url_for, request, flash, jsonify
-from app.category.forms import CategoryForm
+from flask import render_template, redirect, url_for, request, flash
+from app.category.forms import CategoryForm, SearchCategoryForm
 from app.models.tables import Category, Product
 from app.product.forms import NewProductForm
 
@@ -28,16 +28,18 @@ def new_category():
 
 @blueprint_category.route("/category/search", methods=['GET', 'POST'])
 def search_category():
-    form = CategoryForm()
+    page = request.args.get('page', 1, type=int)
+    form = SearchCategoryForm()
     if form.validate_on_submit():
         # Finding names with “form.name.data” in them:
-        categories = Category.query.filter(Category.title.like('%' + form.title.data + '%')).all()
+        categories = Category.query.filter(Category.title.like('%' + form.title.data + '%')) \
+            .paginate(page=page, per_page=10)
         if not categories:
             flash('Nenhum categoria {} encontrada'.format(form.title.data), 'warning')
             return redirect(url_for('blueprint_category.search_category'))
         else:
             flash('Mostrando categeria(s) encontrada(s) com nome: {}'.format(form.title.data), 'success')
-            return render_template('client/list.html', categories=categories)
+            return render_template('category/list.html', categories=categories)
 
     return render_template('category/search.html', form=form)
 

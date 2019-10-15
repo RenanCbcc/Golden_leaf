@@ -193,3 +193,4 @@ function validateQuantity(quantity) {
 function validateStatus(status) {
     return status === 'PAGO' || status === 'PENDENTE';
 }
+
