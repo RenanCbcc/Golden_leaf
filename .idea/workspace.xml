@@ -2,17 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/static/Chart.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/order.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/util/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/util/breadcrumb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/category/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/category/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/category/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/category/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clerk/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/clerk/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/client/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/order/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/order/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/order/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/order/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/product/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/product/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/product/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/product/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/order_table.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/order_table.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/order/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/order/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/new.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/product/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/product/list.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,9 +47,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -66,7 +68,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/templates/order" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/static" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -76,19 +78,19 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/static" />
-      <recent name="$PROJECT_DIR$/app/static/js" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/app/templates/clerk" />
-      <recent name="$PROJECT_DIR$/app/models" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/static" />
       <recent name="$PROJECT_DIR$/app/templates/order" />
       <recent name="$PROJECT_DIR$/app/templates/client" />
       <recent name="$PROJECT_DIR$/app/templates/category" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/app/clerk" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/templates" />
+      <recent name="$PROJECT_DIR$/app/static" />
+      <recent name="$PROJECT_DIR$/app/static/js" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/app/templates/clerk" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -245,14 +247,8 @@
       <workItem from="1570898816729" duration="17191000" />
       <workItem from="1570972931705" duration="401000" />
       <workItem from="1571074872369" duration="16948000" />
-      <workItem from="1571158136825" duration="16312000" />
-    </task>
-    <task id="LOCAL-00012" summary="Login with flask-login implemented.">
-      <created>1548283749320</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1548283749321</updated>
+      <workItem from="1571158136825" duration="17848000" />
+      <workItem from="1571244859741" duration="15059000" />
     </task>
     <task id="LOCAL-00013" summary="Redirect function reimplemented with flask-login.">
       <created>1548360596766</created>
@@ -590,7 +586,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571104900419</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Several searches methods implemented">
+      <created>1571177327025</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1571177327026</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -611,7 +614,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value=" Dynamic select field for product implemented." />
     <MESSAGE value="Clerk account and Profile Picture implemented" />
     <MESSAGE value="Pagination for all products within a category implemented." />
     <MESSAGE value="Image's upload for products implemented." />
@@ -636,7 +638,8 @@
     <MESSAGE value="Implementing order's payments." />
     <MESSAGE value="Payment fully implemented (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧!" />
     <MESSAGE value="Some validations implemented." />
-    <option name="LAST_COMMIT_MESSAGE" value="Some validations implemented." />
+    <MESSAGE value="Several searches methods implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="Several searches methods implemented" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Golden_leaf$run.coverage" NAME="run Coverage Results" MODIFIED="1555783129365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

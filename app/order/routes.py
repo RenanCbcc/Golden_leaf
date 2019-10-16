@@ -86,30 +86,29 @@ def pending_order(id):
 
 @blueprint_order.route('/order/payment', methods=['POST'])
 def process_payment():
-    # import decimal
-    # value = decimal.Decimal(request.form['paymentValue'])
-    # client_id = request.form['clientId']
-    # if value <= 0:
-    #     from flask import abort
-    #     abort(400)
-    # orders = Order.query.filter_by(client_id=client_id, status=Status.PENDENTE).order_by(
-    #     Order.date).all()
-    # while value > 0:
-    #     for order in orders:
-    #         if value - order.cost > 0:
-    #             value = value - order.cost
-    #             order.cost = 0
-    #             order.status = Status.PAGO
-    #         else:
-    #             order.cost = order.cost - value
-    #             value = 0
-    #
-    # from app import db
-    # db.session.add_all(orders)
-    # db.session.commit()
-    # send_message(client_id, request.form['value'])
-    # return redirect(url_for('blueprint_order.pending_order', id=client_id))
-    return "OK"
+    import decimal
+    value = decimal.Decimal(request.form['paymentValue'])
+    client_id = request.form['clientId']
+    if value <= 0:
+        from flask import abort
+        abort(400)
+    orders = Order.query.filter_by(client_id=client_id, status=Status.PENDENTE).order_by(
+        Order.date).all()
+    while value > 0:
+        for order in orders:
+            if value - order.cost > 0:
+                value = value - order.cost
+                order.cost = 0
+                order.status = Status.PAGO
+            else:
+                order.cost = order.cost - value
+                value = 0
+
+    from app import db
+    db.session.add_all(orders)
+    db.session.commit()
+    send_message(client_id, request.form['value'])
+    return redirect(url_for('blueprint_order.pending_order', id=client_id))
 
 
 def send_message(id, value):

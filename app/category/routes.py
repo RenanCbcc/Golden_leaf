@@ -8,7 +8,7 @@ from app.models.tables import Category, Product
 from app.product.forms import NewProductForm
 
 
-@blueprint_category.route("/category/list", methods=['GET'])
+@blueprint_category.route("/category", methods=['GET'])
 def get_categories():
     page = request.args.get('page', 1, type=int)
     categories = Category.query.order_by(Category.title).paginate(page=page, per_page=10)

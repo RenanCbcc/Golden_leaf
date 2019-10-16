@@ -5,7 +5,7 @@ from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
 from flask_login import login_required
 
 
-@blueprint_client.route('/client/list')
+@blueprint_client.route('/client')
 @login_required
 def get_clients():
     page = request.args.get('page', 1, type=int)

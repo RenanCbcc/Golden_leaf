@@ -33,7 +33,7 @@
                         <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.account') }}">
                             <span class="glyphicon glyphicon-user"></span>
                             {{ current_user.name }}</a>
-                            <div id="clerk-id" data-url="{{ current_user.id }}"></div>
+                        <div id="clerk-id" data-url="{{ current_user.id }}"></div>
                     </li>
                     <li>
                         <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.logout') }}">
@@ -54,6 +54,16 @@
 <main>
     {% block content %}
         <div class="container">
+
+            {% for crumb in g.breadcrumbs %}
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ crumb.path }}">{{ crumb.title }}</a>
+                        {{ '' if not loop.last }}
+                    <li class="breadcrumb-item active">{{ crumb.title }}</li>
+                </ol>
+            {% endfor %}
+
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
