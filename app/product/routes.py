@@ -3,13 +3,22 @@ import secrets
 
 from PIL import Image
 from flask import render_template, redirect, flash, url_for, request, current_app
+from flask_breadcrumbs import register_breadcrumb
+from flask_login import login_required
+
 from app.models.tables import Product, db, Category
 from app.product import blueprint_product
 from app.product.forms import NewProductForm, SearchProductForm, UpdateProductForm
-from flask_login import login_required
 
 
-@blueprint_product.route('/product/list', methods=['GET'])
+def view_category_dlc(*args, **kwargs):
+    id = request.view_args['id']
+    p = Product.query.get(id)
+    return [{'text': p.description}]
+
+
+@blueprint_product.route('/product', methods=['GET'])
+@register_breadcrumb(blueprint_product, '.', 'Produtos')
 def get_products():
     page = request.args.get('page', 1, type=int)
     products = Product.query.order_by(Product.description).paginate(page=page, per_page=10)
@@ -17,6 +26,7 @@ def get_products():
 
 
 @blueprint_product.route('/product/available/list', methods=['GET'])
+@register_breadcrumb(blueprint_product, '.available_products', 'Produtos Disponíveis')
 def available_products():
     page = request.args.get('page', 1, type=int)
     products = Product.query.filter_by(is_available=False).order_by(Product.description).paginate(
@@ -25,6 +35,7 @@ def available_products():
 
 
 @blueprint_product.route('/product/new', methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_product, '.new_product', 'Novo Produto')
 @login_required
 def new_product():
     form = NewProductForm()
@@ -44,6 +55,7 @@ def new_product():
 
 
 @blueprint_product.route('/product/search', methods=["GET", 'POST'])
+@register_breadcrumb(blueprint_product, '.search_product', 'Busca de Produto')
 def search_product():
     page = request.args.get('page', 1, type=int)
     form = SearchProductForm()
@@ -69,6 +81,7 @@ def search_product():
 
 
 @blueprint_product.route('/product/<int:id>/update', methods=["GET", 'POST'])
+@register_breadcrumb(blueprint_product, '.id', '', dynamic_list_constructor=view_category_dlc)
 @login_required
 def update_product(id):
     form = UpdateProductForm()

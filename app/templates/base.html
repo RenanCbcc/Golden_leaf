@@ -54,15 +54,19 @@
 <main>
     {% block content %}
         <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb primary-color">
+                    {% for breadcrumb in breadcrumbs %}
+                        <li class="breadcrumb-item">
 
-            {% for crumb in g.breadcrumbs %}
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{{ crumb.path }}">{{ crumb.title }}</a>
-                        {{ '' if not loop.last }}
-                    <li class="breadcrumb-item active">{{ crumb.title }}</li>
+                            <a class="white-text" href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+                            {% if loop.last %}
+                                <li class="breadcrumb-item active">{{ breadcrumb.text }}</li>
+                            {% endif %}
+                    {% endfor %}
                 </ol>
-            {% endfor %}
+
+            </nav>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}

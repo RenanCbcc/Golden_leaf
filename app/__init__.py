@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from flask_breadcrumbs import Breadcrumbs
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
+
 bootstrap = Bootstrap()
+breadcrumbs = Breadcrumbs()
 db = SQLAlchemy()
 mail = Mail()
 login_manager = LoginManager()
@@ -17,6 +20,7 @@ def create_app(config_class):
     app.config.from_object(config_class)
     db.init_app(app)
     bootstrap.init_app(app)
+    breadcrumbs.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
 

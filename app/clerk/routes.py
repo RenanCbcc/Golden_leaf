@@ -3,6 +3,7 @@ import secrets
 from PIL import Image
 from flask import current_app
 from flask import render_template, request, redirect, flash, url_for
+from flask_breadcrumbs import register_breadcrumb
 from flask_login import login_user, logout_user, current_user
 from flask_mail import Message
 
@@ -10,6 +11,12 @@ from app import mail
 from app.clerk import blueprint_clerk
 from app.clerk.forms import NewClerkForm, LoginForm, UpdateClerkForm, RequestResetForm, ResetPasswordForm
 from app.models.tables import Clerk, db
+
+
+def view_category_dlc(*args, **kwargs):
+    id = request.view_args['id']
+    p = Clerk.query.get(id)
+    return [{'text': p.description}]
 
 
 @blueprint_clerk.route('/login', methods=['GET', 'POST'])
@@ -36,6 +43,7 @@ def logout():
 
 
 @blueprint_clerk.route('/clerk/account', methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_clerk, '.', 'Atendente')
 def account():
     form = UpdateClerkForm()
     if form.validate_on_submit():
@@ -53,6 +61,7 @@ def account():
 
 
 @blueprint_clerk.route('/clerk/new', methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_clerk, '.', 'Novo Atendente')
 def new_clerk():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))

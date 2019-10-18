@@ -346,3 +346,14 @@ class Item(db.Model):
 
     def __repr__(self):
         return '<Item: %r Quantidade %r>' % (self.product.description, self.quantity)
+
+
+class Payment(db.Model):
+    __tablename__ = 'payments'
+    id = db.Column(db.Integer, primary_key=True)
+    client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
+    clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
+    date = db.Column(db.DateTime, index=True, default=datetime.now)
+    total = db.Column(db.Numeric(10, 2), default=0)
+    client = relationship("Client", uselist=False)
+    clerk = relationship("Clerk", uselist=False)

@@ -1,11 +1,20 @@
 from flask import render_template, redirect, flash, url_for, request
-from app.client import blueprint_client
-from app.models.tables import Client, Address, db, Order, Status
-from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
+from flask_breadcrumbs import register_breadcrumb
 from flask_login import login_required
+
+from app.client import blueprint_client
+from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
+from app.models.tables import Client, Address, db
+
+
+def view_client_dlc(*args, **kwargs):
+    id = request.view_args['id']
+    c = Client.query.get(id)
+    return [{'text': c.name}]
 
 
 @blueprint_client.route('/client')
+@register_breadcrumb(blueprint_client, '.', 'Clientes')
 @login_required
 def get_clients():
     page = request.args.get('page', 1, type=int)
@@ -14,6 +23,7 @@ def get_clients():
 
 
 @blueprint_client.route('/client/new', methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_client, '.new_client', 'Novo Cliente')
 @login_required
 def new_client():
     form = NewClientForm()
@@ -28,6 +38,7 @@ def new_client():
 
 
 @blueprint_client.route('/client/<int:id>/update', methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_client, '.id', '.update_client', dynamic_list_constructor=view_client_dlc)
 @login_required
 def update_client(id):
     form = UpdateClientForm()
@@ -56,6 +67,7 @@ def update_client(id):
 
 
 @blueprint_client.route('/client/search', methods=["GET", 'POST'])
+@register_breadcrumb(blueprint_client, '', 'Busca de Cliente')
 @login_required
 def search_client():
     page = request.args.get('page', 1, type=int)

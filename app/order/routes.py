@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash
+from flask_breadcrumbs import register_breadcrumb
 from flask_login import login_required
 from sqlalchemy import func
 
@@ -8,8 +9,21 @@ from app.order import blueprint_order
 from app.order.forms import SearchOrderForm
 
 
+def view_order_dlc(*args, **kwargs):
+    id = request.view_args['id']
+    o = Order.query.get(id)
+    return [{'text': o.date}]
+
+
+def view_client_dlc(*args, **kwargs):
+    id = request.view_args['id']
+    c = Client.query.get(id)
+    return [{'text': c.name}]
+
+
 @blueprint_order.route('/order/client/<int:id>', methods=['GET'])
 @blueprint_order.route('/order', defaults={'id': None}, methods=['GET'])
+@register_breadcrumb(blueprint_order, '.', 'Pedidos')
 @login_required
 def get_orders(id):
     page = request.args.get('page', 1, type=int)
@@ -25,6 +39,7 @@ def get_orders(id):
 
 @blueprint_order.route('/order/new', defaults={'id': None}, methods=["GET", 'POST'])
 @blueprint_order.route('/client/<int:id>/order/new', methods=["GET", 'POST'])
+@register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_client_dlc)
 @login_required
 def new_order(id):
     if id is not None:
@@ -43,6 +58,7 @@ def update_order(id):
 
 
 @blueprint_order.route('/order/search', methods=["GET", 'POST'])
+@register_breadcrumb(blueprint_order, '.search_order', 'Busca de Pedido')
 def search_order():
     page = request.args.get('page', 1, type=int)
     form = SearchOrderForm()
@@ -74,6 +90,7 @@ def search_order():
 
 
 @blueprint_order.route('/order/client/<int:id>/pending', methods=['GET'])
+@register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_client_dlc)
 @login_required
 def pending_order(id):
     page = request.args.get('page', 1, type=int)

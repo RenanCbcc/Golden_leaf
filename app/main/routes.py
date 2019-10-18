@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template
+from flask_breadcrumbs import register_breadcrumb, default_breadcrumb_root
 
-main = Blueprint('main', __name__)
+from app.main import main
 
 
 @main.route('/')
+@register_breadcrumb(main, '.', 'Home')
 def index():
     return render_template('index.html')
 

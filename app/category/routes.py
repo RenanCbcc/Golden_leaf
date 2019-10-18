@@ -1,14 +1,22 @@
+from flask import render_template, redirect, url_for, request, flash
+from flask_breadcrumbs import register_breadcrumb
 from flask_login import login_required
 
 from app import db
 from app.category import blueprint_category
-from flask import render_template, redirect, url_for, request, flash
 from app.category.forms import CategoryForm, SearchCategoryForm
 from app.models.tables import Category, Product
 from app.product.forms import NewProductForm
 
 
+def view_category_dlc(*args, **kwargs):
+    id = request.view_args['id']
+    c = Category.query.get(id)
+    return [{'text': c.title}]
+
+
 @blueprint_category.route("/category", methods=['GET'])
+@register_breadcrumb(blueprint_category, '.', 'Categorias')
 def get_categories():
     page = request.args.get('page', 1, type=int)
     categories = Category.query.order_by(Category.title).paginate(page=page, per_page=10)
@@ -16,6 +24,7 @@ def get_categories():
 
 
 @blueprint_category.route("/category/new", methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_category, '.new_category', 'Nova Categoria')
 @login_required
 def new_category():
     form = CategoryForm()
@@ -27,6 +36,7 @@ def new_category():
 
 
 @blueprint_category.route("/category/search", methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_category, '.search_category', 'Busca de Categoria')
 def search_category():
     page = request.args.get('page', 1, type=int)
     form = SearchCategoryForm()
@@ -45,6 +55,7 @@ def search_category():
 
 
 @blueprint_category.route('/category/<int:id>/update', methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_category, '.id', '.update_category', dynamic_list_constructor=view_category_dlc)
 @login_required
 def update_category(id):
     form = CategoryForm()
@@ -60,6 +71,7 @@ def update_category(id):
 
 
 @blueprint_category.route('/category/<int:id>/product')
+@register_breadcrumb(blueprint_category, '.id', '', dynamic_list_constructor=view_category_dlc)
 def products_of(id):
     category = Category.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
@@ -68,6 +80,7 @@ def products_of(id):
 
 
 @blueprint_category.route('/category/<int:id>/product/new', methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_category, '.id', '', dynamic_list_constructor=view_category_dlc)
 @login_required
 def new_product(id):
     form = NewProductForm()
