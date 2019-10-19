@@ -353,7 +353,13 @@ class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
+    value = db.Column(db.Numeric(10, 2), default=0)
     date = db.Column(db.DateTime, index=True, default=datetime.now)
-    total = db.Column(db.Numeric(10, 2), default=0)
+
     client = relationship("Client", uselist=False)
     clerk = relationship("Clerk", uselist=False)
+
+    def __init__(self, client, clerk, value):
+        self.client = client
+        self.clerk = clerk
+        self.value = value

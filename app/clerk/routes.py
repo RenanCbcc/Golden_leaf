@@ -13,10 +13,10 @@ from app.clerk.forms import NewClerkForm, LoginForm, UpdateClerkForm, RequestRes
 from app.models.tables import Clerk, db
 
 
-def view_category_dlc(*args, **kwargs):
+def view_clerk_dlc(*args, **kwargs):
     id = request.view_args['id']
-    p = Clerk.query.get(id)
-    return [{'text': p.description}]
+    c = Clerk.query.get(id)
+    return [{'text': c.name}]
 
 
 @blueprint_clerk.route('/login', methods=['GET', 'POST'])
@@ -61,7 +61,7 @@ def account():
 
 
 @blueprint_clerk.route('/clerk/new', methods=['GET', 'POST'])
-@register_breadcrumb(blueprint_clerk, '.', 'Novo Atendente')
+@register_breadcrumb(blueprint_clerk, '.new_clerk', 'Novo Atendente')
 def new_clerk():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
