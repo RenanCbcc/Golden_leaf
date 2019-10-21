@@ -27,7 +27,7 @@ def save_order():
     response = jsonify(
         {'OK': 'The request was completed successfully.', 'order_id': order.id})
     response.status_code = 200
-    send_message(order)
+    #send_message(order)
     return response
 
 
@@ -41,7 +41,7 @@ def send_message(order):
 
         twilio_client.messages.create(
             body='Olá, ' + client.name +
-                 ' .Você realizou uma compra no valor de R$ ' + str(order.cost) + ' Volte sempre!',
+                 ' .Você realizou uma compra no valor de R$ ' + str(order.total) + ' Volte sempre!',
             from_='+12054311596',
             to='+55' + client.phone_number
         )

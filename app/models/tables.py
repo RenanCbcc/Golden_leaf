@@ -18,9 +18,8 @@ def load_user(id):
 
 
 class Status(enum.Enum):
-    PAID = "Pago"
-    NOT_PAID = "Pendente"
-    PARTIALLY_PAID = "PARCIALMENTE PAGO"
+    PAGO = "Pago"
+    PENDENTE = "Pendente"
 
 
 class User(db.Model):
@@ -271,11 +270,10 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
-    payment_id = db.Column(db.Integer, ForeignKey('payment.id'))
+    payment_id = db.Column(db.Integer, ForeignKey('payments.id'), nullable=True)
     ordered = db.Column(db.DateTime, index=True, default=datetime.now)
     total = db.Column(db.Numeric(10, 2), default=0)
-    remaining_value = db.Column(db.Numeric(10, 2), default=0)
-    status = db.Column(db.Enum(Status), default=Status.NOT_PAID)
+    status = db.Column(db.Enum(Status), default=Status.PENDENTE)
 
     client = relationship("Client", backref=backref('orders', order_by=id))
     clerk = relationship("Clerk", backref=backref('orders', order_by=id))
@@ -298,7 +296,10 @@ class Order(db.Model):
     def from_json(content):
         client = Client.query.get(content.get('client_id'))
         clerk = Clerk.query.get(content.get('clerk_id'))
-        return Order(client=client, clerk=clerk, status=Status[content.get('status')])
+        if Status[content.get('status')] == Status.PENDENTE:
+            return Order(client=client, clerk=clerk, payment=None, status=Status[content.get('status')])
+        else:
+            pass
 
     def has_remaining_value(self):
         return self.remaining_value > 0
@@ -339,7 +340,6 @@ class Item(db.Model):
 
     @staticmethod
     def from_json(items_json, order):
-        order.cost = 0
         for item in items_json:
             product_id = item['product_id']
             product = Product.query.filter_by(id=product_id).one_or_none()
@@ -349,7 +349,7 @@ class Item(db.Model):
             if quantity is None or quantity == '':
                 raise ValidationError('Item com quantidade inválida')
             extended_cost = product.unit_cost * decimal.Decimal(quantity)
-            order.cost += extended_cost
+            order.total += extended_cost
             order.items.append(Item(product_id, order, quantity, extended_cost))
 
     def __repr__(self):

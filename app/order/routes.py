@@ -22,7 +22,7 @@ def view_client_dlc(*args, **kwargs):
 
 
 @blueprint_order.route('/order/client/<int:id>', methods=['GET'])
-@blueprint_order.route('/order', defaults={'id': None, 'pay_id': None}, methods=['GET'])
+@blueprint_order.route('/order', defaults={'id': None}, methods=['GET'])
 @register_breadcrumb(blueprint_order, '.', 'Pedidos')
 @login_required
 def get_orders(id):
@@ -53,6 +53,7 @@ def new_order(id):
 
 
 @blueprint_order.route('/order/<int:id>/update', methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_order, '.update_order', 'Detalhes')
 @login_required
 def update_order(id):
     order = Order.query.get_or_404(id)
@@ -83,7 +84,7 @@ def search_order():
             orders = Order.query.filter_by(client=client, status=status).paginate(page=page,
                                                                                   per_page=10)
 
-        if not orders:
+        if orders:
             flash('Pedido algum encontrado', 'warning')
             return redirect(url_for('blueprint_order.search_order'))
         else:
@@ -98,18 +99,10 @@ def search_order():
 @login_required
 def pending_order(id):
     page = request.args.get('page', 1, type=int)
-    if page == 1:
-        not_paid = db.session.query(func.sum(Order.total)) \
-            .filter_by(client_id=id, status=Status.NOT_PAID) \
-            .scalar()
-        partially_paid = db.session.query(func.sum(Order.remaining_value)) \
-            .filter_by(client_id=id, status=Status.PARTIALLY_PAID) \
-            .scalar()
-        total = not_paid + partially_paid
-    order = Order.query.filter_by(client_id=id, status=Status.NOT_PAID) \
+    order = Order.query.filter_by(client_id=id, status=Status.PENDENTE) \
         .order_by(Order.ordered.desc()) \
         .paginate(page=page, per_page=10)
-    return render_template('order/pending_order.html', orders=order, client_id=id, total=total)
+    return render_template('order/pending_order.html', orders=order, client_id=id)
 
 
 @blueprint_order.route('/order/payment', methods=['POST'])
@@ -120,14 +113,14 @@ def process_payment():
     if value <= 0:
         from flask import abort
         abort(400)
-    orders = Order.query.filter_by(client_id=client_id, status=Status.NOT_PAID).order_by(
+    orders = Order.query.filter_by(client_id=client_id, status=Status.PENDENTE).order_by(
         Order.ordered).all()
     while value > 0:
         for order in orders:
             if value - order.cost > 0:
                 value = value - order.cost
                 order.cost = 0
-                order.status = Status.PAID
+                order.status = Status.PAGO
             else:
                 order.cost = order.cost - value
                 value = 0
@@ -135,21 +128,5 @@ def process_payment():
     from app import db
     db.session.add_all(orders)
     db.session.commit()
-    send_message(client_id, request.form['value'])
+    # send_message(client_id, request.form['value'])
     return redirect(url_for('blueprint_order.pending_order', id=client_id))
-
-
-def send_message(id, value):
-    client = Client.query.get(id)
-    if client.notifiable:
-        account_sid = 'AC06b6d740e2dbe8c1c94dd41ffed6c3a3'
-        auth_token = 'a9a6f4600d1d55989d325443eda3c55e'
-        from twilio.rest import Client as Twilio_Client
-        twilio_client = Twilio_Client(account_sid, auth_token)
-
-        twilio_client.messages.create(
-            body='Olá, ' + client.name +
-                 ' .Você debitou R$ ' + value + ' de sua conta. Volte sempre!',
-            from_='+12054311596',
-            to='+55' + client.phone_number
-        )

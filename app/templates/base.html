@@ -26,6 +26,8 @@
                        href="{{ url_for('blueprint_client.get_clients') }}">Clientes</a></li>
                 <li><a class="nav-item nav-link"
                        href="{{ url_for('blueprint_order.get_orders') }}">Pedidos</a></li>
+                <li><a class="nav-item nav-link"
+                       href="{{ url_for('blueprint_payment.get_payment') }}">Pagamentos</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}

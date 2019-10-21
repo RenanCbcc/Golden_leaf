@@ -70,11 +70,11 @@ def search_product():
             term = form.code.data
             products = Product.query.filter_by(code=term).paginate(page=page, per_page=10)
 
-        if not products:
+        if products:
             flash('Produto algum encontrado', 'warning')
             return redirect(url_for('blueprint_product.search_product'))
         else:
-            flash('Mostrando todos os produtos com "{}" encontrados'.format(term), 'success')
+            flash('Mostrando todos os produtos com "{}" encontrados'.format(term), 'info')
             return render_template('product/list.html', all_products=products)
 
     return render_template('product/search.html', form=form)
