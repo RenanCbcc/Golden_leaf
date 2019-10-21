@@ -18,8 +18,9 @@ def load_user(id):
 
 
 class Status(enum.Enum):
-    PAGO = "Pago"
-    PENDENTE = "Pendente"
+    PAID = "Pago"
+    NOT_PAID = "Pendente"
+    PARTIALLY_PAID = "PARCIALMENTE PAGO"
 
 
 class User(db.Model):
@@ -270,20 +271,24 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
-    date = db.Column(db.DateTime, index=True, default=datetime.now)
-    cost = db.Column(db.Numeric(10, 2), default=0)
-    status = db.Column(db.Enum(Status), default=Status.PENDENTE)
+    payment_id = db.Column(db.Integer, ForeignKey('payment.id'))
+    ordered = db.Column(db.DateTime, index=True, default=datetime.now)
+    total = db.Column(db.Numeric(10, 2), default=0)
+    remaining_value = db.Column(db.Numeric(10, 2), default=0)
+    status = db.Column(db.Enum(Status), default=Status.NOT_PAID)
 
     client = relationship("Client", backref=backref('orders', order_by=id))
     clerk = relationship("Clerk", backref=backref('orders', order_by=id))
+
+    payment = relationship("Payment", backref=backref('orders', order_by=id), lazy=True)
 
     def to_json(self):
         json_product = {
             'id': self.id,
             'client_id': self.client_id,
             'clerk_id': self.clerk_id,
-            'cost': self.cost,
-            'date': self.date,
+            'cost': self.total,
+            'date': self.ordered,
             'status': self.status,
             'items': self.items
         }
@@ -295,8 +300,11 @@ class Order(db.Model):
         clerk = Clerk.query.get(content.get('clerk_id'))
         return Order(client=client, clerk=clerk, status=Status[content.get('status')])
 
+    def has_remaining_value(self):
+        return self.remaining_value > 0
+
     def __repr__(self):
-        return '<Pedido %r %r %r >' % (self.date, self.client.name, self.clerk.name)
+        return '<Pedido %r %r %r >' % (self.ordered, self.client.name, self.clerk.name)
 
 
 class Item(db.Model):
@@ -353,8 +361,8 @@ class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
-    value = db.Column(db.Numeric(10, 2), default=0)
-    date = db.Column(db.DateTime, index=True, default=datetime.now)
+    total = db.Column(db.Numeric(10, 2), default=0)
+    paid = db.Column(db.DateTime, index=True, default=datetime.now)
 
     client = relationship("Client", uselist=False)
     clerk = relationship("Clerk", uselist=False)
@@ -362,4 +370,4 @@ class Payment(db.Model):
     def __init__(self, client, clerk, value):
         self.client = client
         self.clerk = clerk
-        self.value = value
+        self.total = value

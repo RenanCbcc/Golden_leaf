@@ -22,18 +22,22 @@ def view_client_dlc(*args, **kwargs):
 
 
 @blueprint_order.route('/order/client/<int:id>', methods=['GET'])
-@blueprint_order.route('/order', defaults={'id': None}, methods=['GET'])
+@blueprint_order.route('/order', defaults={'id': None, 'pay_id': None}, methods=['GET'])
 @register_breadcrumb(blueprint_order, '.', 'Pedidos')
 @login_required
 def get_orders(id):
     page = request.args.get('page', 1, type=int)
     if id is not None:
         if page == 1:
-            total = db.session.query(func.sum(Order.cost)).filter_by(client_id=id).scalar()
-        orders = Order.query.filter_by(client_id=id).order_by(Order.date.desc()).paginate(page=page, per_page=10)
+            total = db.session.query(func.sum(Order.total)) \
+                .filter_by(client_id=id) \
+                .scalar()
+        orders = Order.query \
+            .filter_by(client_id=id) \
+            .order_by(Order.ordered.desc()) \
+            .paginate(page=page, per_page=10)
         return render_template('order/client_orders.html', orders=orders, client_id=id, total=total)
-
-    orders = Order.query.order_by(Order.date.desc()).paginate(page=page, per_page=10)
+    orders = Order.query.order_by(Order.ordered.desc()).paginate(page=page, per_page=10)
     return render_template('order/list.html', orders=orders)
 
 
@@ -95,9 +99,16 @@ def search_order():
 def pending_order(id):
     page = request.args.get('page', 1, type=int)
     if page == 1:
-        total = db.session.query(func.sum(Order.cost)).filter_by(client_id=id).scalar()
-    order = Order.query.filter_by(client_id=id, status=Status.PENDENTE).order_by(Order.date.desc()).paginate(page=page,
-                                                                                                             per_page=10)
+        not_paid = db.session.query(func.sum(Order.total)) \
+            .filter_by(client_id=id, status=Status.NOT_PAID) \
+            .scalar()
+        partially_paid = db.session.query(func.sum(Order.remaining_value)) \
+            .filter_by(client_id=id, status=Status.PARTIALLY_PAID) \
+            .scalar()
+        total = not_paid + partially_paid
+    order = Order.query.filter_by(client_id=id, status=Status.NOT_PAID) \
+        .order_by(Order.ordered.desc()) \
+        .paginate(page=page, per_page=10)
     return render_template('order/pending_order.html', orders=order, client_id=id, total=total)
 
 
@@ -109,14 +120,14 @@ def process_payment():
     if value <= 0:
         from flask import abort
         abort(400)
-    orders = Order.query.filter_by(client_id=client_id, status=Status.PENDENTE).order_by(
-        Order.date).all()
+    orders = Order.query.filter_by(client_id=client_id, status=Status.NOT_PAID).order_by(
+        Order.ordered).all()
     while value > 0:
         for order in orders:
             if value - order.cost > 0:
                 value = value - order.cost
                 order.cost = 0
-                order.status = Status.PAGO
+                order.status = Status.PAID
             else:
                 order.cost = order.cost - value
                 value = 0
