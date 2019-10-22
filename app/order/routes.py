@@ -9,12 +9,6 @@ from app.order import blueprint_order
 from app.order.forms import SearchOrderForm
 
 
-def view_order_dlc(*args, **kwargs):
-    id = request.view_args['id']
-    o = Order.query.get(id)
-    return [{'text': o.date}]
-
-
 def view_client_dlc(*args, **kwargs):
     id = request.view_args['id']
     c = Client.query.get(id)
@@ -30,7 +24,7 @@ def get_orders(id):
     if id is not None:
         if page == 1:
             total = db.session.query(func.sum(Order.total)) \
-                .filter_by(client_id=id) \
+                .filter_by(client_id=id, status=Status.PENDENTE) \
                 .scalar()
         orders = Order.query \
             .filter_by(client_id=id) \
@@ -47,13 +41,13 @@ def get_orders(id):
 @login_required
 def new_order(id):
     if id is not None:
-        client = Client.query.filter_by(id=id).one()
+        client = Client.query.get_or_404(id)
         return render_template('order/new.html', client=client)
     return render_template('order/new.html')
 
 
 @blueprint_order.route('/order/<int:id>/update', methods=['GET', 'POST'])
-@register_breadcrumb(blueprint_order, '.update_order', 'Detalhes')
+# @register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_client_dlc)
 @login_required
 def update_order(id):
     order = Order.query.get_or_404(id)
@@ -99,10 +93,10 @@ def search_order():
 @login_required
 def pending_order(id):
     page = request.args.get('page', 1, type=int)
-    order = Order.query.filter_by(client_id=id, status=Status.PENDENTE) \
+    orders = Order.query.filter_by(client_id=id, status=Status.PENDENTE) \
         .order_by(Order.ordered.desc()) \
         .paginate(page=page, per_page=10)
-    return render_template('order/pending_order.html', orders=order, client_id=id)
+    return render_template('order/pending_order.html', orders=orders, client_id=id)
 
 
 @blueprint_order.route('/order/payment', methods=['POST'])

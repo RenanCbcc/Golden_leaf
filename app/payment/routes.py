@@ -9,6 +9,12 @@ from app.payment import blueprint_payment
 from app.payment.forms import NewPaymentForm, SearchPaymentForm
 
 
+def view_client_dlc(*args, **kwargs):
+    id = request.view_args['id']
+    c = Client.query.get(id)
+    return [{'text': c.name}]
+
+
 @blueprint_payment.route('/payment', defaults={'id': None}, methods=['GET'])
 @blueprint_payment.route('/payment/client/<int:id>', methods=['GET', 'POST'])
 @register_breadcrumb(blueprint_payment, '.', 'Pagamentos')
@@ -61,17 +67,17 @@ def search_payment():
 
 
 @blueprint_payment.route('/payment/new/client/<int:id>', methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_payment, '.id', '', dynamic_list_constructor=view_client_dlc)
 def new_payment(id):
     form = NewPaymentForm()
     if form.validate_on_submit():
-        total = db.session.query(func.sum(Order.total) - func.sum(Order.total)) \
-            .filter_by(client_id=id, status=Status.PENDENTE) \
+        total = db.session.query(func.sum(Order.total)) \
+            .filter_by(client_id=id) \
             .scalar()
-        import decimal
-        payment_value = decimal.Decimal(form.value.data)
-        if payment_value > total or payment_value <= 0:
-            flash('Valor para pagamento inválido.', 'warning')
-            return redirect(url_for('blueprint_payment.new_payment'))
+        payment_value = form.value.data
+        if payment_value > total or payment_value <= 0.0:
+            flash('Valor para pagamento ' + str(payment_value) + ' inválido.', 'warning')
+            return redirect(url_for('blueprint_payment.new_payment', id=id))
         else:
             orders = Order.query.filter_by(client_id=id, status=Status.PENDENTE).order_by(Order.ordered).all()
             client = Client.query.get(id)
@@ -80,13 +86,13 @@ def new_payment(id):
             value = payment_value
             while value > 0:
                 for order in orders:
-                    if value - order.cost > 0:
-                        value = value - order.cost
-                        order.cost = 0
+                    if value >= order.total:
+                        value = value - order.total
+                        order.total = 0
                         order.status = Status.PAGO
 
                     else:
-                        order.cost = order.cost - value
+                        order.total = order.total - value
                         value = 0
                     order.payment = payment
                     payment.orders.append(order)
@@ -94,13 +100,13 @@ def new_payment(id):
             db.session.commit()
             send_message(client, request.form['value'])
             flash('Pagamento recebido com sucesso!', 'success')
-            return redirect(url_for('blueprint_payment.get_payment', id=client))
+            return redirect(url_for('blueprint_payment.get_payment', id=id))
     elif request.method == 'GET':
         total = db.session.query(func.sum(Order.total)) \
             .filter_by(client_id=id, status=Status.PENDENTE) \
             .scalar()
         form.total.data = total
-        return render_template(url_for('blueprint_payment.new_payment'))
+        return render_template('payment/new.html', form=form)
 
 
 def send_message(client, value):

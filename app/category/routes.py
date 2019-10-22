@@ -31,6 +31,7 @@ def new_category():
     if form.validate_on_submit():
         db.session.add(Category(form.title.data))
         db.session.commit()
+        flash(form.title.data + ' inserido com sucesso!', 'success')
         return redirect(url_for('blueprint_category.get_categories'))
     return render_template('category/new.html', form=form)
 
@@ -64,6 +65,7 @@ def update_category(id):
         category.title = form.title.data
         db.session.add(category)
         db.session.commit()
+        flash('Categoria alterada com sucesso!', 'success')
         return redirect(url_for('blueprint_category.listing_categories'))
     elif request.method == 'GET':
         form.title.data = category.title
@@ -94,5 +96,6 @@ def new_product(id):
                                form.code.data))
 
         db.session.commit()
+        flash(form.description.data + ' inserido com sucesso!', 'success')
         return redirect(url_for('blueprint_category.products_of', id=category.id))
     return render_template('product/new.html', form=form)
