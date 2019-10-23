@@ -22,28 +22,28 @@ def view_client_dlc(*args, **kwargs):
 def get_orders(id):
     page = request.args.get('page', 1, type=int)
     if id is not None:
-        if page == 1:
-            total = db.session.query(func.sum(Order.total)) \
-                .filter_by(client_id=id, status=Status.PENDENTE) \
-                .scalar()
         orders = Order.query \
             .filter_by(client_id=id) \
             .order_by(Order.ordered.desc()) \
             .paginate(page=page, per_page=10)
-        return render_template('order/client_orders.html', orders=orders, client_id=id, total=total)
+        return render_template('order/client_orders.html', orders=orders, client_id=id)
     orders = Order.query.order_by(Order.ordered.desc()).paginate(page=page, per_page=10)
     return render_template('order/list.html', orders=orders)
 
 
-@blueprint_order.route('/order/new', defaults={'id': None}, methods=["GET", 'POST'])
 @blueprint_order.route('/client/<int:id>/order/new', methods=["GET", 'POST'])
 @register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_client_dlc)
 @login_required
 def new_order(id):
-    if id is not None:
-        client = Client.query.get_or_404(id)
-        return render_template('order/new.html', client=client)
-    return render_template('order/new.html')
+    client = Client.query.get_or_404(id)
+    return render_template('order/new.html', client=client)
+
+
+# @blueprint_order.route('/order/new', methods=["GET", 'POST'])
+# @register_breadcrumb(blueprint_order, '.new_loose_order', 'Novo Pedido')
+# @login_required
+# def new_loose_order():
+#     return render_template('order/new.html', client=None)
 
 
 @blueprint_order.route('/order/<int:id>/update', methods=['GET', 'POST'])
@@ -93,10 +93,14 @@ def search_order():
 @login_required
 def pending_order(id):
     page = request.args.get('page', 1, type=int)
+    if page == 1:
+        total = db.session.query(func.sum(Order.total)) \
+            .filter_by(client_id=id, status=Status.PENDENTE) \
+            .scalar()
     orders = Order.query.filter_by(client_id=id, status=Status.PENDENTE) \
         .order_by(Order.ordered.desc()) \
         .paginate(page=page, per_page=10)
-    return render_template('order/pending_order.html', orders=orders, client_id=id)
+    return render_template('order/pending_order.html', orders=orders, client_id=id, total=total)
 
 
 @blueprint_order.route('/order/payment', methods=['POST'])

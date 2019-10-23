@@ -4,7 +4,9 @@
     <script src="{{ url_for('static', filename='Chart.js') }}" type="text/javascript"></script>
     <div class="row">
         <div class="col-md-8 col-md-offset-1">
-            <h2 class="titulo-principal">Pedidos</h2>
+            <h2 class="titulo-principal">Valor Total de Pedidos R$
+                <span id="price_holder" data-value="0.0"></span>
+            </h2>
             <div id="client-id" data-url="{{ client.id }}"></div>
             <div class="order-container" style="overflow: auto; max-height: 80vh">
                 <div class="table-responsive">
@@ -15,7 +17,7 @@
                             <th scope="col">Descriçao</th>
                             <th scope="col">Preço</th>
                             <th scope="col">Quantidade</th>
-                            <th scope="col">Total</th>
+                            <th scope="col">SubTotal</th>
                         </tr>
                         </thead>
                         <tbody>

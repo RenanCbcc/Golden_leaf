@@ -3,12 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/category/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/category/routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/order/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/order/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/payment/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/payment/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/product/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/product/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/order_table.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/order_table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/order/client_orders.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/client_orders.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/order/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/order/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/new.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/order/pending_order.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/pending_order.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/payment/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/payment/new.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -255,14 +255,8 @@
       <workItem from="1571593890733" duration="12013000" />
       <workItem from="1571673643679" duration="16272000" />
       <workItem from="1571759684364" duration="5560000" />
-      <workItem from="1571787537777" duration="1228000" />
-    </task>
-    <task id="LOCAL-00018" summary="Client-related CRUD has been implemented.">
-      <created>1548702975232</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1548702975233</updated>
+      <workItem from="1571787537777" duration="1276000" />
+      <workItem from="1571848291020" duration="14655000" />
     </task>
     <task id="LOCAL-00019" summary="Implementing blueprints">
       <created>1548715236985</created>
@@ -600,7 +594,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571697184505</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Payment implemented.">
+      <created>1571788785028</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1571788785036</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -621,7 +622,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Adding manual and automatic product search in order's page." />
     <MESSAGE value="Manual and automatic product search in order's page implemented." />
     <MESSAGE value="Implementing order's functionality." />
     <MESSAGE value="Post method for orders implemented." />
@@ -646,7 +646,8 @@
     <MESSAGE value="Implementing the logic to hold payments." />
     <MESSAGE value="Implementing payments details." />
     <MESSAGE value="Solving payments problems." />
-    <option name="LAST_COMMIT_MESSAGE" value="Solving payments problems." />
+    <MESSAGE value="Payment implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Payment implemented." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Golden_leaf$run.coverage" NAME="run Coverage Results" MODIFIED="1555783129365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

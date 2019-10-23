@@ -6,7 +6,7 @@ $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
 $("#save-items-btn").click(saveItems);
 
-BASE_APP_URL = 'http://127.0.0.1:5000/order/'
+BASE_APP_URL = 'http://127.0.0.1:5000/order/';
 BASE_API_URL = 'http://127.0.0.1:5000/api';
 CATEGORY_URL = BASE_API_URL + '/category';
 PRODUCT_BY_CODE_URL = BASE_API_URL + '/product/code/';
@@ -15,7 +15,7 @@ PRODUCT_UNIT_COST_URL = BASE_API_URL + '/product/unit_cost/';
 ORDER_URL = BASE_API_URL + '/order';
 
 function getProductsByCategory() {
-    $("#unit_cost").val("")
+    $("#unit_cost").val("");
     $("#quantity_manual_form").val("");
     let category_id = $(this).val();
     $.get(PRODUCT_BY_CATEGORY_URL + category_id, function (response) {
@@ -73,7 +73,7 @@ function new_line(id, description, unit_cost, quantity) {
     let column_description = $("<td>").text(description);
     let column_price = $("<td>").text(unit_cost);
     let column_quantity = $("<td>").text(quantity).attr('id', 'product_quantity');
-    let column_total = $("<td>").text(unit_cost * quantity);
+    let column_total = $("<td>").attr('id', 'subTotal').text(unit_cost * quantity);
     let column_remove = $("<td>");
     let column_edit = $("<td>");
 
@@ -98,12 +98,34 @@ function new_line(id, description, unit_cost, quantity) {
     line.append(column_total);
     line.append(column_remove);
     line.append(column_edit);
-
+    increasePrice(unit_cost * quantity);
     return line;
 }
 
+function increasePrice(value) {
+    let holder = $('#price_holder');
+    let total = parseFloat(holder.attr('data-value'));
+    total = total + parseFloat(value);
+    holder.attr('data-value', total);
+    holder.text(total);
+
+}
+
+function decreasePrice(value) {
+    let holder = $('#price_holder');
+    let total = parseFloat(holder.attr('data-value'));
+    total = total - parseFloat(value);
+    holder.attr('data-value', total);
+    holder.text(total);
+
+}
+
 function removeLine() {
+    let row = $(this).closest("tr");    // Find the row
+    let subTotal = row.find("#subTotal").text(); // Find the text
+    decreasePrice(subTotal);
     $(this).parent().parent().remove();
+
 }
 
 function populateCategories() {
