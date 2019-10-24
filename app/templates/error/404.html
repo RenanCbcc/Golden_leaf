@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="content-section col-md-5 col-md-offset-4">
-        <h1>Oops. Page Not Found (404)</h1>
-        <p>That page does not exist. Please try a different location</p>
+    <div class="content-section content-section col-md-6 col-md-offset-3">
+        <h1>Oopa! Página não encontrada (404)</h1>
+        <p>{{ error.description }}</p>
     </div>
+
 {% endblock %}

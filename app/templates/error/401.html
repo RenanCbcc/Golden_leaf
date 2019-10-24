@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% block container %}
     <div class="content-section content-section col-md-10 col-md-offset-1">
-        <h1>Oopa! Os dados enviados são inválidos ou inconsistentes (400)</h1>
+        <h1>Oopa! A solicitação não inclui informações de autenticação. (401)</h1>
         <p>{{ error.description }}</p>
     </div>
-
 {% endblock %}

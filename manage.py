@@ -1,13 +1,22 @@
 #!/usr/bin/env python3
+from flask_admin.contrib.sqla import ModelView
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Shell
 
-from app import create_app, db
+from app import create_app, db, admin
 from app.configuration.config import TestingConfig
+from app.models.tables import Client, Clerk, Address, Product, Item, Order, Payment
 
 app = create_app(TestingConfig)
 migrate = Migrate(app, db)
 manager = Manager(app)
+admin.add_view(ModelView(Client, db.session))
+admin.add_view(ModelView(Clerk, db.session))
+admin.add_view(ModelView(Address, db.session))
+admin.add_view(ModelView(Product, db.session))
+admin.add_view(ModelView(Item, db.session))
+admin.add_view(ModelView(Order, db.session))
+admin.add_view(ModelView(Payment, db.session))
 
 
 def make_shell_context():

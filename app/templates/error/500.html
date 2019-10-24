@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block container %}
-    <div class="content-section content-section col-md-5 col-md-offset-4">
-        <h1>Something went wrong (500)</h1>
-        <p>We're experiencing some trouble on our end. Please try again in the near future</p>
+    <div class="content-section content-section col-md-6 col-md-offset-3">
+        <h1>Oopa! Alguma coisa deu muito errada (500)</h1>
+        <p>{{ error.description }}</p>
     </div>
 {% endblock %}

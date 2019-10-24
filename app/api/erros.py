@@ -1,17 +1,16 @@
 from flask import jsonify
-from werkzeug.routing import ValidationError
 
 from app.api import api
 
 
-@api.app_errorhandler(404)
+@api.errorhandler(404)
 def resource_not_found(error):
     response = jsonify({'error': 'Not found', 'message': error.description})
     response.status_code = 404
     return response
 
 
-@api.app_errorhandler(500)
+@api.errorhandler(500)
 def internal_server_error(error):
     response = jsonify(
         {'error': 'Internal server error', 'message': error.description})
