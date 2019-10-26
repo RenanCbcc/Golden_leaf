@@ -1,7 +1,7 @@
 import decimal
 from abc import ABCMeta
 from datetime import datetime
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 from sqlalchemy import CheckConstraint, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from werkzeug.routing import ValidationError
@@ -9,12 +9,18 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import login_manager, db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from flask import current_app, url_for, abort
+from flask_admin.contrib.sqla import ModelView
 import enum
 
 
 @login_manager.user_loader
 def load_user(id):
     return Clerk.query.get(id)
+
+
+class AdminView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated
 
 
 class Status(enum.Enum):

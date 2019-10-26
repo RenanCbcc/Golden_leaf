@@ -6,8 +6,8 @@ $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
 $("#save-items-btn").click(saveItems);
 
-BASE_APP_URL = 'http://127.0.0.1:5000/order/';
-BASE_API_URL = 'http://127.0.0.1:5000/api';
+BASE_APP_URL = 'https://goldenleaf.herokuapp.com/order/';
+BASE_API_URL = 'https://goldenleaf.herokuapp.com/api';
 CATEGORY_URL = BASE_API_URL + '/category';
 PRODUCT_BY_CODE_URL = BASE_API_URL + '/product/code/';
 PRODUCT_BY_CATEGORY_URL = BASE_API_URL + '/product/category/';
@@ -212,7 +212,4 @@ function validateQuantity(quantity) {
     return quantity > 0;
 }
 
-function validateStatus(status) {
-    return status === 'PAGO' || status === 'PENDENTE';
-}
 

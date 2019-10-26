@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/templates/error/401.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/error/403.html" afterDir="false" />
+    <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="Flask admin integrated with the application.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/erros.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/erros.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/error/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/error/handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/error/400.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/error/400.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/error/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/error/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/error/500.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/error/500.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/tables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/Chart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/order_table.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/order_table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/paying_order.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/order/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/order/new.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -261,6 +260,8 @@
       <workItem from="1571787537777" duration="1276000" />
       <workItem from="1571848291020" duration="15086000" />
       <workItem from="1571941991012" duration="6402000" />
+      <workItem from="1572127863702" duration="13000" />
+      <workItem from="1572127949230" duration="574000" />
     </task>
     <task id="LOCAL-00020" summary="Blueprints and Configuration implemented.">
       <created>1548726558827</created>

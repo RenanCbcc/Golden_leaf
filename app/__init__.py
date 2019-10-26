@@ -5,12 +5,14 @@ from flask_bootstrap import Bootstrap
 from flask_breadcrumbs import Breadcrumbs
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 bootstrap = Bootstrap()
 breadcrumbs = Breadcrumbs()
 db = SQLAlchemy()
 mail = Mail()
+migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = 'blueprint_clerk.login'  # Function's name of route login from the blueprint.
 login_manager.login_message_category = 'info'
@@ -19,6 +21,7 @@ admin = Admin(name='Golden Leaf', template_mode='bootstrap3')
 
 def create_app(config_class):
     app = Flask(__name__)
+    migrate.init_app(app, db)
     app.config.from_object(config_class)
     db.init_app(app)
     bootstrap.init_app(app)
