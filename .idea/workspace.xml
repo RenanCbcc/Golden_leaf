@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="Flask admin integrated with the application.">
+    <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/tables.py" afterDir="false" />
@@ -261,7 +261,7 @@
       <workItem from="1571848291020" duration="15086000" />
       <workItem from="1571941991012" duration="6402000" />
       <workItem from="1572127863702" duration="13000" />
-      <workItem from="1572127949230" duration="574000" />
+      <workItem from="1572127949230" duration="819000" />
     </task>
     <task id="LOCAL-00020" summary="Blueprints and Configuration implemented.">
       <created>1548726558827</created>
@@ -627,7 +627,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Implementing order's functionality." />
     <MESSAGE value="Post method for orders implemented." />
     <MESSAGE value="Implementing fake data generator for Categories and Products." />
     <MESSAGE value="Some improvements related to the navigability of Category and Product page." />
@@ -652,7 +651,8 @@
     <MESSAGE value="Solving payments problems." />
     <MESSAGE value="Payment implemented." />
     <MESSAGE value="Sum in order page implemented." />
-    <option name="LAST_COMMIT_MESSAGE" value="Sum in order page implemented." />
+    <MESSAGE value="Heroku deployment changes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Heroku deployment changes." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Golden_leaf$run.coverage" NAME="run Coverage Results" MODIFIED="1555783129365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
