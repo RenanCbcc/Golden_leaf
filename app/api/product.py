@@ -1,7 +1,7 @@
 from flask import request, jsonify, url_for
 from app.api import api
 from app.api.erros import resource_not_found
-from app.models.tables import Product, db
+from app.models import Product, db
 
 
 @api.route('/product', defaults={'id': None})

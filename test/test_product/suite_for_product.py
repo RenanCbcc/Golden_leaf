@@ -1,5 +1,5 @@
 import unittest
-from app.models.tables import Product, db
+from app.models import Product, db
 
 
 class TestCaseIncludeProduct(unittest.TestCase):

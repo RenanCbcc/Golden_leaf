@@ -3,10 +3,10 @@ from flask_breadcrumbs import register_breadcrumb
 from flask_login import login_required
 
 from app import db
-from app.category import blueprint_category
-from app.category.forms import CategoryForm, SearchCategoryForm
-from app.models.tables import Category, Product
-from app.product.forms import NewProductForm
+from app.routes.category import blueprint_category
+from app.routes.category.forms import CategoryForm, SearchCategoryForm
+from app.models import Category, Product
+from app.routes.product.forms import NewProductForm
 
 
 def view_category_dlc(*args, **kwargs):

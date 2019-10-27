@@ -1,9 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import DecimalField, SubmitField
+from wtforms import SubmitField, SelectField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from wtforms.validators import DataRequired, NumberRange
 
-from app.models.tables import Client, Clerk
+from app.models import Client, Clerk
 
 
 def enabled_clients():
@@ -14,13 +13,7 @@ def enabled_clerks():
     return Clerk.query
 
 
-class NewPaymentForm(FlaskForm):
-    total = DecimalField('Total R$ ', render_kw={'disabled': ''})
-    value = DecimalField('Valor R$ ', validators=[DataRequired(), NumberRange(min=0.1, max=100.0)])
-    submit = SubmitField('Pagar')
-
-
-class SearchPaymentForm(FlaskForm):
+class SearchOrderForm(FlaskForm):
     clerks = QuerySelectField('Atendentes',
                               query_factory=enabled_clerks, allow_blank=True,
                               get_label='name', get_pk=lambda a: a.id,
@@ -32,4 +25,5 @@ class SearchPaymentForm(FlaskForm):
                                blank_text=u'Selecione um cliente...')
 
     # date = DateField("Data")
+    status = SelectField("Status", choices=[('PAGO', 'Pago'), ('PENDENTE', 'Pendente')])
     submit = SubmitField('Buscar')

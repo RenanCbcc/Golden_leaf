@@ -1,7 +1,7 @@
 from flask import jsonify, request, url_for
 from app import db
 from app.api import api
-from app.models.tables import Category
+from app.models import Category
 
 
 @api.route('/category', methods=['GET'], defaults={'id': None})

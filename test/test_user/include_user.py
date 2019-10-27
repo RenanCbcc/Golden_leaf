@@ -1,5 +1,5 @@
 import unittest
-from app.models.tables import Client, Clerk, Address, db
+from app.models import Client, Clerk, db
 
 
 class TestCaseIncludeUser(unittest.TestCase):

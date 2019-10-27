@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from app import db
 from app.api import api
-from app.models.tables import Item, Order, Client
+from app.models import Item, Order, Client
 
 
 @api.route('/order', defaults={'id': None})

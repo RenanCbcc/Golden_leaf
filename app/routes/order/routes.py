@@ -4,9 +4,9 @@ from flask_login import login_required
 from sqlalchemy import func
 
 from app import db
-from app.models.tables import Order, Client, Item, Status
-from app.order import blueprint_order
-from app.order.forms import SearchOrderForm
+from app.models import Order, Client, Item, Status
+from app.routes.order import blueprint_order
+from app.routes.order.forms import SearchOrderForm
 
 
 def view_client_dlc(*args, **kwargs):

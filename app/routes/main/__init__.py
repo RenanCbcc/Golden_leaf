@@ -2,5 +2,5 @@
 from flask import Blueprint
 from flask_breadcrumbs import default_breadcrumb_root
 
-main = Blueprint('main', __name__)
-default_breadcrumb_root(main, '.')
+blueprint_main = Blueprint('blueprint_main', __name__)
+default_breadcrumb_root(blueprint_main, '.')

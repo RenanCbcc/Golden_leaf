@@ -1,6 +1,6 @@
 from flask import jsonify, g
 from flask_httpauth import HTTPBasicAuth
-from app.models.tables import Clerk
+from app.models import Clerk
 from app.api.erros import unauthorized
 from app.api import api
 

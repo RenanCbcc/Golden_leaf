@@ -1,5 +1,5 @@
 import unittest
-from app.models.tables import Address, db
+from app.models import Address, db
 
 
 class TestCaseIncludeAddresses(unittest.TestCase):

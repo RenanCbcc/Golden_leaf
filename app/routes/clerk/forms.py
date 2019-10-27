@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, ValidationError
 
-from app.models.tables import Clerk
+from app.models import Clerk
 
 
 class LoginForm(FlaskForm):

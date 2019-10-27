@@ -1,6 +1,6 @@
 from flask import jsonify, request, url_for
 from app.api import api
-from app.models.tables import Client, db
+from app.models import Client, db
 
 
 @api.route('/client', methods=['GET'], defaults={'id': None})

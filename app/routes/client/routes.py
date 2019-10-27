@@ -2,9 +2,9 @@ from flask import render_template, redirect, flash, url_for, request
 from flask_breadcrumbs import register_breadcrumb
 from flask_login import login_required
 
-from app.client import blueprint_client
-from app.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
-from app.models.tables import Client, Address, db
+from app.routes.client import blueprint_client
+from app.routes.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
+from app.models import Client, Address, db
 
 
 def view_client_dlc(*args, **kwargs):

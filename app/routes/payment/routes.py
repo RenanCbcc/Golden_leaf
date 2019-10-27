@@ -4,9 +4,9 @@ from flask_login import current_user
 from sqlalchemy import func
 
 from app import db
-from app.models.tables import Order, Status, Payment, Client
-from app.payment import blueprint_payment
-from app.payment.forms import NewPaymentForm, SearchPaymentForm
+from app.models import Order, Status, Payment, Client
+from app.routes.payment import blueprint_payment
+from app.routes.payment.forms import NewPaymentForm, SearchPaymentForm
 
 
 def view_client_dlc(*args, **kwargs):

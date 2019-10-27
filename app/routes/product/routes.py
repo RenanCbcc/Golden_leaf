@@ -6,9 +6,9 @@ from flask import render_template, redirect, flash, url_for, request, current_ap
 from flask_breadcrumbs import register_breadcrumb
 from flask_login import login_required
 
-from app.models.tables import Product, db, Category
-from app.product import blueprint_product
-from app.product.forms import NewProductForm, SearchProductForm, UpdateProductForm
+from app.models import Product, db, Category
+from app.routes.product import blueprint_product
+from app.routes.product.forms import NewProductForm, SearchProductForm, UpdateProductForm
 
 
 def view_category_dlc(*args, **kwargs):

@@ -8,9 +8,9 @@ from flask_login import login_user, logout_user, current_user
 from flask_mail import Message
 
 from app import mail
-from app.clerk import blueprint_clerk
-from app.clerk.forms import NewClerkForm, LoginForm, UpdateClerkForm, RequestResetForm, ResetPasswordForm
-from app.models.tables import Clerk, db
+from app.routes.clerk import blueprint_clerk
+from app.routes.clerk.forms import NewClerkForm, LoginForm, UpdateClerkForm, RequestResetForm, ResetPasswordForm
+from app.models import Clerk, db
 
 
 def view_clerk_dlc(*args, **kwargs):

@@ -6,7 +6,7 @@ from sqlalchemy import CheckConstraint, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from werkzeug.routing import ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import login_manager, db
+from app.extensions import login_manager, db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from flask import current_app, url_for, abort
 from flask_admin.contrib.sqla import ModelView

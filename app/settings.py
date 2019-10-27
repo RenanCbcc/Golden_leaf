@@ -16,10 +16,6 @@ class BaseConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JSON_AS_ASCII = False
 
-    @staticmethod
-    def init_app(app):
-        pass
-
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
