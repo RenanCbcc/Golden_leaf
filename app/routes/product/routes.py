@@ -85,13 +85,13 @@ def search_product():
 @register_breadcrumb(blueprint_product, '.id', '', dynamic_list_constructor=view_category_dlc)
 @login_required
 def update_product(id):
-    form = UpdateProductForm()
     product = Product.query.filter_by(id=id).one()
+    form = UpdateProductForm(categories=product.category)
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
             product.image_file = picture_file
-            print(picture_file)
+        product.category = form.categories.data
         product.brand = form.brand.data
         product.description = form.description.data
         product.unit_cost = form.unit_cost.data
@@ -99,8 +99,8 @@ def update_product(id):
         product.is_available = form.is_available.data
         db.session.add(product)
         db.session.commit()
-        flash('Categoria atualizada com sucesso.', 'success')
-        return redirect(url_for('blueprint_product.update_product', code=product.code))
+        flash('Produto atualizada com sucesso.', 'success')
+        return redirect(url_for('blueprint_product.update_product', id=product.id))
     elif request.method == 'GET':
         form.brand.data = product.brand
         form.description.data = product.description

@@ -56,7 +56,7 @@ def search_payment():
         elif client is not None:
             payments = Payment.query.filter_by(client=client, ).paginate(page=page, per_page=10)
 
-        if payments:
+        if not payments:
             flash('Pagamento algum encontrado', 'warning')
             return redirect(url_for('blueprint_payment.search_payment'))
         else:

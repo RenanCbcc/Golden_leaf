@@ -39,13 +39,6 @@ def new_order(id):
     return render_template('order/new.html', client=client)
 
 
-# @blueprint_order.route('/order/new', methods=["GET", 'POST'])
-# @register_breadcrumb(blueprint_order, '.new_loose_order', 'Novo Pedido')
-# @login_required
-# def new_loose_order():
-#     return render_template('order/new.html', client=None)
-
-
 @blueprint_order.route('/order/<int:id>/update', methods=['GET', 'POST'])
 # @register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_client_dlc)
 @login_required
@@ -101,30 +94,3 @@ def pending_order(id):
         .order_by(Order.ordered.desc()) \
         .paginate(page=page, per_page=10)
     return render_template('order/pending_order.html', orders=orders, client_id=id, total=total)
-
-
-@blueprint_order.route('/order/payment', methods=['POST'])
-def process_payment():
-    import decimal
-    value = decimal.Decimal(request.form['paymentValue'])
-    client_id = request.form['clientId']
-    if value <= 0:
-        from flask import abort
-        abort(400)
-    orders = Order.query.filter_by(client_id=client_id, status=Status.PENDENTE).order_by(
-        Order.ordered).all()
-    while value > 0:
-        for order in orders:
-            if value - order.cost > 0:
-                value = value - order.cost
-                order.cost = 0
-                order.status = Status.PAGO
-            else:
-                order.cost = order.cost - value
-                value = 0
-
-    from app import db
-    db.session.add_all(orders)
-    db.session.commit()
-    # send_message(client_id, request.form['value'])
-    return redirect(url_for('blueprint_order.pending_order', id=client_id))

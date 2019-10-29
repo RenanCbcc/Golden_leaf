@@ -17,7 +17,7 @@ class SearchOrderForm(FlaskForm):
     clerks = QuerySelectField('Atendentes',
                               query_factory=enabled_clerks, allow_blank=True,
                               get_label='name', get_pk=lambda a: a.id,
-                              blank_text=u'Selecione um atendente...')
+                              blank_text=u'Selecione uma atendente...')
 
     clients = QuerySelectField('Clientes',
                                query_factory=enabled_clients, allow_blank=True,

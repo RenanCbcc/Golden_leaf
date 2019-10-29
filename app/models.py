@@ -46,7 +46,7 @@ class User(db.Model):
 class Client(User):
     __tablename__ = 'clients'
     __mapper_args__ = {'concrete': True}
-    identification = db.Column(db.String(11), unique=True)
+    identification = db.Column(db.String(9), unique=True)
     notifiable = db.Column(db.Boolean)
     address_id = db.Column(db.Integer, ForeignKey('addresses.id'))
     address = db.relationship("Address", back_populates="dweller", lazy=False)

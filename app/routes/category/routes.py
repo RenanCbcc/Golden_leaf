@@ -45,7 +45,7 @@ def search_category():
         # Finding names with “form.name.data” in them:
         categories = Category.query.filter(Category.title.like('%' + form.title.data + '%')) \
             .paginate(page=page, per_page=10)
-        if categories:
+        if not categories:
             flash('Nenhum categoria {} encontrada'.format(form.title.data), 'warning')
             return redirect(url_for('blueprint_category.search_category'))
         else:
