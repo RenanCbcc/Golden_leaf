@@ -291,10 +291,9 @@ class Order(db.Model):
             'id': self.id,
             'client_id': self.client_id,
             'clerk_id': self.clerk_id,
-            'cost': self.total,
+            'ttal': str(self.total),
             'date': self.ordered,
-            'status': self.status,
-            'items': self.items
+            'status': self.status.name
         }
         return json_product
 
@@ -302,13 +301,7 @@ class Order(db.Model):
     def from_json(content):
         client = Client.query.get(content.get('client_id'))
         clerk = Clerk.query.get(content.get('clerk_id'))
-        if Status[content.get('status')] == Status.PENDENTE:
-            return Order(client=client, clerk=clerk, payment=None, status=Status[content.get('status')])
-        else:
-            pass
-
-    def has_remaining_value(self):
-        return self.remaining_value > 0
+        return Order(client=client, clerk=clerk, payment=None, status=Status[content.get('status')])
 
     def __repr__(self):
         return '<Pedido %r %r %r >' % (self.ordered, self.client.name, self.clerk.name)
@@ -339,8 +332,8 @@ class Item(db.Model):
             'id': self.id,
             'order_id': self.order_id,
             'product_id': self.product_id,
-            'quantity': self.quantity,
-            'extended_cost': self.extended_cost
+            'quantity': str(self.quantity),
+            'extended_cost': str(self.extended_cost)
         }
         return json_item
 

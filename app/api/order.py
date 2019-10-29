@@ -5,16 +5,17 @@ from app.models import Item, Order, Client
 
 
 @api.route('/order', defaults={'id': None})
-@api.route('/order/<int:id>', methods=['GET'])
+@api.route('/order/client/<int:id>', methods=['GET'])
 def get_order(id):
     if id is not None:
-        order = Order.query.get_or_404(id)
-        return jsonify(order.to_json())
+        orders = Order.query.filter_by(client_id=id).order_by(Order.ordered).all()
+        response = jsonify({'orders': [order.to_json() for order in orders]})
+        response.status_code = 200
     else:
         orders = Order.query.all()
         response = jsonify({'orders': [order.to_json() for order in orders]})
         response.status_code = 200
-        return response
+    return response
 
 
 @api.route('/order', methods=['POST'])
@@ -27,7 +28,7 @@ def save_order():
     response = jsonify(
         {'OK': 'The request was completed successfully.', 'order_id': order.id})
     response.status_code = 200
-    #send_message(order)
+    # send_message(order)
     return response
 
 
@@ -35,7 +36,7 @@ def send_message(order):
     client = Client.query.get(order.client_id)
     if client.notifiable:
         account_sid = 'AC06b6d740e2dbe8c1c94dd41ffed6c3a3'
-        auth_token = 'a9a6f4600d1d55989d325443eda3c55e'
+        auth_token = '2e22811c3a09a717ecd754b7fb527794'
         from twilio.rest import Client as Twilio_Client
         twilio_client = Twilio_Client(account_sid, auth_token)
 

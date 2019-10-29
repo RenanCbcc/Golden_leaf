@@ -22,14 +22,14 @@ def view_clerk_dlc(*args, **kwargs):
 @blueprint_clerk.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('blueprint_main.index'))
     form = LoginForm()
     if form.validate_on_submit():
         clerk = Clerk.query.filter_by(email=form.email.data).first()
         if clerk is not None and clerk.verify_password(form.password.data):
             login_user(clerk)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('main.index'))
+            return redirect(next_page) if next_page else redirect(url_for('blueprint_main.index'))
         else:
             flash('Erro, login ou senha inválidos!', 'danger')
             return redirect(url_for('blueprint_clerk.login'))
@@ -39,7 +39,7 @@ def login():
 @blueprint_clerk.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('blueprint_main.index'))
 
 
 @blueprint_clerk.route('/clerk/account', methods=['GET', 'POST'])
@@ -64,7 +64,7 @@ def account():
 @register_breadcrumb(blueprint_clerk, '.new_clerk', 'Novo Atendente')
 def new_clerk():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('blueprint_main.index'))
     form = NewClerkForm()
     if form.validate_on_submit():
         clerk = Clerk(form.name.data, form.phone_number.data, form.email.data,
@@ -90,7 +90,7 @@ def send_email(clerk):
 @blueprint_clerk.route('/clerk/reset_password', methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('blueprint_main.index'))
     form = RequestResetForm()
     if form.is_submitted():
         clerk = Clerk.query.filter_by(email=form.email.data).one()
@@ -103,7 +103,7 @@ def reset_request():
 @blueprint_clerk.route('/clerk/reset_password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('blueprint_main.index'))
     clerk = Clerk.verify_token(token)
     if clerk is None:
         flash('O token recebido é inválido ou está expirado.', 'warning')

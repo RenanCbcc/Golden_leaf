@@ -88,7 +88,6 @@ def new_payment(id):
                 for order in orders:
                     if value >= order.total:
                         value = value - order.total
-                        order.total = 0
                         order.status = Status.PAGO
 
                     else:
@@ -98,7 +97,7 @@ def new_payment(id):
                     payment.orders.append(order)
 
             db.session.commit()
-            send_message(client, request.form['value'])
+            # send_message(client, request.form['value'])
             flash('Pagamento recebido com sucesso!', 'success')
             return redirect(url_for('blueprint_payment.get_payment', id=id))
     elif request.method == 'GET':
@@ -112,7 +111,7 @@ def new_payment(id):
 def send_message(client, value):
     if client.notifiable:
         account_sid = 'AC06b6d740e2dbe8c1c94dd41ffed6c3a3'
-        auth_token = 'a9a6f4600d1d55989d325443eda3c55e'
+        auth_token = '2e22811c3a09a717ecd754b7fb527794'
         from twilio.rest import Client as Twilio_Client
         twilio_client = Twilio_Client(account_sid, auth_token)
 

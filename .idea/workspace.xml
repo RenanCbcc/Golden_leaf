@@ -2,46 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.flaskenv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/extensions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/category.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/category.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/clerk.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/clerk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/product.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/product.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/category/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/category/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/category/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/category/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/category/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/category/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clerk/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/clerk/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clerk/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/clerk/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/clerk/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/clerk/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/client/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/client/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/client/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/configuration/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/error/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/error/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/error/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/error/handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/main/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/main/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/order/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/order/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/order/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/order/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/order/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/order/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/payment/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/payment/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/payment/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/payment/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/payment/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/payment/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/product/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/product/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/product/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/product/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/product/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/product/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/wsgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_address/suite_for_address.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_address/suite_for_address.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_product/suite_for_product.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_product/suite_for_product.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_user/include_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_user/include_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/clerk/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/clerk/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/payment/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/payment/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/order_table.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/order_table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -294,14 +261,8 @@
       <workItem from="1572127863702" duration="13000" />
       <workItem from="1572127949230" duration="1122000" />
       <workItem from="1572192961531" duration="7879000" />
-      <workItem from="1572217430406" duration="1483000" />
-    </task>
-    <task id="LOCAL-00022" summary="implementing Order-related CRUD.">
-      <created>1548794758549</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1548794758549</updated>
+      <workItem from="1572217430406" duration="2440000" />
+      <workItem from="1572365258915" duration="1286000" />
     </task>
     <task id="LOCAL-00023" summary="Simple profile implemented.">
       <created>1548815963832</created>
@@ -639,7 +600,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572128819469</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="Application structure modified to fit in heroku's requirements.">
+      <created>1572219029592</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1572219029592</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -660,7 +628,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Post method for orders implemented." />
     <MESSAGE value="Implementing fake data generator for Categories and Products." />
     <MESSAGE value="Some improvements related to the navigability of Category and Product page." />
     <MESSAGE value="Implementing Breadcrumb." />
@@ -685,7 +652,8 @@
     <MESSAGE value="Payment implemented." />
     <MESSAGE value="Sum in order page implemented." />
     <MESSAGE value="Heroku deployment changes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Heroku deployment changes." />
+    <MESSAGE value="Application structure modified to fit in heroku's requirements." />
+    <option name="LAST_COMMIT_MESSAGE" value="Application structure modified to fit in heroku's requirements." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Golden_leaf$run.coverage" NAME="run Coverage Results" MODIFIED="1555783129365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
