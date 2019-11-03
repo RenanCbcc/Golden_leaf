@@ -13,7 +13,7 @@ def get_order(id):
         response.status_code = 200
     else:
         orders = Order.query.all()
-        response = jsonify({'orders': [order.to_json() for order in orders]})
+        response = jsonify([order.to_json() for order in orders])
         response.status_code = 200
     return response
 

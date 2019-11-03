@@ -71,7 +71,7 @@ def search_product():
             term = form.code.data
             products = Product.query.filter_by(code=term).paginate(page=page, per_page=10)
 
-        if products:
+        if not products:
             flash('Produto algum encontrado', 'warning')
             return redirect(url_for('blueprint_product.search_product'))
         else:

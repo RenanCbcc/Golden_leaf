@@ -11,7 +11,7 @@ def get_category(id):
         category = Category.query.get_or_404(id)
         return jsonify(category.to_json())
     categories = Category.query.all()
-    response = jsonify({'categories': [category.to_json() for category in categories]})
+    response = jsonify([category.to_json() for category in categories])
     response.status_code = 200
     return response
 

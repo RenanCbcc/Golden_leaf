@@ -12,7 +12,7 @@ def get_product(id):
         return jsonify(product.to_json())
     else:
         products = Product.query.all()
-        response = jsonify({'products': [product.to_json() for product in products]})
+        response = jsonify([product.to_json() for product in products])
         response.status_code = 200
         return response
 

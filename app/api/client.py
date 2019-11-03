@@ -11,7 +11,7 @@ def get_client(id):
         return jsonify(client.to_json())
     else:
         clients = Client.query.all()
-        response = jsonify({'clients': [client.to_json() for client in clients]})
+        response = jsonify([client.to_json() for client in clients])
         response.status_code = 200
         return response
 
