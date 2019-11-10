@@ -23,7 +23,7 @@ class UpdateClerkForm(FlaskForm):
         if email.data != current_user.email:
             clerk = Clerk.query.filter_by(email=email.data).first()
             if clerk:
-                raise ValidationError("Este endereço de email já existe!")
+                raise ValidationError("Este endereço de email já está regitrado!")
 
 
 class NewClerkForm(FlaskForm):
@@ -37,15 +37,17 @@ class NewClerkForm(FlaskForm):
                                validators=[DataRequired(), Length(min=11, max=11), Regexp('^[0-9]*$')])
     email = StringField('Seu endereço de email?', validators=[DataRequired(), Email()])
     password = PasswordField(label='Escolha uma senha',
-                             validators=[Length(min=8, max=32)])
-    cofirm_password = PasswordField(label='Confirme sua senha', validators=[DataRequired(), EqualTo('password')])
+                             validators=[Length(min=8, max=32),
+                                         EqualTo('cofirm_password', message='Senhas não conferem!')])
+    cofirm_password = PasswordField(label='Confirme sua senha', validators=[DataRequired()])
 
     submit = SubmitField('Registrar')
 
+
     def validate_email(self, email):
-        clerk = Clerk.query.filter_by(email=email.data).first()
-        if clerk:
-            raise ValidationError("Este endereço de email já existe")
+        if Clerk.query.filter_by(email=email.data).first():
+            raise ValidationError('Este email já está registrado!')
+
 
 
 class RequestResetForm(FlaskForm):

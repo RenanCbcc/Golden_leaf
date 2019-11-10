@@ -2,9 +2,9 @@ from flask_admin.contrib.sqla.fields import QuerySelectField
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField
 from wtforms import StringField, SubmitField, DecimalField, BooleanField, SelectField
-from wtforms.validators import DataRequired, Length, NumberRange, Regexp
+from wtforms.validators import DataRequired, Length, NumberRange, Regexp, ValidationError
 
-from app.models import Category
+from app.models import Category, Product
 
 
 def enabled_categories():
@@ -22,6 +22,10 @@ class NewProductForm(FlaskForm):
     code = StringField('Código do produto',
                        validators=[DataRequired(), Length(min=9, max=13, message="Código inválido.")])
     submit = SubmitField('Salvar')
+
+    def validate_code(self, code):
+        if Product.query.filter_by(code=code.data).first():
+            raise ValidationError('Código de produto já registrado.')
 
 
 class SearchProductForm(FlaskForm):
@@ -47,3 +51,7 @@ class UpdateProductForm(FlaskForm):
     is_available = BooleanField("Está disponível")
     picture = FileField('Foto de produto', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Salvar')
+
+    def validate_code(self, code):
+        if Product.query.filter_by(code=code.data).first():
+            raise ValidationError('Código de produto já registrado.')

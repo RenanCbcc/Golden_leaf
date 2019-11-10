@@ -20,6 +20,7 @@ def view_clerk_dlc(*args, **kwargs):
 
 
 @blueprint_clerk.route('/login', methods=['GET', 'POST'])
+@register_breadcrumb(blueprint_clerk, '.login', 'Login')
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('blueprint_main.index'))

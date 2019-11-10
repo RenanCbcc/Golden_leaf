@@ -4,7 +4,10 @@
     <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/category.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/category.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/product/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/product/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/clerk.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/clerk.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/clerk/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/clerk/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/clerk/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/clerk/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/product/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/product/forms.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -262,14 +265,13 @@
       <workItem from="1572369577478" duration="2737000" />
       <workItem from="1572456759063" duration="185000" />
       <workItem from="1572726909831" duration="466000" />
-      <workItem from="1572817914786" duration="299000" />
-    </task>
-    <task id="LOCAL-00025" summary="Pagination implemented.">
-      <created>1548878369459</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1548878369459</updated>
+      <workItem from="1572817914786" duration="475000" />
+      <workItem from="1572965602250" duration="1230000" />
+      <workItem from="1573077754811" duration="1188000" />
+      <workItem from="1573087999227" duration="1151000" />
+      <workItem from="1573336734120" duration="1762000" />
+      <workItem from="1573347846024" duration="887000" />
+      <workItem from="1573424676440" duration="289000" />
     </task>
     <task id="LOCAL-00026" summary="Email and Password Reset has been implemented.">
       <created>1548902583957</created>
@@ -607,7 +609,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572372265589</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Changing return method of api's end point.">
+      <created>1572818369900</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1572818369901</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -628,7 +637,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Implementing Breadcrumb." />
     <MESSAGE value="Breadcrumb not implemented. Saving orders" />
     <MESSAGE value="User Authentication with Flask-HTTPAuth implemented." />
     <MESSAGE value="Implementing Clerk authentication." />
@@ -653,7 +661,8 @@
     <MESSAGE value="Application structure modified to fit in heroku's requirements." />
     <MESSAGE value="Fixing some minors bugs." />
     <MESSAGE value="Fixing product update bug." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing product update bug." />
+    <MESSAGE value="Changing return method of api's end point." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changing return method of api's end point." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Golden_leaf$run.coverage" NAME="run Coverage Results" MODIFIED="1555783129365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

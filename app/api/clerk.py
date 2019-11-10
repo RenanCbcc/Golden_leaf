@@ -1,8 +1,8 @@
 from flask import jsonify, g
 from flask_httpauth import HTTPBasicAuth
-from app.models import Clerk
-from app.api.erros import unauthorized
+
 from app.api import api
+from app.models import Clerk
 
 auth = HTTPBasicAuth()
 
@@ -20,19 +20,14 @@ def verify_password(email_or_token, password):
     return True
 
 
-@auth.error_handler
-def auth_error():
-    return unauthorized()
-
-
-@api.route('token')
+@api.route('token', methods=['GET'])
 @auth.login_required
 def get_auth_token():
     token = g.current_user.generate_auth_token(600)
     return jsonify({'token': token.decode('ascii'), 'duration': 600})
 
 
-@api.route('clerk')
+@api.route('clerk', methods=['POST'])
 @auth.login_required
-def get_resource():
+def get_clerk():
     return jsonify(g.current_user.to_json())

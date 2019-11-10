@@ -1,4 +1,4 @@
-from flask import jsonify, request, url_for
+from flask import jsonify, request, url_for, abort
 from app import db
 from app.api import api
 from app.models import Category
@@ -26,6 +26,7 @@ def create_category():
 
 @api.route('/category/<int:id>', methods=['PUT'])
 def edit_category(id):
+
     category = Category.query.get_or_404(id)
     category.title = request.json.get('title')
     db.session.add(category)
