@@ -209,6 +209,7 @@ class Product(db.Model):
     def to_json(self):
         json_product = {
             'id': self.id,
+            'category_id': self.category_id,
             'brand': self.brand,
             'description': self.description,
             'unit_cost': str(self.unit_cost),

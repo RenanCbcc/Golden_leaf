@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/category.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/category.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/clerk.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/clerk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/clerk/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/clerk/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/clerk/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/clerk/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/product/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/product/forms.py" afterDir="false" />
-    </list>
+    <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,14 +264,7 @@
       <workItem from="1573087999227" duration="1151000" />
       <workItem from="1573336734120" duration="1762000" />
       <workItem from="1573347846024" duration="887000" />
-      <workItem from="1573424676440" duration="289000" />
-    </task>
-    <task id="LOCAL-00026" summary="Email and Password Reset has been implemented.">
-      <created>1548902583957</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1548902583957</updated>
+      <workItem from="1573424676440" duration="345000" />
     </task>
     <task id="LOCAL-00027" summary="Some small changes.">
       <created>1548958878317</created>
@@ -616,7 +602,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572818369901</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="Some improvements.">
+      <created>1573424988774</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1573424988775</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -637,7 +630,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Breadcrumb not implemented. Saving orders" />
     <MESSAGE value="User Authentication with Flask-HTTPAuth implemented." />
     <MESSAGE value="Implementing Clerk authentication." />
     <MESSAGE value="Clerk authentication implemented" />
@@ -662,7 +654,8 @@
     <MESSAGE value="Fixing some minors bugs." />
     <MESSAGE value="Fixing product update bug." />
     <MESSAGE value="Changing return method of api's end point." />
-    <option name="LAST_COMMIT_MESSAGE" value="Changing return method of api's end point." />
+    <MESSAGE value="Some improvements." />
+    <option name="LAST_COMMIT_MESSAGE" value="Some improvements." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Golden_leaf$run.coverage" NAME="run Coverage Results" MODIFIED="1555783129365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
