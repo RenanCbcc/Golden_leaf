@@ -95,7 +95,6 @@ def update_product(id):
         product.brand = form.brand.data
         product.description = form.description.data
         product.unit_cost = form.unit_cost.data
-        product.code = form.code.data
         product.is_available = form.is_available.data
         db.session.add(product)
         db.session.commit()

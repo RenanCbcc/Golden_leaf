@@ -1,10 +1,11 @@
+import sqlalchemy
 from flask_admin.contrib.sqla.fields import QuerySelectField
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField
 from wtforms import StringField, SubmitField, DecimalField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, NumberRange, Regexp, ValidationError
 
-from app.models import Category, Product
+from app.models import Category, Product, db
 
 
 def enabled_categories():
@@ -47,11 +48,7 @@ class UpdateProductForm(FlaskForm):
         '^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s\.\-]*)$')])
 
     unit_cost = DecimalField('Preço do produto', validators=[NumberRange(min=0.5, max=100.0)])
-    code = StringField('Código do produto', validators=[Length(min=9, max=13)])
+    code = StringField('Código do produto', render_kw={'disabled': ''})
     is_available = BooleanField("Está disponível")
     picture = FileField('Foto de produto', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Salvar')
-
-    def validate_code(self, code):
-        if Product.query.filter_by(code=code.data).first():
-            raise ValidationError('Código de produto já registrado.')

@@ -66,7 +66,7 @@ def update_category(id):
         db.session.add(category)
         db.session.commit()
         flash('Categoria alterada com sucesso!', 'success')
-        return redirect(url_for('blueprint_category.listing_categories'))
+        return redirect(url_for('blueprint_category.get_categories'))
     elif request.method == 'GET':
         form.title.data = category.title
     return render_template('category/edit.html', form=form)

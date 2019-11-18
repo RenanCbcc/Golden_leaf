@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="" />
+    <list default="true" id="794caec9-d402-48d4-8c73-6ab36dd615b9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/category/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/category/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/product/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/product/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/product/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/product/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/wsgi.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,13 +271,9 @@
       <workItem from="1573336734120" duration="1762000" />
       <workItem from="1573347846024" duration="887000" />
       <workItem from="1573424676440" duration="345000" />
-    </task>
-    <task id="LOCAL-00027" summary="Some small changes.">
-      <created>1548958878317</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1548958878318</updated>
+      <workItem from="1574025599231" duration="296000" />
+      <workItem from="1574025993876" duration="273000" />
+      <workItem from="1574083209979" duration="15307000" />
     </task>
     <task id="LOCAL-00028" summary="Some small changes.">
       <created>1548972758418</created>
@@ -609,7 +611,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573424988775</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="Returning category's id in product.">
+      <created>1574025864701</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1574025864702</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -630,7 +639,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="User Authentication with Flask-HTTPAuth implemented." />
     <MESSAGE value="Implementing Clerk authentication." />
     <MESSAGE value="Clerk authentication implemented" />
     <MESSAGE value="Getting the current clerk implemented." />
@@ -655,7 +663,8 @@
     <MESSAGE value="Fixing product update bug." />
     <MESSAGE value="Changing return method of api's end point." />
     <MESSAGE value="Some improvements." />
-    <option name="LAST_COMMIT_MESSAGE" value="Some improvements." />
+    <MESSAGE value="Returning category's id in product." />
+    <option name="LAST_COMMIT_MESSAGE" value="Returning category's id in product." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Golden_leaf$run.coverage" NAME="run Coverage Results" MODIFIED="1555783129365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
