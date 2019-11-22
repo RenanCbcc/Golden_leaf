@@ -4,7 +4,6 @@ import os
 class BaseConfig:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     WTF_CSRF_SECRET_KEY = os.environ.get('CSRF_SECRET_KEY')
-    SESSION_TYPE = 'memcached'
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'Flasky Admin <noraplay@golden-leaf.com>'
     MAIL_SERVER = 'smtp.googlemail.com'
