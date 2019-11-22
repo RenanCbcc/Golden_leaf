@@ -38,16 +38,16 @@ class NewClerkForm(FlaskForm):
     email = StringField('Seu endereço de email?', validators=[DataRequired(), Email()])
     password = PasswordField(label='Escolha uma senha',
                              validators=[Length(min=8, max=32),
-                                         EqualTo('cofirm_password', message='Senhas não conferem!')])
-    cofirm_password = PasswordField(label='Confirme sua senha', validators=[DataRequired()])
+                                         EqualTo('confirm', message='Senhas não conferem!')])
+    confirm = PasswordField(label='Confirme sua senha', validators=[DataRequired()])
+
+    master_key = PasswordField(label="Senha mestra", validators=[DataRequired()])
 
     submit = SubmitField('Registrar')
-
 
     def validate_email(self, email):
         if Clerk.query.filter_by(email=email.data).first():
             raise ValidationError('Este email já está registrado!')
-
 
 
 class RequestResetForm(FlaskForm):
@@ -63,6 +63,6 @@ class RequestResetForm(FlaskForm):
 class ResetPasswordForm(FlaskForm):
     password = PasswordField(label='Escolha uma senha',
                              validators=[Length(min=8, max=32)])
-    cofirm_password = PasswordField(label='Confirme sua senha', validators=[DataRequired(), EqualTo('password')])
+    confirm_password = PasswordField(label='Confirme sua senha', validators=[DataRequired(), EqualTo('password')])
 
     submit = SubmitField('Redefinir senha')

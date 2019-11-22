@@ -1,4 +1,5 @@
 from flask import render_template
+from flask_wtf.csrf import CSRFError
 
 from app.routes.error import blueprint_error
 
@@ -26,3 +27,8 @@ def forbidden(error):
 @blueprint_error.app_errorhandler(401)
 def unauthorized(error):
     return render_template('error/401.html', error=error), 401
+
+
+@blueprint_error.app_errorhandler(CSRFError)
+def handle_csrf_error(error):
+    return render_template('error/csrf_error.html', error=error), 400

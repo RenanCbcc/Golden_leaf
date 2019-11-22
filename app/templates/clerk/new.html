@@ -6,6 +6,7 @@
         <h2 class="titulo-principal">Dados do novo atendente</h2>
         <form action="" method="POST">
             {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
             {{ wtf.quick_form(form) }}
         </form>
     </div>

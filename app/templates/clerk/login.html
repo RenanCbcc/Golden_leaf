@@ -5,9 +5,8 @@
     <div class="col-md-4 col-md-offset-4">
         <h2 class="subtitulo-texto">Autentique-se no sistema </h2>
         <form action="" method="POST">
-
-
             <div class="form-group">
+                {{ form.csrf_token }}
                 {{ wtf.quick_form(form) }}
                 <small class="text-muted ml-2">
                     <a href="{{ url_for('blueprint_clerk.reset_request') }}">Esqueci a senha</a>

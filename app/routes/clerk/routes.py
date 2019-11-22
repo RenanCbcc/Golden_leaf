@@ -72,6 +72,7 @@ def new_clerk():
                       form.cofirm_password.data)
         db.session.add(clerk)
         db.session.commit()
+        login_user(clerk)
         flash('Você foi registrado com sucesso!', 'info')
         return redirect(url_for('blueprint_clerk.account'))
     return render_template('clerk/new.html', form=form)

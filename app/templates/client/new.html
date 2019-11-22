@@ -5,6 +5,7 @@
     <div class="col-md-4 col-md-offset-4">
         <h2 class="titulo-principal">Dados do novo cliente</h2>
         <form action="" method="POST">
+            {{ form.csrf_token }}
             {{ form.hidden_tag() }}
             {{ wtf.quick_form(form) }}
         </form>
