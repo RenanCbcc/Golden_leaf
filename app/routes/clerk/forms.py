@@ -41,13 +41,20 @@ class NewClerkForm(FlaskForm):
                                          EqualTo('confirm', message='Senhas não conferem!')])
     confirm = PasswordField(label='Confirme sua senha', validators=[DataRequired()])
 
-    master_key = PasswordField(label="Senha mestra", validators=[DataRequired()])
+    master_key = PasswordField(label="Chave mestra", validators=[DataRequired()])
 
     submit = SubmitField('Registrar')
 
     def validate_email(self, email):
         if Clerk.query.filter_by(email=email.data).first():
             raise ValidationError('Este email já está registrado!')
+
+
+    def validate_master_key(self,master_key):
+        import os
+        if master_key.data != os.environ.get("MASTER_KEY"):
+            raise ValidationError("Chave mestra incorreta!")
+
 
 
 class RequestResetForm(FlaskForm):

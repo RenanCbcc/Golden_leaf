@@ -69,10 +69,11 @@ def new_clerk():
     form = NewClerkForm()
     if form.validate_on_submit():
         clerk = Clerk(form.name.data, form.phone_number.data, form.email.data,
-                      form.cofirm_password.data)
+                      form.confirm.data)
         db.session.add(clerk)
         db.session.commit()
         login_user(clerk)
+        mail.send
         flash('Você foi registrado com sucesso!', 'info')
         return redirect(url_for('blueprint_clerk.account'))
     return render_template('clerk/new.html', form=form)
