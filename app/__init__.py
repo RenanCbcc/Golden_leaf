@@ -57,8 +57,9 @@ def create_app(config_class):
     app.register_blueprint(blueprint_main)
 
     from app.api import api
+    csrf.exempt(api)
     app.register_blueprint(api, url_prefix='/api')
-
+    
     # create all db tables
     @app.before_first_request
     def create_tables():
