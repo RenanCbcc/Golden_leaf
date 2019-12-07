@@ -23,10 +23,9 @@ def create_app(config_class):
     login_manager.login_view = 'blueprint_clerk.login'  # Function's name of route login from the blueprint.
     login_manager.login_message_category = 'info'
 
-    from app.models import User, Client, Clerk, Address, Product, Item, Order, Payment
+    from app.models import User, Client, Clerk, Product, Item, Order, Payment
     admin.add_view(AdminView(Client, db.session))
     admin.add_view(AdminView(Clerk, db.session))
-    admin.add_view(AdminView(Address, db.session))
     admin.add_view(AdminView(Product, db.session))
     admin.add_view(AdminView(Item, db.session))
     admin.add_view(AdminView(Order, db.session))

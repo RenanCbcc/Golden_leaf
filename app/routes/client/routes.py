@@ -4,7 +4,7 @@ from flask_login import login_required
 
 from app.routes.client import blueprint_client
 from app.routes.client.forms import NewClientForm, SearchClientForm, UpdateClientForm
-from app.models import Client, Address, db
+from app.models import Client, db
 
 
 def view_client_dlc(*args, **kwargs):
@@ -29,8 +29,7 @@ def new_client():
     form = NewClientForm()
     if form.validate_on_submit():
         db.session.add(Client(form.name.data, form.phone_number.data, form.identification.data,
-                              Address(form.street.data, form.zip_code.data),
-                              form.notifiable.data))
+                              form.street.data,form.notifiable.data))
         db.session.commit()
         return redirect(url_for('blueprint_client.get_clients'))
 
@@ -47,10 +46,8 @@ def update_client(id):
         client.phone_number = form.phone_number.data
         client.notifiable = form.notifiable.data
         client.status = form.status.data
-
-        client.address.street = form.street.data
-        client.address.zip_code = form.zip_code.data
-
+        client.address = form.street.data
+        
         db.session.add(client)
         db.session.commit()
         return redirect(url_for('blueprint_client.get_clients'))
@@ -60,9 +57,7 @@ def update_client(id):
         form.phone_number.data = client.phone_number
         form.notifiable.data = client.notifiable
         form.status.data = client.status
-
-        form.street.data = client.address.street
-        form.zip_code.data = client.address.zip_code
+        form.street.data = client.address
     return render_template('client/edit.html', form=form)
 
 

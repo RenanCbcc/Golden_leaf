@@ -48,8 +48,7 @@ class Client(User):
     __mapper_args__ = {'concrete': True}
     identification = db.Column(db.String(9), unique=True)
     notifiable = db.Column(db.Boolean)
-    address_id = db.Column(db.Integer, ForeignKey('addresses.id'))
-    address = db.relationship("Address", back_populates="dweller", lazy=False)
+    address = db.Column(db.String(64))
     status = db.Column(db.Boolean)
 
     def __init__(self, name, phone_number, identification, address, notifiable, status=True):
@@ -65,7 +64,7 @@ class Client(User):
             'name': self.name,
             'phone_number': self.phone_number,
             'identification': self.identification,
-            'address': url_for('api.get_client_address', id=self.id),
+            'address': self.address,
             'notifiable': self.notifiable,
             'status': self.status
         }
@@ -76,7 +75,7 @@ class Client(User):
         if content['name'] == "" or content['phone_number'] == "" or content['identification'] == "":
             abort(400, "Cliente não pode ter valores nulos")
         client = Client(content.get('name'), content.get('phone_number'), content.get('identification'),
-                        Address.from_json(content['address']), content.get('notifiable'))
+                        content['address'], content.get('notifiable'))
         return client
 
 
@@ -150,37 +149,6 @@ class Clerk(User, UserMixin):
 
     def __repr__(self):
         return '<Atendente %r %r>' % (self.name, self.email)
-
-
-class Address(db.Model):
-    __tablename__ = 'addresses'
-    id = db.Column(db.Integer, primary_key=True)
-    street = db.Column(db.String(64), nullable=False)
-    zip_code = db.Column(db.String(6), nullable=False)
-    dweller = relationship("Client", uselist=False, back_populates="address")
-
-    def __init__(self, street, zip_code):
-        self.street = street
-        self.zip_code = zip_code
-
-    def to_json(self):
-        json_address = {
-            'id': self.id,
-            'street': self.street,
-            'zip_code': self.zip_code,
-
-        }
-        return json_address
-
-    @staticmethod
-    def from_json(content):
-        if content['street'] == "" or content['zip_code'] == "":
-            raise ValidationError("Endereço não pode ter valores nulos")
-        address = Address(content.get('street'), content.get('zip_code'))
-        return address
-
-    def __str__(self):
-        return "Rua: {}, {}".format(self.street, self.zip_code)
 
 
 class Product(db.Model):

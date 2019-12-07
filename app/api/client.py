@@ -16,13 +16,6 @@ def get_client(id):
         return response
 
 
-@api.route('/client/<int:id>/address', methods=['GET'])
-def get_client_address(id):
-    client = Client.query.get_or_404(id)
-    address = client.address
-    return jsonify(address.to_json())
-
-
 @api.route('/client', methods=['POST'])
 def new_client():
     client = Client.from_json(request.json)
@@ -38,19 +31,6 @@ def edit_client(id):
     client.phone_number = request.json.get('phone_number')
     client.notifiable = request.json.get('notifiable')
     client.status = request.json.get('notifiable')
-
-    db.session.add(client)
-    db.session.commit()
-    return jsonify(client.to_json()), 200, {'Location': url_for('api.get_client', id=client.id, _external=True)}
-
-
-@api.route('/client/<int:id>/address', methods=['PUT'])
-def edit_address(id):
-    client = Client.query.get_or_404(id)
-
-    client.address.street = request.json.get('street')
-    client.address.detail = request.json.get('detail')
-    client.address.zip_code = request.json.get('zip_code')
 
     db.session.add(client)
     db.session.commit()
