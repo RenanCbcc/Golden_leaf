@@ -28,9 +28,10 @@ def new_client():
 def edit_client(id):
     client = Client.query.get_or_404(id)
     client.name = request.json.get('name')
+    client.address = request.json.get('address')
     client.phone_number = request.json.get('phone_number')
     client.notifiable = request.json.get('notifiable')
-    client.status = request.json.get('notifiable')
+    client.status = request.json.get('status')
 
     db.session.add(client)
     db.session.commit()
