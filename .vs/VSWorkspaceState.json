@@ -5,8 +5,7 @@
     "\\app\\api",
     "\\app\\routes",
     "\\app\\routes\\client",
-    "\\app\\templates",
-    "\\app\\templates\\client"
+    "\\app\\templates"
   ],
   "SelectedNode": "\\wsgi.py",
   "PreviewInSolutionExplorer": false

@@ -1,8 +1,7 @@
 import os
 
 
-class BaseConfig:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+class BaseConfig:    
     WTF_CSRF_SECRET_KEY = os.environ.get('CSRF_SECRET_KEY')
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'Flasky Admin <noraplay@golden-leaf.com>'
@@ -17,10 +16,13 @@ class BaseConfig:
 
 
 class ProductionConfig(BaseConfig):
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 
 class TestingConfig(BaseConfig):
+    SECRET_KEY = 'goldenleaf'
+    MASTER_KEY = 'goldenleaf'    
     DEBUG = True
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")

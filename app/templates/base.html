@@ -1,4 +1,4 @@
-{% extends "bootstrap/base.html" %}
+﻿{% extends "bootstrap/base.html" %}
 
 <head>
     {% block head %}
@@ -55,7 +55,7 @@
 {% endblock %}
 <main>
     {% block content %}
-        <div class="container">
+        <div class="container pt-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb primary-color">
                     {% for breadcrumb in breadcrumbs %}
@@ -81,11 +81,13 @@
                 {% endif %}
             {% endwith %}
 
-            {% block page_content %}{% endblock %}
+            {% block page_content %}
+            
+            {% endblock %}
         </div>
     {% endblock %}
 </main>
 
-<footer class="rodape-pagina"> &copy; Renan Rosa 2019</footer>
+<footer class="rodape-pagina"> &copy; Renan Rosa 2020</footer>
 
 </body>
