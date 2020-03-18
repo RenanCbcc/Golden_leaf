@@ -8,8 +8,10 @@ class NewClientForm(FlaskForm):
         '^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$',
         0,
         'Nome deve conter somente letras')])
-    identification = StringField('Identidade', validators=[DataRequired(), Length(min=9, max=9)])
-    phone_number = StringField('Número do celular', validators=[DataRequired(), Length(min=11, max=11)])
+    identification = StringField('Identidade', validators=[DataRequired(message="Cliente precisa ter um identificação (RG)."),
+                                                          Length(min=9, max=9,message="Identificação do cliente precisa ter exatamente 9 caracteres.")])
+    phone_number = StringField('Número do celular', validators=[DataRequired(message="Cliente precisa ter um número de telefone."), 
+                                                                Length(min=11, max=11,message="O número precisa ter exatamente 9 caracteres.")])
 
     street = StringField('Endereço', validators=[DataRequired()])
     notifiable = BooleanField('Deseja receber notificações?')

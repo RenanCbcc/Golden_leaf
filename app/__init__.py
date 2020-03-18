@@ -51,7 +51,7 @@ def create_app(config_class):
 
     from app.routes.payment.routes import blueprint_payment
     app.register_blueprint(blueprint_payment)
-
+    
     from app.routes.main.routes import blueprint_main
     app.register_blueprint(blueprint_main)
 

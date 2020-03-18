@@ -19,9 +19,11 @@ class NewProductForm(FlaskForm):
     brand = StringField('Marca do produto', validators=[Length(min=3, max=32),
                                                         Regexp(
                                                             '^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$')])
-    unit_cost = DecimalField('Preço do produto', validators=[DataRequired(), NumberRange(min=0.5, max=100.0)])
+    unit_cost = DecimalField('Preço do produto', validators=[DataRequired(message="Produto precisa ter um preço."), 
+                                                             NumberRange(min=0.5, max=100.0,message="Preço do produto precisa estar entre R$ 0.5 e R$ 100.00")])
     code = StringField('Código do produto',
-                       validators=[DataRequired(), Length(min=9, max=13, message="Código inválido.")])
+                       validators=[DataRequired(), Length(min=9, max=13, 
+                                                          message="Código do produto precisa ter entre 9 e 13 dígitos.")])
     submit = SubmitField('Salvar')
 
     def validate_code(self, code):

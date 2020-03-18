@@ -188,21 +188,10 @@ class Product(db.Model):
 
     @staticmethod
     def from_json(json_product):
-
         brand = json_product.get('brand')
         description = json_product.get('name')
         unit_cost = decimal.Decimal(json_product.get('unit_cost'))
-        code = json_product.get('code')
-
-        if brand is None or brand == '':
-            raise ValidationError('Produto tem com marca inválida')
-        if description is None or description == '':
-            raise ValidationError('Produto tem com descriçao inválida')
-        if code is None or len(code) is not 13:
-            raise ValidationError('Código de produto inválido')
-        if unit_cost is None or unit_cost <= 0:
-            raise ValidationError('Produto co preço inválido')
-
+        code = json_product.get('code')        
         return Product(brand, description, unit_cost, code)
 
     def __eq__(self, other):
@@ -228,12 +217,8 @@ class Category(db.Model):
         return json_product
 
     @staticmethod
-    def from_json(json_product):
-        title = json_product.get('title')
-
-        if title is None or title == '':
-            raise ValidationError('Categoria tem com título inválido')
-
+    def from_json(json_category):
+        title = json_category.get('title')        
         return Category(title)
 
     def __repr__(self):

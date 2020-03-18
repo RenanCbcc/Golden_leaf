@@ -13,6 +13,7 @@ def view_client_dlc(*args, **kwargs):
     return [{'text': c.name}]
 
 
+@blueprint_client.route('/')
 @blueprint_client.route('/client')
 @register_breadcrumb(blueprint_client, '.', 'Clientes')
 @login_required
