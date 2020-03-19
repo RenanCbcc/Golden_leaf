@@ -8,6 +8,8 @@ $("#save-items-btn").click(saveItems);
 
 BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
 BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
+BASE_API_URL = 'http://127.0.0.1:5000/api';
+BASE_APP_URL = 'http://127.0.0.1:5000/order';
 CATEGORY_URL = BASE_API_URL + '/category';
 PRODUCT_BY_CODE_URL = BASE_API_URL + '/product/code/';
 PRODUCT_BY_CATEGORY_URL = BASE_API_URL + '/product/category/';
@@ -36,6 +38,8 @@ function updateUnitcost() {
 }
 
 function insert_order_from_manual_form() {
+    $.notify("Hello World");  
+
     let product = $("#products");
     let body_table = $("#items-table").find("tbody");
     let product_id = product.val();
@@ -58,8 +62,8 @@ function insert_order_from_automatic_form() {
     let product_description = $("#description_automatic_form").val();
     let product_cost = $("#unit_cost_automatic_form").val();
     let product_quantity = $("#quantity_automatic_form").val();
-    if (!validateQuantity(product_quantity)) {
-        alert("Erro. Quantidade do produto inválida.");
+    if (!validateQuantity(product_quantity)) {        
+        alert("Quantidade do produto inválida.");
         return;
     }
     let line = new_line(product_id, product_description, product_cost, product_quantity);
@@ -131,8 +135,8 @@ function removeLine() {
 function populateCategories() {
     $.get(CATEGORY_URL, function (response) {
         let option = '';
-        $.each(response.categories, function (idx, category) {
-            option += '<option value="' + category.id + '">' + category.title + '</option>';
+        $.each(response, function (index, val) {            
+            option += '<option value="' + val.id + '">' + val.title + '</option>';
         });
         $("#categories").html(option);
     });
@@ -140,36 +144,31 @@ function populateCategories() {
 
 $("#code").blur(function () {
 
-        let code = $(this).val();
+    let code = $(this).val();
 
-        //Fill the form out with "..." while  browsing webservice.
-        $("#description_automatic_form").val("...");
-        $("#unit_cost_automatic_form").val("...");
+    //Fill the form out with "..." while  browsing webservice.
+    $("#description_automatic_form").val("...");
+    $("#unit_cost_automatic_form").val("...");
 
-        $.getJSON(PRODUCT_BY_CODE_URL + code, function (response) {
+    $.getJSON(PRODUCT_BY_CODE_URL + code, function (response) {
 
-            if (!("error" in response)) {
-                //Update the fields with the fetched value
-                $("#description_automatic_form").val(response.description);
-                $("#unit_cost_automatic_form").val(response.unit_cost);
-                $("#product-id").val(response.id);
-            } else {
-                alert("Codigo nao encontrado");
-            }
-        });
-    }
+        if (!("error" in response)) {
+            //Update the fields with the fetched value
+            $("#description_automatic_form").val(response.description);
+            $("#unit_cost_automatic_form").val(response.unit_cost);
+            $("#product-id").val(response.id);
+        } else {
+            alert("Codigo não encontrado", "error");            
+        }
+    });
+}
 );
 
 function changeOrderStatus() {
     $('#stateButton').text($(this).text());
 }
 
-function saveItems() {
-    let status = $('#stateButton').text();
-    if (!validateStatus(status)) {
-        alert("Erro. Estado do pagamento inválido.");
-        return;
-    }
+function saveItems() {     
     let items = [];
     let clerk_id = $('#clerk-id').attr('data-url');
     let client_id = $('#client-id').attr('data-url');
@@ -186,8 +185,7 @@ function saveItems() {
 
     const order = {
         clerk_id: clerk_id,
-        client_id: client_id,
-        status: status,
+        client_id: client_id,        
         items: items
     };
 
@@ -200,8 +198,8 @@ function saveItems() {
         success: function (data) {
             window.location.replace(BASE_APP_URL + data['order_id'] + '/update');
         },
-        error: function () {
-            alert("Não foi possível salvar o pedido.")
+        error: function (response) {
+            console.log(response)    
         }
     });
 

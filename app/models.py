@@ -240,13 +240,21 @@ class Order(db.Model):
     clerk = relationship("Clerk", backref=backref('orders', order_by=id))
 
     payment = relationship("Payment", backref=backref('orders', order_by=id), lazy=True)
+   
+    def __init__(self,client_id,clerk_id):
+        self.client_id = client_id
+        self.clerk_id = clerk_id
+        self.status = Status.PENDENTE
+        self.payment = None
+        self.total = 0
+        
 
     def to_json(self):
         json_product = {
             'id': self.id,
             'client_id': self.client_id,
             'clerk_id': self.clerk_id,
-            'ttal': str(self.total),
+            'total': str(self.total),
             'date': self.ordered,
             'status': self.status.name
         }
@@ -254,9 +262,9 @@ class Order(db.Model):
 
     @staticmethod
     def from_json(content):
-        client = Client.query.get(content.get('client_id'))
-        clerk = Clerk.query.get(content.get('clerk_id'))
-        return Order(client=client, clerk=clerk, payment=None, status=Status[content.get('status')])
+        client_id = content.get('client_id')
+        clerk_id = content.get('clerk_id')
+        return Order(client_id, clerk_id)
 
     def __repr__(self):
         return '<Pedido %r %r %r >' % (self.ordered, self.client.name, self.clerk.name)
@@ -297,11 +305,7 @@ class Item(db.Model):
         for item in items_json:
             product_id = item['product_id']
             product = Product.query.filter_by(id=product_id).one_or_none()
-            if product is None:
-                raise ValidationError('Item com produto inválida')
             quantity = item['quantity']
-            if quantity is None or quantity == '':
-                raise ValidationError('Item com quantidade inválida')
             extended_cost = product.unit_cost * decimal.Decimal(quantity)
             order.total += extended_cost
             order.items.append(Item(product_id, order, quantity, extended_cost))

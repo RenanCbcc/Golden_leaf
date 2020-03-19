@@ -99,7 +99,7 @@ def edit_product(id):
     reponse.status_code = 400
     return reponse
 
-@api.route('/product/unit_cost/<id>')
+@api.route('/product/unit_cost/<int:id>')
 def product_cost(id):
     product = Product.query.filter_by(id=id).one()
     if product is not None:
@@ -110,7 +110,7 @@ def product_cost(id):
         return resource_not_found()
 
 
-@api.route('/product/category/<id>')
+@api.route('/product/category/<int:id>')
 def product(id):
     products = Product.query.filter_by(category_id=id).all()
     response = jsonify({'products': [

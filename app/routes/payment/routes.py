@@ -2,7 +2,6 @@ from flask import request, redirect, url_for, render_template, flash
 from flask_breadcrumbs import register_breadcrumb
 from flask_login import current_user
 from sqlalchemy import func
-
 from app import db
 from app.models import Order, Status, Payment, Client
 from app.routes.payment import blueprint_payment
