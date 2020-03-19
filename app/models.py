@@ -166,8 +166,8 @@ class Product(db.Model):
 
     __table_args__ = (CheckConstraint(unit_cost >= 0.00, name='unit_cost_positive'),)
 
-    def __init__(self, category, brand, description, unit_cost, code, is_available=True):
-        self.category = category  # This field is 'virtual' and was declared in Category as a backref
+    def __init__(self, category_id, brand, description, unit_cost, code, is_available=True):
+        self.category_id = category_id  # This field is 'virtual'. It was declared in Category model as a backref
         self.brand = brand
         self.description = description
         self.unit_cost = unit_cost
@@ -188,11 +188,12 @@ class Product(db.Model):
 
     @staticmethod
     def from_json(json_product):
+        category_id = json_product.get('category_id')
         brand = json_product.get('brand')
-        description = json_product.get('name')
+        description = json_product.get('description')
         unit_cost = decimal.Decimal(json_product.get('unit_cost'))
         code = json_product.get('code')        
-        return Product(brand, description, unit_cost, code)
+        return Product(category_id,brand, description, unit_cost, code)
 
     def __eq__(self, other):
         return self.code == other.code

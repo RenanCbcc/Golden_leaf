@@ -29,8 +29,7 @@ def get_products():
 @register_breadcrumb(blueprint_product, '.available_products', 'Produtos Disponíveis')
 def available_products():
     page = request.args.get('page', 1, type=int)
-    products = Product.query.filter_by(is_available=False).order_by(Product.description).paginate(
-        page=page, per_page=10)
+    products = Product.query.filter_by(is_available=False).order_by(Product.description).paginate(page=page, per_page=10)
     return render_template('product/list.html', all_products=products)
 
 
@@ -44,7 +43,7 @@ def new_product():
 
     if form.validate_on_submit():
         category = Category.query.filter_by(id=form.category.data).one()
-        db.session.add(Product(category, form.brand.data,
+        db.session.add(Product(form.category.data, form.brand.data,
                                form.description.data,
                                form.unit_cost.data,
                                form.code.data))
