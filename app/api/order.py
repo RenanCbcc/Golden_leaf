@@ -1,17 +1,11 @@
+import decimal
 from flask import request, jsonify
 from app import db
 from app.api import api
 from app.models import Item,Product, Order, Client,Clerk
 from flask_inputs import Inputs
-from wtforms.validators import  DataRequired, Length, NumberRange,ValidationError
+from wtforms.validators import  DataRequired,ValidationError
 
-
-def is_float(value):
-  try:
-    float(value)
-    return True
-  except:
-    return False
 
 def valide_client_id(form, field):
     if not Client.query.filter_by(id=field.data).first():
@@ -23,35 +17,55 @@ def valide_clerk_id(form, field):
         raise ValidationError(f"Id '{field.data}' do atendente é inválido.")
 
 
-class OrderInputs(Inputs):
+class OrderInputs(Inputs):    
     #Dont change this name!  Keep it as json!
     json = {
         'clerk_id': [DataRequired(message="Pedido precisa ter um atendente."),valide_clerk_id],
         'client_id': [DataRequired(message="Pedido precisa ter um cliente."),valide_client_id],      
     }
 
-def valide_product_quantity(form, field):
-    if is_float(field.data):
-        quantity = float(field.data)
-        raise ValidationError(f"Quantidade '{field.data}' é inválida.")
-    if quantity < 0.05 or unit_cost > 25.0:
-            raise ValidationError("Quantidade precisa estar entre 0.05 e 25.0")
-    else:
-            return
-    raise ValidationError(f"Quantidade '{field.data}' para o produto inválida.")
+class ItemInput():
+    def __init__(self):
+        self.error = "error"
+        self.product = None
+        self.quantity = 0
+    
+    def is_float(self,value):
+        try:
+            float(value)
+            return True
+        except:
+            return False
 
+    def validate_quantity(self,value):
+        if self.is_float(value):
+            self.quantity = float(value)                        
+            if self.quantity > 0.05 and self.quantity < 25.0:                
+                return True
+            else:
+                self.error = "Quantidade precisa estar entre 0.05 e 25.0"
+                return False
+        else:
+            self.error = f"Quantidade '{value}' é inválida."
+            return False
 
-def valide_product_id(form, field):
-    if not Product.query.filter_by(id=field.data).first():
-        raise ValidationError(f'Produto com {field.data} é inválido.')
+    def validate_product(self,product_id):
+        product = Product.query.filter_by(id=product_id).one_or_none()
+        if product is None:
+            self.error = f"Produto com id '{product_id}' é inválido."
+            return False
+        else:
+            self.product = product
+            return True
+            
+    def get_error(self):
+        reponse = jsonify(self.error)
+        reponse.status_code = 400
+        return reponse
+        
 
-class ItemsInputs(Inputs):
-    #Dont change this name!  Keep it as json!
-    json = {
-        'product_id': [DataRequired(message="Pedido precisa ter um produto."),valide_product_id],
-        'quantity': [DataRequired(message="Produto precisa ter um quantidade."),valide_product_quantity],      
-    }
-
+            
+        
 
 @api.route('/order', defaults={'id': None})
 @api.route('/order/client/<int:id>', methods=['GET'])
@@ -69,19 +83,32 @@ def get_order(id):
 
 @api.route('/order', methods=['POST'])
 def save_order():
-    inputs = OrderInputs(request)
-    if inputs.validate():
+    orderInputs = OrderInputs(request)
+    if orderInputs.validate():
         order = Order.from_json(request.json)
-        ItemsInputs()
-        Item.from_json(request.json.get('items'), order)
+        itemInput = ItemInput()
+        if request.json.get('items'):
+            for item in request.json.get('items'):
+                if not itemInput.validate_product(item['product_id']):
+                    return itemInput.get_error()
+                if not itemInput.validate_quantity(item['quantity']):
+                    return itemInput.get_error()             
+                extended_cost = itemInput.product.unit_cost * decimal.Decimal(itemInput.quantity)
+                order.total += extended_cost
+                order.items.append(Item(itemInput.product.id, order, itemInput.quantity, extended_cost))
+        else:
+            reponse = jsonify("Pedido preciter ter ao menus um item.")
+            reponse.status_code = 400
+            return reponse
+        # If all items are ok, the save them.
         db.session.add(order)
         db.session.flush()  # Get the id before committing the object.
         db.session.commit()
-        response = jsonify({'OK': 'The request was completed successfully.', 'order_id': order.id})
+        response = jsonify({'Sucesso': 'O pedido foi registrado com sucesso.', 'order_id': order.id})
         response.status_code = 200
         # send_message(order)
         return response
-    reponse = jsonify(inputs.errors)
+    reponse = jsonify(orderInputs.errors)
     reponse.status_code = 400
     return reponse
 
@@ -96,3 +123,4 @@ def send_message(order):
         twilio_client.messages.create(body='Olá, ' + client.name + ' .Você realizou uma compra no valor de R$ ' + str(order.total) + ' Volte sempre!',
             from_='+12054311596',
             to='+55' + client.phone_number)
+

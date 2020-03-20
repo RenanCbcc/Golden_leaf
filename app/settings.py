@@ -15,8 +15,7 @@ class BaseConfig:
     JSON_AS_ASCII = False
 
 
-class ProductionConfig(BaseConfig):
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+class ProductionConfig(BaseConfig):    
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 

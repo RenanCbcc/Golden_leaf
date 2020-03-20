@@ -6,10 +6,9 @@ $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
 $("#save-items-btn").click(saveItems);
 
+
 BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
 BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
-BASE_API_URL = 'http://127.0.0.1:5000/api';
-BASE_APP_URL = 'http://127.0.0.1:5000/order';
 CATEGORY_URL = BASE_API_URL + '/category';
 PRODUCT_BY_CODE_URL = BASE_API_URL + '/product/code/';
 PRODUCT_BY_CATEGORY_URL = BASE_API_URL + '/product/category/';
@@ -38,18 +37,24 @@ function updateUnitcost() {
 }
 
 function insert_order_from_manual_form() {
-    $.notify("Hello World");  
-
     let product = $("#products");
     let body_table = $("#items-table").find("tbody");
     let product_id = product.val();
     let product_description = $(product).children("option:selected").text();
     let product_cost = $("#unit_cost").val();
+
     let product_quantity = $("#quantity_manual_form").val();
     if (!validateQuantity(product_quantity)) {
         alert("Erro. Quantidade do produto inválida.");
         return;
     }
+
+    let product_price = $("#unit_cost").val();
+    if (!validatePrice(product_price)) {
+        alert("Preço do produto inválido.");
+        return;
+    }
+
     let line = new_line(product_id, product_description, product_cost, product_quantity);
     body_table.append(line);
 
@@ -61,11 +66,13 @@ function insert_order_from_automatic_form() {
     let body_table = $("#items-table").find("tbody");
     let product_description = $("#description_automatic_form").val();
     let product_cost = $("#unit_cost_automatic_form").val();
+
     let product_quantity = $("#quantity_automatic_form").val();
     if (!validateQuantity(product_quantity)) {        
         alert("Quantidade do produto inválida.");
         return;
-    }
+    }      
+
     let line = new_line(product_id, product_description, product_cost, product_quantity);
     body_table.append(line);
 
@@ -199,7 +206,7 @@ function saveItems() {
             window.location.replace(BASE_APP_URL + data['order_id'] + '/update');
         },
         error: function (response) {
-            console.log(response)    
+            alert(response.responseText)                
         }
     });
 
@@ -208,6 +215,10 @@ function saveItems() {
 
 function validateQuantity(quantity) {
     return quantity > 0;
+}
+
+function validatePrice(price) {
+    return price > 0.05;
 }
 
 

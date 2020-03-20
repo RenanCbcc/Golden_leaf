@@ -299,17 +299,7 @@ class Item(db.Model):
             'extended_cost': str(self.extended_cost)
         }
         return json_item
-
-    @staticmethod
-    def from_json(items_json, order):
-        for item in items_json:
-            product_id = item['product_id']
-            product = Product.query.filter_by(id=product_id).one_or_none()
-            quantity = item['quantity']
-            extended_cost = product.unit_cost * decimal.Decimal(quantity)
-            order.total += extended_cost
-            order.items.append(Item(product_id, order, quantity, extended_cost))
-
+        
     def __repr__(self):
         return '<Item: %r Quantidade %r>' % (self.product.description, self.quantity)
 
