@@ -21,7 +21,8 @@ class OrderInputs(Inputs):
     #Dont change this name!  Keep it as json!
     json = {
         'clerk_id': [DataRequired(message="Pedido precisa ter um atendente."),valide_clerk_id],
-        'client_id': [DataRequired(message="Pedido precisa ter um cliente."),valide_client_id],      
+        'client_id': [DataRequired(message="Pedido precisa ter um cliente."),valide_client_id],
+        'items':[DataRequired(message="Pedido preciter ter ao menus um item.")]
     }
 
 class ItemInput():
@@ -87,19 +88,14 @@ def save_order():
     if orderInputs.validate():
         order = Order.from_json(request.json)
         itemInput = ItemInput()
-        if request.json.get('items'):
-            for item in request.json.get('items'):
-                if not itemInput.validate_product(item['product_id']):
-                    return itemInput.get_error()
-                if not itemInput.validate_quantity(item['quantity']):
-                    return itemInput.get_error()             
-                extended_cost = itemInput.product.unit_cost * decimal.Decimal(itemInput.quantity)
-                order.total += extended_cost
-                order.items.append(Item(itemInput.product.id, order, itemInput.quantity, extended_cost))
-        else:
-            reponse = jsonify("Pedido preciter ter ao menus um item.")
-            reponse.status_code = 400
-            return reponse
+        for item in request.json.get('items'):
+            if not itemInput.validate_product(item['product_id']):
+                return itemInput.get_error()
+            if not itemInput.validate_quantity(item['quantity']):
+                return itemInput.get_error()             
+            extended_cost = itemInput.product.unit_cost * decimal.Decimal(itemInput.quantity)
+            order.total += extended_cost
+            order.items.append(Item(itemInput.product.id, order, itemInput.quantity, extended_cost))
         # If all items are ok, the save them.
         db.session.add(order)
         db.session.flush()  # Get the id before committing the object.

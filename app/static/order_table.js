@@ -9,6 +9,7 @@ $("#save-items-btn").click(saveItems);
 
 BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
 BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
+
 CATEGORY_URL = BASE_API_URL + '/category';
 PRODUCT_BY_CODE_URL = BASE_API_URL + '/product/code/';
 PRODUCT_BY_CATEGORY_URL = BASE_API_URL + '/product/category/';
@@ -45,14 +46,14 @@ function insert_order_from_manual_form() {
 
     let product_quantity = $("#quantity_manual_form").val();
     if (!validateQuantity(product_quantity)) {
-        alert("Erro. Quantidade do produto inválida.");
+        showAlert("Erro.Quantidade do produto inválida.")
         return;
     }
 
     let product_price = $("#unit_cost").val();
     if (!validatePrice(product_price)) {
-        alert("Preço do produto inválido.");
-        return;
+        showAlert("Preço do produto inválido.")
+        return
     }
 
     let line = new_line(product_id, product_description, product_cost, product_quantity);
@@ -68,10 +69,10 @@ function insert_order_from_automatic_form() {
     let product_cost = $("#unit_cost_automatic_form").val();
 
     let product_quantity = $("#quantity_automatic_form").val();
-    if (!validateQuantity(product_quantity)) {        
-        alert("Quantidade do produto inválida.");
+    if (!validateQuantity(product_quantity)) {
+        showAlert("Quantidade do produto inválida.");
         return;
-    }      
+    }
 
     let line = new_line(product_id, product_description, product_cost, product_quantity);
     body_table.append(line);
@@ -142,7 +143,7 @@ function removeLine() {
 function populateCategories() {
     $.get(CATEGORY_URL, function (response) {
         let option = '';
-        $.each(response, function (index, val) {            
+        $.each(response, function (index, val) {
             option += '<option value="' + val.id + '">' + val.title + '</option>';
         });
         $("#categories").html(option);
@@ -165,7 +166,7 @@ $("#code").blur(function () {
             $("#unit_cost_automatic_form").val(response.unit_cost);
             $("#product-id").val(response.id);
         } else {
-            alert("Codigo não encontrado", "error");            
+            showAlert("Codigo não encontrado");
         }
     });
 }
@@ -175,7 +176,7 @@ function changeOrderStatus() {
     $('#stateButton').text($(this).text());
 }
 
-function saveItems() {     
+function saveItems() {
     let items = [];
     let clerk_id = $('#clerk-id').attr('data-url');
     let client_id = $('#client-id').attr('data-url');
@@ -192,7 +193,7 @@ function saveItems() {
 
     const order = {
         clerk_id: clerk_id,
-        client_id: client_id,        
+        client_id: client_id,
         items: items
     };
 
@@ -205,8 +206,8 @@ function saveItems() {
         success: function (data) {
             window.location.replace(BASE_APP_URL + data['order_id'] + '/update');
         },
-        error: function (response) {
-            alert(response.responseText)                
+        error: function (response) {            
+            showAlert(response.responseJSON)
         }
     });
 
@@ -221,4 +222,13 @@ function validatePrice(price) {
     return price > 0.05;
 }
 
+function showAlert(message) {
+    let alert = $("#order-alert");
+    $('#message').text(message)
+    alert.show('fade');
 
+    $('#order-alert-btn').click(function () {
+        alert.hide('fade');
+    });
+
+}
