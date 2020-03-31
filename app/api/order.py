@@ -27,18 +27,18 @@ class OrderInputs(Inputs):
 
 class ItemInput():
     def __init__(self):
-        self.error = "error"
-        self.product = None
-        self.quantity = 0
+        self.error :str = "error"
+        self.product :Product = None
+        self.quantity :float = 0
     
-    def is_float(self,value):
+    def is_float(self,value:str) -> bool:
         try:
             float(value)
             return True
         except:
             return False
 
-    def validate_quantity(self,value):
+    def validate_quantity(self,value:str) -> bool:
         if self.is_float(value):
             self.quantity = float(value)                        
             if self.quantity > 0.05 and self.quantity < 25.0:                
@@ -50,7 +50,7 @@ class ItemInput():
             self.error = f"Quantidade '{value}' é inválida."
             return False
 
-    def validate_product(self,product_id):
+    def validate_product(self,product_id) -> bool:
         product = Product.query.filter_by(id=product_id).one_or_none()
         if product is None:
             self.error = f"Produto com id '{product_id}' é inválido."
@@ -59,7 +59,7 @@ class ItemInput():
             self.product = product
             return True
             
-    def get_error(self):
+    def get_error(self) -> None:
         reponse = jsonify(self.error)
         reponse.status_code = 400
         return reponse

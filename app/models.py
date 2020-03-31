@@ -1,4 +1,6 @@
+from __future__ import annotations
 import decimal
+import enum
 from abc import ABCMeta
 from datetime import datetime
 from flask_login import UserMixin, current_user
@@ -10,7 +12,7 @@ from app.extensions import login_manager, db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from flask import current_app, url_for, abort
 from flask_admin.contrib.sqla import ModelView
-import enum
+from typing import Union
 
 
 @login_manager.user_loader
@@ -97,12 +99,12 @@ class Clerk(User, UserMixin):
         'concrete': True
     }
 
-    def __init__(self, name, phone_number, email, password):
+    def __init__(self, name:str, phone_number:str, email:str, password:str):
         super().__init__(name, phone_number)
-        self.email = email
-        self.password = password
+        self.email :str = email
+        self.password :str = password
 
-    def get_token(self, expires_sec=1800):
+    def get_token(self, expires_sec=1800) -> str:
         """
         The token is an encrypted version of a dictionary that has the id of the user
         :param expires_sec:
@@ -116,7 +118,7 @@ class Clerk(User, UserMixin):
         return s.dumps({'id': self.id})
 
     @staticmethod
-    def verify_auth_token(token):
+    def verify_auth_token(token:str) -> Union[Clerk,None]:
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
@@ -128,17 +130,17 @@ class Clerk(User, UserMixin):
         return clerk
 
     @property
-    def password(self):
+    def password(self) -> None:
         raise AttributeError('password is not a readable attribute')
 
     @password.setter
-    def password(self, password):
+    def password(self, password: str) -> None:
         self.password_hash = generate_password_hash(password)
 
-    def verify_password(self, password):
+    def verify_password(self, password: str):
         return check_password_hash(self.password_hash, password)
 
-    def to_json(self):
+    def to_json(self) -> str:
         json_clerk = {
             'id': self.id,
             'email': self.email,
@@ -147,14 +149,13 @@ class Clerk(User, UserMixin):
         }
         return json_clerk
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return '<Atendente %r %r>' % (self.name, self.email)
 
 
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
-    brand = db.Column(db.String(32), nullable=False)
     description = db.Column(db.String(64))
     image_file = db.Column(db.String(32), default='default.jpg')
     unit_cost = db.Column(db.Numeric(6, 2), nullable=False)
@@ -166,19 +167,17 @@ class Product(db.Model):
 
     __table_args__ = (CheckConstraint(unit_cost >= 0.00, name='unit_cost_positive'),)
 
-    def __init__(self, category_id, brand, description, unit_cost, code, is_available=True):
-        self.category_id = category_id  # This field is 'virtual'. It was declared in Category model as a backref
-        self.brand = brand
+    def __init__(self, category_id, description: str, unit_cost, code: str, is_available=True):
+        self.category_id = category_id  # This field is 'virtual'.  It was declared in Category model as a backref
         self.description = description
         self.unit_cost = unit_cost
         self.is_available = is_available
         self.code = code
 
-    def to_json(self):
+    def to_json(self) -> str:
         json_product = {
             'id': self.id,
             'category_id': self.category_id,
-            'brand': self.brand,
             'description': self.description,
             'unit_cost': str(self.unit_cost),
             'is_available': self.is_available,
@@ -187,19 +186,18 @@ class Product(db.Model):
         return json_product
 
     @staticmethod
-    def from_json(json_product):
+    def from_json(json_product) -> Product:
         category_id = json_product.get('category_id')
-        brand = json_product.get('brand')
         description = json_product.get('description')
         unit_cost = decimal.Decimal(json_product.get('unit_cost'))
         code = json_product.get('code')        
         return Product(category_id,brand, description, unit_cost, code)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self.code == other.code
 
-    def __repr__(self):
-        return '<Product %r %r %r %r>' % (self.brand, self.description, self.unit_cost, self.is_available)
+    def __repr__(self) -> str:
+        return '<Product %r %r %r>' % (self.description, self.unit_cost, self.is_available)
 
 
 class Category(db.Model):
@@ -207,10 +205,10 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32), index=True, nullable=False)
 
-    def __init__(self, title):
+    def __init__(self, title:str):
         self.title = title
 
-    def to_json(self):
+    def to_json(self) -> str:
         json_product = {
             'id': self.id,
             'title': self.title
@@ -218,11 +216,11 @@ class Category(db.Model):
         return json_product
 
     @staticmethod
-    def from_json(json_category):
+    def from_json(json_category) -> Category:
         title = json_category.get('title')        
         return Category(title)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return '<Category %r>' % self.title
 
 
@@ -246,10 +244,10 @@ class Order(db.Model):
         self.clerk_id = clerk_id
         self.status = Status.PENDENTE
         self.payment = None
-        self.total = 0
+        self.total :float = 0
         
 
-    def to_json(self):
+    def to_json(self) -> str:
         json_product = {
             'id': self.id,
             'client_id': self.client_id,
@@ -261,7 +259,7 @@ class Order(db.Model):
         return json_product
 
     @staticmethod
-    def from_json(content):
+    def from_json(content) -> Order:
         client_id = content.get('client_id')
         clerk_id = content.get('clerk_id')
         return Order(client_id, clerk_id)
@@ -290,7 +288,7 @@ class Item(db.Model):
         self.quantity = quantity
         self.extended_cost = extended_cost
 
-    def to_json(self):
+    def to_json(self) -> str:
         json_item = {
             'id': self.id,
             'order_id': self.order_id,
@@ -300,7 +298,7 @@ class Item(db.Model):
         }
         return json_item
         
-    def __repr__(self):
+    def __repr__(self) -> str:
         return '<Item: %r Quantidade %r>' % (self.product.description, self.quantity)
 
 
@@ -315,7 +313,7 @@ class Payment(db.Model):
     client = relationship("Client", uselist=False)
     clerk = relationship("Clerk", uselist=False)
 
-    def __init__(self, client, clerk, value):
+    def __init__(self, client:Client, clerk:Clerk, value:float):
         self.client = client
         self.clerk = clerk
         self.total = value

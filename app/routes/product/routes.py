@@ -43,7 +43,7 @@ def new_product():
 
     if form.validate_on_submit():
         category = Category.query.filter_by(id=form.category.data).one()
-        db.session.add(Product(form.category.data, form.brand.data,
+        db.session.add(Product(form.category.data,
                                form.description.data,
                                form.unit_cost.data,
                                form.code.data))
@@ -62,8 +62,8 @@ def search_product():
     products = None
     term = None
     if form.validate_on_submit():
-        if form.brand.data is not "":
-            term = form.brand.data
+        if form.description.data is not "":
+            term = form.description.data
             products = Product.query.filter(Product.brand.like('%' + term + '%')).paginate(page=page,
                                                                                            per_page=10)
         elif form.code.data is not "":
@@ -91,7 +91,6 @@ def update_product(id):
             picture_file = save_picture(form.picture.data)
             product.image_file = picture_file
         product.category = form.categories.data
-        product.brand = form.brand.data
         product.description = form.description.data
         product.unit_cost = form.unit_cost.data
         product.is_available = form.is_available.data
@@ -100,7 +99,6 @@ def update_product(id):
         flash('Produto atualizada com sucesso.', 'success')
         return redirect(url_for('blueprint_product.update_product', id=product.id))
     elif request.method == 'GET':
-        form.brand.data = product.brand
         form.description.data = product.description
         form.unit_cost.data = product.unit_cost
         form.code.data = product.code

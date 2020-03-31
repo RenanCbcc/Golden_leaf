@@ -16,9 +16,6 @@ class NewProductForm(FlaskForm):
     category = SelectField('Escolha a categoria', coerce=int, choices=[])
     description = StringField('Descrição do produto', validators=[Length(min=3, max=128), Regexp(
         '^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s\.\-]*)$')])
-    brand = StringField('Marca do produto', validators=[Length(min=3, max=32),
-                                                        Regexp(
-                                                            '^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$')])
     unit_cost = DecimalField('Preço do produto', validators=[DataRequired(message="Produto precisa ter um preço."), 
                                                              NumberRange(min=0.5, max=100.0,message="Preço do produto precisa estar entre R$ 0.5 e R$ 100.00")])
     code = StringField('Código do produto',
@@ -32,7 +29,7 @@ class NewProductForm(FlaskForm):
 
 
 class SearchProductForm(FlaskForm):
-    brand = StringField('Marca do produto')
+    description = StringField('Palavra chave')
     code = StringField('Código do produto')
     submit = SubmitField('Buscar')
 
@@ -43,9 +40,6 @@ class UpdateProductForm(FlaskForm):
                                   get_label='title', get_pk=lambda c: c.id,
                                   blank_text=u'Selecione uma categoria...')
 
-    brand = StringField('Marca do produto', validators=[Length(min=3, max=32),
-                                                        Regexp(
-                                                            '^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$')])
     description = StringField('Descrição do produto', validators=[Length(min=3, max=64), Regexp(
         '^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s\.\-]*)$')])
 

@@ -15,7 +15,7 @@ def valide_unit_cost(form, field):
             return
     raise ValidationError(f"Valor '{field.data}' para preço do produto inválido.")
 
-def is_float(value):
+def is_float(value:str) -> bool:
   try:
     float(value)
     return True
@@ -33,8 +33,6 @@ class ProductInputs(Inputs):
         'category_id': [DataRequired(message="Produto precisa estar em uma categoria."),valide_category_id],
         'description': [Length(min=3, max=128,message="Descrição precisa ter entre 3 e 128 caracteres."), 
                         Regexp('^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s\.\-]*)$')],
-        'brand':[Length(min=3, max=32,message="Marca precisa ter entre 3 e 32 caracteres."),
-                 Regexp('^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$')],
         'unit_cost':[DataRequired(message="Produto precisa ter um preço."),valide_unit_cost],
         'code':[DataRequired(message="Produto precisa ter um código."),
                Length(min=9, max=13, message="Código do produto precisa ter entre 9 e 13 dígitos.")]
@@ -87,7 +85,6 @@ def edit_product(id):
     if inputs.validate():    
         product = Product.query.get_or_404(id)
         product.category_id = request.json.get('category_id')
-        product.brand = request.json.get('brand')
         product.description = request.json.get('description')
         product.unit_cost = request.json.get('unit_cost')
         product.code = request.json.get('code')
