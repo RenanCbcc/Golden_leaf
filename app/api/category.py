@@ -6,7 +6,7 @@ from flask_inputs import Inputs
 from wtforms.validators import DataRequired,Regexp
 
 class CategoryInputs(Inputs):
-    #Dont change this name! Keep it as json!
+    #Dont change this name!  Keep it as json!
     json = {        
         'title': [DataRequired(), Regexp('^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s\/\-\.]*)$',
         0,
@@ -23,7 +23,7 @@ def get_category(id):
         return jsonify(category.to_json())
     categories = Category.query.all()
     response = jsonify([category.to_json() for category in categories])
-    response.status_code = 200
+    response.status_code = 200    
     return response
 
 
@@ -51,3 +51,5 @@ def edit_category(id):
     reponse = jsonify(inputs.errors)
     reponse.status_code = 400
     return reponse
+
+

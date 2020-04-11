@@ -2,11 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\app",
-    "\\app\\routes",
-    "\\app\\routes\\clerk",
-    "\\app\\routes\\product",
-    "\\app\\templates"
+    "\\app\\api",
+    "\\app\\static"
   ],
-  "SelectedNode": "\\app\\settings.py",
+  "SelectedNode": "\\app\\api\\__init__.py",
   "PreviewInSolutionExplorer": false
 }

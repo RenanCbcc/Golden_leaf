@@ -1,7 +1,6 @@
 $(document).ready(populateCategories);
 $("#categories").click(getProductsByCategory);
 $("#products").click(updateUnitcost);
-$("#statusList li").click(changeOrderStatus);
 $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
 $("#save-items-btn").click(saveItems);
@@ -172,9 +171,6 @@ $("#code").blur(function () {
 }
 );
 
-function changeOrderStatus() {
-    $('#stateButton').text($(this).text());
-}
 
 function saveItems() {
     let items = [];
