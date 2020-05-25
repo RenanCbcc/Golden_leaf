@@ -52,7 +52,7 @@ class NewClerkForm(FlaskForm):
 
     def validate_master_key(self,master_key):
         import os
-        if master_key.data != os.environ.get("MASTER_KEY"):
+        if master_key.data != os.environ.get("MASTER_KEY"):            
             raise ValidationError("Chave mestra incorreta!")
 
 

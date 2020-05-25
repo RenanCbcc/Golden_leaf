@@ -191,7 +191,7 @@ class Product(db.Model):
         description = json_product.get('description')
         unit_cost = decimal.Decimal(json_product.get('unit_cost'))
         code = json_product.get('code')        
-        return Product(category_id,brand, description, unit_cost, code)
+        return Product(category_id, description, unit_cost, code)
 
     def __eq__(self, other) -> bool:
         return self.code == other.code

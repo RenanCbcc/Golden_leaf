@@ -13,7 +13,7 @@ class ClientInputs(Inputs):
         'identification': [DataRequired(message="Cliente precisa ter um identificação (RG)."),
                            Length(min=9, max=9,message="Identificação do cliente precisa ter exatamente 9 caracteres.")],
         'phone_number':[DataRequired(message="Cliente precisa ter um número de telefone."), 
-                        Length(min=11, max=11,message="O número precisa ter exatamente 9 caracteres.")],
+                        Length(min=11, max=11,message="O número de telefone precisa ter exatamente 11 caracteres.")],
         'address':[DataRequired(message="O cliente precisa ter um endereço."),
                    Length(min=10, max=56,message="O número precisa ter no mínino 10 caracteres e no máximo 56.")],                     
         'notifiable':[DataRequired()]

@@ -1,8 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app\\api",
-    "\\app\\static"
+    "\\app"
   ],
+  "SelectedNode": "\\app\\__init__.py",
   "PreviewInSolutionExplorer": false
 }
