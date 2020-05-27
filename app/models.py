@@ -73,11 +73,13 @@ class Client(User):
         return json_client
 
     @staticmethod
-    def from_json(content):
-        if content['name'] == "" or content['phone_number'] == "" or content['identification'] == "":
-            abort(400, "Cliente não pode ter valores nulos")
-        client = Client(content.get('name'), content.get('phone_number'), content.get('identification'),
-                        content['address'], content.get('notifiable'))
+    def from_json(json_client):
+        name = content.get('name')
+        phone_number = content.get('phone_number')
+        identification = content.get('identification')
+        address = content['address']
+        notifiable = content.get('notifiable')
+        client = Client(name,phone_number ,identification , address , notifiable)
         return client
 
 

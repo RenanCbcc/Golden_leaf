@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app"
+    "\\app",
+    "\\app\\routes",
+    "\\app\\routes\\product"
   ],
-  "SelectedNode": "\\app\\__init__.py",
+  "SelectedNode": "\\app\\routes\\product\\forms.py",
   "PreviewInSolutionExplorer": false
 }

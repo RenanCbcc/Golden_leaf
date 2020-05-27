@@ -79,11 +79,11 @@ def new_product():
     reponse.status_code = 400
     return reponse
 
-@api.route('/product/<int:id>', methods=['PUT'])
+@api.route('/product', methods=['PUT'])
 def edit_product(id):
     inputs = ProductInputs(request)
     if inputs.validate():    
-        product = Product.query.get_or_404(id)
+        product = Product.query.get_or_404(request.json.get('id'))
         product.category_id = request.json.get('category_id')
         product.description = request.json.get('description')
         product.unit_cost = request.json.get('unit_cost')
@@ -96,7 +96,7 @@ def edit_product(id):
     reponse.status_code = 400
     return reponse
 
-@api.route('/product/unit_cost/<int:id>')
+@api.route('/product/unit_cost/<int:id>', methods=['GET'])
 def product_cost(id):
     product = Product.query.filter_by(id=id).one()
     if product is not None:
@@ -107,7 +107,7 @@ def product_cost(id):
         return resource_not_found()
 
 
-@api.route('/product/category/<int:id>')
+@api.route('/product/category/<int:id>', methods=['GET'])
 def product(id):
     products = Product.query.filter_by(category_id=id).all()
     response = jsonify({'products': [
