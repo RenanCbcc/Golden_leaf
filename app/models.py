@@ -74,11 +74,11 @@ class Client(User):
 
     @staticmethod
     def from_json(json_client):
-        name = content.get('name')
-        phone_number = content.get('phone_number')
-        identification = content.get('identification')
-        address = content['address']
-        notifiable = content.get('notifiable')
+        name = json_client.get('name')
+        phone_number = json_client.get('phone_number')
+        identification = json_client.get('identification')
+        address = json_client['address']
+        notifiable = json_client.get('notifiable')
         client = Client(name,phone_number ,identification , address , notifiable)
         return client
 

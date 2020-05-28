@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\app",
+    "\\app\\api",
+    "\\app\\routes",
+    "\\app\\routes\\product"
   ],
-  "SelectedNode": "\\app",
+  "SelectedNode": "\\wsgi.py",
   "PreviewInSolutionExplorer": false
 }
