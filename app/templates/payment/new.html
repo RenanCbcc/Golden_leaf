@@ -2,13 +2,21 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
 
-    <div class="col-md-4 col-md-offset-4">
-        <h2 class="titulo-principal">Novo pagamento</h2>
-        <form method="POST">
-            {{ form.csrf_token }}
-            {{ form.hidden_tag() }}
-            {{ wtf.quick_form(form) }}
-        </form>
+<div class="col-md-4 col-md-offset-4">  
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        <h4>Novo pagamento</h4>    
+        </div>
+        <div class="panel-body">
+            <form action="" method="POST">
+                {{ form.csrf_token }}
+                {{ form.hidden_tag() }}
+                {{ wtf.quick_form(form) }}
+            </form>
+        </div>    
+        
     </div>
+</div>
 
+   
 {% endblock %}

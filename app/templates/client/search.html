@@ -4,13 +4,20 @@
 {% block page_content %}
 
 
-    <div class="col-md-4 col-md-offset-4">
-        <h2 class="titulo-principal">Busca de cliente</h2>
-        <form method="POST">
-            {{ form.csrf_token }}
-            {{ form.hidden_tag() }}
-            {{ wtf.quick_form(form) }}
-        </form>
+<div class="col-md-4 col-md-offset-4">  
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        <h4>Buscar cliente</h4>    
+        </div>
+        <div class="panel-body">
+            <form action="" method="POST">
+                {{ form.csrf_token }}
+                {{ form.hidden_tag() }}
+                {{ wtf.quick_form(form) }}
+            </form>
+        </div>    
+        
     </div>
+</div>
 
 {% endblock %}

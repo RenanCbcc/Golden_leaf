@@ -2,7 +2,7 @@ from flask import Flask
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 
-from app.extensions import bootstrap, breadcrumbs, db, mail, login_manager, admin, csrf
+from app.extensions import bootstrap, breadcrumbs, db, mail, login_manager, admin, csrf,compress
 
 
 class AdminView(ModelView):
@@ -20,6 +20,7 @@ def create_app(config_class):
     mail.init_app(app)
     admin.init_app(app)
     csrf.init_app(app)
+    compress.init_app(app)
     login_manager.login_view = 'blueprint_clerk.login'  # Function's name of route login from the blueprint.
     login_manager.login_message_category = 'info'
 

@@ -1,10 +1,31 @@
 {% extends "base.html" %}
+
 {% block page_content %}
-    <div class="row">
-        <div class="col-md-7 col-md-offset-1">
-            <h2 class="titulo-principal">Lista de Todos os Pedidos </h2>
-            <table class="table table-striped table-responsive table-bordered">
-                <thead class="thead-default">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col col-xs-6">
+                <h4>Pedidos</h4>
+            </div>
+            <div class="col col-xs-6 text-right">
+
+                <a href="{{ url_for('blueprint_order.search_order') }}" class="btn btn-primary">
+                    <i class="glyphicon glyphicon glyphicon-search"></i>
+                    <span>Buscar</span>
+                </a>
+               
+                <a href="{{ url_for('blueprint_order.pending_order',id=client_id) }}" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-euro"></i>
+                    <span>Pagar</span>
+                </a>
+
+            </div>           
+
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-responsive table-bordered">
+            <thead>
                 <tr>
                     <th>Comprado em</th>
                     <th>Cliente</th>
@@ -12,69 +33,46 @@
                     <th>Valor R$</th>
                     <th>Status</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+
+            <tbody>
                 {% for order in orders.items %}
-                    <tr>
-                        <td>{{ order.ordered.strftime('%d/%m/%Y') }}</td>
-                        <td>{{ order.client.name }}</td>
-                        <td>{{ order.clerk.name }}</td>
-                        <td>
-                            {{ order.total }}
-                        </td>
-                        <td>{{ order.status.name }}</td>
-                        <td>
+                <tr>
+                    <td>{{ order.ordered.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ order.client.name }}</td>
+                    <td>{{ order.clerk.name }}</td>
+                    <td>{{ order.total }}</td>
+                    <td>{{ order.status.name }}</td>
 
-                            <div class="btn-group">
-                                <a href="{{ url_for('blueprint_order.update_order',id=order.id) }}"
-                                   class="btn btn-primary">
-                                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
-                                    <span>Editar</span>
-                                </a>
 
-                            </div>
+                    <td align="center">
 
-                        </td>
-                    </tr>
+                        <a href="{{ url_for('blueprint_order.update_order',id=order.id) }}"
+                           class="btn btn-primary">
+                            <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
+                            <span>Editar</span>
+                        </a>
+
+                    </td>
+                </tr>
                 {% endfor %}
-
-                </tbody>
-            </table>
-            {% for page_number in orders.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
-                {% if page_number %}
-                    {% if orders.page == page_number %}
-                        <a class="btn btn-info mb-4"
-                           href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
-                    {% else %}
-                        <a class="btn btn-outline-info mb-4"
-                           href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
-                    {% endif %}
-                {% else %}
-                    ...
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col-md-3">
-            <div class="content-section">
-                <h3>Gerenciar pedidos</h3>
-
-                <ul class="list-group">
-                    <li class=" list-group-item list-group-item-light">
-                        <a href="{{ url_for('blueprint_order.search_order') }}" class="btn btn-primary">
-                            <i class="glyphicon glyphicon glyphicon-search"></i>
-                            <span>Buscar pedido</span>
-                        </a>
-                    </li>
-                    <li class=" list-group-item list-group-item-light">
-                        <a href="{{ url_for('blueprint_order.pending_order',id=client_id) }}" class="btn btn-primary">
-                            <i class="glyphicon glyphicon-euro"></i>
-                            <span>Pagar pedido</span>
-                        </a>
-                    </li>
-
-                </ul>
-
-            </div>
-        </div>
+            </tbody>
+        </table>
     </div>
+    <div class="panel-footer p-0">
+        {% for page_number in orders.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+        {% if page_number %}
+        {% if orders.page == page_number %}
+        <a class="btn btn-info mb-4"
+           href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
+        {% else %}
+        <a class="btn btn-outline-info mb-4"
+           href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
+        {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
