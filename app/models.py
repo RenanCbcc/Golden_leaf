@@ -93,7 +93,7 @@ def __repr__(self):
 
 class Clerk(User, UserMixin):
     __tablename__ = 'clerks'
-    image_file = db.Column(db.String(24), default='default.jpg')
+    image_file = db.Column(db.String(24), default='default.png')
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128), nullable=False)
 

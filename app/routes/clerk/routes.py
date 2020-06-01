@@ -120,7 +120,7 @@ def reset_token(token):
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(16)
-    # I do not want the file file name, so I use _ instead
+    # I do not want a file file name, so I use _ instead
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_filename = random_hex + f_ext
     picture_path = os.path.join(current_app.root_path, 'static/profile_pic', picture_filename)
@@ -128,6 +128,6 @@ def save_picture(form_picture):
     output_size = (125, 125)
     image = Image.open(form_picture)
     image.thumbnail(output_size)
-    # Saves the picture in file system
+    # Save the picture in file system
     image.save(picture_path)
     return picture_filename

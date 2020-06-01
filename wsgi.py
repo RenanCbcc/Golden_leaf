@@ -1,7 +1,7 @@
 from app import create_app
 from app.settings import ProductionConfig,TestingConfig
 
-app = create_app(TestingConfig)
+app = create_app(ProductionConfig)
 # manager = Manager(app)
 # manager.add_command('db', MigrateCommand)
 

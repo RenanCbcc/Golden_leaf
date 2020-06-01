@@ -8,7 +8,6 @@ $("#save-items-btn").click(saveItems);
 
 BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
 BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
-BASE_API_URL = 'http://127.0.0.1:5000/api';
 
 CATEGORY_URL = BASE_API_URL + '/category';
 PRODUCT_BY_CODE_URL = BASE_API_URL + '/product/code/';

@@ -79,7 +79,7 @@ def get_product_by_code(code):
         response.status_code = 200
         return response
     else:
-        response = jsonify({"error": "Not found"})
+        response = jsonify({"Erro": "Produto não encontrado."})
         response.status_code = 404
         return response
 
