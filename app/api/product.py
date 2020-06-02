@@ -61,16 +61,23 @@ class NewProductInputs(Inputs):
 @api.route('/product/<int:id>', methods=['GET'])
 def get_product(id):
     if id is not None:
-        product = Product.query.get_or_404(id)
-        return jsonify(product.to_json())
+        product = Product.query.filter_by(id=id).one_or_none()
+        if product is not None:
+            response = jsonify({'id': product.id, 'description': product.description, 'unit_cost': str(product.unit_cost),'code': product.code})
+            response.status_code = 200        
+        else:
+            response = jsonify({"Erro": "Produto não encontrado.","Mensagem":f"O produto com id {id} não pode ser encontrado." })
+            response.status_code = 404        
+        
     else:
         products = Product.query.all()
         response = jsonify([product.to_json() for product in products])
         response.status_code = 200
-        return response
+    
+    return response
 
 
-@api.route('/product/code/<int:code>', methods=['GET'])
+@api.route('/product/code/<string:code>', methods=['GET'])
 def get_product_by_code(code):
     product = Product.query.filter_by(code=code).one_or_none()
     if product is not None:
@@ -79,7 +86,7 @@ def get_product_by_code(code):
         response.status_code = 200
         return response
     else:
-        response = jsonify({"Erro": "Produto não encontrado."})
+        response = jsonify({"Erro": "Produto não encontrado.","Mensagem":f"O produto com código {code} não pode ser encontrado." })
         response.status_code = 404
         return response
 
