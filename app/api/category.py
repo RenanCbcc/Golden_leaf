@@ -1,7 +1,6 @@
 from flask import jsonify, request, url_for, abort
-from app import db
 from app.api import api
-from app.models import Category
+from app.models import Category,db
 from flask_inputs import Inputs
 from wtforms.validators import DataRequired,Regexp,ValidationError
 
