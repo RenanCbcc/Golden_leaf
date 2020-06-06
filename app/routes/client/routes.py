@@ -63,7 +63,7 @@ def update_client(id):
 
 
 @blueprint_client.route('/client/search', methods=["GET", 'POST'])
-@register_breadcrumb(blueprint_client, '', 'Busca de Cliente')
+@register_breadcrumb(blueprint_client, '.search_client', 'Busca de Cliente')
 @login_required
 def search_client():
     page = request.args.get('page', 1, type=int)

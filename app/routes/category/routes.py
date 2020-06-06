@@ -90,7 +90,7 @@ def new_product(id):
     form.category.choices = [(category.id, category.title)]
 
     if form.validate_on_submit():
-        db.session.add(Product(category, form.brand.data,
+        db.session.add(Product(category.id,
                                form.description.data,
                                form.unit_cost.data,
                                form.code.data))

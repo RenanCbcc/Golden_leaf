@@ -26,7 +26,7 @@ def get_products():
 
 
 @blueprint_product.route('/product/available/list', methods=['GET'])
-@register_breadcrumb(blueprint_product, '.available_products', 'Produtos Disponíveis')
+@register_breadcrumb(blueprint_product, '.available_products', 'Produtos em falta')
 def available_products():
     page = request.args.get('page', 1, type=int)
     products = Product.query.filter_by(is_available=False).order_by(Product.description).paginate(page=page, per_page=10)

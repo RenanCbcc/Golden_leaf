@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\app",
+    "\\app\\api"
   ],
-  "SelectedNode": "\\README.md",
+  "SelectedNode": "\\wsgi.py",
   "PreviewInSolutionExplorer": false
 }

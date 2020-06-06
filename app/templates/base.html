@@ -91,13 +91,14 @@
             {% endwith %}
         </div>
     </header>
-    {% endblock %}
+    {% endblock %}    
     <main>
-        {% block content  %} 
-
+        {% block title %}{% endblock %}        
+        {% block content  %}       
+        
         <div class="container pt-3">
             {% block page_content %}
-
+            
             {% endblock %}
         </div>
         {% endblock %}
