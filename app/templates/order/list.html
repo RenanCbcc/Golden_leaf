@@ -33,7 +33,7 @@
             <tbody>
                 {% for order in orders.items %}
                 <tr>
-                    <td>{{ order.ordered.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ order.date.strftime('%d/%m/%Y %H:%M:%S') }}</td>
                     <td>{{ order.client.name }}</td>
                     <td>{{ order.clerk.name }}</td>
                     <td>{{ order.total }}</td>

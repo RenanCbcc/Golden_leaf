@@ -5,11 +5,8 @@ from wtforms.validators import DataRequired, Length, Regexp
 
 class NewClientForm(FlaskForm):
     name = StringField('Nome', validators=[DataRequired(), Regexp(
-        '^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$',
-        0,
+        '^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$',0,
         'Nome deve conter somente letras')])
-    identification = StringField('Identidade', validators=[DataRequired(message="Cliente precisa ter um identificação (RG)."),
-                                                          Length(min=7, max=9,message="Identificação do cliente precisa ter entre 7 e 9 caracteres.")])
     phone_number = StringField('Número do celular', validators=[DataRequired(message="Cliente precisa ter um número de telefone."), 
                                                                 Length(min=11, max=11,message="O número precisa ter exatamente 11 caracteres.")])
 

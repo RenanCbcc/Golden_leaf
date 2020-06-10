@@ -29,7 +29,9 @@ def get_clients():
 def new_client():
     form = NewClientForm()
     if form.validate_on_submit():
-        db.session.add(Client(form.name.data, form.phone_number.data, form.identification.data,
+        import uuid
+        identification = uuid.uuid4()
+        db.session.add(Client(form.name.data, form.phone_number.data, identification.time_low,
                               form.street.data,form.notifiable.data))
         db.session.commit()
         return redirect(url_for('blueprint_client.get_clients'))

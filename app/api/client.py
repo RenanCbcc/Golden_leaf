@@ -8,10 +8,6 @@ def validate_client_id(form, field):
     if not Client.query.filter_by(id=field.data).first():
         raise ValidationError(f'Cliente com id {field.data} é inválido.')
 
-def validate_client_identification(form, field):
-    if Client.query.filter_by(identification=field.data).first():
-        raise ValidationError(f'Cliente com identificação {field.data} já existe.')
-
 
 class EditClientInputs(Inputs):
     #Dont change this name!  Keep it as json!
@@ -30,8 +26,6 @@ class NewClientInputs(Inputs):
     json = {
         'name': [DataRequired(message="Cliente precisa ter um nome."), Regexp('^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$',0,
         'O nome deve conter somente letras.')],
-        'identification': [DataRequired(message="Cliente precisa ter um identificação (RG)."),
-                           Length(min=7, max=9,message="Identificação do cliente precisa ter entre 7 e 9 caracteres."),validate_client_identification],
         'phone_number':[DataRequired(message="Cliente precisa ter um número de telefone."), 
                         Length(min=11, max=11,message="O número de telefone precisa ter exatamente 11 caracteres.")],
         'address':[DataRequired(message="O cliente precisa ter um endereço."),

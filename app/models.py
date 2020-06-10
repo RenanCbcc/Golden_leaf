@@ -74,12 +74,14 @@ class Client(User):
 
     @staticmethod
     def from_json(json_client):
+        import uuid
+        identification = uuid.uuid4()
+
         name = json_client.get('name')
-        phone_number = json_client.get('phone_number')
-        identification = json_client.get('identification')
+        phone_number = json_client.get('phone_number')    
         address = json_client['address']
         notifiable = json_client.get('notifiable')
-        client = Client(name,phone_number ,identification , address , notifiable)
+        client = Client(name,phone_number ,identification.time_low , address , notifiable)
         return client
 
 
@@ -232,7 +234,7 @@ class Order(db.Model):
     client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
     payment_id = db.Column(db.Integer, ForeignKey('payments.id'), nullable=True)
-    ordered = db.Column(db.DateTime, index=True, default=datetime.now)
+    date = db.Column(db.DateTime, index=True, default=datetime.now)
     total = db.Column(db.Numeric(10, 2), default=0)
     status = db.Column(db.Enum(Status), default=Status.PENDENTE)
 
@@ -250,15 +252,15 @@ class Order(db.Model):
         
 
     def to_json(self) -> str:
-        json_product = {
+        return {
             'id': self.id,
-            'client_id': self.client_id,
-            'clerk_id': self.clerk_id,
+            'client': self.client.name,
+            'clerk': self.clerk.name,
             'total': str(self.total),
-            'date': self.ordered,
+            'date': self.date.strftime("%d/%m/%Y %H:%M:%S"),
             'status': self.status.name
         }
-        return json_product
+
 
     @staticmethod
     def from_json(content) -> Order:

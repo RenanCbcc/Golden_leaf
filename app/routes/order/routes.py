@@ -24,10 +24,10 @@ def get_orders(id):
     if id is not None:
         orders = Order.query \
             .filter_by(client_id=id) \
-            .order_by(Order.ordered.desc()) \
+            .order_by(Order.date.desc()) \
             .paginate(page=page, per_page=10)
         return render_template('order/client_orders.html', orders=orders, client_id=id)
-    orders = Order.query.order_by(Order.ordered.desc()).paginate(page=page, per_page=10)
+    orders = Order.query.order_by(Order.date.desc()).paginate(page=page, per_page=10)
     return render_template('order/list.html', orders=orders)
 
 
@@ -91,6 +91,6 @@ def pending_order(id):
             .filter_by(client_id=id, status=Status.PENDENTE) \
             .scalar()
     orders = Order.query.filter_by(client_id=id, status=Status.PENDENTE) \
-        .order_by(Order.ordered.desc()) \
+        .order_by(Order.date.desc()) \
         .paginate(page=page, per_page=10)
     return render_template('order/pending_order.html', orders=orders, client_id=id, total=total)

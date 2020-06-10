@@ -32,7 +32,7 @@
             <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Número</th>
+                    <th>Matrícula</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -41,7 +41,7 @@
                 {% for client in clients.items %}
                 <tr>
                     <td>{{ client.name }}</td>
-                    <td>{{ client.phone_number }}</td>
+                    <td>{{ client.identification }}</td>
                     {% if client.status %}
                     <td>ativo</td>
                     {% else %}

@@ -72,7 +72,7 @@ class ItemInput():
 @api.route('/order/client/<int:id>', methods=['GET'])
 def get_order(id):
     if id is not None:
-        orders = Order.query.filter_by(client_id=id).order_by(Order.ordered).all()
+        orders = Order.query.filter_by(client_id=id).order_by(Order.date).all()
         response = jsonify({'orders': [order.to_json() for order in orders]})
         response.status_code = 200
     else:
