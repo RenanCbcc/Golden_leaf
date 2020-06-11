@@ -4,8 +4,9 @@
     "\\app",
     "\\app\\routes",
     "\\app\\routes\\clerk",
-    "\\app\\templates"
+    "\\app\\templates",
+    "\\app\\templates\\order"
   ],
-  "SelectedNode": "\\app\\routes\\clerk\\routes.py",
+  "SelectedNode": "\\wsgi.py",
   "PreviewInSolutionExplorer": false
 }

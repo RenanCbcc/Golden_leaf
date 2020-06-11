@@ -75,13 +75,13 @@ class Client(User):
     @staticmethod
     def from_json(json_client):
         import uuid
-        identification = uuid.uuid4()
+        identification = uuid.uuid4().time_low
 
         name = json_client.get('name')
         phone_number = json_client.get('phone_number')    
         address = json_client['address']
         notifiable = json_client.get('notifiable')
-        client = Client(name,phone_number ,identification.time_low , address , notifiable)
+        client = Client(name,phone_number ,str(identification)[0:9] , address , notifiable)
         return client
 
 
