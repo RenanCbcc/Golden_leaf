@@ -293,15 +293,14 @@ class Item(db.Model):
         self.extended_cost = extended_cost
 
     def to_json(self) -> str:
-        json_item = {
-            'id': self.id,
-            'order_id': self.order_id,
-            'product_id': self.product_id,
+        return {
+            'description': self.product.description,
+            'unit_cost': str(self.product.unit_cost),            
             'quantity': str(self.quantity),
             'extended_cost': str(self.extended_cost)
         }
-        return json_item
         
+
     def __repr__(self) -> str:
         return '<Item: %r Quantidade %r>' % (self.product.description, self.quantity)
 

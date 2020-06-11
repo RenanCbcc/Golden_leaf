@@ -37,13 +37,21 @@ class NewClientInputs(Inputs):
 @api.route('/client/<int:id>', methods=['GET'])
 def get_client(id):
     if id is not None:
-        client = Client.query.get_or_404(id)
-        return jsonify(client.to_json())
+        client = Client.query.filter_by(id=id).one_or_none()
+        if client is not None:
+            response = jsonify(client.to_json())
+            response.status_code = 200
+            return response
+        else:
+            response = jsonify({"Erro": "Cliente não encontrado.","Mensagem":f"O cliente com id: {id} não pode ser encontrado." })
+            response.status_code = 404
+            return response
     else:
         clients = Client.query.all()
         response = jsonify([client.to_json() for client in clients])
         response.status_code = 200
         return response
+
 
 
 @api.route('/client', methods=['POST'])

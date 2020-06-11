@@ -108,6 +108,21 @@ def save_order():
     reponse.status_code = 400
     return reponse
 
+@api.route('/order/<int:id>/items', methods=['GET'])
+def items_order(id):
+    order = Order.query.filter_by(id=id).one_or_none()
+    if order is not None:
+        all_items = Item.query.filter_by(order=order).all()
+        response = jsonify([item.to_json() for item in all_items])
+        response.status_code = 200
+        return response
+    else:
+        response = jsonify({"Erro": "Pedido não encontrado.","Mensagem":f"O pedido com id: {id} não pode ser encontrado." })
+        response.status_code = 404
+        return response
+        
+    
+    
 def send_message(order):
     client = Client.query.get(order.client_id)
     if client.notifiable:

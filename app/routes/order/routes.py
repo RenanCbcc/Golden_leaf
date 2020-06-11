@@ -15,6 +15,12 @@ def view_client_dlc(*args, **kwargs):
     return [{'text': c.name}]
 
 
+def view_order_dlc(*args, **kwargs):
+    id = request.view_args['id']
+    c = Order.query.get(id)
+    return [{'text': "renan"}]
+
+
 @blueprint_order.route('/order/client/<int:id>', methods=['GET'])
 @blueprint_order.route('/order', defaults={'id': None}, methods=['GET'])
 @register_breadcrumb(blueprint_order, '.', 'Pedidos')
@@ -39,14 +45,14 @@ def new_order(id):
     return render_template('order/new.html', client=client)
 
 
-@blueprint_order.route('/order/<int:id>/update', methods=['GET', 'POST'])
-# @register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_client_dlc)
+@blueprint_order.route('/order/<int:id>/items', methods=['GET'])
+#@register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_order_dlc)
 @login_required
-def update_order(id):
+def items_order(id):
     order = Order.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     all_items = Item.query.filter_by(order=order).paginate(page, per_page=10)
-    return render_template('order/edit.html', order_items=all_items)
+    return render_template('order/items.html', order_items=all_items)
 
 
 @blueprint_order.route('/order/search', methods=["GET", 'POST'])
