@@ -73,7 +73,7 @@ class ItemInput():
 def get_order(id):
     if id is not None:
         orders = Order.query.filter_by(client_id=id).order_by(Order.date).all()
-        response = jsonify({'orders': [order.to_json() for order in orders]})
+        response = jsonify([order.to_json() for order in orders])
         response.status_code = 200
     else:
         orders = Order.query.all()

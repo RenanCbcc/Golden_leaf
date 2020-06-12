@@ -3,7 +3,7 @@
     "",
     "\\app",
     "\\app\\routes",
-    "\\app\\routes\\clerk",
+    "\\app\\routes\\client",
     "\\app\\templates",
     "\\app\\templates\\order"
   ],

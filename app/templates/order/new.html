@@ -9,14 +9,26 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8 col-md-offset-1">
-        <h2 class="titulo-principal">
-            Valor Total de Pedidos R$
-            <span id="price_holder" data-value="0.0"></span>
-        </h2>
-        <div id="client-id" data-url="{{ client.id }}"></div>
-        <div class="order-container" style="overflow: auto; max-height: 80vh">
-            <div class="table-responsive">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                        <h4>Pedidos</h4>
+                    </div>
+                    <div class="col col-xs-6 text-right">
+                        <button type="button" class="btn btn-primary" id="save-items-btn">
+                            <i class="glyphicon glyphicon-floppy-disk"></i>
+                            <span>Salvar</span>
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- Table -->
+            <div class="panel-body">
                 <table class="table" id="items-table">
                     <thead>
                         <tr>
@@ -29,104 +41,106 @@
                     </thead>
                     <tbody>
                     </tbody>
-
                 </table>
             </div>
+            <div class="panel-footer">
+                Valor Total de Pedidos R$
+                <span id="price_holder" data-value="0.0"></span>
+
+            </div>
         </div>
     </div>
+
+
     <div class="col-md-3">
-        <h3 class="titulo-principal">Produto</h3>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="manual-tab" data-toggle="tab" href="#manual" role="tab"
-                   aria-controls="manual" aria-selected="true">Manual</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="automatic-tab" data-toggle="tab" href="#automatic" role="tab"
-                   aria-controls="automatic" aria-selected="false">Automatico</a>
-            </li>
-        </ul>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Produtos</div>
+            <div class="panel-body">
 
-        <div class="tab-content">
-            <div class="tab-pane active" id="manual" role="tabpanel" aria-labelledby="manual-tab">
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <label for="categories">Categoria</label>
-                        <select class="form-control" id="categories">
-                        </select>
-                    </div>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="manual-tab" data-toggle="tab" href="#manual" role="tab"
+                            aria-controls="manual" aria-selected="true">Manual</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="automatic-tab" data-toggle="tab" href="#automatic" role="tab"
+                            aria-controls="automatic" aria-selected="false">Automatico</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="manual" role="tabpanel" aria-labelledby="manual-tab">
+                        <form action="" method="POST">
+                            <div class="form-group">
+                                <label for="categories">Categoria</label>
+                                <select class="form-control" id="categories">
+                                </select>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="products">Produto</label>
-                        <select class="form-control" id="products">
-                        </select>
-                    </div>
+                            <div class="form-group">
+                                <label for="products">Produto</label>
+                                <select class="form-control" id="products">
+                                </select>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="unit_cost">Preço</label>
-                        <input disabled type="text" class="form-control" id="unit_cost">
-                    </div>
+                            <div class="form-group">
+                                <label for="unit_cost">Preço</label>
+                                <input disabled type="text" class="form-control" id="unit_cost">
+                            </div>
 
-                    <div class="form-group  required">
-                        <label for="quantity_manual_form">Quantidade</label>
-                        <input type="number" placeholder="1,00" name="price" min="0.01" value="1"
-                               step="0.01" class="form-control" id="quantity_manual_form" required="">
+                            <div class="form-group  required">
+                                <label for="quantity_manual_form">Quantidade</label>
+                                <input type="number" placeholder="1,00" name="price" min="0.01" value="1" step="0.01"
+                                    class="form-control" id="quantity_manual_form" required="">
+
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-secondary" id="add-product-btn-manual-form">
+                                    Adicionar
+                                </button>
+                            </div>
+                        </form>
 
                     </div>
-                    <div>
-                        <button type="button" class="btn btn-secondary" id="add-product-btn-manual-form">
-                            Adicionar
-                        </button>
+                    <div class="tab-pane" id="automatic" role="tabpanel" aria-labelledby="automatic-tab">
+                        <form action="" method="POST">
+                            <div class="form-group">
+                                <input id="product-id" name="product" type="hidden" value="">
+                                <label for="code">Código</label>
+                                <input type="text" class="form-control" id="code" size="13" maxlength="13">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description_automatic_form">Descrição</label>
+                                <input disabled type="text" class="form-control" id="description_automatic_form">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="unit_cost_automatic_form">Preço</label>
+                                <input disabled type="text" class="form-control" id="unit_cost_automatic_form">
+                            </div>
+
+                            <div class="form-group  required">
+                                <label for="quantity_automatic_form">Quantidade</label>
+                                <input type="number" placeholder="1.00" name="price" min="0.01" value="1" step="0.01"
+                                    class="form-control" id="quantity_automatic_form" required="">
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-secondary" id="add-product-btn-automatic-form">
+                                    Adicionar
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
 
             </div>
-            <div class="tab-pane" id="automatic" role="tabpanel" aria-labelledby="automatic-tab">
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <input id="product-id" name="product" type="hidden" value="">
-                        <label for="code">Código</label>
-                        <input type="text" class="form-control" id="code" size="13" maxlength="13">
-                    </div>
 
-                    <div class="form-group">
-                        <label for="description_automatic_form">Descrição</label>
-                        <input disabled type="text" class="form-control" id="description_automatic_form">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="unit_cost_automatic_form">Preço</label>
-                        <input disabled type="text" class="form-control" id="unit_cost_automatic_form">
-                    </div>
-
-                    <div class="form-group  required">
-                        <label for="quantity_automatic_form">Quantidade</label>
-                        <input type="number" placeholder="1.00" name="price" min="0.01" value="1"
-                               step="0.01" class="form-control" id="quantity_automatic_form" required="">
-                    </div>
-                    <div>
-                        <button type="button" class="btn btn-secondary" id="add-product-btn-automatic-form">
-                            Adicionar
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 col-md-offset-9">
-        <h3 class="titulo-principal">Finalizar Pedido</h3>
-        <div class="form-row">
-
-            <button type="button" class="btn btn-primary" id="save-items-btn">
-                <i class="glyphicon glyphicon-floppy-disk"></i>
-                <span>Salvar</span>
-            </button>
 
         </div>
+
     </div>
     <script src="{{ url_for('static', filename='jquery-3.4.0.min.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static',filename='order_table.js') }}"></script>
-
 </div>
 {% endblock %}
