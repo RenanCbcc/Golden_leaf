@@ -1,16 +1,12 @@
 class Item {
-
-    constructor(product_id, description, price, quantity) {
-        this.product_id = product_id;
-        this.description = description;
-        this.unit_cost = price;
-        this.quantity = quantity
-        this.extended_cost = 0.0
+    constructor(_product_id, _description, _price, _quantity, _extended_cost = 0) {
+        this._product_id = _product_id;
+        this._description = _description;
+        this._price = _price;
+        this._quantity = _quantity;
+        this._extended_cost = _extended_cost;
     }
-
-    get SubTotal() {
-        return this.unit_cost * this.quantity;
+    get product_id() {
+        return this.product_id;
     }
-
-
 }

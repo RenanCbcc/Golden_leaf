@@ -2,11 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\app",
-    "\\app\\routes",
-    "\\app\\routes\\client",
+    "\\app\\static",
+    "\\app\\static\\js",
     "\\app\\templates",
     "\\app\\templates\\order"
   ],
-  "SelectedNode": "\\wsgi.py",
+  "SelectedNode": "\\app\\static\\js\\app.js",
   "PreviewInSolutionExplorer": false
 }

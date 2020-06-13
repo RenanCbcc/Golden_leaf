@@ -1,6 +1,6 @@
 $(document).ready(populateCategories);
 $("#categories").click(getProductsByCategory);
-$("#products").click(updateUnitcost);
+$("#product_id_manual_form").click(updateUnitcost);
 $("#add-product-btn-manual-form").click(insert_order_from_manual_form);
 $("#add-product-btn-automatic-form").click(insert_order_from_automatic_form);
 $("#save-items-btn").click(saveItems);
@@ -8,6 +8,7 @@ $("#save-items-btn").click(saveItems);
 
 BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
 BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
+BASE_API_URL = 'http://127.0.0.1:5000/api';
 
 CATEGORY_URL = BASE_API_URL + '/category';
 PRODUCT_BY_CODE_URL = BASE_API_URL + '/product/code/';
@@ -15,8 +16,19 @@ PRODUCT_BY_CATEGORY_URL = BASE_API_URL + '/product/category/';
 PRODUCT_UNIT_COST_URL = BASE_API_URL + '/product/unit_cost/';
 ORDER_URL = BASE_API_URL + '/order';
 
+
+function populateCategories() {
+    $.get(CATEGORY_URL, function (response) {
+        let option = '';
+        $.each(response, function (index, val) {
+            option += '<option value="' + val.id + '">' + val.title + '</option>';
+        });
+        $("#categories").html(option);
+    });
+}
+
 function getProductsByCategory() {
-    $("#unit_cost").val("");
+    $("#unit_cost_manual_form").val("");
     $("#quantity_manual_form").val("");
     let category_id = $(this).val();
     $.get(PRODUCT_BY_CATEGORY_URL + category_id, function (response) {
@@ -24,33 +36,32 @@ function getProductsByCategory() {
         $.each(response.products, function (idx, product) {
             option += '<option value="' + product.id + '">' + product.description + '</option>';
         });
-        $("#products").html(option);
+        $("#product_id_manual_form").html(option);
     });
 }
 
 function updateUnitcost() {
     $("#quantity_manual_form").val("");
-    $.get(PRODUCT_UNIT_COST_URL + $("#products").val(), function (response) {
+    $.get(PRODUCT_UNIT_COST_URL + $("#product_id_manual_form").val(), function (response) {
         $("#unit_cost").val(response.unit_cost)
     });
 
 }
 
 function insert_order_from_manual_form() {
-    let product = $("#products");
+    let product = $("#product_id_manual_form");
     let body_table = $("#items-table").find("tbody");
     let product_id = product.val();
     let product_description = $(product).children("option:selected").text();
-    let product_cost = $("#unit_cost").val();
-
+    let product_cost = $("#unit_cost_manual_form").val();
     let product_quantity = $("#quantity_manual_form").val();
+    
     if (!validateQuantity(product_quantity)) {
         showAlert("Erro.Quantidade do produto inválida.")
         return;
     }
 
-    let product_price = $("#unit_cost").val();
-    if (!validatePrice(product_price)) {
+    if (!validatePrice(product_cost)) {
         showAlert("Preço do produto inválido.")
         return
     }
@@ -62,7 +73,7 @@ function insert_order_from_manual_form() {
 }
 
 function insert_order_from_automatic_form() {
-    let product_id = $("#product-id");
+    let product_id = $("#product_id_automatic_form");
     let body_table = $("#items-table").find("tbody");
     let product_description = $("#description_automatic_form").val();
     let product_cost = $("#unit_cost_automatic_form").val();
@@ -139,15 +150,6 @@ function removeLine() {
 
 }
 
-function populateCategories() {
-    $.get(CATEGORY_URL, function (response) {
-        let option = '';
-        $.each(response, function (index, val) {
-            option += '<option value="' + val.id + '">' + val.title + '</option>';
-        });
-        $("#categories").html(option);
-    });
-}
 
 $("#code").blur(function () {
 
@@ -163,7 +165,7 @@ $("#code").blur(function () {
             //Update the fields with the fetched value
             $("#description_automatic_form").val(response.description);
             $("#unit_cost_automatic_form").val(response.unit_cost);
-            $("#product-id").val(response.id);
+            $("#product_id_automatic_form").val(response.id);
         } else {
             showAlert("Codigo não encontrado");
         }

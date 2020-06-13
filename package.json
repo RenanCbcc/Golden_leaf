@@ -1,0 +1,34 @@
+{
+  "name": "golden_leaf",
+  "version": "1.0.0",
+  "description": "A small sized web app written in python for managing a family-sized small business.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc",
+    "start": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RenanCbcc/Golden_leaf.git"
+  },
+  "author": "Renan Rosa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RenanCbcc/Golden_leaf/issues"
+  },
+  "homepage": "https://github.com/RenanCbcc/Golden_leaf#readme",
+  
+  "devDependencies": {
+    "@types/node": "^13.13.4",
+    "lite-server": "^2.5.4",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.3.36",
+    "concurrently": "^5.2.0"
+  }
+}
