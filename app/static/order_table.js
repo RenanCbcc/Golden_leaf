@@ -77,8 +77,8 @@ function insert_order_from_automatic_form() {
     let body_table = $("#items-table").find("tbody");
     let product_description = $("#description_automatic_form").val();
     let product_cost = $("#unit_cost_automatic_form").val();
-
     let product_quantity = $("#quantity_automatic_form").val();
+    
     if (!validateQuantity(product_quantity)) {
         showAlert("Quantidade do produto inválida.");
         return;

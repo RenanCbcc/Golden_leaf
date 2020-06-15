@@ -2,11 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\app",
-    "\\app\\static",
     "\\app\\static\\js",
-    "\\app\\templates",
-    "\\app\\templates\\order"
+    "\\app\\templates"
   ],
-  "SelectedNode": "\\app\\static\\js\\app.js",
+  "SelectedNode": "\\app\\static",
   "PreviewInSolutionExplorer": false
 }

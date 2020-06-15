@@ -1,4 +1,15 @@
 class Product {
+    constructor(private _id: number, private _description: string, private _unit_cost: string) { }
 
-    constructor(private _id: string, private _description: string, private _unit_cost: number) { }
+    get id() {
+        return this._id;
+    }
+
+    get description(): string {
+        return this._description
+    }
+
+    get unit_cost(): string {
+        return this._unit_cost;
+    }
 }

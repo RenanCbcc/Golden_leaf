@@ -27,26 +27,15 @@
 
                 </div>
             </div>
-            <!-- Table -->
             <div class="panel-body">
-                <table class="table" id="items-table">
-                    <thead>
-                        <tr>
-                            <th scope="col" style="display: none;">Id</th>
-                            <th scope="col">Descriçao</th>
-                            <th scope="col">Preço</th>
-                            <th scope="col">Quantidade</th>
-                            <th scope="col">SubTotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <!-- Table will be inserted here dinamicly-->
+                <div id="itemsView">
+
+                </div>
             </div>
             <div class="panel-footer">
                 Valor Total de Pedidos R$
                 <span id="price_holder" data-value="0.0"></span>
-
             </div>
         </div>
     </div>
@@ -71,16 +60,12 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="manual" role="tabpanel" aria-labelledby="manual-tab">
                         <form action="" id="manual-form" method="POST">
-                            <div class="form-group">
-                                <label for="categories">Categoria</label>
-                                <select class="form-control" id="categories">
-                                </select>
+                            <div class="form-group" id="categoriesView">
+                                 <!-- Select will be inserted here dinamicly-->
                             </div>
 
-                            <div class="form-group">
-                                <label for="product_id_manual_form">Produto</label>
-                                <select class="form-control" id="product_id_manual_form">
-                                </select>
+                            <div class="form-group" id="productsView">
+                               <!-- Select will be inserted here dinamicly-->
                             </div>
 
                             <div class="form-group">
@@ -139,13 +124,24 @@
         </div>
 
     </div>
-    
+
     <script src="{{ url_for('static', filename='jquery-3.4.0.min.js') }}" type="text/javascript"></script>
     <!--<script src="{{ url_for('static',filename='order_table.js') }}"></script>-->
-    
+
     <script src="{{ url_for('static', filename='js/models/Item.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/models/Items.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/models/Category.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/models/Categories.js') }}" type="text/javascript"></script>
+    
+    
+    <script src="{{ url_for('static', filename='js/models/PartialProduct.js') }}" type="text/javascript"></script>    
     <script src="{{ url_for('static', filename='js/models/Product.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/models/Products.js') }}" type="text/javascript"></script>
+
+    <script src="{{ url_for('static', filename='js/views/ProductView.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/views/CategoryView.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/views/ItemView.js') }}" type="text/javascript"></script>
+
     <script src="{{ url_for('static', filename='js/controllers/OrderController.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}" type="text/javascript"></script>
 
