@@ -3,9 +3,8 @@
 {% block title %}Novo{% endblock %}
 {% block page_content %}
 
-<div id="order-alert" class="alert alert-danger collapse">
-    <button id="order-alert-btn" type="button" class="close">&times;</button>
-    <p id="message"></p>
+<div id="messageView" class="alert alert-danger collapse">
+    <!-- Message will be inserted here dinamicly-->
 </div>
 
 <div class="row">
@@ -61,11 +60,11 @@
                     <div class="tab-pane active" id="manual" role="tabpanel" aria-labelledby="manual-tab">
                         <form action="" id="manual-form" method="POST">
                             <div class="form-group" id="categoriesView">
-                                 <!-- Select will be inserted here dinamicly-->
+                                <!-- Select will be inserted here dinamicly-->
                             </div>
 
                             <div class="form-group" id="productsView">
-                               <!-- Select will be inserted here dinamicly-->
+                                <!-- Select will be inserted here dinamicly-->
                             </div>
 
                             <div class="form-group">
@@ -77,10 +76,9 @@
                                 <label for="quantity_manual_form">Quantidade</label>
                                 <input type="number" placeholder="1,00" name="price" min="0.01" value="1" step="0.01"
                                     class="form-control" id="quantity_manual_form" required="">
-
                             </div>
                             <div>
-                                <button type="button" class="btn btn-secondary" id="add-product-btn-manual-form">
+                                <button type="button" class="btn btn-primary" id="add-item-btn-manual-form">
                                     Adicionar
                                 </button>
                             </div>
@@ -91,8 +89,8 @@
                         <form action="" method="POST">
                             <div class="form-group">
                                 <input id="product_id_automatic_form" name="product" type="hidden" value="">
-                                <label for="code">Código</label>
-                                <input type="text" class="form-control" id="code" size="13" maxlength="13">
+                                <label for="product_code_automatic_form">Código</label>
+                                <input type="text" class="form-control" id="product_code_automatic_form" size="13" maxlength="13">
                             </div>
 
                             <div class="form-group">
@@ -111,7 +109,10 @@
                                     class="form-control" id="quantity_automatic_form" required="">
                             </div>
                             <div>
-                                <button type="button" class="btn btn-secondary" id="add-product-btn-automatic-form">
+                                <button type="button" class="btn btn-secondary" id="search-product-btn-automatic-form">
+                                    Buscar
+                                </button>
+                                <button type="button" class="btn btn-primary" id="add-product-btn-automatic-form">
                                     Adicionar
                                 </button>
                             </div>
@@ -132,16 +133,18 @@
     <script src="{{ url_for('static', filename='js/models/Items.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/models/Category.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/models/Categories.js') }}" type="text/javascript"></script>
-    
-    
-    <script src="{{ url_for('static', filename='js/models/PartialProduct.js') }}" type="text/javascript"></script>    
+
+
+    <script src="{{ url_for('static', filename='js/models/PartialProduct.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/models/Product.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/models/Products.js') }}" type="text/javascript"></script>
 
+    <script src="{{ url_for('static', filename='js/views/View.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/views/ProductView.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/views/CategoryView.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/views/ItemView.js') }}" type="text/javascript"></script>
 
+    <script src="{{ url_for('static', filename='js/views/MessageView.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/controllers/OrderController.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}" type="text/javascript"></script>
 

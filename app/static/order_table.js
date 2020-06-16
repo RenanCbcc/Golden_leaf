@@ -151,7 +151,7 @@ function removeLine() {
 }
 
 
-$("#code").blur(function () {
+$("#product_code_automatic_form").blur(function () {
 
     let code = $(this).val();
 
@@ -221,7 +221,6 @@ function validatePrice(price) {
 }
 
 function showAlert(message) {
-    let alert = $("#order-alert");
     $('#message').text(message)
     alert.show('fade');
 

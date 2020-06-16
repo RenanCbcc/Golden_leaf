@@ -1,10 +1,4 @@
-class CategoryView {
-    constructor(selector) {
-        this._select = $(selector);
-    }
-    update(model) {
-        this._select.html(this.template(model));
-    }
+class CategoryView extends View {
     template(model) {
         return `<label for="categories">Categoria</label>
         <select class="form-control" id="categories">

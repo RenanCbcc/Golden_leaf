@@ -7,13 +7,13 @@ class Item {
         this._extended_cost = this._price * this._quantity;
     }
     get product_id() {
-        return this.product_id;
+        return this._product_id;
     }
     get description() {
         return this._description;
     }
     get price() {
-        return this._description;
+        return this._price;
     }
     get quantity() {
         return this._quantity;
