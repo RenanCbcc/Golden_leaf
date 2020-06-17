@@ -9,8 +9,8 @@ class Items {
         this._items.push(item);
     }
 
-    remove(item: Item) {
-        this._items = this._items.filter(i => i.product_id !== item.product_id);
+    remove(item: number) {
+        this._items = this._items.filter(i => i.product_id !== item);
     }
 
     toArray(): Item[] {

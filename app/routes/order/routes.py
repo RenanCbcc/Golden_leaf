@@ -41,7 +41,7 @@ def get_orders(id):
 @register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_client_dlc)
 @login_required
 def new_order(id):
-    client = Client.query.get_or_404(id)
+    client = Client.query.get_or_404(id)    
     return render_template('order/new.html', client=client)
 
 

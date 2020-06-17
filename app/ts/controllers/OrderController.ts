@@ -1,18 +1,31 @@
 class OrderController {
 
+    @domInject('#product_id_manual_form')
     private _product_id_manual_form: JQuery;
+
+    @domInject('#product_id_automatic_form')
     private _product_id_automatic_form: JQuery
 
     private _description_manual_form: JQuery;
+
+    @domInject('#description_automatic_form')
     private _description_automatic_form: JQuery
 
+    @domInject('#unit_cost_manual_form')
     private _unit_cost_manual_form: JQuery;
+
+    @domInject('#unit_cost_automatic_form')
     private _unit_cost_automatic_form: JQuery
 
+    @domInject('#quantity_manual_form')
     private _quantity_manual_form: JQuery;
+
+    @domInject('#quantity_manual_form')
     private _quantity_automatic_form: JQuery
 
+    @domInject('#product_code_automatic_form')
     private _product_code_automatic_form: JQuery;
+
 
     private _categories = new Categories();
     private _products = new Products();
@@ -33,19 +46,7 @@ class OrderController {
         this._productsView.update(this._products);
         this._itemsView.update(this._items);
 
-        this._product_id_manual_form = $("#product_id_manual_form");
-        this._product_id_automatic_form = $("#product_id_automatic_form");
-
-        this._unit_cost_manual_form = $("#unit_cost_manual_form");
-        this._unit_cost_automatic_form = $("#unit_cost_automatic_form");
-
         this._description_manual_form = $(this._product_id_manual_form).children("option:selected");
-        this._description_automatic_form = $("#description_automatic_form");
-
-        this._quantity_manual_form = $("#quantity_manual_form");
-        this._quantity_automatic_form = $("#quantity_automatic_form");
-
-        this._product_code_automatic_form = $('#product_code_automatic_form');
 
     }
 
@@ -68,7 +69,7 @@ class OrderController {
         this._product_id_automatic_form.val('');
         this._description_automatic_form.val('');
         this._unit_cost_automatic_form.val('');
-        this._quantity_automatic_form.val('');
+        this._quantity_automatic_form.val('1');
 
         this.addItem(product_id, product_description, product_cost, product_quantity);
 
@@ -76,11 +77,11 @@ class OrderController {
 
     searchFromAutomaticForm() {
         let code = <string>this._product_code_automatic_form.val();
-        /*        
-        if (code.length <= 9 || code.length <= 13) {
+
+        if (code == null || (code.length < 9 || code.length > 13)) {
             this._messageView.update('Código do produto inválido.');
+            return;
         }
-        */
 
         this._description_automatic_form.val('...');
         this._unit_cost_automatic_form.val('...');
@@ -105,7 +106,13 @@ class OrderController {
     }
 
     removeItem() {
-        alert('Remove Item');
+        let row = $('.remove-items-btn').closest("tr");
+        var text = row.find(".product_id").text(); // Find the text
+
+        // Let's test it out
+        alert(text);
+        //this._items.remove(id);
+        //this._itemsView.update(this._items);
     }
 
     private addItem(product_id: number, description: string, price: number, quantity: number) {
@@ -154,7 +161,6 @@ class OrderController {
     }
 
     importProducts() {
-        alert('importProducts');
         function isOK(res: Response) {
             if (res.ok) {
                 return res;

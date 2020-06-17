@@ -21,7 +21,6 @@
     "url": "https://github.com/RenanCbcc/Golden_leaf/issues"
   },
   "homepage": "https://github.com/RenanCbcc/Golden_leaf#readme",
-  
   "devDependencies": {
     "@types/node": "^13.13.4",
     "lite-server": "^2.5.4",
@@ -29,6 +28,7 @@
   },
   "dependencies": {
     "@types/jquery": "^3.3.36",
-    "concurrently": "^5.2.0"
+    "concurrently": "^5.2.0",
+    "systemjs": "^6.3.2"
   }
 }

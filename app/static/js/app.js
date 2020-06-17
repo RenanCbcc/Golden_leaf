@@ -1,13 +1,11 @@
 const controller = new OrderController();
-document
-    .querySelector('#add-item-btn-manual-form')
-    .addEventListener('click', controller.addFromManualForm.bind(controller));
-document
-    .querySelector('#search-product-btn-automatic-form')
-    .addEventListener('click', controller.searchFromAutomaticForm.bind(controller));
-document
-    .querySelector('#add-product-btn-automatic-form')
-    .addEventListener('click', controller.addFromAutomaticForm.bind(controller));
-document
-    .querySelector('#categories')
-    .addEventListener('click', controller.importProducts.bind(controller));
+$(document).on('click', '#add-item-btn-manual-form', controller
+    .addFromManualForm.bind(controller));
+$(document).on('click', '#search-product-btn-automatic-form', controller
+    .searchFromAutomaticForm.bind(controller));
+$(document).on('click', '#add-product-btn-automatic-form', controller
+    .addFromAutomaticForm.bind(controller));
+$(document).on('click', '#categories', controller
+    .importProducts.bind(controller));
+$(document).on('click', '.remove-items-btn', controller
+    .removeItem.bind(controller));

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Categorias{% endblock %}
 {% block page_content %}
-<div class="panel panel-default" >
+<div class="panel panel-primary" >
     <div class="panel-heading">
         <div class="row">
             <div class="col col-xs-6">
@@ -9,7 +9,7 @@
             </div>
             <div class="col col-xs-6 text-right">
                 <a href="{{ url_for('blueprint_category.new_category') }}"
-                   class="btn btn-primary">
+                   class="btn btn-default">
                     <span class="glyphicon glyphicon-plus"></span>
                     Novo
                 </a>

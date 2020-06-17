@@ -1,3 +1,9 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 class OrderController {
     constructor() {
         this._categories = new Categories();
@@ -14,15 +20,7 @@ class OrderController {
         this.importCategories();
         this._productsView.update(this._products);
         this._itemsView.update(this._items);
-        this._product_id_manual_form = $("#product_id_manual_form");
-        this._product_id_automatic_form = $("#product_id_automatic_form");
-        this._unit_cost_manual_form = $("#unit_cost_manual_form");
-        this._unit_cost_automatic_form = $("#unit_cost_automatic_form");
         this._description_manual_form = $(this._product_id_manual_form).children("option:selected");
-        this._description_automatic_form = $("#description_automatic_form");
-        this._quantity_manual_form = $("#quantity_manual_form");
-        this._quantity_automatic_form = $("#quantity_automatic_form");
-        this._product_code_automatic_form = $('#product_code_automatic_form');
     }
     addFromManualForm() {
         let product_id = this._product_id_manual_form.val();
@@ -40,16 +38,15 @@ class OrderController {
         this._product_id_automatic_form.val('');
         this._description_automatic_form.val('');
         this._unit_cost_automatic_form.val('');
-        this._quantity_automatic_form.val('');
+        this._quantity_automatic_form.val('1');
         this.addItem(product_id, product_description, product_cost, product_quantity);
     }
     searchFromAutomaticForm() {
         let code = this._product_code_automatic_form.val();
-        /*
-        if (code.length <= 9 || code.length <= 13) {
+        if (code == null || (code.length < 9 || code.length > 13)) {
             this._messageView.update('Código do produto inválido.');
+            return;
         }
-        */
         this._description_automatic_form.val('...');
         this._unit_cost_automatic_form.val('...');
         function isOK(res) {
@@ -71,7 +68,12 @@ class OrderController {
             .catch(err => console.log(err));
     }
     removeItem() {
-        alert('Remove Item');
+        let row = $('.remove-items-btn').closest("tr");
+        var text = row.find(".product_id").text(); // Find the text
+        // Let's test it out
+        alert(text);
+        //this._items.remove(id);
+        //this._itemsView.update(this._items);
     }
     addItem(product_id, description, price, quantity) {
         if (!(quantity > 0)) {
@@ -108,7 +110,6 @@ class OrderController {
             .catch(err => console.log(err));
     }
     importProducts() {
-        alert('importProducts');
         function isOK(res) {
             if (res.ok) {
                 return res;
@@ -129,3 +130,27 @@ class OrderController {
             .catch(err => console.log(err));
     }
 }
+__decorate([
+    domInject('#product_id_manual_form')
+], OrderController.prototype, "_product_id_manual_form", void 0);
+__decorate([
+    domInject('#product_id_automatic_form')
+], OrderController.prototype, "_product_id_automatic_form", void 0);
+__decorate([
+    domInject('#description_automatic_form')
+], OrderController.prototype, "_description_automatic_form", void 0);
+__decorate([
+    domInject('#unit_cost_manual_form')
+], OrderController.prototype, "_unit_cost_manual_form", void 0);
+__decorate([
+    domInject('#unit_cost_automatic_form')
+], OrderController.prototype, "_unit_cost_automatic_form", void 0);
+__decorate([
+    domInject('#quantity_manual_form')
+], OrderController.prototype, "_quantity_manual_form", void 0);
+__decorate([
+    domInject('#quantity_manual_form')
+], OrderController.prototype, "_quantity_automatic_form", void 0);
+__decorate([
+    domInject('#product_code_automatic_form')
+], OrderController.prototype, "_product_code_automatic_form", void 0);

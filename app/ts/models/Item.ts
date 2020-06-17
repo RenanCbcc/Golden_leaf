@@ -1,4 +1,4 @@
-class Item {
+ class Item {
 
     private _extended_cost: number;
 
