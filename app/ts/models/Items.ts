@@ -5,12 +5,12 @@ class Items {
         this._items = [];
     }
 
-    add(item: Item) {
+    add(item: Item): void {
         this._items.push(item);
     }
 
-    remove(item: number) {
-        this._items = this._items.filter(i => i.product_id !== item);
+    remove(id: number): void {
+        this._items = this._items.filter(i => i.product_id != id);
     }
 
     toArray(): Item[] {

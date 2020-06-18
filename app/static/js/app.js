@@ -7,5 +7,3 @@ $(document).on('click', '#add-product-btn-automatic-form', controller
     .addFromAutomaticForm.bind(controller));
 $(document).on('click', '#categories', controller
     .importProducts.bind(controller));
-$(document).on('click', '.remove-items-btn', controller
-    .removeItem.bind(controller));

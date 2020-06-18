@@ -1,4 +1,5 @@
- class Item {
+
+class Item {
 
     private _extended_cost: number;
 
@@ -26,5 +27,6 @@
     get extended_cost(): number {
         return this._extended_cost
     }
+   
 
 }

@@ -49,6 +49,7 @@ class OrderController {
         }
         this._description_automatic_form.val('...');
         this._unit_cost_automatic_form.val('...');
+        this._quantity_automatic_form.val('1');
         function isOK(res) {
             if (res.ok) {
                 return res;
@@ -67,13 +68,9 @@ class OrderController {
         })
             .catch(err => console.log(err));
     }
-    removeItem() {
-        let row = $('.remove-items-btn').closest("tr");
-        var text = row.find(".product_id").text(); // Find the text
-        // Let's test it out
-        alert(text);
-        //this._items.remove(id);
-        //this._itemsView.update(this._items);
+    removeItem(id) {
+        this._items.remove(parseInt(id));
+        this._itemsView.update(this._items);
     }
     addItem(product_id, description, price, quantity) {
         if (!(quantity > 0)) {

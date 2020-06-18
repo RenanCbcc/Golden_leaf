@@ -85,6 +85,7 @@ class OrderController {
 
         this._description_automatic_form.val('...');
         this._unit_cost_automatic_form.val('...');
+        this._quantity_automatic_form.val('1');
 
         function isOK(res: Response) {
             if (res.ok) {
@@ -105,14 +106,9 @@ class OrderController {
             .catch(err => console.log(err));
     }
 
-    removeItem() {
-        let row = $('.remove-items-btn').closest("tr");
-        var text = row.find(".product_id").text(); // Find the text
-
-        // Let's test it out
-        alert(text);
-        //this._items.remove(id);
-        //this._itemsView.update(this._items);
+    removeItem(id: string) {
+        this._items.remove(parseInt(id));
+        this._itemsView.update(this._items);
     }
 
     private addItem(product_id: number, description: string, price: number, quantity: number) {
@@ -132,6 +128,7 @@ class OrderController {
             description,
             price,
             quantity);
+
 
         this._items.add(item);
         this._itemsView.update(this._items)

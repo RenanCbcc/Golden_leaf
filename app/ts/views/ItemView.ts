@@ -5,7 +5,8 @@ class ItemView extends View<Items> {
         return `
             <table class="table table-hover table-bordered">
                 <thead>
-                    <tr>                                           
+                    <tr>
+                    <th scope="col">Id</th>
                         <th scope="col">Descriçao</th>
                         <th scope="col">Preço</th>
                         <th scope="col">Quantidade</th>
@@ -17,12 +18,13 @@ class ItemView extends View<Items> {
                     ${model.toArray().map(i => {
             return `
                         <tr> 
-                            <td class="product_id">${i.description}</td>
+                        <td class="id">${i.product_id}</td>
+                            <td>${i.description}</td>
                             <td>${i.price}</td>
                             <td>${i.quantity}</td>
                             <td>${i.extended_cost}</td>
                             <td>
-                                <button type="button" class="remove-items-btn btn btn-danger">
+                                <button type="button" class="btn btn-danger" onClick="controller.removeItem(${i.product_id})">
                                     <i class="glyphicon glyphicon-remove"/>
                                     <span>Remover</span>
                                 </button>
