@@ -20,14 +20,14 @@ class OrderController {
         this.importCategories();
         this._productsView.update(this._products);
         this._itemsView.update(this._items);
-        this._description_manual_form = $(this._product_id_manual_form).children("option:selected");
     }
     addFromManualForm() {
-        let product_id = this._product_id_manual_form.val();
-        let product_description = this._description_manual_form.text();
-        let product_cost = this._unit_cost_manual_form.val();
+        let product_id = $('#product_id_manual_form').val();
         let product_quantity = this._quantity_manual_form.val();
-        this.addItem(product_id, product_description, product_cost, product_quantity);
+        let p = this._products.find(product_id);
+        this._unit_cost_manual_form.val('');
+        this._quantity_manual_form.val('1');
+        this.addItem(product_id, p.description, parseFloat(p.unit_cost), product_quantity);
     }
     addFromAutomaticForm() {
         let product_id = this._product_id_automatic_form.val();
@@ -40,6 +40,23 @@ class OrderController {
         this._unit_cost_automatic_form.val('');
         this._quantity_automatic_form.val('1');
         this.addItem(product_id, product_description, product_cost, product_quantity);
+    }
+    addItem(product_id, description, price, quantity) {
+        if (!(quantity > 0)) {
+            this._messageView.update("Quantidade do produto inválida.");
+            return;
+        }
+        if (!(price > 0.05)) {
+            this._messageView.update("Preço do produto inválido.");
+            return;
+        }
+        const item = new Item(product_id, description, price, quantity);
+        this._items.add(item);
+        this._itemsView.update(this._items);
+    }
+    removeItem(id) {
+        this._items.remove(parseInt(id));
+        this._itemsView.update(this._items);
     }
     searchFromAutomaticForm() {
         let code = this._product_code_automatic_form.val();
@@ -68,23 +85,6 @@ class OrderController {
         })
             .catch(err => console.log(err));
     }
-    removeItem(id) {
-        this._items.remove(parseInt(id));
-        this._itemsView.update(this._items);
-    }
-    addItem(product_id, description, price, quantity) {
-        if (!(quantity > 0)) {
-            this._messageView.update("Quantidade do produto inválida.");
-            return;
-        }
-        if (!(price > 0.05)) {
-            this._messageView.update("Preço do produto inválido.");
-            return;
-        }
-        const item = new Item(product_id, description, price, quantity);
-        this._items.add(item);
-        this._itemsView.update(this._items);
-    }
     importCategories() {
         function isOK(res) {
             if (res.ok) {
@@ -98,15 +98,15 @@ class OrderController {
         fetch(this.CATEGORY_URL)
             .then(res => isOK(res))
             .then(res => res.json())
-            .then((categories) => {
-            categories
+            .then((data) => {
+            data
                 .map(c => new Category(c.id, c.title))
                 .forEach(category => this._categories.add(category));
             this._categoriesView.update(this._categories);
         })
             .catch(err => console.log(err));
     }
-    importProducts() {
+    importProducts(category_id) {
         function isOK(res) {
             if (res.ok) {
                 return res;
@@ -115,10 +115,11 @@ class OrderController {
                 throw new Error(res.statusText);
             }
         }
-        fetch(this.PRODUCT_BY_CATEGORY_URL)
+        fetch(this.PRODUCT_BY_CATEGORY_URL + category_id)
             .then(res => isOK(res))
             .then(res => res.json())
             .then((data) => {
+            this._products.clear();
             data
                 .map(p => new Product(p.id, p.description, p.unit_cost))
                 .forEach(p => this._products.add(p));
@@ -126,10 +127,11 @@ class OrderController {
         })
             .catch(err => console.log(err));
     }
+    updateUnitcost(product_id) {
+        let p = this._products.find(parseInt(product_id));
+        this._unit_cost_manual_form.val(p.unit_cost);
+    }
 }
-__decorate([
-    domInject('#product_id_manual_form')
-], OrderController.prototype, "_product_id_manual_form", void 0);
 __decorate([
     domInject('#product_id_automatic_form')
 ], OrderController.prototype, "_product_id_automatic_form", void 0);

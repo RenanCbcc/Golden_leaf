@@ -16,7 +16,7 @@ class ItemView extends View {
                     ${model.toArray().map(i => {
             return `
                         <tr> 
-                        <td class="id">${i.product_id}</td>
+                        <td>${i.product_id}</td>
                             <td>${i.description}</td>
                             <td>${i.price}</td>
                             <td>${i.quantity}</td>

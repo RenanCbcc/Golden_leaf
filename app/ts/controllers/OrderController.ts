@@ -1,12 +1,7 @@
 class OrderController {
-
-    @domInject('#product_id_manual_form')
-    private _product_id_manual_form: JQuery;
-
+    
     @domInject('#product_id_automatic_form')
     private _product_id_automatic_form: JQuery
-
-    private _description_manual_form: JQuery;
 
     @domInject('#description_automatic_form')
     private _description_automatic_form: JQuery
@@ -44,19 +39,18 @@ class OrderController {
     constructor() {
         this.importCategories();
         this._productsView.update(this._products);
-        this._itemsView.update(this._items);
-
-        this._description_manual_form = $(this._product_id_manual_form).children("option:selected");
-
+        this._itemsView.update(this._items);        
     }
 
     addFromManualForm() {
-        let product_id = <number>this._product_id_manual_form.val();
-        let product_description = this._description_manual_form.text();
-        let product_cost = <number>this._unit_cost_manual_form.val();
-        let product_quantity = <number>this._quantity_manual_form.val();
+        let product_id = <number>$('#product_id_manual_form').val();        
+        let product_quantity = <number>this._quantity_manual_form.val();        
+        let p = this._products.find(product_id);
 
-        this.addItem(product_id, product_description, product_cost, product_quantity);
+        
+        this._unit_cost_manual_form.val('');
+        this._quantity_manual_form.val('1');        
+        this.addItem(product_id, p.description, parseFloat(p.unit_cost), product_quantity);
     }
 
     addFromAutomaticForm() {
@@ -70,11 +64,39 @@ class OrderController {
         this._description_automatic_form.val('');
         this._unit_cost_automatic_form.val('');
         this._quantity_automatic_form.val('1');
-
+        
         this.addItem(product_id, product_description, product_cost, product_quantity);
 
     }
 
+    private addItem(product_id: number, description: string, price: number, quantity: number) {
+
+        if (!(quantity > 0)) {
+            this._messageView.update("Quantidade do produto inválida.");
+            return;
+        }
+
+        if (!(price > 0.05)) {
+            this._messageView.update("Preço do produto inválido.")
+            return
+        }
+
+        const item = new Item(
+            product_id,
+            description,
+            price,
+            quantity);
+
+
+        this._items.add(item);
+        this._itemsView.update(this._items)
+    }
+
+    removeItem(id: string) {
+        this._items.remove(parseInt(id));
+        this._itemsView.update(this._items);
+    }
+    
     searchFromAutomaticForm() {
         let code = <string>this._product_code_automatic_form.val();
 
@@ -105,35 +127,8 @@ class OrderController {
             })
             .catch(err => console.log(err));
     }
-
-    removeItem(id: string) {
-        this._items.remove(parseInt(id));
-        this._itemsView.update(this._items);
-    }
-
-    private addItem(product_id: number, description: string, price: number, quantity: number) {
-
-        if (!(quantity > 0)) {
-            this._messageView.update("Quantidade do produto inválida.");
-            return;
-        }
-
-        if (!(price > 0.05)) {
-            this._messageView.update("Preço do produto inválido.")
-            return
-        }
-
-        const item = new Item(
-            product_id,
-            description,
-            price,
-            quantity);
-
-
-        this._items.add(item);
-        this._itemsView.update(this._items)
-    }
-
+   
+    
     private importCategories() {
         function isOK(res: Response) {
             if (res.ok) {
@@ -146,18 +141,17 @@ class OrderController {
         fetch(this.CATEGORY_URL)
             .then(res => isOK(res))
             .then(res => res.json())
-            .then((categories: any[]) => {
-                categories
+            .then((data: any[]) => {
+                data
                     .map(c => new Category(c.id, c.title))
                     .forEach(category => this._categories.add(category))
                 this._categoriesView.update(this._categories);
-
             }
             )
             .catch(err => console.log(err));
     }
 
-    importProducts() {
+    importProducts(category_id: string) {
         function isOK(res: Response) {
             if (res.ok) {
                 return res;
@@ -165,17 +159,24 @@ class OrderController {
                 throw new Error(res.statusText);
             }
         }
-        fetch(this.PRODUCT_BY_CATEGORY_URL)
+        fetch(this.PRODUCT_BY_CATEGORY_URL + category_id)
             .then(res => isOK(res))
             .then(res => res.json())
             .then((data: PartialProduct[]) => {
+                this._products.clear();                                
                 data
                     .map(p => new Product(p.id, p.description, p.unit_cost))
                     .forEach(p => this._products.add(p))
+
                 this._productsView.update(this._products);
             }
             )
             .catch(err => console.log(err));
+    }
+
+    updateUnitcost(product_id: string) {
+        let p = this._products.find(parseInt(product_id));        
+        this._unit_cost_manual_form.val(p.unit_cost);
     }
 
 

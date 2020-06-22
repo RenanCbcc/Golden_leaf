@@ -133,7 +133,6 @@ def product_cost(id):
 @api.route('/product/category/<int:id>', methods=['GET'])
 def product(id):
     products = Product.query.filter_by(category_id=id).all()
-    response = jsonify({'products': [
-        {'id': product.id, 'description': product.description, 'unit_cost': str(product.unit_cost)} for product in
-        products]})
+    response = jsonify([{'id': product.id, 'description': product.description, 'unit_cost': str(product.unit_cost)} 
+    for product in products])
     return response
