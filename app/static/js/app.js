@@ -5,3 +5,5 @@ $(document).on('click', '#search-product-btn-automatic-form', controller
     .searchFromAutomaticForm.bind(controller));
 $(document).on('click', '#add-product-btn-automatic-form', controller
     .addFromAutomaticForm.bind(controller));
+$(document).on('click', '#save-items-btn', controller
+    .saveItems.bind(controller));

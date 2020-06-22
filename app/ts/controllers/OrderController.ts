@@ -1,5 +1,5 @@
 class OrderController {
-    
+
     @domInject('#product_id_automatic_form')
     private _product_id_automatic_form: JQuery
 
@@ -26,10 +26,12 @@ class OrderController {
     private _products = new Products();
     private _items = new Items();
 
+    private BASE_APP_URL = 'http://127.0.0.1:5000/order/';
     private BASE_API_URL = 'http://127.0.0.1:5000/api';
     private CATEGORY_URL = this.BASE_API_URL + '/category';
     private PRODUCT_BY_CATEGORY_URL = this.BASE_API_URL + '/product/category/';
     private PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
+    private ORDER_URL = this.BASE_API_URL + '/order';
 
     private _categoriesView = new CategoryView('#categoriesView');
     private _productsView = new ProductView('#productsView');
@@ -39,17 +41,17 @@ class OrderController {
     constructor() {
         this.importCategories();
         this._productsView.update(this._products);
-        this._itemsView.update(this._items);        
+        this._itemsView.update(this._items);
     }
 
     addFromManualForm() {
-        let product_id = <number>$('#product_id_manual_form').val();        
-        let product_quantity = <number>this._quantity_manual_form.val();        
+        let product_id = <number>$('#product_id_manual_form').val();
+        let product_quantity = <number>this._quantity_manual_form.val();
         let p = this._products.find(product_id);
 
-        
+
         this._unit_cost_manual_form.val('');
-        this._quantity_manual_form.val('1');        
+        this._quantity_manual_form.val('1');
         this.addItem(product_id, p.description, parseFloat(p.unit_cost), product_quantity);
     }
 
@@ -64,7 +66,7 @@ class OrderController {
         this._description_automatic_form.val('');
         this._unit_cost_automatic_form.val('');
         this._quantity_automatic_form.val('1');
-        
+
         this.addItem(product_id, product_description, product_cost, product_quantity);
 
     }
@@ -96,7 +98,7 @@ class OrderController {
         this._items.remove(parseInt(id));
         this._itemsView.update(this._items);
     }
-    
+
     searchFromAutomaticForm() {
         let code = <string>this._product_code_automatic_form.val();
 
@@ -127,8 +129,8 @@ class OrderController {
             })
             .catch(err => console.log(err));
     }
-   
-    
+
+
     private importCategories() {
         function isOK(res: Response) {
             if (res.ok) {
@@ -148,7 +150,7 @@ class OrderController {
                 this._categoriesView.update(this._categories);
             }
             )
-            .catch(err => console.log(err));
+            .catch((error) => this._messageView.update(error));
     }
 
     importProducts(category_id: string) {
@@ -163,7 +165,7 @@ class OrderController {
             .then(res => isOK(res))
             .then(res => res.json())
             .then((data: PartialProduct[]) => {
-                this._products.clear();                                
+                this._products.clear();
                 data
                     .map(p => new Product(p.id, p.description, p.unit_cost))
                     .forEach(p => this._products.add(p))
@@ -171,12 +173,34 @@ class OrderController {
                 this._productsView.update(this._products);
             }
             )
-            .catch(err => console.log(err));
+            .catch((error) => this._messageView.update(error));
     }
 
     updateUnitcost(product_id: string) {
-        let p = this._products.find(parseInt(product_id));        
+        let p = this._products.find(parseInt(product_id));
         this._unit_cost_manual_form.val(p.unit_cost);
+    }
+
+    saveItems() {
+        if (this._items.isEmpty()) {
+            this._messageView.update('Pedido deve ter ao menos um item.');
+        }
+
+        const order = {
+            clerk_id: $('#clerk-id').attr('data-url'),
+            client_id: $('#client-id').attr('data-url'),
+            items: this._items.toJson()
+        };
+
+        return fetch(this.ORDER_URL, {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'post',
+            body: JSON.stringify(order)
+        }
+        ).then(response => response.json())
+            .then(data => { console.log(data); window.location.replace(this.BASE_APP_URL + data.order_id + '/items') })
+            .catch((error) => this._messageView.update(error));
+
     }
 
 

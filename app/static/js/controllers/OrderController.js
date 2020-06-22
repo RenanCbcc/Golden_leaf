@@ -9,10 +9,12 @@ class OrderController {
         this._categories = new Categories();
         this._products = new Products();
         this._items = new Items();
+        this.BASE_APP_URL = 'http://127.0.0.1:5000/order/';
         this.BASE_API_URL = 'http://127.0.0.1:5000/api';
         this.CATEGORY_URL = this.BASE_API_URL + '/category';
         this.PRODUCT_BY_CATEGORY_URL = this.BASE_API_URL + '/product/category/';
         this.PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
+        this.ORDER_URL = this.BASE_API_URL + '/order';
         this._categoriesView = new CategoryView('#categoriesView');
         this._productsView = new ProductView('#productsView');
         this._itemsView = new ItemView('#itemsView');
@@ -104,7 +106,7 @@ class OrderController {
                 .forEach(category => this._categories.add(category));
             this._categoriesView.update(this._categories);
         })
-            .catch(err => console.log(err));
+            .catch((error) => this._messageView.update(error));
     }
     importProducts(category_id) {
         function isOK(res) {
@@ -125,11 +127,28 @@ class OrderController {
                 .forEach(p => this._products.add(p));
             this._productsView.update(this._products);
         })
-            .catch(err => console.log(err));
+            .catch((error) => this._messageView.update(error));
     }
     updateUnitcost(product_id) {
         let p = this._products.find(parseInt(product_id));
         this._unit_cost_manual_form.val(p.unit_cost);
+    }
+    saveItems() {
+        if (this._items.isEmpty()) {
+            this._messageView.update('Pedido deve ter ao menos um item.');
+        }
+        const order = {
+            clerk_id: $('#clerk-id').attr('data-url'),
+            client_id: $('#client-id').attr('data-url'),
+            items: this._items.toJson()
+        };
+        return fetch(this.ORDER_URL, {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'post',
+            body: JSON.stringify(order)
+        }).then(response => response.json())
+            .then(data => { console.log(data); window.location.replace(this.BASE_APP_URL + data.order_id + '/items'); })
+            .catch((error) => this._messageView.update(error));
     }
 }
 __decorate([

@@ -11,4 +11,18 @@ class Items {
     toArray() {
         return [].concat(this._items);
     }
+    toJson() {
+        let items = [];
+        this._items.forEach(i => {
+            let item = {
+                product_id: i.product_id,
+                quantity: i.quantity
+            };
+            items.push(item);
+        });
+        return items;
+    }
+    isEmpty() {
+        return this._items.length == 0;
+    }
 }
