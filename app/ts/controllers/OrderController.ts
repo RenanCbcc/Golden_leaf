@@ -28,7 +28,6 @@ class OrderController {
 
     private BASE_APP_URL = 'http://127.0.0.1:5000/order/';
     private BASE_API_URL = 'http://127.0.0.1:5000/api';
-    private CATEGORY_URL = this.BASE_API_URL + '/category';
     private PRODUCT_BY_CATEGORY_URL = this.BASE_API_URL + '/product/category/';
     private PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
     private ORDER_URL = this.BASE_API_URL + '/order';
@@ -38,23 +37,27 @@ class OrderController {
     private _itemsView = new ItemView('#itemsView');
     private _messageView = new MessageView('#messageView');
 
+    private _categoryService = new CategoryService();
+    private _productService = new ProductService();
+
     constructor() {
         this.importCategories();
         this._productsView.update(this._products);
         this._itemsView.update(this._items);
     }
 
+    @throttle()
     addFromManualForm() {
         let product_id = <number>$('#product_id_manual_form').val();
         let product_quantity = <number>this._quantity_manual_form.val();
         let p = this._products.find(product_id);
-
 
         this._unit_cost_manual_form.val('');
         this._quantity_manual_form.val('1');
         this.addItem(product_id, p.description, parseFloat(p.unit_cost), product_quantity);
     }
 
+    @throttle()
     addFromAutomaticForm() {
         let product_id = <number>this._product_id_automatic_form.val();
         let product_description = <string>this._description_automatic_form.val();
@@ -71,16 +74,21 @@ class OrderController {
 
     }
 
+
     private addItem(product_id: number, description: string, price: number, quantity: number) {
 
+        if (this._items.contains(product_id)) {
+            this._messageView.update('Produto já existe na listagem de items!');
+            return;
+        }
         if (!(quantity > 0)) {
-            this._messageView.update("Quantidade do produto inválida.");
+            this._messageView.update("Quantidade do produto inválida!");
             return;
         }
 
         if (!(price > 0.05)) {
-            this._messageView.update("Preço do produto inválido.")
-            return
+            this._messageView.update("Preço do produto inválido!");
+            return;
         }
 
         const item = new Item(
@@ -91,7 +99,7 @@ class OrderController {
 
 
         this._items.add(item);
-        this._itemsView.update(this._items)
+        this._itemsView.update(this._items);
     }
 
     removeItem(id: string) {
@@ -99,6 +107,7 @@ class OrderController {
         this._itemsView.update(this._items);
     }
 
+    @throttle()
     searchFromAutomaticForm() {
         let code = <string>this._product_code_automatic_form.val();
 
@@ -119,6 +128,7 @@ class OrderController {
             }
         }
 
+
         fetch(this.PRODUCT_BY_CODE_URL + code)
             .then(res => isOK(res))
             .then(response => response.json())
@@ -127,7 +137,7 @@ class OrderController {
                 this._unit_cost_automatic_form.val(data.unit_cost);
                 this._product_id_automatic_form.val(data.id);
             })
-            .catch(err => console.log(err));
+            .catch(err => this._messageView.update(err));
     }
 
 
@@ -140,17 +150,14 @@ class OrderController {
                 throw new Error(res.statusText);
             }
         }
-        fetch(this.CATEGORY_URL)
-            .then(res => isOK(res))
-            .then(res => res.json())
-            .then((data: any[]) => {
-                data
-                    .map(c => new Category(c.id, c.title))
-                    .forEach(category => this._categories.add(category))
+
+        this._categoryService
+            .importCategories(isOK)
+            .then(Categories => {
+                Categories.forEach(category => this._categories.add(category))
                 this._categoriesView.update(this._categories);
-            }
-            )
-            .catch((error) => this._messageView.update(error));
+            });
+
     }
 
     importProducts(category_id: string) {
@@ -161,19 +168,15 @@ class OrderController {
                 throw new Error(res.statusText);
             }
         }
-        fetch(this.PRODUCT_BY_CATEGORY_URL + category_id)
-            .then(res => isOK(res))
-            .then(res => res.json())
-            .then((data: PartialProduct[]) => {
-                this._products.clear();
-                data
-                    .map(p => new Product(p.id, p.description, p.unit_cost))
-                    .forEach(p => this._products.add(p))
 
+        this._productService
+            .importProducts(category_id, isOK)
+            .then(products => {
+                this._products.clear();
+                products.forEach(p => this._products.add(p))
                 this._productsView.update(this._products);
-            }
-            )
-            .catch((error) => this._messageView.update(error));
+            })
+
     }
 
     updateUnitcost(product_id: string) {
@@ -181,6 +184,7 @@ class OrderController {
         this._unit_cost_manual_form.val(p.unit_cost);
     }
 
+    @throttle()
     saveItems() {
         if (this._items.isEmpty()) {
             this._messageView.update('Pedido deve ter ao menos um item.');

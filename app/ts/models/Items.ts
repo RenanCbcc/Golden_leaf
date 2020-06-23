@@ -13,6 +13,11 @@ class Items {
         this._items = this._items.filter(i => i.product_id != id);
     }
 
+    contains(id: number): boolean {
+        const found = this._items.find(i => i.product_id == id);
+        return found != null;
+    }
+
     toArray(): Item[] {
         return [].concat(this._items);
     }
