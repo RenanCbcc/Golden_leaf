@@ -1,7 +1,7 @@
 class CategoryService {
 
     importCategories(handler: HandlerFunction): Promise<Category[]> {
-        return fetch('http://127.0.0.1:5000/api/category')
+        return fetch('https://golden-leaf.herokuapp.com/api/category')
             .then(res => handler(res))
             .then(res => res.json())
             .then((data: any[]) => data.map(c => new Category(c.id, c.title))

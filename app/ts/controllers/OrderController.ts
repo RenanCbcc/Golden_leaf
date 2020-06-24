@@ -26,9 +26,8 @@ class OrderController {
     private _products = new Products();
     private _items = new Items();
 
-    private BASE_APP_URL = 'http://127.0.0.1:5000/order/';
-    private BASE_API_URL = 'http://127.0.0.1:5000/api';
-    private PRODUCT_BY_CATEGORY_URL = this.BASE_API_URL + '/product/category/';
+    private BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
+    private BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
     private PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
     private ORDER_URL = this.BASE_API_URL + '/order';
 
@@ -141,41 +140,34 @@ class OrderController {
     }
 
 
-    private importCategories() {
-        function isOK(res: Response) {
-            if (res.ok) {
-                return res;
-            } else {
-                this._messageView.update(res.statusText);
-                throw new Error(res.statusText);
-            }
+    private isOK(res: Response) {
+        if (res.ok) {
+            return res;
+        } else {
+            this._messageView.update(res.statusText);
+            throw new Error(res.statusText);
         }
+    }
+
+    private importCategories() {
 
         this._categoryService
-            .importCategories(isOK)
+            .importCategories(this.isOK)
             .then(Categories => {
                 Categories.forEach(category => this._categories.add(category))
                 this._categoriesView.update(this._categories);
-            });
+            }).catch(error => { this._messageView.update(error.message) });
 
     }
 
     importProducts(category_id: string) {
-        function isOK(res: Response) {
-            if (res.ok) {
-                return res;
-            } else {
-                throw new Error(res.statusText);
-            }
-        }
-
         this._productService
-            .importProducts(category_id, isOK)
+            .importProducts(category_id, this.isOK)
             .then(products => {
                 this._products.clear();
                 products.forEach(p => this._products.add(p))
                 this._productsView.update(this._products);
-            })
+            }).catch(error => { this._messageView.update(error.message) });
 
     }
 

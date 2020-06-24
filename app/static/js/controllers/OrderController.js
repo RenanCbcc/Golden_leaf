@@ -9,9 +9,8 @@ class OrderController {
         this._categories = new Categories();
         this._products = new Products();
         this._items = new Items();
-        this.BASE_APP_URL = 'http://127.0.0.1:5000/order/';
-        this.BASE_API_URL = 'http://127.0.0.1:5000/api';
-        this.PRODUCT_BY_CATEGORY_URL = this.BASE_API_URL + '/product/category/';
+        this.BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
+        this.BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
         this.PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
         this.ORDER_URL = this.BASE_API_URL + '/order';
         this._categoriesView = new CategoryView('#categoriesView');
@@ -92,39 +91,31 @@ class OrderController {
         })
             .catch(err => this._messageView.update(err));
     }
-    importCategories() {
-        function isOK(res) {
-            if (res.ok) {
-                return res;
-            }
-            else {
-                this._messageView.update(res.statusText);
-                throw new Error(res.statusText);
-            }
+    isOK(res) {
+        if (res.ok) {
+            return res;
         }
+        else {
+            this._messageView.update(res.statusText);
+            throw new Error(res.statusText);
+        }
+    }
+    importCategories() {
         this._categoryService
-            .importCategories(isOK)
+            .importCategories(this.isOK)
             .then(Categories => {
             Categories.forEach(category => this._categories.add(category));
             this._categoriesView.update(this._categories);
-        });
+        }).catch(error => { this._messageView.update(error.message); });
     }
     importProducts(category_id) {
-        function isOK(res) {
-            if (res.ok) {
-                return res;
-            }
-            else {
-                throw new Error(res.statusText);
-            }
-        }
         this._productService
-            .importProducts(category_id, isOK)
+            .importProducts(category_id, this.isOK)
             .then(products => {
             this._products.clear();
             products.forEach(p => this._products.add(p));
             this._productsView.update(this._products);
-        });
+        }).catch(error => { this._messageView.update(error.message); });
     }
     updateUnitcost(product_id) {
         let p = this._products.find(parseInt(product_id));
