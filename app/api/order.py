@@ -89,9 +89,9 @@ def save_order():
         order = Order.from_json(request.json)
         itemInput = ItemInput()
         for item in request.json.get('items'):
-            if not itemInput.validate_product(item['product_id']):
+            if not itemInput.validate_product(int(item['product_id'])):
                 return itemInput.get_error()
-            if not itemInput.validate_quantity(item['quantity']):
+            if not itemInput.validate_quantity(int(item['quantity'])):
                 return itemInput.get_error()             
             extended_cost = itemInput.product.unit_cost * decimal.Decimal(itemInput.quantity)
             order.total += extended_cost
