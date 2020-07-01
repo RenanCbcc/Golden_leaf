@@ -2,8 +2,7 @@ from flask import request, redirect, url_for, render_template, flash
 from flask_breadcrumbs import register_breadcrumb
 from flask_login import current_user
 from sqlalchemy import func
-from app import db
-from app.models import Order, Status, Payment, Client
+from app.models import Order, Status, Payment, Client, db
 from app.routes.payment import blueprint_payment
 from app.routes.payment.forms import NewPaymentForm, SearchPaymentForm
 
@@ -20,10 +19,12 @@ def view_client_dlc(*args, **kwargs):
 def get_payment(id):
     page = request.args.get('page', 1, type=int)
     if id is not None:
-        payments = Payment.query.filter_by(client_id=id).order_by(Payment.paid.desc()).paginate(page=page, per_page=10)
+        payments = Payment.query.filter_by(client_id=id).order_by(
+            Payment.paid.desc()).paginate(page=page, per_page=10)
         return render_template('payment/list.html', payments=payments)
 
-    payments = Payment.query.order_by(Payment.paid.desc()).paginate(page=page, per_page=10)
+    payments = Payment.query.order_by(
+        Payment.paid.desc()).paginate(page=page, per_page=10)
     return render_template('payment/list.html', payments=payments)
 
 
@@ -32,7 +33,7 @@ def get_orders(id):
     page = request.args.get('page', 1, type=int)
     orders = Order.query \
         .filter_by(payment_id=id) \
-        .order_by(Order.ordered.desc()) \
+        .order_by(Order.date.desc()) \
         .paginate(page=page, per_page=10)
     return render_template('order/client_orders.html', orders=orders)
 
@@ -48,12 +49,15 @@ def search_payment():
         payments = None
         if clerk is not None:
             if client is not None:
-                payments = Payment.query.filter_by(client=client, clerk=clerk).paginate(page=page, per_page=10)
+                payments = Payment.query.filter_by(
+                    client=client, clerk=clerk).paginate(page=page, per_page=10)
             else:
-                payments = Payment.query.filter_by(clerk=clerk, ).paginate(page=page, per_page=10)
+                payments = Payment.query.filter_by(
+                    clerk=clerk, ).paginate(page=page, per_page=10)
 
         elif client is not None:
-            payments = Payment.query.filter_by(client=client, ).paginate(page=page, per_page=10)
+            payments = Payment.query.filter_by(
+                client=client, ).paginate(page=page, per_page=10)
 
         if not payments:
             flash('Pagamento algum encontrado', 'warning')
@@ -70,41 +74,49 @@ def search_payment():
 def new_payment(id):
     form = NewPaymentForm()
     if form.validate_on_submit():
-        total = db.session.query(func.sum(Order.total)) \
-            .filter_by(client_id=id) \
-            .scalar()
         payment_value = form.value.data
-        if payment_value > total or payment_value <= 0.0:
-            flash('Valor para pagamento ' + str(payment_value) + ' inválido.', 'warning')
+        if payment_value > get_order_total(id):
+            flash('Valor para pagamento ' +
+                  str(payment_value) + ' inválido.', 'warning')
             return redirect(url_for('blueprint_payment.new_payment', id=id))
         else:
-            orders = Order.query.filter_by(client_id=id, status=Status.PENDENTE).order_by(Order.ordered).all()
             client = Client.query.get(id)
             payment = Payment(client, current_user, payment_value)
             db.session.add(payment)
-            value = payment_value
-            while value > 0:
-                for order in orders:
-                    if value >= order.total:
-                        value = value - order.total
-                        order.status = Status.PAGO
-
-                    else:
-                        order.total = order.total - value
-                        value = 0
-                    order.payment = payment
-                    payment.orders.append(order)
-
+            pay_off(payment)
             db.session.commit()
             # send_message(client, request.form['value'])
             flash('Pagamento recebido com sucesso!', 'success')
             return redirect(url_for('blueprint_payment.get_payment', id=id))
     elif request.method == 'GET':
-        total = db.session.query(func.sum(Order.total)) \
-            .filter_by(client_id=id, status=Status.PENDENTE) \
-            .scalar()
-        form.total.data = total
+        form.total.data = get_order_total(id)
         return render_template('payment/new.html', form=form)
+
+
+def get_order_total(id) -> float:
+    return db.session.query(func.sum(Order.total)) \
+        .filter_by(client_id=id, status=Status.PENDENTE) \
+        .scalar()
+
+
+def get_orders_of_client(id):
+    return Order.query.filter_by(
+        client_id=id, status=Status.PENDENTE).order_by(Order.date).all()
+
+
+def pay_off(payment: Payment) -> None:
+    value = payment.total
+    while value > 0:
+        for order in get_orders_of_client(payment.client_id):
+            if value >= order.total:
+                value = value - order.total
+                order.status = Status.PAGO
+
+            else:
+                order.total = order.total - value
+                value = 0
+                order.payment = payment
+                payment.orders.append(order)
 
 
 def send_message(client, value):

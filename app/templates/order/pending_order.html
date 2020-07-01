@@ -2,11 +2,11 @@
 {% block title %}Pedidos{% endblock %}
 
 {% block page_content %}
-<div class="panel panel-default" >
+<div class="panel panel-info" >
     <div class="panel-heading">
         <div class="row">
             <div class="col col-xs-6">
-                <h2 class="titulo-principal">Lista de Pedidos Pendentes (R$ {{ total }}) </h2>
+                <h4 class="titulo-principal">Lista de Pedidos Pendentes (R$ {{ total }}) </h4>
             </div>
             <div class="col col-xs-6 text-right">
                 <a href="{{ url_for('blueprint_payment.new_payment',id=client_id ) }}" class="btn btn-primary">
@@ -14,10 +14,7 @@
                     <span>Novo pagamento</span>
                 </a>
 
-            </div>
-            <div class="btn-group col-md-4 text-right">
-
-            </div>
+            </div>           
 
         </div>
     </div>

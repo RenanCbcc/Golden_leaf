@@ -5,7 +5,7 @@ from app.api import api
 from app.models import Item,Product, Order, Client,Clerk
 from flask_inputs import Inputs
 from wtforms.validators import  DataRequired,ValidationError
-
+from app.api.clerk import auth
 
 def valide_client_id(form, field):
     if not Client.query.filter_by(id=field.data).first():
@@ -64,8 +64,7 @@ class ItemInput():
         reponse.status_code = 400
         return reponse
         
-
-            
+          
         
 
 @api.route('/order', defaults={'id': None})
@@ -83,15 +82,17 @@ def get_order(id):
 
 
 @api.route('/order', methods=['POST'])
+@auth.login_required
 def save_order():
     orderInputs = OrderInputs(request)
     if orderInputs.validate():
         order = Order.from_json(request.json)
         itemInput = ItemInput()
         for item in request.json.get('items'):
-            if not itemInput.validate_product(int(item['product_id'])):
+            var = item['product_id']                       
+            if not itemInput.validate_product(item['product_id']):
                 return itemInput.get_error()
-            if not itemInput.validate_quantity(int(item['quantity'])):
+            if not itemInput.validate_quantity(item['quantity']):
                 return itemInput.get_error()             
             extended_cost = itemInput.product.unit_cost * decimal.Decimal(itemInput.quantity)
             order.total += extended_cost

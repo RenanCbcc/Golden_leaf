@@ -33,7 +33,8 @@ def get_orders(id):
             .order_by(Order.date.desc()) \
             .paginate(page=page, per_page=10)
         return render_template('order/client_orders.html', orders=orders, client_id=id)
-    orders = Order.query.order_by(Order.date.desc()).paginate(page=page, per_page=10)
+    orders = Order.query.order_by(
+        Order.date.desc()).paginate(page=page, per_page=10)
     return render_template('order/list.html', orders=orders)
 
 
@@ -41,12 +42,12 @@ def get_orders(id):
 @register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_client_dlc)
 @login_required
 def new_order(id):
-    client = Client.query.get_or_404(id)    
+    client = Client.query.get_or_404(id)
     return render_template('order/new.html', client=client)
 
 
 @blueprint_order.route('/order/<int:id>/items', methods=['GET'])
-#@register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_order_dlc)
+# @register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_order_dlc)
 @login_required
 def items_order(id):
     order = Order.query.get_or_404(id)

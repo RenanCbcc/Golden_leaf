@@ -3,6 +3,7 @@ from app.api import api
 from app.models import Client, db
 from flask_inputs import Inputs
 from wtforms.validators import DataRequired, Length, Regexp,ValidationError
+from app.api.clerk import auth
 
 def validate_client_id(form, field):
     if not Client.query.filter_by(id=field.data).first():
@@ -55,6 +56,7 @@ def get_client(id):
 
 
 @api.route('/client', methods=['POST'])
+@auth.login_required
 def new_client():
     inputs = NewClientInputs(request)
     if inputs.validate():
@@ -67,6 +69,7 @@ def new_client():
     return reponse
 
 @api.route('/client', methods=['PUT'])
+@auth.login_required
 def edit_client():
     inputs = EditClientInputs(request)
     if inputs.validate():

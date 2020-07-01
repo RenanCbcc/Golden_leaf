@@ -320,3 +320,12 @@ class Payment(db.Model):
         self.client = client
         self.clerk = clerk
         self.total = value
+
+    
+    def to_json(self) -> str:
+        return {
+            'client': self.client.name,
+            'clerk': self.clerk.name,            
+            'total': str(self.total),
+            'paid': str(self.paid)
+        }

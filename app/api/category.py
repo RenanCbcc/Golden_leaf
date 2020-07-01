@@ -3,6 +3,7 @@ from app.api import api
 from app.models import Category,db
 from flask_inputs import Inputs
 from wtforms.validators import DataRequired,Regexp,ValidationError
+from app.api.clerk import auth
 
 def validate_category_title(form, field):
     if Category.query.filter_by(title=field.data).first():
@@ -44,6 +45,7 @@ def get_category(id):
 
 
 @api.route('/category', methods=['POST'])
+@auth.login_required
 def create_category():
     inputs = NewCategoryInputs(request)
     if inputs.validate():
@@ -56,6 +58,7 @@ def create_category():
     return reponse
 
 @api.route('/category', methods=['PUT'])
+@auth.login_required
 def edit_category():
     inputs = EditCategoryInputs(request)
     if inputs.validate():

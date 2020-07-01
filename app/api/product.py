@@ -3,8 +3,8 @@ from app.api import api
 from app.api.erros import resource_not_found
 from app.models import Product,Category, db
 from flask_inputs import Inputs
-from wtforms.validators import  DataRequired, Length, NumberRange, Regexp,ValidationError
-
+from wtforms.validators import  DataRequired, Length, Regexp,ValidationError
+from app.api.clerk import auth
 
 def validate_unit_cost(form, field):
     if is_float(field.data):
@@ -92,6 +92,7 @@ def get_product_by_code(code):
 
 
 @api.route('/product', methods=['POST'])
+@auth.login_required
 def new_product():
     inputs = NewProductInputs(request)
     if inputs.validate():
@@ -104,6 +105,7 @@ def new_product():
     return reponse
 
 @api.route('/product', methods=['PUT'])
+@auth.login_required
 def edit_product():
     inputs = EditProductInputs(request)
     if inputs.validate():    

@@ -16,7 +16,8 @@ def enabled_clerks():
 
 class NewPaymentForm(FlaskForm):
     total = DecimalField('Total R$ ', render_kw={'disabled': ''})
-    value = DecimalField('Valor R$ ', validators=[DataRequired(), NumberRange(min=0.1, max=100.0)])
+    value = DecimalField('Valor R$ ', validators=[DataRequired(message='Pagamneto precisa ter um valor!'),
+                                                  NumberRange(message='Pagamento precisa ter um valor entre R$ 0.01 e R$ 1000.00!', min=0.1, max=1000.0)])
     submit = SubmitField('Pagar')
 
 
