@@ -1,3 +1,4 @@
+import decimal
 from flask import jsonify, request, url_for
 from app.api import api
 from sqlalchemy import func
@@ -18,7 +19,7 @@ def valide_clerk_id(form, field):
 
 
 def validate_payment_value(form, field):
-    if is_float(field.data):
+    if is_decimal(field.data):
         payment_value = float(field.data)
         if payment_value < 0.1 or payment_value > 1000.0:
             raise ValidationError(
@@ -28,9 +29,9 @@ def validate_payment_value(form, field):
     raise ValidationError(f"Valor '{field.data}' para pagamento é inválido.")
 
 
-def is_float(value: str) -> bool:
+def is_decimal(value: str) -> bool:
     try:
-        float(value)
+        decimal.Decimal(value)
         return True
     except:
         return False
@@ -41,23 +42,22 @@ class PaymentInputs(Inputs):
     json = {
         'clerk_id': [DataRequired(message="Pagamento precisa ter um atendente."), valide_clerk_id],
         'client_id': [DataRequired(message="Pagamento precisa ter um cliente."), valide_client_id],
-        'value': [DataRequired(message="Pagamento preciter ter um valor."), validate_payment_value]
+        'value': [DataRequired(message="Pagamento precisa ter um campo valor."), validate_payment_value]
     }
 
 
 @api.route('/payment', defaults={'id': None}, methods=['GET'])
-@api.route('/payment/client/<int:id>', methods=['GET', 'POST'])
+@api.route('/payment/client/<int:id>', methods=['GET'])
 def get_payment(id):
-    page = request.args.get('page', 1, type=int)
     if id is not None:
         payments = Payment.query.filter_by(client_id=id).order_by(
-            Payment.paid.desc()).paginate(page=page, per_page=10)
+            Payment.paid.desc()).all()
         response = jsonify([payment.to_json() for payment in payments])
         response.status_code = 200
         return response
 
     payments = Payment.query.order_by(
-        Payment.paid.desc()).paginate(page=page, per_page=10)
+        Payment.paid.desc()).all()
     response = jsonify([payment.to_json() for payment in payments])
     response.status_code = 200
     return response
@@ -76,7 +76,7 @@ def new_payment():
     paymentInputs = PaymentInputs(request)
     if paymentInputs.validate():
         client_id = request.json.get('client_id')
-        payment_value = float(request.json.get('value'))
+        payment_value = request.json.get('value')
         if payment_value > get_order_total(client_id):
             return payment_value_error(payment_value)
         else:
@@ -92,11 +92,10 @@ def new_payment():
         return reponse
 
 
-
-def create_payment(client_id: str, clerk_id: str) -> Payment:
+def create_payment(client_id: str, clerk_id: str, value: decimal) -> Payment:
     client = Client.query.get(client_id)
     clerk = Clerk.query.get(clerk_id)
-    return Payment(client, clerk, payment_value)
+    return Payment(client, clerk, decimal.Decimal(value))
 
 
 def get_order_total(id) -> float:
