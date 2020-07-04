@@ -1,5 +1,6 @@
 import decimal
-from flask import jsonify, request, url_for
+import jwt
+from flask import jsonify, request, url_for, current_app
 from app.api import api
 from sqlalchemy import func
 from app.models import Order, Status, Payment, Client, Clerk, db
@@ -8,22 +9,44 @@ from wtforms.validators import DataRequired, Regexp, ValidationError
 from app.api.clerk import auth
 
 
-def valide_client_id(form, field):
-    if not Client.query.filter_by(id=field.data).first():
-        raise ValidationError(f"Id '{field.data}' do cliente é inválido.")
+def validate_payment(form, field):
+    secret = current_app.config['SECRET_KEY']
+    try:
+        data = jwt.decode(field.data, secret)
+    except jwt.ExpiredSignatureError:
+        # valid token, but expired
+        raise ValidationError('O pedido de pagamento expirou.')
+    except jwt.InvalidTokenError:
+        # invalid token
+        raise ValidationError('O pedido de pagamento é inválido')
+
+    valide_client_id(data)
+    valide_clerk_id(data)
+    validate_payment_amount(data)
+    return True
 
 
-def valide_clerk_id(form, field):
-    if not Clerk.query.filter_by(id=field.data).first():
-        raise ValidationError(f"Id '{field.data}' do atendente é inválido.")
+def valide_client_id(data: dict):    
+    if 'client_id' not in data:
+        raise ValidationError("O pagamento precisa ter um campo 'client_id'.")
+    if not Client.query.filter_by(id=data['client_id']).first():
+        raise ValidationError(f"Id '{data['client_id']}' do cliente é inválido.")
 
 
-def validate_payment_value(form, field):
+def valide_clerk_id(data: dict):
+    if 'clerk_id' not in data:
+        raise ValidationError("O pagamento precisa ter um campo 'clerk_id'.")
+    if not Clerk.query.filter_by(id=data['clerk_id']).first():
+        raise ValidationError(f"Id '{data['clerk_id']}' do atendente é inválido.")
+
+def validate_payment_amount(data: dict):
+    if 'amount' not in data:
+        raise ValidationError('O pagamento precisa um valor.')
     if is_decimal(field.data):
         payment_value = float(field.data)
         if payment_value < 0.1 or payment_value > 1000.0:
             raise ValidationError(
-                "Valordo pagamento estar entre R$ 0.1 e R$ 1000.0")
+                "O valor do pagamento estar entre R$ 0.1 e R$ 1000.0")
         else:
             return
     raise ValidationError(f"Valor '{field.data}' para pagamento é inválido.")
@@ -40,9 +63,7 @@ def is_decimal(value: str) -> bool:
 class PaymentInputs(Inputs):
     # Dont change this name!  Keep it as json!
     json = {
-        'clerk_id': [DataRequired(message="Pagamento precisa ter um atendente."), valide_clerk_id],
-        'client_id': [DataRequired(message="Pagamento precisa ter um cliente."), valide_client_id],
-        'value': [DataRequired(message="Pagamento precisa ter um campo valor."), validate_payment_value]
+        'payment': [DataRequired(message="É preciso o pagamento em forma de token."), validate_payment],        
     }
 
 

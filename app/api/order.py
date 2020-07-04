@@ -13,26 +13,31 @@ def verify_order_token(form, field):
     secret = current_app.config['SECRET_KEY']
     try:
         data = jwt.decode(field.data, secret)
-    except:
-        raise ValidationError('O token expirou ou é intálido')  # valid token, but expired
-    
-    if not Client.query.filter_by(id=data['client_id']).first():
-        raise ValidationError("Cliente é inválido.")
+    except jwt.ExpiredSignatureError:
+        # valid token, but expired
+        raise ValidationError('O token expirou')
+    except jwt.InvalidTokenError:
+        # invalid token
+        raise ValidationError('O token é inválido')
 
-    if not Clerk.query.filter_by(id=data['clerk_id']).first():
-        raise ValidationError("Atendente é inválido.")
+    valide_client_id(data)
+    valide_clerk_id(data)
 
     return True
 
 
-def valide_client_id(form, field):
-    if not Client.query.filter_by(id=field.data).first():
-        raise ValidationError(f"Id '{field.data}' do cliente é inválido.")
+def valide_client_id(data: dict):    
+    if 'client_id' not in data:
+        raise ValidationError("O pagamento precisa ter um campo 'client_id'.")
+    if not Client.query.filter_by(id=data['client_id']).first():
+        raise ValidationError(f"Id '{data['client_id']}' do cliente é inválido.")
 
 
-def valide_clerk_id(form, field):
-    if not Clerk.query.filter_by(id=field.data).first():
-        raise ValidationError(f"Id '{field.data}' do atendente é inválido.")
+def valide_clerk_id(data: dict):
+    if 'clerk_id' not in data:
+        raise ValidationError("O pagamento precisa ter um campo 'clerk_id'.")
+    if not Clerk.query.filter_by(id=data['clerk_id']).first():
+        raise ValidationError(f"Id '{data['clerk_id']}' do atendente é inválido.")
 
 
 class OrderInputs(Inputs):

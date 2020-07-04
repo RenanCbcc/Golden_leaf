@@ -1,6 +1,7 @@
 from __future__ import annotations
 import decimal
 import enum
+import jwt
 from abc import ABCMeta
 from datetime import datetime
 from flask_login import UserMixin, current_user
@@ -269,10 +270,11 @@ class Order(db.Model):
 
     @staticmethod
     def from_json(content) -> Order:
-        s = Serializer(current_app.config['SECRET_KEY'])
-        data = s.loads(content.get('token'))        
-        client_id = data('client_id')
-        clerk_id = data('clerk_id')
+        secret = current_app.config['SECRET_KEY']
+        data = jwt.decode(content.get('token'), secret) 
+        print(data)
+        client_id = data['client_id']
+        clerk_id = data['clerk_id']
         return Order(client_id, clerk_id)
 
     def __repr__(self):

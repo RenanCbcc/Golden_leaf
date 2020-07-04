@@ -7,7 +7,7 @@ from app.models import Order, Client, Item, Status
 from app.routes.order import blueprint_order
 from app.routes.order.forms import SearchOrderForm
 import jwt
-import datetime
+from datetime import datetime,timedelta
 
 def view_client_dlc(*args, **kwargs):
     id = request.view_args['id']
@@ -103,10 +103,10 @@ def pending_order(id):
     return render_template('order/pending_order.html', orders=orders, client_id=id, total=total)
 
 
-def get_token(client_id, clerk_id, expires_in=10):
+def get_token(client_id, clerk_id, expires_in=25):
     secret = current_app.config['SECRET_KEY']
     payload = {'client_id': client_id,
                'clerk_id': clerk_id,
-               'expires_in': str(datetime.datetime.utcnow() + datetime.timedelta(minutes=expires_in))}
+               'exp': datetime.utcnow() + timedelta(minutes=expires_in)}
     token = jwt.encode(payload, secret)
-    return token.decode('UTF-8') 
+    return token.decode('UTF-8')

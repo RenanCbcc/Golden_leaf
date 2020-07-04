@@ -200,9 +200,16 @@ class OrderController {
 
         return fetch(this.ORDER_URL, requestOptions)
             .then(response => response.json())
-            .then(result => { console.log(result); localStorage.clear(); })
+            .then(result => {
+                if (result.ok) {
+                    localStorage.clear();
+                    window.location.replace(this.BASE_APP_URL + result.order_id + '/items')
+                } else {
+                    console.log(result);
+                    this._messageView.update("Não foi possível salvar o pedido.");
+                }
+            })
             .catch((error) => this._messageView.update("Não foi possível salvar o pedido."));
-
     }
 
 
