@@ -1,7 +1,13 @@
 class ProductService {
 
+    private readonly BASE_API_URL: string;
+
+    constructor(url: string) {
+        this.BASE_API_URL = url;
+    }
+
     importProducts(category_id: string, handler: HandlerFunction): Promise<Product[]> {
-        return fetch('https://golden-leaf.herokuapp.com/api/product/category/' + category_id)
+        return fetch(this.BASE_API_URL + '/product/category/' + category_id)
             .then(res => handler(res))
             .then(res => res.json())
             .then((data: PartialProduct[]) =>

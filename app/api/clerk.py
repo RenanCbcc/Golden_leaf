@@ -24,7 +24,7 @@ def verify_password(email_or_token, password):
 @auth.login_required
 def get_auth_token():
     token = g.current_user.generate_auth_token(600)
-    return jsonify({'token': token.decode('ascii'), 'duration': 600})
+    return jsonify({'token': token, 'duration': 600})
 
 
 @api.route('clerk', methods=['POST'])

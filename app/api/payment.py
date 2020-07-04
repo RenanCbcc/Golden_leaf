@@ -72,6 +72,7 @@ def get_orders(id):
 
 
 @api.route('/payment', methods=['POST'])
+@auth.login_required
 def new_payment():
     paymentInputs = PaymentInputs(request)
     if paymentInputs.validate():

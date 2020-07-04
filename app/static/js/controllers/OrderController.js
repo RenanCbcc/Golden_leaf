@@ -9,16 +9,16 @@ class OrderController {
         this._categories = new Categories();
         this._products = new Products();
         this._items = new Items();
-        this.BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
-        this.BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
+        this.BASE_APP_URL = 'http://127.0.0.1:5000/order/';
+        this.BASE_API_URL = 'http://127.0.0.1:5000/api';
         this.PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
         this.ORDER_URL = this.BASE_API_URL + '/order';
         this._categoriesView = new CategoryView('#categoriesView');
         this._productsView = new ProductView('#productsView');
         this._itemsView = new ItemView('#itemsView');
         this._messageView = new MessageView('#messageView');
-        this._categoryService = new CategoryService();
-        this._productService = new ProductService();
+        this._categoryService = new CategoryService(this.BASE_API_URL);
+        this._productService = new ProductService(this.BASE_API_URL);
         this.importCategories();
         this._productsView.update(this._products);
         this._itemsView.update(this._items);
@@ -106,7 +106,7 @@ class OrderController {
             .then(Categories => {
             Categories.forEach(category => this._categories.add(category));
             this._categoriesView.update(this._categories);
-        }).catch(error => { this._messageView.update(error.message); });
+        }).catch(error => { this._messageView.update("Não foi possível importar categorias."); });
     }
     importProducts(category_id) {
         this._productService
@@ -115,7 +115,7 @@ class OrderController {
             this._products.clear();
             products.forEach(p => this._products.add(p));
             this._productsView.update(this._products);
-        }).catch(error => { this._messageView.update(error.message); });
+        }).catch(error => { this._messageView.update("Não foi possível importar produtos."); });
     }
     updateUnitcost(product_id) {
         let p = this._products.find(parseInt(product_id));
@@ -125,18 +125,23 @@ class OrderController {
         if (this._items.isEmpty()) {
             this._messageView.update('Pedido deve ter ao menos um item.');
         }
+        var token = localStorage.getItem('token');
         const order = {
-            clerk_id: $('#clerk-id').attr('data-url'),
-            client_id: $('#client-id').attr('data-url'),
+            token: token,
             items: this._items.toJson()
         };
-        return fetch(this.ORDER_URL, {
-            headers: { 'Content-Type': 'application/json' },
-            method: 'post',
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        //headers.append('Authorization', 'Basic ' + btoa(token + ':'));
+        var requestOptions = {
+            method: 'POST',
+            headers: headers,
             body: JSON.stringify(order)
-        }).then(response => response.json())
-            .then(data => { console.log(data); window.location.replace(this.BASE_APP_URL + data.order_id + '/items'); })
-            .catch((error) => this._messageView.update(error));
+        };
+        return fetch(this.ORDER_URL, requestOptions)
+            .then(response => response.json())
+            .then(result => { console.log(result); localStorage.clear(); })
+            .catch((error) => this._messageView.update("Não foi possível salvar o pedido."));
     }
 }
 __decorate([

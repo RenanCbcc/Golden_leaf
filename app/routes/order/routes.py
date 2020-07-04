@@ -1,13 +1,13 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, current_app, request, redirect, url_for, flash, jsonify
 from flask_breadcrumbs import register_breadcrumb
-from flask_login import login_required
+from flask_login import login_required, current_user
 from sqlalchemy import func
-
 from app import db
 from app.models import Order, Client, Item, Status
 from app.routes.order import blueprint_order
 from app.routes.order.forms import SearchOrderForm
-
+import jwt
+import datetime
 
 def view_client_dlc(*args, **kwargs):
     id = request.view_args['id']
@@ -24,7 +24,6 @@ def view_order_dlc(*args, **kwargs):
 @blueprint_order.route('/order/client/<int:id>', methods=['GET'])
 @blueprint_order.route('/order', defaults={'id': None}, methods=['GET'])
 @register_breadcrumb(blueprint_order, '.', 'Pedidos')
-@login_required
 def get_orders(id):
     page = request.args.get('page', 1, type=int)
     if id is not None:
@@ -43,7 +42,8 @@ def get_orders(id):
 @login_required
 def new_order(id):
     client = Client.query.get_or_404(id)
-    return render_template('order/new.html', client=client)
+    token = get_token(client.id, current_user.id)
+    return render_template('order/new.html', token=token)
 
 
 @blueprint_order.route('/order/<int:id>/items', methods=['GET'])
@@ -101,3 +101,12 @@ def pending_order(id):
         .order_by(Order.date.desc()) \
         .paginate(page=page, per_page=10)
     return render_template('order/pending_order.html', orders=orders, client_id=id, total=total)
+
+
+def get_token(client_id, clerk_id, expires_in=10):
+    secret = current_app.config['SECRET_KEY']
+    payload = {'client_id': client_id,
+               'clerk_id': clerk_id,
+               'expires_in': str(datetime.datetime.utcnow() + datetime.timedelta(minutes=expires_in))}
+    token = jwt.encode(payload, secret)
+    return token.decode('UTF-8') 

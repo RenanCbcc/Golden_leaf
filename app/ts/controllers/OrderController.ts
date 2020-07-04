@@ -26,8 +26,8 @@ class OrderController {
     private _products = new Products();
     private _items = new Items();
 
-    private BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
-    private BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
+    private BASE_APP_URL = 'http://127.0.0.1:5000/order/';
+    private BASE_API_URL = 'http://127.0.0.1:5000/api';
     private PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
     private ORDER_URL = this.BASE_API_URL + '/order';
 
@@ -36,8 +36,8 @@ class OrderController {
     private _itemsView = new ItemView('#itemsView');
     private _messageView = new MessageView('#messageView');
 
-    private _categoryService = new CategoryService();
-    private _productService = new ProductService();
+    private _categoryService = new CategoryService(this.BASE_API_URL);
+    private _productService = new ProductService(this.BASE_API_URL);
 
     constructor() {
         this.importCategories();
@@ -156,7 +156,7 @@ class OrderController {
             .then(Categories => {
                 Categories.forEach(category => this._categories.add(category))
                 this._categoriesView.update(this._categories);
-            }).catch(error => { this._messageView.update(error.message) });
+            }).catch(error => { this._messageView.update("Não foi possível importar categorias.") });
 
     }
 
@@ -167,7 +167,7 @@ class OrderController {
                 this._products.clear();
                 products.forEach(p => this._products.add(p))
                 this._productsView.update(this._products);
-            }).catch(error => { this._messageView.update(error.message) });
+            }).catch(error => { this._messageView.update("Não foi possível importar produtos.") });
 
     }
 
@@ -181,21 +181,27 @@ class OrderController {
         if (this._items.isEmpty()) {
             this._messageView.update('Pedido deve ter ao menos um item.');
         }
-
+        var token = localStorage.getItem('token');
         const order = {
-            clerk_id: $('#clerk-id').attr('data-url'),
-            client_id: $('#client-id').attr('data-url'),
+            token: token,
             items: this._items.toJson()
         };
 
-        return fetch(this.ORDER_URL, {
-            headers: { 'Content-Type': 'application/json' },
-            method: 'post',
+
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        //headers.append('Authorization', 'Basic ' + btoa(token + ':'));
+
+        var requestOptions = {
+            method: 'POST',
+            headers: headers,
             body: JSON.stringify(order)
-        }
-        ).then(response => response.json())
-            .then(data => { console.log(data); window.location.replace(this.BASE_APP_URL + data.order_id + '/items') })
-            .catch((error) => this._messageView.update(error));
+        };
+
+        return fetch(this.ORDER_URL, requestOptions)
+            .then(response => response.json())
+            .then(result => { console.log(result); localStorage.clear(); })
+            .catch((error) => this._messageView.update("Não foi possível salvar o pedido."));
 
     }
 

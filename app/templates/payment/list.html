@@ -31,10 +31,10 @@
             <tbody>
                 {% for payment in payments.items %}
                 <tr>
-                    <td>{{ payment.paid.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ payment.date.strftime("%d/%m/%Y %H:%M:%S") }}</td>
                     <td>{{ payment.client.name }}</td>
                     <td>{{ payment.clerk.name }}</td>
-                    <td>{{ payment.total }}</td>
+                    <td>{{ payment.amount }}</td>
 
                 </tr>
                 {% endfor %}

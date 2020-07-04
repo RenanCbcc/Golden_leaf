@@ -78,10 +78,11 @@ class Client(User):
         identification = uuid.uuid4().time_low
 
         name = json_client.get('name')
-        phone_number = json_client.get('phone_number')    
+        phone_number = json_client.get('phone_number')
         address = json_client['address']
         notifiable = json_client.get('notifiable')
-        client = Client(name,phone_number ,str(identification)[0:9] , address , notifiable)
+        client = Client(name, phone_number, str(
+            identification)[0:9], address, notifiable)
         return client
 
 
@@ -103,12 +104,12 @@ class Clerk(User, UserMixin):
         'concrete': True
     }
 
-    def __init__(self, name:str, phone_number:str, email:str, password:str):
+    def __init__(self, name: str, phone_number: str, email: str, password: str):
         super().__init__(name, phone_number)
-        self.email :str = email
-        self.password :str = password
+        self.email: str = email
+        self.password: str = password
 
-    def get_token(self, expires_sec=1800) -> str:
+    def get_token(self, expires_sec=600) -> str:
         """
         The token is an encrypted version of a dictionary that has the id of the user
         :param expires_sec:
@@ -117,12 +118,12 @@ class Clerk(User, UserMixin):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'clerk_id': self.id}).decode('utf-8')
 
-    def generate_auth_token(self, expiration=2400):
+    def generate_auth_token(self, expiration=600) -> str:
         s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
-        return s.dumps({'id': self.id})
+        return s.dumps({'clerk_id': self.id}).decode('ascii')
 
     @staticmethod
-    def verify_auth_token(token:str) -> Union[Clerk,None]:
+    def verify_auth_token(token: str) -> Union[Clerk, None]:
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
@@ -130,7 +131,7 @@ class Clerk(User, UserMixin):
             return None  # valid token, but expired
         except BadSignature:
             return None  # invalid token
-        clerk = Clerk.query.get(data['id'])
+        clerk = Clerk.query.get(data['clerk_id'])
         return clerk
 
     @property
@@ -165,14 +166,18 @@ class Product(db.Model):
     unit_cost = db.Column(db.Numeric(6, 2), nullable=False)
     is_available = db.Column(db.Boolean, nullable=False)
     code = db.Column(db.String(13), unique=True, nullable=False)
-    category_id = db.Column(db.Integer, ForeignKey('categories.id'), nullable=False)
+    category_id = db.Column(db.Integer, ForeignKey(
+        'categories.id'), nullable=False)
 
-    category = relationship("Category", backref=backref('products', order_by=description))
+    category = relationship("Category", backref=backref(
+        'products', order_by=description))
 
-    __table_args__ = (CheckConstraint(unit_cost >= 0.00, name='unit_cost_positive'),)
+    __table_args__ = (CheckConstraint(
+        unit_cost >= 0.00, name='unit_cost_positive'),)
 
     def __init__(self, category_id, description: str, unit_cost, code: str, is_available=True):
-        self.category_id = category_id  # This field is 'virtual'.  It was declared in Category model as a backref
+        # This field is 'virtual'.  It was declared in Category model as a backref
+        self.category_id = category_id
         self.description = description
         self.unit_cost = unit_cost
         self.is_available = is_available
@@ -194,7 +199,7 @@ class Product(db.Model):
         category_id = json_product.get('category_id')
         description = json_product.get('description')
         unit_cost = decimal.Decimal(json_product.get('unit_cost'))
-        code = json_product.get('code')        
+        code = json_product.get('code')
         return Product(category_id, description, unit_cost, code)
 
     def __eq__(self, other) -> bool:
@@ -209,7 +214,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32), index=True, nullable=False)
 
-    def __init__(self, title:str):
+    def __init__(self, title: str):
         self.title = title
 
     def to_json(self) -> str:
@@ -221,7 +226,7 @@ class Category(db.Model):
 
     @staticmethod
     def from_json(json_category) -> Category:
-        title = json_category.get('title')        
+        title = json_category.get('title')
         return Category(title)
 
     def __repr__(self) -> str:
@@ -233,7 +238,8 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
-    payment_id = db.Column(db.Integer, ForeignKey('payments.id'), nullable=True)
+    payment_id = db.Column(db.Integer, ForeignKey(
+        'payments.id'), nullable=True)
     date = db.Column(db.DateTime, index=True, default=datetime.now)
     total = db.Column(db.Numeric(10, 2), default=0)
     status = db.Column(db.Enum(Status), default=Status.PENDENTE)
@@ -241,15 +247,15 @@ class Order(db.Model):
     client = relationship("Client", backref=backref('orders', order_by=id))
     clerk = relationship("Clerk", backref=backref('orders', order_by=id))
 
-    payment = relationship("Payment", backref=backref('orders', order_by=id), lazy=True)
-   
-    def __init__(self,client_id,clerk_id):
+    payment = relationship("Payment", backref=backref(
+        'orders', order_by=id), lazy=True)
+
+    def __init__(self, client_id, clerk_id):
         self.client_id = client_id
         self.clerk_id = clerk_id
         self.status = Status.PENDENTE
         self.payment = None
-        self.total :float = 0
-        
+        self.total: float = 0
 
     def to_json(self) -> str:
         return {
@@ -261,11 +267,12 @@ class Order(db.Model):
             'status': self.status.name
         }
 
-
     @staticmethod
     def from_json(content) -> Order:
-        client_id = content.get('client_id')
-        clerk_id = content.get('clerk_id')
+        s = Serializer(current_app.config['SECRET_KEY'])
+        data = s.loads(content.get('token'))        
+        client_id = data('client_id')
+        clerk_id = data('clerk_id')
         return Order(client_id, clerk_id)
 
     def __repr__(self):
@@ -277,14 +284,17 @@ class Item(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, ForeignKey('orders.id'), nullable=False)
-    product_id = db.Column(db.Integer, ForeignKey('products.id'), nullable=False)
+    product_id = db.Column(db.Integer, ForeignKey(
+        'products.id'), nullable=False)
     quantity = db.Column(db.Numeric(5, 2), nullable=False)
     extended_cost = db.Column(db.Numeric(7, 2), nullable=False)
 
-    order = relationship("Order", backref=backref('items', order_by=id), lazy=True)
+    order = relationship("Order", backref=backref(
+        'items', order_by=id), lazy=True)
     product = relationship("Product", uselist=False)
 
-    __table_args__ = (CheckConstraint(quantity >= 0.01, name='quantity_positive'),)
+    __table_args__ = (CheckConstraint(
+        quantity >= 0.01, name='quantity_positive'),)
 
     def __init__(self, product_id, order, quantity, extended_cost):
         self.product_id = product_id
@@ -295,11 +305,10 @@ class Item(db.Model):
     def to_json(self) -> str:
         return {
             'description': self.product.description,
-            'unit_cost': str(self.product.unit_cost),            
+            'unit_cost': str(self.product.unit_cost),
             'quantity': str(self.quantity),
             'extended_cost': str(self.extended_cost)
         }
-        
 
     def __repr__(self) -> str:
         return '<Item: %r Quantidade %r>' % (self.product.description, self.quantity)
@@ -310,22 +319,21 @@ class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
-    total = db.Column(db.Numeric(10, 2), default=0)
-    paid = db.Column(db.DateTime, index=True, default=datetime.now)
+    amount = db.Column(db.Numeric(10, 2), default=0)
+    date = db.Column(db.DateTime, index=True, default=datetime.now)
 
     client = relationship("Client", uselist=False)
     clerk = relationship("Clerk", uselist=False)
 
-    def __init__(self, client:Client, clerk:Clerk, value:float):
+    def __init__(self, client: Client, clerk: Clerk, amount: decimal):
         self.client = client
         self.clerk = clerk
-        self.total = value
+        self.amount = amount
 
-    
     def to_json(self) -> str:
         return {
             'client': self.client.name,
-            'clerk': self.clerk.name,            
-            'total': str(self.total),
-            'paid': str(self.paid)
+            'clerk': self.clerk.name,
+            'amount': str(self.amount),
+            'date': self.date.strftime("%d/%m/%Y %H:%M:%S")
         }
