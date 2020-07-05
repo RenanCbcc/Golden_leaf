@@ -26,18 +26,21 @@ def validate_payment(form, field):
     return True
 
 
-def valide_client_id(data: dict):    
+def valide_client_id(data: dict):
     if 'client_id' not in data:
         raise ValidationError("O pagamento precisa ter um campo 'client_id'.")
     if not Client.query.filter_by(id=data['client_id']).first():
-        raise ValidationError(f"Id '{data['client_id']}' do cliente é inválido.")
+        raise ValidationError(
+            f"Id '{data['client_id']}' do cliente é inválido.")
 
 
 def valide_clerk_id(data: dict):
     if 'clerk_id' not in data:
         raise ValidationError("O pagamento precisa ter um campo 'clerk_id'.")
     if not Clerk.query.filter_by(id=data['clerk_id']).first():
-        raise ValidationError(f"Id '{data['clerk_id']}' do atendente é inválido.")
+        raise ValidationError(
+            f"Id '{data['clerk_id']}' do atendente é inválido.")
+
 
 def validate_payment_amount(data: dict):
     if 'amount' not in data:
@@ -63,7 +66,7 @@ def is_decimal(value: str) -> bool:
 class PaymentInputs(Inputs):
     # Dont change this name!  Keep it as json!
     json = {
-        'payment': [DataRequired(message="É preciso o pagamento em forma de token."), validate_payment],        
+        'payment': [DataRequired(message="É preciso o pagamento em forma de token."), validate_payment],
     }
 
 
@@ -139,24 +142,23 @@ def payment_value_error(value) -> str:
 
 
 def payment_successfuly(payment: Payment) -> str:
-    # send_message(client, request.form['value'])
     response = jsonify(
         {'Sucesso': 'Pagamento recebido com sucesso!', 'payment_id': payment.id})
     response.status_code = 201
-
+    send_message(payment)
     return response
 
 
-def send_message(client, value) -> None:
-    if client.notifiable:
-        account_sid = 'AC06b6d740e2dbe8c1c94dd41ffed6c3a3'
-        auth_token = '2e22811c3a09a717ecd754b7fb527794'
+def send_message(payment: Payment) -> None:
+    if payment.client.notifiable:
+        account_sid = current_app.config['ACOUNT_SID']
+        auth_token = current_app.config['AUTH_TOKEN']
         from twilio.rest import Client as Twilio_Client
         twilio_client = Twilio_Client(account_sid, auth_token)
 
         twilio_client.messages.create(
             body='Olá, ' + client.name +
-                 ' . Você debitou R$ ' + value + ' de sua conta. Volte sempre!',
+                 ' . Você debitou R$ ' + value + ' em sua conta. Volte sempre!',
             from_='+12054311596',
             to='+55' + client.phone_number
         )

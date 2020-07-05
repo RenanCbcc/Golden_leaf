@@ -115,7 +115,7 @@ def save_order():
         response = jsonify(
             {'Sucesso': 'O pedido foi registrado com sucesso.', 'order_id': order.id})
         response.status_code = 200
-        # send_message(order)
+        send_message(order)
         return response
     reponse = jsonify(orderInputs.errors)
     reponse.status_code = 400
@@ -153,11 +153,10 @@ def add_items(order: Order) -> Order:
     return order
 
 
-def send_message(order):
-    client = Client.query.get(order.client_id)
-    if client.notifiable:
-        account_sid = 'AC06b6d740e2dbe8c1c94dd41ffed6c3a3'
-        auth_token = '2e22811c3a09a717ecd754b7fb527794'
+def send_message(order):    
+    if order.client.notifiable:
+        account_sid = current_app.config['ACOUNT_SID']
+        auth_token = current_app.config['AUTH_TOKEN']
         from twilio.rest import Client as Twilio_Client
         twilio_client = Twilio_Client(account_sid, auth_token)
 

@@ -26,8 +26,8 @@ class OrderController {
     private _products = new Products();
     private _items = new Items();
 
-    private BASE_APP_URL = 'http://127.0.0.1:5000/order/';
-    private BASE_API_URL = 'http://127.0.0.1:5000/api';
+    private BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
+    private BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
     private PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
     private ORDER_URL = this.BASE_API_URL + '/order';
 

@@ -9,8 +9,8 @@ class OrderController {
         this._categories = new Categories();
         this._products = new Products();
         this._items = new Items();
-        this.BASE_APP_URL = 'http://127.0.0.1:5000/order/';
-        this.BASE_API_URL = 'http://127.0.0.1:5000/api';
+        this.BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
+        this.BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
         this.PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
         this.ORDER_URL = this.BASE_API_URL + '/order';
         this._categoriesView = new CategoryView('#categoriesView');
