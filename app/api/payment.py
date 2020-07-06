@@ -18,7 +18,7 @@ def validate_payment(form, field):
         raise ValidationError('O pedido de pagamento expirou.')
     except jwt.InvalidTokenError:
         # invalid token
-        raise ValidationError('O pedido de pagamento é inválido')
+        raise ValidationError('O pedido de pagamento é inválido.')
 
     valide_client_id(data)
     valide_clerk_id(data)
@@ -45,14 +45,14 @@ def valide_clerk_id(data: dict):
 def validate_payment_amount(data: dict):
     if 'amount' not in data:
         raise ValidationError('O pagamento precisa um valor.')
-    if is_decimal(field.data):
-        payment_value = float(field.data)
+    if is_decimal(data['amount']):
+        payment_value = float(data['amount'])
         if payment_value < 0.1 or payment_value > 1000.0:
             raise ValidationError(
                 "O valor do pagamento estar entre R$ 0.1 e R$ 1000.0")
         else:
             return
-    raise ValidationError(f"Valor '{field.data}' para pagamento é inválido.")
+    raise ValidationError(f"Valor '{data['amount']}' para pagamento é inválido.")
 
 
 def is_decimal(value: str) -> bool:
@@ -96,17 +96,13 @@ def get_orders(id):
 
 
 @api.route('/payment', methods=['POST'])
-@auth.login_required
 def new_payment():
     paymentInputs = PaymentInputs(request)
-    if paymentInputs.validate():
-        client_id = request.json.get('client_id')
-        payment_value = request.json.get('value')
-        if payment_value > get_order_total(client_id):
-            return payment_value_error(payment_value)
+    if paymentInputs.validate():        
+        payment = Payment.from_json(request.json)
+        if payment.amount > get_order_total(payment.client_id):
+            return payment_amount_error(payment.amount)
         else:
-            clerk_id = request.json.get('clerk_id')
-            payment = create_payment(client_id, clerk_id, payment_value)
             db.session.add(payment)
             pay_off(payment)
             db.session.commit()
@@ -116,11 +112,6 @@ def new_payment():
         reponse.status_code = 400
         return reponse
 
-
-def create_payment(client_id: str, clerk_id: str, value: decimal) -> Payment:
-    client = Client.query.get(client_id)
-    clerk = Clerk.query.get(clerk_id)
-    return Payment(client, clerk, decimal.Decimal(value))
 
 
 def get_order_total(id) -> float:
@@ -134,9 +125,9 @@ def get_orders_of_client(id):
         client_id=id, status=Status.PENDENTE).order_by(Order.date).all()
 
 
-def payment_value_error(value) -> str:
+def payment_amount_error(value) -> str:
     response = jsonify({"Erro": "Pagamento inválido",
-                                "Mensagem": 'Valor para pagamento ' + str(value) + ' é maior que o valor devido.'})
+                                "Mensagem": 'Valor para pagamento R$' + str(value) + ' é maior que o valor devido.'})
     response.status_code = 400
     return response
 
@@ -165,7 +156,7 @@ def send_message(payment: Payment) -> None:
 
 
 def pay_off(payment: Payment) -> None:
-    value = payment.total
+    value = payment.amount
     while value > 0:
         for order in get_orders_of_client(payment.client_id):
             if value >= order.total:

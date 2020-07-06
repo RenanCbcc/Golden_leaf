@@ -20,11 +20,11 @@ def get_payment(id):
     page = request.args.get('page', 1, type=int)
     if id is not None:
         payments = Payment.query.filter_by(client_id=id).order_by(
-            Payment.paid.desc()).paginate(page=page, per_page=10)
+            Payment.date.desc()).paginate(page=page, per_page=10)
         return render_template('payment/list.html', payments=payments)
 
     payments = Payment.query.order_by(
-        Payment.paid.desc()).paginate(page=page, per_page=10)
+        Payment.date.desc()).paginate(page=page, per_page=10)
     return render_template('payment/list.html', payments=payments)
 
 
@@ -119,16 +119,16 @@ def pay_off(payment: Payment) -> None:
                 payment.orders.append(order)
 
 
-def send_message(client, value):
-    if client.notifiable:
-        account_sid = 'AC06b6d740e2dbe8c1c94dd41ffed6c3a3'
-        auth_token = '2e22811c3a09a717ecd754b7fb527794'
+def send_message(payment: Payment) -> None:
+    if payment.client.notifiable:
+        account_sid = current_app.config['ACOUNT_SID']
+        auth_token = current_app.config['AUTH_TOKEN']
         from twilio.rest import Client as Twilio_Client
         twilio_client = Twilio_Client(account_sid, auth_token)
 
         twilio_client.messages.create(
             body='Olá, ' + client.name +
-                 ' . Você debitou R$ ' + value + ' de sua conta. Volte sempre!',
+                 ' . Você debitou R$ ' + value + ' em sua conta. Volte sempre!',
             from_='+12054311596',
             to='+55' + client.phone_number
         )

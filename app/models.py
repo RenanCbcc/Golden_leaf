@@ -271,8 +271,7 @@ class Order(db.Model):
     @staticmethod
     def from_json(content) -> Order:
         secret = current_app.config['SECRET_KEY']
-        data = jwt.decode(content.get('token'), secret) 
-        print(data)
+        data = jwt.decode(content.get('token'), secret)
         client_id = data['client_id']
         clerk_id = data['clerk_id']
         return Order(client_id, clerk_id)
@@ -327,10 +326,19 @@ class Payment(db.Model):
     client = relationship("Client", uselist=False)
     clerk = relationship("Clerk", uselist=False)
 
-    def __init__(self, client: Client, clerk: Clerk, amount: decimal):
-        self.client = client
-        self.clerk = clerk
+    def __init__(self, client: int, clerk: int, amount: decimal):
+        self.client_id = client
+        self.clerk_id = clerk
         self.amount = amount
+
+    @staticmethod
+    def from_json(content) -> Payment:
+        secret = current_app.config['SECRET_KEY']
+        data = jwt.decode(content.get('payment'), secret)
+        client_id = data['client_id']        
+        clerk_id = data['clerk_id']
+        amount = data['amount']
+        return Payment(client_id, clerk_id, decimal.Decimal(amount))
 
     def to_json(self) -> str:
         return {
