@@ -4,7 +4,7 @@ class ItemView extends View {
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                    <th scope="col">Id</th>
+                    
                         <th scope="col">Descriçao</th>
                         <th scope="col">Preço</th>
                         <th scope="col">Quantidade</th>
@@ -16,7 +16,6 @@ class ItemView extends View {
                     ${model.toArray().map(i => {
             return `
                         <tr> 
-                        <td>${i.product_id}</td>
                             <td>${i.description}</td>
                             <td>${i.price}</td>
                             <td>${i.quantity}</td>
@@ -34,6 +33,8 @@ class ItemView extends View {
                 </tbody>
     
                 <tfoot>
+                        <td colspan="3"></td>
+                        <td>${model.total()}</td>
                 </tfoot>
             </table>               
             `;

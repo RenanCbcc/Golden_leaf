@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, render_template, flash
 from flask_breadcrumbs import register_breadcrumb
-from flask_login import current_user
+from flask_login import current_user, login_required
 from sqlalchemy import func
 from app.models import Order, Status, Payment, Client, db
 from app.routes.payment import blueprint_payment
@@ -71,6 +71,7 @@ def search_payment():
 
 @blueprint_payment.route('/payment/new/client/<int:id>', methods=['GET', 'POST'])
 @register_breadcrumb(blueprint_payment, '.id', '', dynamic_list_constructor=view_client_dlc)
+@login_required
 def new_payment(id):
     form = NewPaymentForm()
     if form.validate_on_submit():

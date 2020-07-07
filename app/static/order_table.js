@@ -139,7 +139,6 @@ function decreasePrice(value) {
     total = total - parseFloat(value);
     holder.attr('data-value', total);
     holder.text(total);
-
 }
 
 function removeLine() {

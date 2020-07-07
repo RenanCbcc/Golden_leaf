@@ -12,6 +12,12 @@ class Items {
         const found = this._items.find(i => i.product_id == id);
         return found != null;
     }
+    total() {
+        return this._items.reduce(function (total, i) {
+            console.log(i.extended_cost);
+            return total + i.extended_cost;
+        }, 0.0);
+    }
     toArray() {
         return [].concat(this._items);
     }

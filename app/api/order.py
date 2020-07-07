@@ -3,10 +3,11 @@ import jwt
 from flask import request, jsonify, current_app
 from app import db
 from app.api import api
-from app.models import Item, Product, Order, Client, Clerk
+from app.models import Item, Product, Order, Client, Clerk, Status
 from flask_inputs import Inputs
 from wtforms.validators import DataRequired, ValidationError
 from app.api.clerk import auth
+from sqlalchemy import func
 
 
 def verify_order_token(form, field):
@@ -26,18 +27,20 @@ def verify_order_token(form, field):
     return True
 
 
-def valide_client_id(data: dict):    
+def valide_client_id(data: dict):
     if 'client_id' not in data:
-        raise ValidationError("O pagamento precisa ter um campo 'client_id'.")
+        raise ValidationError("O pedido precisa ter um campo 'client_id'.")
     if not Client.query.filter_by(id=data['client_id']).first():
-        raise ValidationError(f"Id '{data['client_id']}' do cliente é inválido.")
+        raise ValidationError(
+            f"Id '{data['client_id']}' do cliente é inválido.")
 
 
 def valide_clerk_id(data: dict):
     if 'clerk_id' not in data:
-        raise ValidationError("O pagamento precisa ter um campo 'clerk_id'.")
+        raise ValidationError("O pedido precisa ter um campo 'clerk_id'.")
     if not Clerk.query.filter_by(id=data['clerk_id']).first():
-        raise ValidationError(f"Id '{data['clerk_id']}' do atendente é inválido.")
+        raise ValidationError(
+            f"Id '{data['clerk_id']}' do atendente é inválido.")
 
 
 class OrderInputs(Inputs):
@@ -102,6 +105,16 @@ def get_order(id):
     return response
 
 
+@api.route('/order/client/<int:id>/total', methods=['GET'])
+def get_order_total(id):
+    if not Client.query.filter_by(id=id).first():
+        raise ValidationError(f"Id '{id}' do cliente é inválido.")
+    total = get_order_total(id)
+    response = jsonify({'total': str(total)})
+    response.status_code = 200
+    return response
+
+
 @api.route('/order', methods=['POST'])
 def save_order():
     orderInputs = OrderInputs(request)
@@ -153,7 +166,13 @@ def add_items(order: Order) -> Order:
     return order
 
 
-def send_message(order):    
+def get_order_total(id) -> float:
+    return db.session.query(func.sum(Order.total)) \
+        .filter_by(client_id=id, status=Status.PENDENTE) \
+        .scalar()
+
+
+def send_message(order):
     if order.client.notifiable:
         account_sid = current_app.config['ACOUNT_SID']
         auth_token = current_app.config['AUTH_TOKEN']

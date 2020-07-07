@@ -18,6 +18,13 @@ class Items {
         return found != null;
     }
 
+    total(): number {
+        return this._items.reduce(function (total, i) {
+            console.log(i.extended_cost)
+            return total + i.extended_cost;
+        }, 0.0);
+    }
+
     toArray(): Item[] {
         return [].concat(this._items);
     }
