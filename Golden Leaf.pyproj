@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>00d9fc98-2524-4123-892b-75f8dae46576</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectTypeGuids>{789894c7-04a9-4a11-a6b5-3f4435165112};{1b580a1a-fdb3-4b32-83e1-6407eb2722e6};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <StartupFile>runserver.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <LaunchProvider>Web launcher</LaunchProvider>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <OutputPath>.</OutputPath>
+    <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
+    <Name>Golden Leaf</Name>
+    <RootNamespace>Golden Leaf</RootNamespace>
+    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Golden_Leaf\api\category.py" />
+    <Compile Include="Golden_Leaf\api\clerk.py" />
+    <Compile Include="Golden_Leaf\api\client.py" />
+    <Compile Include="Golden_Leaf\api\erros.py" />
+    <Compile Include="Golden_Leaf\api\order.py" />
+    <Compile Include="Golden_Leaf\api\payment.py" />
+    <Compile Include="Golden_Leaf\api\product.py" />
+    <Compile Include="Golden_Leaf\api\__init__.py" />
+    <Compile Include="Golden_Leaf\extensions.py" />
+    <Compile Include="Golden_Leaf\models.py" />
+    <Compile Include="Golden_Leaf\views\category\forms.py" />
+    <Compile Include="Golden_Leaf\views\category\routes.py" />
+    <Compile Include="Golden_Leaf\views\category\__init__.py" />
+    <Compile Include="Golden_Leaf\views\clerk\forms.py" />
+    <Compile Include="Golden_Leaf\views\clerk\routes.py" />
+    <Compile Include="Golden_Leaf\views\clerk\__init__.py" />
+    <Compile Include="Golden_Leaf\views\client\forms.py" />
+    <Compile Include="Golden_Leaf\views\client\routes.py" />
+    <Compile Include="Golden_Leaf\views\client\__init__.py" />
+    <Compile Include="Golden_Leaf\views\error\handler.py" />
+    <Compile Include="Golden_Leaf\views\error\__init__.py" />
+    <Compile Include="Golden_Leaf\views\main\routes.py" />
+    <Compile Include="Golden_Leaf\views\main\__init__.py" />
+    <Compile Include="Golden_Leaf\views\order\forms.py" />
+    <Compile Include="Golden_Leaf\views\order\routes.py" />
+    <Compile Include="Golden_Leaf\views\order\__init__.py" />
+    <Compile Include="Golden_Leaf\views\payment\forms.py" />
+    <Compile Include="Golden_Leaf\views\payment\routes.py" />
+    <Compile Include="Golden_Leaf\views\payment\__init__.py" />
+    <Compile Include="Golden_Leaf\views\product\forms.py" />
+    <Compile Include="Golden_Leaf\views\product\routes.py" />
+    <Compile Include="Golden_Leaf\views\product\__init__.py" />
+    <Compile Include="Golden_Leaf\views\__init__.py" />
+    <Compile Include="Golden_Leaf\settings.py" />
+    <Compile Include="runserver.py" />
+    <Compile Include="Golden_Leaf\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Golden_Leaf\" />
+    <Folder Include="Golden_Leaf\api\" />
+    <Folder Include="Golden_Leaf\api\__pycache__\" />
+    <Folder Include="Golden_Leaf\templates\main\" />
+    <Folder Include="Golden_Leaf\views\" />
+    <Folder Include="Golden_Leaf\views\category\" />
+    <Folder Include="Golden_Leaf\views\category\__pycache__\" />
+    <Folder Include="Golden_Leaf\views\clerk\" />
+    <Folder Include="Golden_Leaf\views\clerk\__pycache__\" />
+    <Folder Include="Golden_Leaf\views\client\" />
+    <Folder Include="Golden_Leaf\views\client\__pycache__\" />
+    <Folder Include="Golden_Leaf\views\error\" />
+    <Folder Include="Golden_Leaf\views\error\__pycache__\" />
+    <Folder Include="Golden_Leaf\views\main\" />
+    <Folder Include="Golden_Leaf\views\main\__pycache__\" />
+    <Folder Include="Golden_Leaf\views\order\" />
+    <Folder Include="Golden_Leaf\views\order\__pycache__\" />
+    <Folder Include="Golden_Leaf\views\payment\" />
+    <Folder Include="Golden_Leaf\views\payment\__pycache__\" />
+    <Folder Include="Golden_Leaf\views\product\" />
+    <Folder Include="Golden_Leaf\views\product\__pycache__\" />
+    <Folder Include="Golden_Leaf\views\__pycache__\" />
+    <Folder Include="Golden_Leaf\static\" />
+    <Folder Include="Golden_Leaf\static\js\" />
+    <Folder Include="Golden_Leaf\static\js\controllers\" />
+    <Folder Include="Golden_Leaf\static\js\decorators\" />
+    <Folder Include="Golden_Leaf\static\js\models\" />
+    <Folder Include="Golden_Leaf\static\js\services\" />
+    <Folder Include="Golden_Leaf\static\js\views\" />
+    <Folder Include="Golden_Leaf\static\profile_pic\" />
+    <Folder Include="Golden_Leaf\templates\" />
+    <Folder Include="Golden_Leaf\templates\category\" />
+    <Folder Include="Golden_Leaf\templates\clerk\" />
+    <Folder Include="Golden_Leaf\templates\client\" />
+    <Folder Include="Golden_Leaf\templates\error\" />
+    <Folder Include="Golden_Leaf\templates\order\" />
+    <Folder Include="Golden_Leaf\templates\payment\" />
+    <Folder Include="Golden_Leaf\templates\product\" />
+    <Folder Include="Golden_Leaf\ts\" />
+    <Folder Include="Golden_Leaf\ts\controllers\" />
+    <Folder Include="Golden_Leaf\ts\decorators\" />
+    <Folder Include="Golden_Leaf\ts\models\" />
+    <Folder Include="Golden_Leaf\ts\services\" />
+    <Folder Include="Golden_Leaf\ts\views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".env" />
+    <Content Include=".gitignore" />
+    <Content Include="Golden_Leaf\api\__pycache__\category.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\api\__pycache__\clerk.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\api\__pycache__\client.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\api\__pycache__\erros.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\api\__pycache__\order.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\api\__pycache__\payment.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\api\__pycache__\product.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\api\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\commerce.db" />
+    <Content Include="Golden_Leaf\templates\main\index.html" />
+    <Content Include="Golden_Leaf\views\category\__pycache__\forms.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\category\__pycache__\routes.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\category\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\clerk\__pycache__\forms.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\clerk\__pycache__\routes.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\clerk\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\client\__pycache__\forms.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\client\__pycache__\routes.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\client\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\error\__pycache__\handler.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\error\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\main\__pycache__\routes.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\main\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\order\__pycache__\forms.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\order\__pycache__\routes.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\order\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\payment\__pycache__\forms.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\payment\__pycache__\routes.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\payment\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\product\__pycache__\forms.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\product\__pycache__\routes.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\product\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\views\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="Golden_Leaf\static\gl.png" />
+    <Content Include="Golden_Leaf\static\jquery-3.4.0.js" />
+    <Content Include="Golden_Leaf\static\jquery-3.4.0.min.js" />
+    <Content Include="Golden_Leaf\static\js\app.js" />
+    <Content Include="Golden_Leaf\static\js\controllers\OrderController.js" />
+    <Content Include="Golden_Leaf\static\js\decorators\domInject.js" />
+    <Content Include="Golden_Leaf\static\js\decorators\Throttle.js" />
+    <Content Include="Golden_Leaf\static\js\models\Categories.js" />
+    <Content Include="Golden_Leaf\static\js\models\Category.js" />
+    <Content Include="Golden_Leaf\static\js\models\Item.js" />
+    <Content Include="Golden_Leaf\static\js\models\Items.js" />
+    <Content Include="Golden_Leaf\static\js\models\PartialProduct.js" />
+    <Content Include="Golden_Leaf\static\js\models\Product.js" />
+    <Content Include="Golden_Leaf\static\js\models\Products.js" />
+    <Content Include="Golden_Leaf\static\js\services\CategoryService.js" />
+    <Content Include="Golden_Leaf\static\js\services\HandlerFunction.js" />
+    <Content Include="Golden_Leaf\static\js\services\ProductService.js" />
+    <Content Include="Golden_Leaf\static\js\views\CategoryView.js" />
+    <Content Include="Golden_Leaf\static\js\views\ItemView.js" />
+    <Content Include="Golden_Leaf\static\js\views\MessageView.js" />
+    <Content Include="Golden_Leaf\static\js\views\ProductView.js" />
+    <Content Include="Golden_Leaf\static\js\views\View.js" />
+    <Content Include="Golden_Leaf\static\order_table.js" />
+    <Content Include="Golden_Leaf\static\profile_pic\dafault.png" />
+    <Content Include="Golden_Leaf\templates\base.html" />
+    <Content Include="Golden_Leaf\templates\category\edit.html" />
+    <Content Include="Golden_Leaf\templates\category\list.html" />
+    <Content Include="Golden_Leaf\templates\category\new.html" />
+    <Content Include="Golden_Leaf\templates\category\productsof.html" />
+    <Content Include="Golden_Leaf\templates\category\search.html" />
+    <Content Include="Golden_Leaf\templates\clerk\account.html" />
+    <Content Include="Golden_Leaf\templates\clerk\login.html" />
+    <Content Include="Golden_Leaf\templates\clerk\new.html" />
+    <Content Include="Golden_Leaf\templates\clerk\reset_request.html" />
+    <Content Include="Golden_Leaf\templates\clerk\reset_token.html" />
+    <Content Include="Golden_Leaf\templates\client\edit.html" />
+    <Content Include="Golden_Leaf\templates\client\list.html" />
+    <Content Include="Golden_Leaf\templates\client\new.html" />
+    <Content Include="Golden_Leaf\templates\client\search.html" />
+    <Content Include="Golden_Leaf\templates\error\400.html" />
+    <Content Include="Golden_Leaf\templates\error\401.html" />
+    <Content Include="Golden_Leaf\templates\error\403.html" />
+    <Content Include="Golden_Leaf\templates\error\404.html" />
+    <Content Include="Golden_Leaf\templates\error\500.html" />
+    <Content Include="Golden_Leaf\templates\error\csrf_error.html" />
+    <Content Include="Golden_Leaf\templates\order\client_orders.html" />
+    <Content Include="Golden_Leaf\templates\order\items.html" />
+    <Content Include="Golden_Leaf\templates\order\list.html" />
+    <Content Include="Golden_Leaf\templates\order\new.html" />
+    <Content Include="Golden_Leaf\templates\order\pending_order.html" />
+    <Content Include="Golden_Leaf\templates\order\search.html" />
+    <Content Include="Golden_Leaf\templates\payment\list.html" />
+    <Content Include="Golden_Leaf\templates\payment\new.html" />
+    <Content Include="Golden_Leaf\templates\payment\search.html" />
+    <Content Include="Golden_Leaf\templates\product\edit.html" />
+    <Content Include="Golden_Leaf\templates\product\list.html" />
+    <Content Include="Golden_Leaf\templates\product\new.html" />
+    <Content Include="Golden_Leaf\templates\product\search.html" />
+    <Content Include="Golden_Leaf\ts\app.ts" />
+    <Content Include="Golden_Leaf\ts\controllers\OrderController.ts" />
+    <Content Include="Golden_Leaf\ts\decorators\domInject.ts" />
+    <Content Include="Golden_Leaf\ts\decorators\throttle.ts" />
+    <Content Include="Golden_Leaf\ts\models\Categories.ts" />
+    <Content Include="Golden_Leaf\ts\models\Category.ts" />
+    <Content Include="Golden_Leaf\ts\models\Item.ts" />
+    <Content Include="Golden_Leaf\ts\models\Items.ts" />
+    <Content Include="Golden_Leaf\ts\models\PartialProduct.ts" />
+    <Content Include="Golden_Leaf\ts\models\Product.ts" />
+    <Content Include="Golden_Leaf\ts\models\Products.ts" />
+    <Content Include="Golden_Leaf\ts\services\CategoryService.ts" />
+    <Content Include="Golden_Leaf\ts\services\HandlerFunction.ts" />
+    <Content Include="Golden_Leaf\ts\services\ProductService.ts" />
+    <Content Include="Golden_Leaf\ts\views\CategoryView.ts" />
+    <Content Include="Golden_Leaf\ts\views\ItemView.ts" />
+    <Content Include="Golden_Leaf\ts\views\MessageView.ts" />
+    <Content Include="Golden_Leaf\ts\views\ProductView.ts" />
+    <Content Include="Golden_Leaf\ts\views\View.ts" />
+    <Content Include="package.json" />
+    <Content Include="Procfile" />
+    <Content Include="README.md" />
+    <Content Include="requirements.txt" />
+    <Content Include="tsconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="env\">
+      <Id>env</Id>
+      <Version>3.7</Version>
+      <Description>env (Python 3.7 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
+  <!-- Specify pre- and post-build commands in the BeforeBuild and 
+       AfterBuild targets below. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

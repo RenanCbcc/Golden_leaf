@@ -1,0 +1,47 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Home{% endblock %}
+{% block page_content %}
+
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-info">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                        <h4>Pagamento & Pedidos</h4>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <!-- Table will be inserted here dinamicly-->
+                <div id="itemsView">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-info">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                        <h4>Redimentos</h4>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <!-- Table will be inserted here dinamicly-->
+                <div id="itemsView">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% endblock %}

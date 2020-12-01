@@ -1,4 +1,4 @@
-#!C:\Users\Renan\Source\Repos\RenanCbcc\Golden_leaf\env\Scripts\python.exe
+#!"C:\Users\Renan\source\repos\Golden Leaf\env\Scripts\python.exe"
 # EASY-INSTALL-ENTRY-SCRIPT: 'alembic==1.0.7','console_scripts','alembic'
 __requires__ = 'alembic==1.0.7'
 import re
