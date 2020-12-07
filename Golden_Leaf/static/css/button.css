@@ -1,0 +1,23 @@
+.button {
+    display: inline-block;
+    text-decoration: none;
+    border: 1px solid transparent;
+    padding: 10px 15px;
+    color: white;
+    border-radius: .25rem;
+}
+
+.primary {
+    background-color: #0062cc;
+    border-color: #005cbf;
+}
+
+.default {
+    background-color: #545b62;
+    border-color: #4e555b;
+}
+
+.button:hover {
+    color: #000;
+    background-color: #ccc;
+}

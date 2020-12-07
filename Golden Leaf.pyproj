@@ -69,6 +69,7 @@
     <Folder Include="Golden_Leaf\" />
     <Folder Include="Golden_Leaf\api\" />
     <Folder Include="Golden_Leaf\api\__pycache__\" />
+    <Folder Include="Golden_Leaf\static\css\" />
     <Folder Include="Golden_Leaf\templates\main\" />
     <Folder Include="Golden_Leaf\views\" />
     <Folder Include="Golden_Leaf\views\category\" />
@@ -123,6 +124,10 @@
     <Content Include="Golden_Leaf\api\__pycache__\product.cpython-37.pyc" />
     <Content Include="Golden_Leaf\api\__pycache__\__init__.cpython-37.pyc" />
     <Content Include="Golden_Leaf\commerce.db" />
+    <Content Include="Golden_Leaf\static\css\base.css" />
+    <Content Include="Golden_Leaf\static\css\button.css" />
+    <Content Include="Golden_Leaf\static\css\form.css" />
+    <Content Include="Golden_Leaf\static\css\table.css" />
     <Content Include="Golden_Leaf\templates\main\index.html" />
     <Content Include="Golden_Leaf\views\category\__pycache__\forms.cpython-37.pyc" />
     <Content Include="Golden_Leaf\views\category\__pycache__\routes.cpython-37.pyc" />

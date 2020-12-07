@@ -1,79 +1,78 @@
-﻿{% extends "bootstrap/base.html" %}
-<head>
+﻿<head>
     {% block head %}
-    {{ super() }}
+    <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Icon and css -->
     <link rel="icon" href="{{ url_for('static',filename='gl.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/table.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/button.css') }}">
+
     <title>Palma de Ouro</title>
     {% endblock %}
 </head>
 <body>
     {% block navbar %}
     <header>
-        <nav class="navbar navbar-inverse">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="{{ url_for('blueprint_main.index') }}">
-                        <span class="glyphicon glyphicon-leaf"></span> Palma de Ouro
-                    </a>
-                </div>
-                <ul class="nav navbar-nav">
+        <nav>
+            <div class="nav-menu">
+                <ul>
                     <li>
-                        <a class="nav-item nav-link"
-                           href="{{ url_for('blueprint_category.get_categories') }}">Categorias</a>
+                        <a class="active" href="{{ url_for('blueprint_main.index') }}">
+                            <span class="glyphicon glyphicon-leaf"></span> Palma de Ouro
+                        </a>
                     </li>
                     <li>
-                        <a class="nav-item nav-link" href="{{ url_for('blueprint_product.get_products') }}">Produtos</a>
+                        <a href="{{ url_for('blueprint_category.get_categories') }}">Categorias</a>
                     </li>
                     <li>
-                        <a class="nav-item nav-link"
-                           href="{{ url_for('blueprint_client.get_clients') }}">Clientes</a>
+                        <a href="{{ url_for('blueprint_product.get_products') }}">Produtos</a>
                     </li>
                     <li>
-                        <a class="nav-item nav-link"
-                           href="{{ url_for('blueprint_order.get_orders') }}">Pedidos</a>
+                        <a href="{{ url_for('blueprint_client.get_clients') }}">Clientes</a>
                     </li>
                     <li>
-                        <a class="nav-item nav-link"
-                           href="{{ url_for('blueprint_payment.get_payment') }}">Pagamentos</a>
+                        <a href="{{ url_for('blueprint_order.get_orders') }}">Pedidos</a>
                     </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{{ url_for('blueprint_payment.get_payment') }}">Pagamentos</a>
+                    </li>
                     {% if current_user.is_authenticated %}
-                    <li>
-                        <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.account') }}">
-                            <span class="glyphicon glyphicon-user"></span>
+                    <li class="nav-user">
+                        <a href="{{ url_for('blueprint_clerk.account') }}">
                             {{ current_user.name }}
                         </a>
-                        
+
                     </li>
-                    <li>
-                        <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.logout') }}">
-                            <span class="glyphicon glyphicon-log-in"></span>
+                    <li class="nav-user">
+                        <a href="{{ url_for('blueprint_clerk.logout') }}">
                             Logout
                         </a>
-
                     </li>
 
                     {% else %}
-                    <li>
-                        <a class="nav-item nav-link" href="{{ url_for('blueprint_clerk.login') }}">
+                    <li class="nav-user">
+                        <a href="{{ url_for('blueprint_clerk.login') }}">
                             <span class="glyphicon glyphicon-user"></span> Login
                         </a>
                     </li>
                     {% endif %}
                 </ul>
             </div>
-        </nav>
-        <div class="container pt-3">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb primary-color">
-                    {% for breadcrumb in breadcrumbs %}
-                    <li class="breadcrumb-item">
 
-                        <a class="white-text" href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+
+        </nav>
+        <div class="nav-menu">
+            <nav>
+                <ol>
+                    {% for breadcrumb in breadcrumbs %}
+                    <li>
+                        <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
                         {% if loop.last %}
-                    <li class="breadcrumb-item active">{{ breadcrumb.text }}</li>
+                    <li>{{ breadcrumb.text }}</li>
                     {% endif %}
                     {% endfor %}
                 </ol>
@@ -91,19 +90,19 @@
             {% endwith %}
         </div>
     </header>
-    {% endblock %}    
+    {% endblock %}
     <main>
-        {% block title %}{% endblock %}        
-        {% block content  %}       
-        
-        <div class="container pt-3">
+        {% block title %}{% endblock %}
+        {% block content  %}
+
+        <div>
             {% block page_content %}
-            
+
             {% endblock %}
         </div>
         {% endblock %}
     </main>
 
-    <footer class="rodape-pagina"> &copy; Renan Rosa 2020</footer>
+    <footer> &copy; Renan Rosa 2020</footer>
 
 </body>
