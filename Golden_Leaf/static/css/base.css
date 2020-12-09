@@ -3,9 +3,10 @@ html, body, h1, h2, h3, h4, h5 {
 }
 
 body {
-    background: #fafafa;
-    color: #333333;
-    margin-top: 0;
+    background-color: #f1f1f1;
+    margin: 0;
+    font-family: Verdana,sans-serif;
+    font-size: 15px;
 }
 
 main {
@@ -18,9 +19,10 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    color: #fff !important;
+    color: #fff;
     background-color: #4d636f;
-    font-size: 18px
+    font-size: 18px;
+    border-bottom: 1px solid #1e8adc;
 }
 
 .active {
@@ -34,7 +36,7 @@ ul {
 
 li a:hover {
     background-color: white;
-    color:black;
+    color: black;
 }
 
 ol {
@@ -43,7 +45,9 @@ ol {
     padding: 0;
     overflow: hidden;
     background-color: #333;
+    border-radius: .25rem;
 }
+
 
 li {
     float: left;
@@ -63,8 +67,11 @@ li a {
 
 
 footer {
+    margin-top: 25px;
     background-color: #4d636f;
     color: white;
     text-align: center;
     padding: 14px 16px;
+    position: absolute;
+    bottom: 0;
 }

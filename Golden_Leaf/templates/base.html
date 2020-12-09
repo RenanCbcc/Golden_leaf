@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/table.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/button.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/form.css') }}">
 
     <title>Palma de Ouro</title>
     {% endblock %}
@@ -71,9 +72,7 @@
                     {% for breadcrumb in breadcrumbs %}
                     <li>
                         <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
-                        {% if loop.last %}
-                    <li>{{ breadcrumb.text }}</li>
-                    {% endif %}
+                    </li>
                     {% endfor %}
                 </ol>
             </nav>
