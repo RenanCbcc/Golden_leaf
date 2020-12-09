@@ -33,7 +33,7 @@ def new_category():
         db.session.commit()
         flash(form.title.data + ' inserido com sucesso!', 'success')
         return redirect(url_for('blueprint_category.get_categories'))
-    return render_template('category/new.html', form=form)
+    return render_template('category/form.html', form=form)
 
 
 @blueprint_category.route("/category/search", methods=['GET', 'POST'])
@@ -52,7 +52,7 @@ def search_category():
             flash('Mostrando categeria(s) encontrada(s) com nome: {}'.format(form.title.data), 'info')
             return render_template('category/list.html', categories=categories)
 
-    return render_template('category/search.html', form=form)
+    return render_template('category/form.html', form=form)
 
 
 @blueprint_category.route('/category/<int:id>/update', methods=['GET', 'POST'])
@@ -69,7 +69,7 @@ def update_category(id):
         return redirect(url_for('blueprint_category.get_categories'))
     elif request.method == 'GET':
         form.title.data = category.title
-    return render_template('category/edit.html', form=form)
+    return render_template('category/form.html', form=form)
 
 
 @blueprint_category.route('/category/<int:id>/product')
@@ -98,4 +98,4 @@ def new_product(id):
         db.session.commit()
         flash(form.description.data + ' inserido com sucesso!', 'success')
         return redirect(url_for('blueprint_category.products_of', id=category.id))
-    return render_template('product/new.html', form=form)
+    return render_template('category/form.html', form=form)

@@ -1,21 +1,20 @@
 {% extends "base.html" %}
 {% block page_content %}
-<div>
+<div class="table-container">
     <div>
-        <div>
-            
-            <div>
-                <a class="button primary" href="{{ url_for('blueprint_category.new_category') }}">
-                    Novo
-                </a>
-                <a class="button default" href="{{ url_for('blueprint_category.search_category') }}">
-                    Buscar
-                </a>
 
-            </div>
+        <div>
+            <a class="btn btn-primary" href="{{ url_for('blueprint_category.new_category') }}">
+                Nova
+            </a>
+            <a class="btn btn-default" href="{{ url_for('blueprint_category.search_category') }}">
+                Buscar
+            </a>
 
         </div>
+
     </div>
+
     <div>
         <table>
             <caption><h4>Categorias</h4></caption>
@@ -31,10 +30,10 @@
                     <td>{{ category.title }}</td>
 
                     <td align="center">
-                        <a class="button primary" href="{{ url_for('blueprint_category.update_category',id=category.id) }}">
+                        <a class="btn btn-primary" href="{{ url_for('blueprint_category.update_category',id=category.id) }}">
                             Editar
                         </a>
-                        <a class="button default" href="{{ url_for('blueprint_category.products_of',id=category.id) }}">
+                        <a class="btn btn-default" href="{{ url_for('blueprint_category.products_of',id=category.id) }}">
                             Ver produtos
                         </a>
                     </td>

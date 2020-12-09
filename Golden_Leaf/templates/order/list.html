@@ -1,25 +1,18 @@
 {% extends "base.html" %}
-{% block title %}Pedidos{% endblock %}
 {% block page_content %}
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col col-xs-6">
-                <h4>Pedidos</h4>
-            </div>
-            <div class="col col-xs-6 text-right">
+<div class="table-container">
+    <div>
 
-                <a href="{{ url_for('blueprint_order.search_order') }}" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search"></span>
-                    Buscar pedido
-                </a>
+        <a href="{{ url_for('blueprint_order.search_order') }}" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"></span>
+            Buscar pedido
+        </a>
 
-            </div>           
-
-        </div>
     </div>
-    <div class="panel-body">
-        <table class="table table-striped table-responsive table-bordered">
+
+    <div>
+        <table>
+            <caption><h4>Pedidos</h4></caption>
             <thead>
                 <tr>
                     <th>Comprado em</th>

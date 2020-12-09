@@ -1,53 +1,43 @@
 {% extends "base.html" %}
-{% block title %}Itens{% endblock %}
-
 {% block page_content %}
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col col-xs-6">
-                <h4>Lista de itens</h4>
-            </div>                    
 
-        </div>
-    </div>
-    <div class="panel-body">
-        <table class="table table-striped table-responsive table-bordered">
-            <thead>
-                <tr>
-                    <th>Descrição</th>
-                    <th>Quantidade</th>
-                    <th>Preço Unitátio</th>
-                    <th>Preto Total</th>
-                </tr>
-            </thead>
+<table>
+    <caption><h4>Lista de itens</h4></caption>
+    <thead>
+        <tr>
+            <th>Descrição</th>
+            <th>Quantidade</th>
+            <th>Preço Unitátio</th>
+            <th>Preto Total</th>
+        </tr>
+    </thead>
 
-            <tbody>
-                {% for item in order_items.items %}
-                <tr>
-                    <td>{{ item.product.description }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.product.unit_cost }}</td>
-                    <td>{{ item.extended_cost }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="panel-footer p-0">
-        {% for page_number in order_items.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
-                    {% if page_number %}
-                        {% if order_items.page == page_number %}
-                            <a class="btn btn-info mb-4"
-                               href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
-                        {% else %}
-                            <a class="btn btn-outline-info mb-4"
-                               href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
-                        {% endif %}
-                    {% else %}
-                        ...
-                    {% endif %}
+    <tbody>
+        {% for item in order_items.items %}
+        <tr>
+            <td>{{ item.product.description }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.product.unit_cost }}</td>
+            <td>{{ item.extended_cost }}</td>
+        </tr>
         {% endfor %}
-    </div>
+    </tbody>
+</table>
+
+<div>
+    {% for page_number in order_items.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+    {% if page_number %}
+    {% if order_items.page == page_number %}
+    <a class="btn btn-info mb-4"
+       href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
+    {% else %}
+    <a class="btn btn-outline-info mb-4"
+       href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
+    {% endif %}
+    {% else %}
+    ...
+    {% endif %}
+    {% endfor %}
 </div>
+
 {% endblock %}

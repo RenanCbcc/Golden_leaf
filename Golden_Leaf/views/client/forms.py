@@ -32,4 +32,4 @@ class UpdateClientForm(FlaskForm):
     street = StringField('Endereço', validators=[DataRequired()])
     notifiable = BooleanField('Deseja receber notificações?')
     status = BooleanField('Cliente ativo?')
-    submit = SubmitField('Submit')
+    submit = SubmitField('Salvar')

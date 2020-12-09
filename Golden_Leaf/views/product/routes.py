@@ -87,9 +87,6 @@ def update_product(id):
     product = Product.query.filter_by(id=id).one()
     form = UpdateProductForm(categories=product.category)
     if form.validate_on_submit():
-        if form.picture.data:
-            picture_file = save_picture(form.picture.data)
-            product.image_file = picture_file
         product.category = form.categories.data
         product.description = form.description.data
         product.unit_cost = form.unit_cost.data
@@ -107,16 +104,3 @@ def update_product(id):
     return render_template('product/edit.html', form=form, image_file=image_file)
 
 
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(16)
-    # I do not want the file file name, so I use _ instead
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_filename = random_hex + f_ext
-    picture_path = os.path.join(current_app.root_path, 'static/product_pic', picture_filename)
-
-    output_size = (320, 320)
-    image = Image.open(form_picture)
-    image.thumbnail(output_size)
-    # Saves the picture in file system
-    image.save(picture_path)
-    return picture_filename

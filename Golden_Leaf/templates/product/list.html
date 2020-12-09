@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% block page_content %}
-<div>
+<div class="table-container">
+
+
     <div>
-
-        <div>
-            <a class="button primary" href="{{ url_for('blueprint_product.new_product') }}">
-                Novo
-            </a>
-            <a class="button default" href="{{ url_for('blueprint_product.search_product') }}">
-                Buscar
-            </a>
-
-        </div>
+        <a class="btn btn-primary" href="{{ url_for('blueprint_product.new_product') }}">
+            Novo
+        </a>
+        <a class="btn btn-default" href="{{ url_for('blueprint_product.search_product') }}">
+            Buscar
+        </a>
 
     </div>
+
+
     <div>
         <table>
             <caption><h4>Produtos</h4></caption>
@@ -39,7 +39,7 @@
                     <td>{{ product.code }}</td>
 
                     <td align="center">
-                        <a class="button primary" href="{{ url_for('blueprint_product.update_product',id=product.id) }}">
+                        <a class="btn btn-primary" href="{{ url_for('blueprint_product.update_product',id=product.id) }}">
                             Editar
                         </a>
                     </td>
