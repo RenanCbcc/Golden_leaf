@@ -127,6 +127,8 @@
     <Content Include="Golden_Leaf\static\css\base.css" />
     <Content Include="Golden_Leaf\static\css\button.css" />
     <Content Include="Golden_Leaf\static\css\form.css" />
+    <Content Include="Golden_Leaf\static\css\message.css" />
+    <Content Include="Golden_Leaf\static\css\tab.css" />
     <Content Include="Golden_Leaf\static\css\table.css" />
     <Content Include="Golden_Leaf\templates\category\form.html" />
     <Content Include="Golden_Leaf\templates\client\edit.html" />

@@ -1,7 +1,3 @@
-* {
-    box-sizing: border-box;
-}
-
 .form-container {
     border-radius: 5px;
     padding: 20px;
@@ -33,18 +29,21 @@
     margin-top: 6px;
 }
 
-label {
+.label {
     padding: 12px 12px 12px 0;
     display: inline-block;
 }
 
-input, select {
+.form {
+    display: block;
     width: 100%;
     padding: 10px 25px;
     border-radius: .25rem;
     border: 1px solid #ced4da;
-    resize: vertical;
+    color: #212529;
+    background-color: #fff;
 }
+
 
 option {
     font-size: 15px;

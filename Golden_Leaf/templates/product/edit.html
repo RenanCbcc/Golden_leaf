@@ -7,45 +7,45 @@
         {{ form.hidden_tag() }}
         <div class="row">
             <div class="col-25">
-                {{ form.categories.label }}
+                {{ form.categories.label(class="label") }}
             </div>
             <div class="col-75">
-                {{form.categories}}
+                {{form.categories(class="form")}}
             </div>
         </div>
         <div class="row">
             <div class="col-25">
-                {{ form.description.label }}
+                {{ form.description.label(class="label") }}
             </div>
             <div class="col-75">
-                {{form.description}}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-25">
-                {{ form.unit_cost.label }}
-            </div>
-            <div class="col-75">
-                {{form.unit_cost}}
+                {{form.description(class="form")}}
             </div>
         </div>
 
         <div class="row">
             <div class="col-25">
-                {{ form.code.label }}
+                {{ form.unit_cost.label(class="label") }}
             </div>
             <div class="col-75">
-                {{form.code}}
+                {{form.unit_cost(class="form")}}
             </div>
         </div>
 
         <div class="row">
             <div class="col-25">
-                {{ form.is_available.label }}
+                {{ form.code.label(class="label") }}
             </div>
             <div class="col-75">
-                {{form.is_available}}
+                {{form.code(class="form")}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                {{ form.is_available.label(class="label") }}
+            </div>
+            <div class="col-75">
+                {{form.is_available(class="form")}}
             </div>
         </div>
 
@@ -54,7 +54,7 @@
 
             </div>
             <div class="col-75">
-                {{form.submit}}
+                {{form.submit(class="btn btn-default")}}
             </div>
         </div>
 

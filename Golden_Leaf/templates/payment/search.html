@@ -1,23 +1,38 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Buscar{% endblock %}
 {% block page_content %}
 
-   
-<div class="col-md-4 col-md-offset-4">  
-    <div class="panel panel-info">
-        <div class="panel-heading">
-        <h4>Buscar pagamento</h4>    
+<div class="form-container">
+    <form action="" method="POST">
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col-25">
+                {{ form.clerks.label }}
+            </div>
+            <div class="col-75">
+                {{form.clerks}}
+            </div>
         </div>
-        <div class="panel-body">
-            <form action="" method="POST">
-                {{ form.csrf_token }}
-                {{ form.hidden_tag() }}
-                {{ wtf.quick_form(form) }}
-            </form>
-        </div>    
-        
-    </div>
+
+        <div class="row">
+            <div class="col-25">
+                {{ form.clients.label }}
+            </div>
+            <div class="col-75">
+                {{form.clients}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+
+            </div>
+            <div class="col-75">
+                {{form.submit(class="btn btn-default")}}
+            </div>
+        </div>
+
+    </form>
 </div>
 
 {% endblock %}

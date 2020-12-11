@@ -1,0 +1,7 @@
+.tabs {
+    color: #fff !important;
+    background-color: #f44336;
+    border: 1px solid #ccc;
+    width: 100%;
+    overflow: hidden;
+}

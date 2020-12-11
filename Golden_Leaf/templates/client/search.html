@@ -7,10 +7,10 @@
         {{ form.hidden_tag() }}
         <div class="row">
             <div class="col-25">
-                {{ form.name.label }}
+                {{ form.name.label(class="label") }}
             </div>
             <div class="col-75">
-                {{form.name}}
+                {{form.name(class="form")}}
             </div>
         </div>
 
@@ -19,7 +19,7 @@
 
             </div>
             <div class="col-75">
-                {{form.submit}}
+                {{form.submit(class="btn btn-default")}}
             </div>
         </div>
 

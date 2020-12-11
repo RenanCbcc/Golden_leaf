@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/table.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/button.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/form.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/message.css') }}">
 
     <title>Palma de Ouro</title>
     {% endblock %}
@@ -19,44 +20,44 @@
     {% block navbar %}
     <header>
         <nav>
-            <div class="nav-menu">
-                <ul>
-                    <li>
-                        <a class="active" href="{{ url_for('blueprint_main.index') }}">
+            <div>
+                <ul class="nav" >
+                    <li class="nav-item-left">
+                        <a class="nav-link active" href="{{ url_for('blueprint_main.index') }}">
                             <span class="glyphicon glyphicon-leaf"></span> Palma de Ouro
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ url_for('blueprint_category.get_categories') }}">Categorias</a>
+                    <li class="nav-item-left">
+                        <a class="nav-link" href="{{ url_for('blueprint_category.get_categories') }}">Categorias</a>
                     </li>
-                    <li>
-                        <a href="{{ url_for('blueprint_product.get_products') }}">Produtos</a>
+                    <li class="nav-item-left">
+                        <a class="nav-link" href="{{ url_for('blueprint_product.get_products') }}">Produtos</a>
                     </li>
-                    <li>
-                        <a href="{{ url_for('blueprint_client.get_clients') }}">Clientes</a>
+                    <li class="nav-item-left">
+                        <a class="nav-link" href="{{ url_for('blueprint_client.get_clients') }}">Clientes</a>
                     </li>
-                    <li>
-                        <a href="{{ url_for('blueprint_order.get_orders') }}">Pedidos</a>
+                    <li class="nav-item-left">
+                        <a class="nav-link" href="{{ url_for('blueprint_order.get_orders') }}">Pedidos</a>
                     </li>
-                    <li>
-                        <a href="{{ url_for('blueprint_payment.get_payment') }}">Pagamentos</a>
+                    <li class="nav-item-left">
+                        <a class="nav-link" href="{{ url_for('blueprint_payment.get_payment') }}">Pagamentos</a>
                     </li>
                     {% if current_user.is_authenticated %}
-                    <li class="nav-user">
-                        <a href="{{ url_for('blueprint_clerk.account') }}">
+                    <li class="nav-item-right">
+                        <a class="nav-link" href="{{ url_for('blueprint_clerk.account') }}">
                             {{ current_user.name }}
                         </a>
 
                     </li>
-                    <li class="nav-user">
-                        <a href="{{ url_for('blueprint_clerk.logout') }}">
+                    <li class="nav-item-right">
+                        <a class="nav-link" href="{{ url_for('blueprint_clerk.logout') }}">
                             Logout
                         </a>
                     </li>
 
                     {% else %}
-                    <li class="nav-user">
-                        <a href="{{ url_for('blueprint_clerk.login') }}">
+                    <li class="nav-item-right">
+                        <a class="nav-link" href="{{ url_for('blueprint_clerk.login') }}">
                             <span class="glyphicon glyphicon-user"></span> Login
                         </a>
                     </li>
@@ -66,12 +67,12 @@
 
 
         </nav>
-        <div class="nav-menu">
+        <div>
             <nav>
-                <ol>
+                <ol class="breadcrumb">
                     {% for breadcrumb in breadcrumbs %}
-                    <li>
-                        <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+                    <li class="nav-item-left">
+                        <a class="nav-link" href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
                     </li>
                     {% endfor %}
                 </ol>

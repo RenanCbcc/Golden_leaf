@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block page_content %}
-<div class="table-container">
-
+<div class="container">
 
     <div>
         <a class="btn btn-primary" href="{{ url_for('blueprint_product.new_product') }}">
@@ -12,7 +11,6 @@
         </a>
 
     </div>
-
 
     <div>
         <table>
@@ -48,7 +46,7 @@
             </tbody>
         </table>
     </div>
-    <div class="panel-footer p-0">
+    <div>
         {% for page_number in all_products.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
         {% if page_number %}
         {% if all_products.page == page_number %}
