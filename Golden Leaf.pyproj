@@ -134,7 +134,6 @@
     <Content Include="Golden_Leaf\templates\client\edit.html" />
     <Content Include="Golden_Leaf\templates\client\new.html" />
     <Content Include="Golden_Leaf\templates\client\search.html" />
-    <Content Include="Golden_Leaf\templates\form.html" />
     <Content Include="Golden_Leaf\templates\main\index.html" />
     <Content Include="Golden_Leaf\templates\product\edit.html" />
     <Content Include="Golden_Leaf\templates\product\search.html" />

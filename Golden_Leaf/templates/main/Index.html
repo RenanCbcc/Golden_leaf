@@ -1,40 +1,26 @@
 ﻿{% extends "base.html" %}
 {% block page_content %}
-<div>
+<div class="container">
     <div>
 
         <!-- Default panel contents -->
-        <div>
-            <div>
+        <div class="row">
+            <div class="col-75">
                 <h4>Pagamento & Pedidos</h4>
-            </div>
-        </div>
-        <div>
-            <!-- Table will be inserted here dinamicly-->
-            <div id="balanceview">
-
-            </div>
-        </div>
-
-    </div>
-    <div>
-        <div>
-            <!-- Default panel contents -->
-            <div>
-                <div>
-                    <div>
-                        <h4>Redimentos</h4>
-                    </div>
-
+                <div id="balanceview">
                 </div>
             </div>
-            <div>
+            <div class="col-25">
                 <!-- Table will be inserted here dinamicly-->
+                <h4>Redimentos</h4>
                 <div id="profitview">
                 </div>
             </div>
         </div>
+        
+
     </div>
+
 </div>
 
 {% endblock %}

@@ -21,18 +21,10 @@
         </div>
 
         <div class="col-25">
-            <ul id="myTab" role="tablist">
-                <li>
-                    <a id="manual-tab" data-toggle="tab" href="#manual" role="tab"
-                       aria-controls="manual" aria-selected="true">Manual</a>
-                </li>
-                <li>
-                    <a id="automatic-tab" data-toggle="tab" href="#automatic" role="tab"
-                       aria-controls="automatic" aria-selected="false">Automatico</a>
-                </li>
-            </ul>
-            <div>
-                <div id="manual" role="tabpanel" aria-labelledby="manual-tab">
+            <div class="tabs">
+                <input type="radio" id="tabmanual" name="tab" checked="checked">
+                <label class="tab-label" for="tabmanual">Manual</label>
+                <div class="tab">
                     <form action="" id="manual-form" method="POST">
                         <div id="categoriesView">
                             <!-- Select will be inserted here dinamicly-->
@@ -42,55 +34,95 @@
                             <!-- Select will be inserted here dinamicly-->
                         </div>
 
-                        <div>
-                            <label for="unit_cost_manual_form">Preço</label>
-                            <input disabled type="text" class="form-control" id="unit_cost_manual_form">
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="label" for="unit_cost_manual_form">Preço</label>
+                            </div>
+                            <div class="col-75">
+                                <input class="form" disabled type="text" id="unit_cost_manual_form">
+                            </div>
+
                         </div>
 
-                        <div>
-                            <label for="quantity_manual_form">Quantidade</label>
-                            <input type="number" placeholder="1,00" name="price" min="0.01" value="1" step="0.01"
-                                   class="form-control" id="quantity_manual_form" required="">
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="label" for="quantity_manual_form">Quantidade</label>
+                            </div>
+                            <div class="col-75">
+                                <input type="number" placeholder="1,00" name="price" min="0.01" value="1" step="0.01"
+                                       class="form" id="quantity_manual_form" required="">
+                            </div>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-primary" id="add-item-btn-manual-form">
-                                Adicionar
-                            </button>
+                            <div class="col-25">
+                                
+                            </div>
+                            <div class="col-75">
+                                <button type="button" class="btn btn-primary" id="add-item-btn-manual-form">
+                                    Adicionar
+                                </button>
+                            </div>
+                            
                         </div>
                     </form>
-
                 </div>
-                <div id="automatic" role="tabpanel" aria-labelledby="automatic-tab">
+
+                <input type="radio" id="tabutomatic" name="tab">
+                <label class="tab-label" for="tabutomatic">Automatico</label>
+                <div class="tab">
                     <form action="" method="POST">
-                        <div>
-                            <input id="product_id_automatic_form" name="product" type="hidden" value="">
-                            <label for="product_code_automatic_form">Código</label>
-                            <input type="text" id="product_code_automatic_form" size="13"
-                                   maxlength="13">
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="label" for="product_code_automatic_form">Código</label>
+                            </div>
+                            <div class="col-75">
+                                <input class="form" type="text" id="product_code_automatic_form" size="13" maxlength="13">
+                            </div>
                         </div>
 
-                        <div>
-                            <label for="description_automatic_form">Descrição</label>
-                            <input disabled type="text" class="form-control" id="description_automatic_form">
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="label" for="description_automatic_form">Descrição</label>
+                            </div>
+                            <div class="col-75">
+                                <input disabled type="text" class="form" id="description_automatic_form">
+                            </div>
                         </div>
 
-                        <div>
-                            <label for="unit_cost_automatic_form">Preço</label>
-                            <input disabled type="text" class="form-control" id="unit_cost_automatic_form">
+
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="label" for="unit_cost_automatic_form">Preço</label>
+                            </div>
+                            <div class="col-75">
+                                <input disabled type="text" class="form" id="unit_cost_automatic_form">
+                            </div>
                         </div>
 
-                        <div>
-                            <label for="quantity_automatic_form">Quantidade</label>
-                            <input type="number" placeholder="1.00" name="price" min="0.01" value="1" step="0.01"
-                                   id="quantity_automatic_form" required="">
+                        <div class="row">
+                            <div class="col-25">
+                                <label class"label" for="quantity_automatic_form">Quantidade</label>
+                            </div>
+                            <div class="col-75">
+                                <input class="form" type="number" placeholder="1.00" name="price" min="0.01" value="1" step="0.01"
+                                       id="quantity_automatic_form" required="">
+                            </div>
                         </div>
-                        <div>
-                            <button type="button" class="btn btn-secondary" id="search-product-btn-automatic-form">
-                                Buscar
-                            </button>
-                            <button type="button" class="btn btn-primary" id="add-product-btn-automatic-form">
-                                Adicionar
-                            </button>
+                        <div class="row">
+                            <div class="col-25">
+                                
+                            </div>
+                            <div class="col-75">
+                                <button type="button" class="btn btn-secondary" id="search-product-btn-automatic-form">
+                                    Buscar
+                                </button>
+                                <button type="button" class="btn btn-primary" id="add-product-btn-automatic-form">
+                                    Adicionar
+                                </button>
+                            </div>
+
+                            
+                            
                         </div>
                     </form>
                 </div>

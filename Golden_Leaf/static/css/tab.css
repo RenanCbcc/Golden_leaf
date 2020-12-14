@@ -1,7 +1,40 @@
+
 .tabs {
-    color: #fff !important;
-    background-color: #f44336;
+    display: flex;
+    flex-wrap: wrap;
     border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tab {
+    background-color: #fff;
+    padding: 25px;
     width: 100%;
-    overflow: hidden;
+    border: none;
+    order: 1;
+    display: none;
+}
+
+.tabs input[type="radio"] {
+    display: none;
+}
+
+.tab-label {
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+    .tab-label:hover {
+        color: #000;
+        background-color: #ccc;
+    }
+
+.tabs input[type='radio']:checked + label + .tab {
+    display: block;
+}
+
+.tabs input[type="radio"]:checked + label {
+    background: #fff;
 }
