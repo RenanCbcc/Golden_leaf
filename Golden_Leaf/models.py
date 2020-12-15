@@ -1,6 +1,5 @@
 from __future__ import annotations
 import decimal
-import enum
 import jwt
 from abc import ABCMeta
 from datetime import datetime
@@ -26,10 +25,6 @@ class AdminView(ModelView):
         return current_user.is_authenticated
 
 
-class Status(enum.Enum):
-    PAGO = "Pago"
-    PENDENTE = "Pendente"
-
 
 class User(db.Model):
     """
@@ -53,6 +48,7 @@ class Client(User):
     notifiable = db.Column(db.Boolean)
     address = db.Column(db.String(64))
     status = db.Column(db.Boolean)
+    amount = db.Column(db.Numeric(10, 2), default=0)
 
     def __init__(self, name, phone_number, identification, address, notifiable, status=True):
         super().__init__(name, phone_number)
@@ -69,7 +65,8 @@ class Client(User):
             'identification': self.identification,
             'address': self.address,
             'notifiable': self.notifiable,
-            'status': self.status
+            'status': self.status,
+            'amount': str(self.amount)
         }
         return json_client
 
@@ -239,22 +236,18 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, ForeignKey('clients.id'), nullable=False)
     clerk_id = db.Column(db.Integer, ForeignKey('clerks.id'), nullable=False)
-    payment_id = db.Column(db.Integer, ForeignKey(
-        'payments.id'), nullable=True)
+ 
     date = db.Column(db.DateTime, index=True, default=datetime.now)
     total = db.Column(db.Numeric(10, 2), default=0)
-    status = db.Column(db.Enum(Status), default=Status.PENDENTE)
+    
 
     client = relationship("Client", backref=backref('orders', order_by=id))
     clerk = relationship("Clerk", backref=backref('orders', order_by=id))
 
-    payment = relationship("Payment", backref=backref(
-        'orders', order_by=id), lazy=True)
 
     def __init__(self, client_id, clerk_id):
         self.client_id = client_id
         self.clerk_id = clerk_id
-        self.status = Status.PENDENTE
         self.payment = None
         self.total: float = 0
 
@@ -264,8 +257,7 @@ class Order(db.Model):
             'client': self.client.name,
             'clerk': self.clerk.name,
             'total': str(self.total),
-            'date': self.date.strftime("%d/%m/%Y %H:%M:%S"),
-            'status': self.status.name
+            'date': self.date.strftime("%d/%m/%Y %H:%M:%S")
         }
 
     @staticmethod

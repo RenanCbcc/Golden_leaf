@@ -3,7 +3,7 @@ import jwt
 from flask import jsonify, request, url_for, current_app
 from Golden_Leaf.api import api
 from sqlalchemy import func
-from Golden_Leaf.models import Order, Status, Payment, Client, Clerk, db
+from Golden_Leaf.models import Order, Payment, Client, Clerk, db
 from flask_inputs import Inputs
 from wtforms.validators import DataRequired, Regexp, ValidationError
 from Golden_Leaf.api.clerk import auth
@@ -30,16 +30,14 @@ def valide_client_id(data: dict):
     if 'client_id' not in data:
         raise ValidationError("O pagamento precisa ter um campo 'client_id'.")
     if not Client.query.filter_by(id=data['client_id']).first():
-        raise ValidationError(
-            f"Id '{data['client_id']}' do cliente é inválido.")
+        raise ValidationError(f"Id '{data['client_id']}' do cliente é inválido.")
 
 
 def valide_clerk_id(data: dict):
     if 'clerk_id' not in data:
         raise ValidationError("O pagamento precisa ter um campo 'clerk_id'.")
     if not Clerk.query.filter_by(id=data['clerk_id']).first():
-        raise ValidationError(
-            f"Id '{data['clerk_id']}' do atendente é inválido.")
+        raise ValidationError(f"Id '{data['clerk_id']}' do atendente é inválido.")
 
 
 def validate_payment_amount(data: dict):
@@ -48,8 +46,7 @@ def validate_payment_amount(data: dict):
     if is_decimal(data['amount']):
         payment_value = float(data['amount'])
         if payment_value < 0.1 or payment_value > 1000.0:
-            raise ValidationError(
-                "O valor do pagamento estar entre R$ 0.1 e R$ 1000.0")
+            raise ValidationError("O valor do pagamento estar entre R$ 0.1 e R$ 1000.0")
         else:
             return
     raise ValidationError(f"Valor '{data['amount']}' para pagamento é inválido.")
@@ -74,14 +71,12 @@ class PaymentInputs(Inputs):
 @api.route('/payment/client/<int:id>', methods=['GET'])
 def get_payment(id):
     if id is not None:
-        payments = Payment.query.filter_by(client_id=id).order_by(
-            Payment.paid.desc()).all()
+        payments = Payment.query.filter_by(client_id=id).order_by(Payment.paid.desc()).all()
         response = jsonify([payment.to_json() for payment in payments])
         response.status_code = 200
         return response
 
-    payments = Payment.query.order_by(
-        Payment.paid.desc()).all()
+    payments = Payment.query.order_by(Payment.paid.desc()).all()
     response = jsonify([payment.to_json() for payment in payments])
     response.status_code = 200
     return response
@@ -115,14 +110,13 @@ def new_payment():
 
 
 def get_order_total(id) -> float:
-    return db.session.query(func.sum(Order.total)) \
-        .filter_by(client_id=id, status=Status.PENDENTE) \
+    return db.session.query(func.sum(Client.total)) \
+        .filter_by(client_id=id) \
         .scalar()
 
 
-def get_orders_of_client(id):
-    return Order.query.filter_by(
-        client_id=id, status=Status.PENDENTE).order_by(Order.date).all()
+def get_client(id):
+    return Client.query.filter_by(client_id=id).first();
 
 
 def payment_amount_error(value) -> str:
@@ -133,8 +127,7 @@ def payment_amount_error(value) -> str:
 
 
 def payment_successfuly(payment: Payment) -> str:
-    response = jsonify(
-        {'Sucesso': 'Pagamento recebido com sucesso!', 'payment_id': payment.id})
+    response = jsonify({'Sucesso': 'Pagamento recebido com sucesso!', 'payment_id': payment.id})
     response.status_code = 201
     send_message(payment)
     return response
@@ -147,24 +140,13 @@ def send_message(payment: Payment) -> None:
         from twilio.rest import Client as Twilio_Client
         twilio_client = Twilio_Client(account_sid, auth_token)
 
-        twilio_client.messages.create(
-            body='Olá, ' + client.name +
-                 ' . Você debitou R$ ' + value + ' em sua conta. Volte sempre!',
+        twilio_client.messages.create(body='Olá, ' + client.name + ' . Você debitou R$ ' + value + ' em sua conta. Volte sempre!',
             from_='+12054311596',
-            to='+55' + client.phone_number
-        )
+            to='+55' + client.phone_number)
 
 
 def pay_off(payment: Payment) -> None:
     value = payment.amount
-    while value > 0:
-        for order in get_orders_of_client(payment.client_id):
-            if value >= order.total:
-                value = value - order.total
-                order.status = Status.PAGO
-
-            else:
-                order.total = order.total - value
-                value = 0
-                order.payment = payment
-                payment.orders.append(order)
+    client = get_client(payment.client_id)
+    client.amount -= value; 
+    

@@ -2,7 +2,7 @@ from flask import request, redirect, url_for, render_template, flash
 from flask_breadcrumbs import register_breadcrumb
 from flask_login import current_user, login_required
 from sqlalchemy import func
-from Golden_Leaf.models import Order, Status, Payment, Client, db
+from Golden_Leaf.models import Order, Payment, Client, db
 from Golden_Leaf.views.payment import blueprint_payment
 from Golden_Leaf.views.payment.forms import NewPaymentForm, SearchPaymentForm
 
@@ -19,12 +19,10 @@ def view_client_dlc(*args, **kwargs):
 def get_payment(id):
     page = request.args.get('page', 1, type=int)
     if id is not None:
-        payments = Payment.query.filter_by(client_id=id).order_by(
-            Payment.date.desc()).paginate(page=page, per_page=10)
+        payments = Payment.query.filter_by(client_id=id).order_by(Payment.date.desc()).paginate(page=page, per_page=10)
         return render_template('payment/list.html', payments=payments)
 
-    payments = Payment.query.order_by(
-        Payment.date.desc()).paginate(page=page, per_page=10)
+    payments = Payment.query.order_by(Payment.date.desc()).paginate(page=page, per_page=10)
     return render_template('payment/list.html', payments=payments)
 
 
@@ -49,15 +47,12 @@ def search_payment():
         payments = None
         if clerk is not None:
             if client is not None:
-                payments = Payment.query.filter_by(
-                    client=client, clerk=clerk).paginate(page=page, per_page=10)
+                payments = Payment.query.filter_by(client=client, clerk=clerk).paginate(page=page, per_page=10)
             else:
-                payments = Payment.query.filter_by(
-                    clerk=clerk, ).paginate(page=page, per_page=10)
+                payments = Payment.query.filter_by(clerk=clerk,).paginate(page=page, per_page=10)
 
         elif client is not None:
-            payments = Payment.query.filter_by(
-                client=client, ).paginate(page=page, per_page=10)
+            payments = Payment.query.filter_by(client=client,).paginate(page=page, per_page=10)
 
         if not payments:
             flash('Pagamento algum encontrado', 'warning')
@@ -77,8 +72,7 @@ def new_payment(id):
     if form.validate_on_submit():
         payment_value = form.value.data
         if payment_value > get_order_total(id):
-            flash('Valor para pagamento ' +
-                  str(payment_value) + ' inválido.', 'warning')
+            flash('Valor para pagamento ' + str(payment_value) + ' inválido.', 'warning')
             return redirect(url_for('blueprint_payment.new_payment', id=id))
         else:
             client = Client.query.get(id)
@@ -95,29 +89,22 @@ def new_payment(id):
 
 
 def get_order_total(id) -> float:
-    return db.session.query(func.sum(Order.total)) \
-        .filter_by(client_id=id, status=Status.PENDENTE) \
+    return db.session.query(func.sum(Client.amount)) \
+        .filter_by(client_id=id) \
         .scalar()
 
 
 def get_orders_of_client(id):
-    return Order.query.filter_by(
-        client_id=id, status=Status.PENDENTE).order_by(Order.date).all()
+    return Order.query.filter_by(client_id=id).order_by(Order.date).all()
 
+
+def get_client(id):
+    return Client.query.filter_by(client_id=id).first();
 
 def pay_off(payment: Payment) -> None:
-    value = payment.total
-    while value > 0:
-        for order in get_orders_of_client(payment.client_id):
-            if value >= order.total:
-                value = value - order.total
-                order.status = Status.PAGO
-
-            else:
-                order.total = order.total - value
-                value = 0
-                order.payment = payment
-                payment.orders.append(order)
+    value = payment.amount
+    client = get_client(payment.client_id)
+    client.amount -= value 
 
 
 def send_message(payment: Payment) -> None:
@@ -127,9 +114,6 @@ def send_message(payment: Payment) -> None:
         from twilio.rest import Client as Twilio_Client
         twilio_client = Twilio_Client(account_sid, auth_token)
 
-        twilio_client.messages.create(
-            body='Olá, ' + client.name +
-                 ' . Você debitou R$ ' + value + ' em sua conta. Volte sempre!',
+        twilio_client.messages.create(body='Olá, ' + client.name + ' . Você debitou R$ ' + value + ' em sua conta. Volte sempre!',
             from_='+12054311596',
-            to='+55' + client.phone_number
-        )
+            to='+55' + client.phone_number)

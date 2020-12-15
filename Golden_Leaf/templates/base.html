@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/form.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/message.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tab.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/account.css') }}">
 
     <title>Palma de Ouro</title>
     {% endblock %}
@@ -21,52 +22,48 @@
     {% block navbar %}
     <header>
         <nav>
-            <div>
-                <ul class="nav" >
-                    <li class="nav-item-left">
-                        <a class="nav-link active" href="{{ url_for('blueprint_main.index') }}">
-                            <span class="glyphicon glyphicon-leaf"></span> Palma de Ouro
-                        </a>
-                    </li>
-                    <li class="nav-item-left">
-                        <a class="nav-link" href="{{ url_for('blueprint_category.get_categories') }}">Categorias</a>
-                    </li>
-                    <li class="nav-item-left">
-                        <a class="nav-link" href="{{ url_for('blueprint_product.get_products') }}">Produtos</a>
-                    </li>
-                    <li class="nav-item-left">
-                        <a class="nav-link" href="{{ url_for('blueprint_client.get_clients') }}">Clientes</a>
-                    </li>
-                    <li class="nav-item-left">
-                        <a class="nav-link" href="{{ url_for('blueprint_order.get_orders') }}">Pedidos</a>
-                    </li>
-                    <li class="nav-item-left">
-                        <a class="nav-link" href="{{ url_for('blueprint_payment.get_payment') }}">Pagamentos</a>
-                    </li>
-                    {% if current_user.is_authenticated %}
-                    <li class="nav-item-right">
-                        <a class="nav-link" href="{{ url_for('blueprint_clerk.account') }}">
-                            {{ current_user.name }}
-                        </a>
+            <ul class="nav">
+                <li class="nav-item-left">
+                    <a class="nav-link active" href="{{ url_for('blueprint_main.index') }}">
+                        <span class="glyphicon glyphicon-leaf"></span> Palma de Ouro
+                    </a>
+                </li>
+                <li class="nav-item-left">
+                    <a class="nav-link" href="{{ url_for('blueprint_category.get_categories') }}">Categorias</a>
+                </li>
+                <li class="nav-item-left">
+                    <a class="nav-link" href="{{ url_for('blueprint_product.get_products') }}">Produtos</a>
+                </li>
+                <li class="nav-item-left">
+                    <a class="nav-link" href="{{ url_for('blueprint_client.get_clients') }}">Clientes</a>
+                </li>
+                <li class="nav-item-left">
+                    <a class="nav-link" href="{{ url_for('blueprint_order.get_orders') }}">Pedidos</a>
+                </li>
+                <li class="nav-item-left">
+                    <a class="nav-link" href="{{ url_for('blueprint_payment.get_payment') }}">Pagamentos</a>
+                </li>
+                {% if current_user.is_authenticated %}
+                <li class="nav-item-right">
+                    <a class="nav-link" href="{{ url_for('blueprint_clerk.account') }}">
+                        {{ current_user.name }}
+                    </a>
 
-                    </li>
-                    <li class="nav-item-right">
-                        <a class="nav-link" href="{{ url_for('blueprint_clerk.logout') }}">
-                            Logout
-                        </a>
-                    </li>
+                </li>
+                <li class="nav-item-right">
+                    <a class="nav-link" href="{{ url_for('blueprint_clerk.logout') }}">
+                        Logout
+                    </a>
+                </li>
 
-                    {% else %}
-                    <li class="nav-item-right">
-                        <a class="nav-link" href="{{ url_for('blueprint_clerk.login') }}">
-                            <span class="glyphicon glyphicon-user"></span> Login
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-
-
+                {% else %}
+                <li class="nav-item-right">
+                    <a class="nav-link" href="{{ url_for('blueprint_clerk.login') }}">
+                        <span class="glyphicon glyphicon-user"></span> Login
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
         </nav>
         <div>
             <nav>
@@ -93,7 +90,6 @@
     </header>
     {% endblock %}
     <main>
-        {% block title %}{% endblock %}
         {% block content  %}
 
         <div>
@@ -104,6 +100,6 @@
         {% endblock %}
     </main>
 
-    <footer> &copy; Renan Rosa 2020</footer>
+    <footer> &copy; Renan Rosa 2021</footer>
 
 </body>

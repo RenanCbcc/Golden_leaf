@@ -3,7 +3,7 @@ import jwt
 from flask import request, jsonify, current_app
 from Golden_Leaf import db
 from Golden_Leaf.api import api
-from Golden_Leaf.models import Item, Product, Order, Client, Clerk, Status
+from Golden_Leaf.models import Item, Product, Order, Client, Clerk
 from flask_inputs import Inputs
 from wtforms.validators import DataRequired, ValidationError
 from Golden_Leaf.api.clerk import auth
@@ -31,16 +31,14 @@ def valide_client_id(data: dict):
     if 'client_id' not in data:
         raise ValidationError("O pedido precisa ter um campo 'client_id'.")
     if not Client.query.filter_by(id=data['client_id']).first():
-        raise ValidationError(
-            f"Id '{data['client_id']}' do cliente é inválido.")
+        raise ValidationError(f"Id '{data['client_id']}' do cliente é inválido.")
 
 
 def valide_clerk_id(data: dict):
     if 'clerk_id' not in data:
         raise ValidationError("O pedido precisa ter um campo 'clerk_id'.")
     if not Clerk.query.filter_by(id=data['clerk_id']).first():
-        raise ValidationError(
-            f"Id '{data['clerk_id']}' do atendente é inválido.")
+        raise ValidationError(f"Id '{data['clerk_id']}' do atendente é inválido.")
 
 
 class OrderInputs(Inputs):
@@ -53,9 +51,9 @@ class OrderInputs(Inputs):
 
 class ItemInput():
     def __init__(self):
-        self.error: str = "error"
-        self.product: Product = None
-        self.quantity: float = 0
+        self.error : str = "error"
+        self.product : Product = None
+        self.quantity : float = 0
 
     def is_float(self, value: str) -> bool:
         try:
@@ -125,8 +123,7 @@ def save_order():
         db.session.add(order)
         db.session.flush()  # Get the id before committing the object.
         db.session.commit()
-        response = jsonify(
-            {'Sucesso': 'O pedido foi registrado com sucesso.', 'order_id': order.id})
+        response = jsonify({'Sucesso': 'O pedido foi registrado com sucesso.', 'order_id': order.id})
         response.status_code = 200
         send_message(order)
         return response
@@ -161,14 +158,15 @@ def add_items(order: Order) -> Order:
         extended_cost = itemInput.product.unit_cost * \
             decimal.Decimal(itemInput.quantity)
         order.total += extended_cost
-        order.items.append(
-            Item(itemInput.product.id, order, itemInput.quantity, extended_cost))
+        order.items.append(Item(itemInput.product.id, order, itemInput.quantity, extended_cost))
+    client = Client.query.filter_by(id=order.client_id).first()
+    client.amount += order.total
     return order
 
 
 def get_order_total(id) -> float:
-    return db.session.query(func.sum(Order.total)) \
-        .filter_by(client_id=id, status=Status.PENDENTE) \
+    return db.session.query(func.sum(Client.amount)) \
+        .filter_by(client_id=id) \
         .scalar()
 
 

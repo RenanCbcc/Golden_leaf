@@ -22,6 +22,7 @@
                     <th>Nome</th>
                     <th>Matrícula</th>
                     <th>Status</th>
+                    <th>Débito</th>
                 </tr>
             </thead>
 
@@ -35,7 +36,7 @@
                     {% else %}
                     <td>inativo</td>
                     {% endif %}
-
+                    <td>{{ client.amount }}</td>
 
                     <td align="center">
                         <a href="{{ url_for('blueprint_client.update_client',id=client.id) }}" class="btn btn-primary">

@@ -3,7 +3,7 @@ from flask_breadcrumbs import register_breadcrumb
 from flask_login import login_required, current_user
 from sqlalchemy import func
 from Golden_Leaf import db
-from Golden_Leaf.models import Order, Client, Item, Status
+from Golden_Leaf.models import Order, Client, Item
 from Golden_Leaf.views.order import blueprint_order
 from Golden_Leaf.views.order.forms import SearchOrderForm
 import jwt
@@ -32,8 +32,7 @@ def get_orders(id):
             .order_by(Order.date.desc()) \
             .paginate(page=page, per_page=10)
         return render_template('order/client_orders.html', orders=orders, client_id=id)
-    orders = Order.query.order_by(
-        Order.date.desc()).paginate(page=page, per_page=10)
+    orders = Order.query.order_by(Order.date.desc()).paginate(page=page, per_page=10)
     return render_template('order/list.html', orders=orders)
 
 
@@ -47,7 +46,8 @@ def new_order(id):
 
 
 @blueprint_order.route('/order/<int:id>/items', methods=['GET'])
-# @register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_order_dlc)
+# @register_breadcrumb(blueprint_order, '.id', '',
+# dynamic_list_constructor=view_order_dlc)
 @login_required
 def items_order(id):
     order = Order.query.get_or_404(id)
@@ -63,19 +63,18 @@ def search_order():
     form = SearchOrderForm()
     if form.validate_on_submit():
         client = form.clients.data
-        clerk = form.clerks.data
-        status = Status[form.status.data]
+        clerk = form.clerks.data        
         orders = None
         if clerk is not None:
             if client is not None:
-                orders = Order.query.filter_by(client=client, clerk=clerk, status=status).paginate(page=page,
+                orders = Order.query.filter_by(client=client, clerk=clerk).paginate(page=page,
                                                                                                    per_page=10)
             else:
-                orders = Order.query.filter_by(clerk=clerk, status=status).paginate(page=page,
+                orders = Order.query.filter_by(clerk=clerk).paginate(page=page,
                                                                                     per_page=10)
 
         elif client is not None:
-            orders = Order.query.filter_by(client=client, status=status).paginate(page=page,
+            orders = Order.query.filter_by(client=client).paginate(page=page,
                                                                                   per_page=10)
 
         if orders:
@@ -87,20 +86,6 @@ def search_order():
 
     return render_template("order/search.html", form=form)
 
-
-@blueprint_order.route('/order/client/<int:id>/pending', methods=['GET'])
-@register_breadcrumb(blueprint_order, '.id', '', dynamic_list_constructor=view_client_dlc)
-@login_required
-def pending_order(id):
-    page = request.args.get('page', 1, type=int)
-    if page == 1:
-        total = db.session.query(func.sum(Order.total)) \
-            .filter_by(client_id=id, status=Status.PENDENTE) \
-            .scalar()
-    orders = Order.query.filter_by(client_id=id, status=Status.PENDENTE) \
-        .order_by(Order.date.desc()) \
-        .paginate(page=page, per_page=10)
-    return render_template('order/pending_order.html', orders=orders, client_id=id, total=total)
 
 
 def get_token(client_id, clerk_id, expires_in=25):

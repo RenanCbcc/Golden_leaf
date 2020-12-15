@@ -1,9 +1,64 @@
 {% extends "base.html" %}
 {% block page_content %}
-<form action="" method="POST">
-    {{ form.csrf_token }}
-    {{ form.hidden_tag() }}
-    {{ form }}
-</form>
+
+<div class="form-container">
+    <form action="" method="POST">
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col-25">
+                {{ form.name.label(class="label") }}
+            </div>
+            <div class="col-75">
+                {{form.name(class="form")}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                {{ form.phone_number.label(class="label") }}
+            </div>
+            <div class="col-75">
+                {{form.phone_number(class="form")}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                {{ form.password.label(class="label") }}
+            </div>
+            <div class="col-75">
+                {{form.password(class="form")}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                {{ form.confirm.label(class="label") }}
+            </div>
+            <div class="col-75">
+                {{form.confirm(class="form")}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                {{ form.master_key.label(class="label") }}
+            </div>
+            <div class="col-75">
+                {{form.master_key(class="form")}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+
+            </div>
+            <div class="col-75">
+                {{form.submit(class="btn btn-default")}}
+            </div>
+        </div>
+
+    </form>
+</div>
 
 {% endblock %}
