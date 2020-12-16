@@ -4,7 +4,6 @@
 <div class="form-container">
     <form action="" method="POST">
         {{ form.csrf_token }}
-        {{ form.hidden_tag() }}
         <div class="row">
             <div class="col-25">
                 {{ form.name.label(class="label") }}
@@ -13,6 +12,16 @@
                 {{form.name(class="form")}}
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-25">
+                {{ form.email.label(class="label") }}
+            </div>
+            <div class="col-75">
+                {{form.email(class="form")}}
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-25">
                 {{ form.phone_number.label(class="label") }}

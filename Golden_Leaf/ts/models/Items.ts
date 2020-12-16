@@ -19,8 +19,7 @@ class Items {
     }
 
     total(): number {
-        return this._items.reduce(function (total, i) {
-            console.log(i.extended_cost)
+        return this._items.reduce(function (total, i) {            
             return total + i.extended_cost;
         }, 0.0);
     }

@@ -98,4 +98,4 @@ def new_product(id):
         db.session.commit()
         flash(form.description.data + ' inserido com sucesso!', 'success')
         return redirect(url_for('blueprint_category.products_of', id=category.id))
-    return render_template('category/form.html', form=form)
+    return render_template('product/new.html', form=form)

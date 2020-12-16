@@ -35,7 +35,7 @@ class NewClerkForm(FlaskForm):
 
     phone_number = StringField('Telefone',
                                validators=[DataRequired(), Length(min=11, max=11), Regexp('^[0-9]*$')])
-    email = StringField('Email?', validators=[DataRequired(), Email()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField(label='Senha',
                              validators=[Length(min=8, max=32),
                                          EqualTo('confirm', message='Senhas não conferem!')])

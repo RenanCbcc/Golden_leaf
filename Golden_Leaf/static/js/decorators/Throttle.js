@@ -4,7 +4,7 @@ function throttle(milliseconds = 500) {
         let timer = 0;
         descriptor.value = function (...args) {
             clearInterval(timer);
-            timer = setTimeout(() => { originalMethod.apply(this, args); }, 500);
+            timer = window.setTimeout(() => { originalMethod.apply(this, args); }, 500);
         };
         return descriptor;
     };

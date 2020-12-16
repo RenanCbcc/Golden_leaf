@@ -9,8 +9,8 @@ class OrderController {
         this._categories = new Categories();
         this._products = new Products();
         this._items = new Items();
-        this.BASE_APP_URL = 'https://golden-leaf.herokuapp.com/order/';
-        this.BASE_API_URL = 'https://golden-leaf.herokuapp.com/api';
+        this.BASE_APP_URL = 'http://localhost:56344/order/';
+        this.BASE_API_URL = 'http://localhost:56344/api';
         this.PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
         this.ORDER_URL = this.BASE_API_URL + '/order';
         this._categoriesView = new CategoryView('#categoriesView');
@@ -139,16 +139,11 @@ class OrderController {
             body: JSON.stringify(order)
         };
         return fetch(this.ORDER_URL, requestOptions)
+            .then(response => this.isOK(response))
             .then(response => response.json())
             .then(result => {
-            if (result.ok) {
-                localStorage.clear();
-                window.location.replace(this.BASE_APP_URL + result.order_id + '/items');
-            }
-            else {
-                console.log(result);
-                this._messageView.update("Não foi possível salvar o pedido.");
-            }
+            localStorage.clear();
+            window.location.replace(this.BASE_APP_URL + result.order_id + '/items');
         })
             .catch((error) => this._messageView.update("Não foi possível salvar o pedido."));
     }

@@ -68,13 +68,15 @@ def new_clerk():
         return redirect(url_for('blueprint_main.index'))
     form = NewClerkForm()
     if form.validate_on_submit():
-        clerk = Clerk(form.name.data, form.phone_number.data, form.email.data,
-                      form.confirm.data)
+        clerk = Clerk(form.name.data, form.phone_number.data, form.email.data,form.confirm.data)
         db.session.add(clerk)
         db.session.commit()
         login_user(clerk)        
         flash('Você foi registrado com sucesso!', 'info')
         return redirect(url_for('blueprint_clerk.account'))
+    else:
+        flash('Erro. Dados inválidos.', 'warning')
+        return redirect(url_for('blueprint_clerk.new_clerk'))
     return render_template('clerk/new.html', form=form)
 
 

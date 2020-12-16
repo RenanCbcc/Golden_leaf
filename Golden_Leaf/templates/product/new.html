@@ -3,8 +3,7 @@
 
 <div class="form-container">
     <form action="" method="POST">
-        {{ form.csrf_token }}
-        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}       
         <div class="row">
             <div class="col-25">
                 {{ form.category.label(class="label") }}

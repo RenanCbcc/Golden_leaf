@@ -14,7 +14,6 @@ class Items {
     }
     total() {
         return this._items.reduce(function (total, i) {
-            console.log(i.extended_cost);
             return total + i.extended_cost;
         }, 0.0);
     }

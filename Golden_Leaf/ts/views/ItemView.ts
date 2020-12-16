@@ -3,7 +3,7 @@ class ItemView extends View<Items> {
     protected template(model: Items): string {
 
         return `
-            <table class="table table-hover table-bordered">
+            <table>
                 <thead>
                     <tr>
                     
@@ -23,8 +23,7 @@ class ItemView extends View<Items> {
                             <td>${i.quantity}</td>
                             <td>${i.extended_cost}</td>
                             <td>
-                                <button type="button" class="btn btn-danger" onClick="controller.removeItem(${i.product_id})">
-                                    <i class="glyphicon glyphicon-remove"/>
+                                <button type="button" class="btn btn-danger" onClick="controller.removeItem(${i.product_id})">                                    
                                     <span>Remover</span>
                                 </button>
                             </td>

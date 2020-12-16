@@ -1,29 +1,30 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<table>
-    <caption><h4>Lista de itens</h4></caption>
-    <thead>
-        <tr>
-            <th>Descrição</th>
-            <th>Quantidade</th>
-            <th>Preço Unitátio</th>
-            <th>Preto Total</th>
-        </tr>
-    </thead>
+<div class="container">
+    <table>
+        <caption><h4>Lista de itens</h4></caption>
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Preço Unitátio</th>
+                <th>Preto Total</th>
+            </tr>
+        </thead>
 
-    <tbody>
-        {% for item in order_items.items %}
-        <tr>
-            <td>{{ item.product.description }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.product.unit_cost }}</td>
-            <td>{{ item.extended_cost }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
+        <tbody>
+            {% for item in order_items.items %}
+            <tr>
+                <td>{{ item.product.description }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.unit_cost }}</td>
+                <td>{{ item.extended_cost }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 <div>
     {% for page_number in order_items.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
     {% if page_number %}

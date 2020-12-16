@@ -26,15 +26,6 @@ def get_payment(id):
     return render_template('payment/list.html', payments=payments)
 
 
-@blueprint_payment.route('/payment/<int:id>/order', methods=['GET'])
-def get_orders(id):
-    page = request.args.get('page', 1, type=int)
-    orders = Order.query \
-        .filter_by(payment_id=id) \
-        .order_by(Order.date.desc()) \
-        .paginate(page=page, per_page=10)
-    return render_template('order/client_orders.html', orders=orders)
-
 
 @blueprint_payment.route('/payment/search', methods=["GET", 'POST'])
 @register_breadcrumb(blueprint_payment, '.search_payment', 'Busca de Pagamento')
@@ -75,22 +66,22 @@ def new_payment(id):
             flash('Valor para pagamento ' + str(payment_value) + ' inválido.', 'warning')
             return redirect(url_for('blueprint_payment.new_payment', id=id))
         else:
-            client = Client.query.get(id)
-            payment = Payment(client, current_user, payment_value)
+            client = Client.query.get(id)            
+            payment = Payment(client.id, current_user.id, payment_value)
             db.session.add(payment)
-            pay_off(payment)
+            pay_off(client,payment)            
             db.session.commit()
             # send_message(client, request.form['value'])
             flash('Pagamento recebido com sucesso!', 'success')
             return redirect(url_for('blueprint_payment.get_payment', id=id))
-    elif request.method == 'GET':
-        form.total.data = get_order_total(id)
-        return render_template('payment/new.html', form=form)
+    
+    form.total.data = get_order_total(id)
+    return render_template('payment/new.html', form=form)
 
 
-def get_order_total(id) -> float:
+def get_order_total(client_id) -> float:
     return db.session.query(func.sum(Client.amount)) \
-        .filter_by(client_id=id) \
+        .filter_by(id=client_id) \
         .scalar()
 
 
@@ -98,12 +89,11 @@ def get_orders_of_client(id):
     return Order.query.filter_by(client_id=id).order_by(Order.date).all()
 
 
-def get_client(id):
-    return Client.query.filter_by(client_id=id).first();
+def get_client(client_id) -> Client:
+    return Client.query.filter_by(id=client_id).first()
 
-def pay_off(payment: Payment) -> None:
+def pay_off(client:Client, payment: Payment) -> None:
     value = payment.amount
-    client = get_client(payment.client_id)
     client.amount -= value 
 
 
