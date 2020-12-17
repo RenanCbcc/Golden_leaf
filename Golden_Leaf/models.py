@@ -34,7 +34,7 @@ class User(db.Model):
     __abstract__ = True
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False, index=True)
-    phone_number = db.Column(db.String(13), nullable=False)
+    phone_number = db.Column(db.String(11), nullable=False)
 
     def __init__(self, name, phone_number):
         self.name = name

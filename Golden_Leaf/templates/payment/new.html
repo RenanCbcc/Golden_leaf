@@ -10,7 +10,8 @@
                 {{ form.total.label(class="label") }}
             </div>
             <div class="col-75">
-                {{form.total(class="form")}}
+                {{form.total(class="form")}}               
+
             </div>
         </div>
 
@@ -20,6 +21,13 @@
             </div>
             <div class="col-75">
                 {{form.value(class="form")}}
+                {% if form.value.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.value.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 

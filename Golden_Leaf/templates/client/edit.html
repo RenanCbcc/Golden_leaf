@@ -29,6 +29,13 @@
             </div>
             <div class="col-75">
                 {{form.phone_number(class="form")}}
+                {% if form.phone_number.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.phone_number.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -38,6 +45,13 @@
             </div>
             <div class="col-75">
                 {{form.street(class="form")}}
+                {% if form.street.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.street.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 

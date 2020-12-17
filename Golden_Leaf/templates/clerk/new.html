@@ -10,6 +10,13 @@
             </div>
             <div class="col-75">
                 {{form.name(class="form")}}
+                {% if form.name.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -19,6 +26,13 @@
             </div>
             <div class="col-75">
                 {{form.email(class="form")}}
+                {% if form.email.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -28,6 +42,13 @@
             </div>
             <div class="col-75">
                 {{form.phone_number(class="form")}}
+                {% if form.phone_number.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.phone_number.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -37,6 +58,13 @@
             </div>
             <div class="col-75">
                 {{form.password(class="form")}}
+                {% if form.password.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -46,6 +74,13 @@
             </div>
             <div class="col-75">
                 {{form.confirm(class="form")}}
+                {% if form.confirm.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.confirm.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -55,6 +90,13 @@
             </div>
             <div class="col-75">
                 {{form.master_key(class="form")}}
+                {% if form.master_key.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.master_key.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 

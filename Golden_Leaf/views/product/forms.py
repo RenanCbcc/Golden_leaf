@@ -14,7 +14,7 @@ def enabled_categories():
 
 class NewProductForm(FlaskForm):
     category = SelectField('Categoria', coerce=int, choices=[])
-    description = StringField('Descrição', validators=[Length(min=3, max=128), Regexp(
+    description = StringField('Descrição', validators=[Length(min=3, max=128,message="Descrição deve ter entre 3 e 128 caracteres."), Regexp(
         '^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s\.\-]*)$')])
     unit_cost = DecimalField('Preço', validators=[DataRequired(message="Produto precisa ter um preço."), 
                                                              NumberRange(min=0.5, max=100.0,message="Preço do produto precisa estar entre R$ 0.5 e R$ 100.00")])

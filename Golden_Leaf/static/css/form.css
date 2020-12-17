@@ -44,6 +44,10 @@
     background-color: #fff;
 }
 
+    .form[readonly] {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
 
 option {
     font-size: 15px;

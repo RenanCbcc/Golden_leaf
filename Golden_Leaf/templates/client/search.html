@@ -11,6 +11,13 @@
             </div>
             <div class="col-75">
                 {{form.name(class="form")}}
+                {% if form.name.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 

@@ -19,6 +19,13 @@
             </div>
             <div class="col-75">
                 {{form.description(class="form")}}
+                {% if form.description.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.description.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -28,6 +35,13 @@
             </div>
             <div class="col-75">
                 {{form.unit_cost(class="form")}}
+                {% if form.unit_cost.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.unit_cost.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -37,6 +51,13 @@
             </div>
             <div class="col-75">
                 {{form.code(class="form")}}
+                {% if form.code.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.code.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 

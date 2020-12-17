@@ -4,13 +4,19 @@
 <div class="form-container">
     <form action="" method="POST">
         {{ form.csrf_token }}
-        {{ form.hidden_tag() }}
         <div class="row">
             <div class="col-25">
                 {{ form.password.label(class="label") }}
             </div>
             <div class="col-75">
                 {{form.password(class="form")}}
+                {% if form.password.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -20,6 +26,13 @@
             </div>
             <div class="col-75">
                 {{form.confirm_password(class="form")}}
+                {% if form.confirm_password.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.confirm_password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 

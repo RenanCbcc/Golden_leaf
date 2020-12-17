@@ -3,8 +3,7 @@
 
 <div class="form-container">
     <form action="" method="POST">
-        {{ form.csrf_token }}
-        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}       
 
         <div class="row">
             <div class="col-25">
@@ -12,6 +11,13 @@
             </div>
             <div class="col-75">
                 {{form.email(class="form")}}
+                {% if form.email.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -21,6 +27,13 @@
             </div>
             <div class="col-75">
                 {{form.password(class="form")}}
+                {% if form.password.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
