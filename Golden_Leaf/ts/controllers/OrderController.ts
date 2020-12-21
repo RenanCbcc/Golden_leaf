@@ -26,10 +26,10 @@ class OrderController {
     private _products = new Products();
     private _items = new Items();
 
-    private BASE_APP_URL = 'http://localhost:56344/order/';
-    private BASE_API_URL = 'http://localhost:56344/api';
-    private PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
-    private ORDER_URL = this.BASE_API_URL + '/order';
+    private BASE_APP_URL = '/order/';
+    private BASE_API_URL = '/api';
+    private PRODUCT_BY_CODE_URL = this.BASE_API_URL + 'api/product/code/';
+    private ORDER_URL = this.BASE_API_URL + 'api/order';
 
     private _categoriesView = new CategoryView('#categoriesView');
     private _productsView = new ProductView('#productsView');

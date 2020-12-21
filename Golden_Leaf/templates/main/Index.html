@@ -4,18 +4,15 @@
 
     <!-- Default panel contents -->
     <div class="row">
-        <div class="col-75">
-            <h4>Pagamento & Pedidos</h4>
-            <div id="balanceview">
-            </div>
-        </div>
-        <div class="col-25">
-            <!-- Table will be inserted here dinamicly-->
-            <h4>Redimentos</h4>
-            <div id="profitview">
-            </div>
-        </div>
+        <div id="graficoLinha" ></div>
+        <div id="grafico-pizza"></div>
     </div>
+    <script src="https://www.gstatic.com/charts/loader.js" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/services/Report.js') }}" type="text/javascript"></script>
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'], 'language': 'pt' });
+        google.charts.setOnLoadCallback(drawCharts);
+    </script>
 </div>
 
 {% endblock %}

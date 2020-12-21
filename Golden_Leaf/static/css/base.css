@@ -1,14 +1,10 @@
-* {
-    box-sizing: border-box;
-}
-
 html, body, h1, h2, h3, h4, h5 {
     font-family: "Open Sans", sans-serif
 }
 
 body {
     background-color: #f1f1f1;
-    margin: 0;
+    margin-top: 0;
 }
 
 main {
@@ -43,7 +39,6 @@ main {
     padding: 14px 16px;
     text-decoration: none;
 }
-
 
 .active {
     background-color: #3a4b53;
@@ -80,13 +75,4 @@ li a:hover {
     border-width: .2rem;
 }
 
-footer {
-    margin-top: 25px;
-    background-color: #4d636f;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    position: absolute;
-    bottom: 0;
-}
 

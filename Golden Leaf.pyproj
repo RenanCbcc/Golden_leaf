@@ -35,6 +35,9 @@
     <Compile Include="Golden_Leaf\api\order.py" />
     <Compile Include="Golden_Leaf\api\payment.py" />
     <Compile Include="Golden_Leaf\api\product.py" />
+    <Compile Include="Golden_Leaf\api\report.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Golden_Leaf\api\__init__.py" />
     <Compile Include="Golden_Leaf\extensions.py" />
     <Compile Include="Golden_Leaf\models.py" />
@@ -130,6 +133,7 @@
     <Content Include="Golden_Leaf\static\css\message.css" />
     <Content Include="Golden_Leaf\static\css\tab.css" />
     <Content Include="Golden_Leaf\static\css\table.css" />
+    <Content Include="Golden_Leaf\static\js\services\Report.js" />
     <Content Include="Golden_Leaf\templates\category\form.html" />
     <Content Include="Golden_Leaf\templates\client\edit.html" />
     <Content Include="Golden_Leaf\templates\client\new.html" />

@@ -82,13 +82,6 @@ def get_payment(id):
     return response
 
 
-@api.route('/payment/<int:id>/order', methods=['GET'])
-def get_orders(id):
-    orders = Order.query.filter_by(payment_id=id).order_by(Order.date.desc())
-    response = jsonify([order.to_json() for order in orders])
-    response.status_code = 200
-    return response
-
 
 @api.route('/payment', methods=['POST'])
 def new_payment():

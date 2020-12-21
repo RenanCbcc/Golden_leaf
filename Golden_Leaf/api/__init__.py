@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 
 api = Blueprint('api', __name__)
 
-from Golden_Leaf.api import product, category, client, clerk, order, erros, payment
+from Golden_Leaf.api import product, category, client, clerk, order, erros, payment, report
 
 @api.after_request
 def add_header(response):
