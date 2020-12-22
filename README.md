@@ -9,6 +9,12 @@ Once you have cloned the application's Git repository on GitHub build the projec
 pip install -r requirements.txt
 ```
 
+The app also has Javascript dependencies. Type the following commands on the root folder.
+```
+npm install
+npm start
+```
+
 Also, remember to change the target database on the create_app function to TestingConfig if you want to run it locally
 
 ```

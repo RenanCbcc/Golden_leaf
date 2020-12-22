@@ -8,14 +8,14 @@ from datetime import timedelta
 def get_income(date:datetime) -> float:
     income = db.session.query(func.sum(Payment.amount)).filter(Payment.date > date).scalar()
     if income is None:
-        return 0
+        return 1.0
     else:
         return income
 
 def get_salles(date:datetime) -> float:
     salles = db.session.query(func.sum(Order.total)).filter(Order.date > date).scalar()
     if salles is None:
-        return 0
+        return 1.0
     else:
         return salles
 

@@ -14,8 +14,8 @@ function drawCharts() {
 
             var opcoesPizzas = {
                 title: 'Balanço do dia',
-                height: 200,
-                width: 400,
+                height: 400,
+                width: 350,
                 is3D: true,
                 legend: 'labeled',
                 pieSliceText: 'value'
@@ -47,74 +47,15 @@ function drawCharts() {
     var opcoesLinha = {
         title: 'Gastos por mês',
         height: 400,
-        width: 900,
+        width: 700,
         vAxis: { format: 'currency' },
         curveType: 'function'
 
     }
 
-    var graficoLinha = new google.visualization.LineChart(document.getElementById('graficoLinha'));
+    var graficoLinha = new google.visualization.LineChart(document.getElementById('grafico-linha'));
     graficoLinha.draw(tabela, opcoesLinha);
 
-    //Grafico de Coluna
-    tabela = new google.visualization.DataTable();
-    tabela.addColumn('string', 'mês');
-    tabela.addColumn('number', 'entrada');
-    tabela.addColumn('number', 'saida');
-    tabela.addRows(
-        [
-            ['jan', 2500, 1000],
-            ['fev', 1000, 500],
-            ['mar', 3000, 1300],
-            ['abr', 1500, 1700],
-            ['mai', 5000, 2250],
-            ['jun', 3567, 3000],
-            ['jul', 3452, 1468],
-            ['ago', 1833, 5250],
-            ['set', 1800, 1000],
-            ['out', 1800, 1000],
-            ['nov', 3569, 1500],
-            ['dez', 3000, 1740]
-        ]
-    );
-
-
-    var opcoesColuna = {
-        title: 'Gatos vs Entrada',
-        height: 400,
-        width: 900,
-        vAxis: { format: 'currency' },
-
-    }
-
-    var graficoColunas = new google.visualization.ColumnChart(document.getElementById('graficoColunas'));
-    graficoColunas.draw(tabela, opcoesColuna);
-
-
-
-    //Grafico de barrras com json
-
-
-    fetch('dados.json')
-        .then(response => response.json())
-        .then(data => {
-            var opcoes = {
-                title: 'Usuários e Poupanças',
-                height: 400,
-                width: 900,
-                annotations: {
-                    alwaysOutside: true
-                }
-
-            }
-            var tabelaJson = new google.visualization.DataTable(data);
-            tabelaJson.sort([{ column: 1, desc: true }]);
-
-            var graficoJson = new google.visualization.BarChart(document.getElementById('graficoBarrasJson'));
-
-            graficoJson.draw(tabelaJson, opcoes);
-        });
-
-
+    
 
 }
