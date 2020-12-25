@@ -16,41 +16,41 @@
     <header>
         <nav>
             <ul class="nav">
-                <li class="nav-item-left">
+                <li>
                     <a class="nav-link active" href="{{ url_for('blueprint_main.index') }}">
                         <span class="glyphicon glyphicon-leaf"></span> Palma de Ouro
                     </a>
                 </li>
-                <li class="nav-item-left">
+                <li>
                     <a class="nav-link" href="{{ url_for('blueprint_category.get_categories') }}">Categorias</a>
                 </li>
-                <li class="nav-item-left">
+                <li>
                     <a class="nav-link" href="{{ url_for('blueprint_product.get_products') }}">Produtos</a>
                 </li>
-                <li class="nav-item-left">
+                <li>
                     <a class="nav-link" href="{{ url_for('blueprint_client.get_clients') }}">Clientes</a>
                 </li>
-                <li class="nav-item-left">
+                <li>
                     <a class="nav-link" href="{{ url_for('blueprint_order.get_orders') }}">Pedidos</a>
                 </li>
-                <li class="nav-item-left">
+                <li>
                     <a class="nav-link" href="{{ url_for('blueprint_payment.get_payment') }}">Pagamentos</a>
                 </li>
                 {% if current_user.is_authenticated %}
-                <li class="nav-item-right">
+                <li>
                     <a class="nav-link" href="{{ url_for('blueprint_clerk.account') }}">
                         {{ current_user.name }}
                     </a>
 
                 </li>
-                <li class="nav-item-right">
+                <li>
                     <a class="nav-link" href="{{ url_for('blueprint_clerk.logout') }}">
                         Logout
                     </a>
                 </li>
 
                 {% else %}
-                <li class="nav-item-right">
+                <li>
                     <a class="nav-link" href="{{ url_for('blueprint_clerk.login') }}">
                         <span class="glyphicon glyphicon-user"></span> Login
                     </a>
@@ -62,7 +62,7 @@
             <nav>
                 <ol class="breadcrumb">
                     {% for breadcrumb in breadcrumbs %}
-                    <li class="nav-item-left">
+                    <li>
                         <a class="nav-link" href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
                     </li>
                     {% endfor %}
@@ -92,6 +92,6 @@
         </div>
         {% endblock %}
     </main>
-        
+
 
 </body>

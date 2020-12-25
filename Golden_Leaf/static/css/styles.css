@@ -19,17 +19,14 @@ body {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
   background-color: #4d636f;
   color: #ffffff;
   font-size: 18px;
-  border-bottom: 1px solid #1e8adc; }
-
-.nav-item-left {
-  float: left; }
+  border-bottom: 1px solid #1e8adc;
+  display: flex; }
 
 .nav-item-right {
-  float: right; }
+  margin-left: auto; }
 
 .nav-link {
   display: block;
@@ -55,7 +52,8 @@ li a:hover {
   padding: 0;
   overflow: hidden;
   background-color: #333;
-  border-radius: .25rem; }
+  border-radius: .25rem;
+  display: flex; }
 
 main {
   margin: auto;
@@ -153,29 +151,22 @@ table tr:hover {
   margin: auto;
   width: 50%; }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both; }
+.row {
+  display: flex; }
 
 .col-25 {
-  float: left;
-  width: 25%;
+  width: 28%;
   margin-top: 6px; }
 
 .col-75 {
-  float: left;
-  width: 75%;
+  width: 70%;
   margin-top: 6px; }
 
 .col-40 {
-  float: left;
   width: 40%;
   margin-top: 6px; }
 
 .col-60 {
-  float: left;
   width: 60%;
   margin-top: 6px; }
 
@@ -184,7 +175,6 @@ table tr:hover {
   display: inline-block; }
 
 .form {
-  display: block;
   width: 100%;
   padding: 10px 25px;
   margin: 10px;
@@ -199,6 +189,12 @@ table tr:hover {
 
 option {
   font-size: 15px; }
+
+.account-img {
+  height: 106px;
+  width: 106px;
+  vertical-align: middle;
+  border-radius: 50%; }
 
 .alert {
   position: relative;
@@ -232,3 +228,19 @@ option {
   margin-top: .25rem;
   font-size: 80%;
   color: #dc3545; }
+
+@media screen and (max-width: 768px) {
+  .col-25, .col-75 {
+    width: 100%;
+    margin-top: 0; }
+  .form-container {
+    width: 100%; }
+  .nav, .breadcrumb, .row {
+    flex-direction: column; }
+  .table-responsive {
+    overflow: scroll; }
+  .group-button {
+    display: flex;
+    align-items: center; }
+    .group-button a {
+      margin-right: 5px; } }

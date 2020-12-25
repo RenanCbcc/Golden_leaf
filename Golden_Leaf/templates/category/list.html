@@ -15,7 +15,7 @@
 
     </div>
 
-    <div>
+    <div class="table-responsive">
         <table>
             <caption><h4>Categorias</h4></caption>
             <thead>
@@ -29,13 +29,15 @@
                 <tr>
                     <td>{{ category.title }}</td>
 
-                    <td align="center">
-                        <a class="btn btn-primary" href="{{ url_for('blueprint_category.update_category',id=category.id) }}">
-                            Editar
-                        </a>
-                        <a class="btn btn-default" href="{{ url_for('blueprint_category.products_of',id=category.id) }}">
-                            Ver produtos
-                        </a>
+                    <td>
+                        <div class="group-button">
+                            <a class="btn btn-primary" href="{{ url_for('blueprint_category.update_category',id=category.id) }}">
+                                Editar
+                            </a>
+                            <a class="btn btn-default" href="{{ url_for('blueprint_category.products_of',id=category.id) }}">
+                                Ver produtos
+                            </a>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}

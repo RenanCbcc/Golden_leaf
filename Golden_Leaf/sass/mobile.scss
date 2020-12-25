@@ -1,0 +1,27 @@
+@media screen and (max-width: 768px) {
+    .col-25, .col-75 {
+        width: 100%;
+        margin-top: 0;
+    }
+
+    .form-container {
+        width: 100%;
+    }
+
+    .nav, .breadcrumb, .row {
+        flex-direction: column;
+    }
+
+    .table-responsive {
+        overflow: scroll;
+    }
+
+    .group-button {
+        display: flex;
+        align-items: center;
+
+        a {
+            margin-right: 5px;
+        }
+    }
+}

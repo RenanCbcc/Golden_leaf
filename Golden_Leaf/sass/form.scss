@@ -6,33 +6,26 @@
 }
 
 
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
+.row {
+    display: flex;    
 }
 
 .col-25 {
-    float: left;
-    width: 25%;
+    width: 28%;
     margin-top: 6px;
 }
 
 .col-75 {
-    float: left;
-    width: 75%;
+    width: 70%;
     margin-top: 6px;
 }
 
 .col-40 {
-    float: left;
     width: 40%;
     margin-top: 6px;
 }
 
 .col-60 {
-    float: left;
     width: 60%;
     margin-top: 6px;
 }
@@ -43,7 +36,6 @@
 }
 
 .form {
-    display: block;
     width: 100%;
     padding: 10px 25px;
     margin: 10px;

@@ -10,29 +10,31 @@
         </a>
 
     </div>
-    <table>
-        <caption><h4>Pagamentos</h4></caption>
-        <thead>
-            <tr>
-                <th>Pago em</th>
-                <th>Cliente</th>
-                <th>Atendente</th>
-                <th>Pago R$</th>
-            </tr>
-        </thead>
+    <div class="table-responsive">
+        <table>
+            <caption><h4>Pagamentos</h4></caption>
+            <thead>
+                <tr>
+                    <th>Pago em</th>
+                    <th>Cliente</th>
+                    <th>Atendente</th>
+                    <th>Pago R$</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            {% for payment in payments.items %}
-            <tr>
-                <td>{{ payment.date.strftime("%d/%m/%Y %H:%M:%S") }}</td>
-                <td>{{ payment.client.name }}</td>
-                <td>{{ payment.clerk.name }}</td>
-                <td>{{ payment.amount }}</td>
+            <tbody>
+                {% for payment in payments.items %}
+                <tr>
+                    <td>{{ payment.date.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+                    <td>{{ payment.client.name }}</td>
+                    <td>{{ payment.clerk.name }}</td>
+                    <td>{{ payment.amount }}</td>
 
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 <div>
     {% for page_number in payments.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}

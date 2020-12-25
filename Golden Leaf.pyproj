@@ -132,6 +132,7 @@
     <Content Include="Golden_Leaf\sass\button.scss" />
     <Content Include="Golden_Leaf\sass\form.scss" />
     <Content Include="Golden_Leaf\sass\message.scss" />
+    <Content Include="Golden_Leaf\sass\mobile.scss" />
     <Content Include="Golden_Leaf\sass\styles.scss" />
     <Content Include="Golden_Leaf\sass\tab.scss" />
     <Content Include="Golden_Leaf\sass\table.scss" />
