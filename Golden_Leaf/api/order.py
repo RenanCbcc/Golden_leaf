@@ -89,7 +89,7 @@ class ItemInput():
         return reponse
 
 
-@api.route('/order', defaults={'id': None})
+@api.route('/order', defaults={'id': None},methods=['GET'])
 @api.route('/order/client/<int:id>', methods=['GET'])
 def get_order(id):
     if id is not None:

@@ -6,7 +6,7 @@ from os import environ
 from Golden_Leaf import create_app
 from Golden_Leaf.settings import ProductionConfig, TestingConfig
 
-app = create_app(TestingConfig)
+app = create_app(ProductionConfig)
 
 if __name__ == '__main__':
     HOST = environ.get('SERVER_HOST', 'localhost')
