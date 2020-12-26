@@ -139,6 +139,7 @@
     <Content Include="Golden_Leaf\sass\variables.scss" />
     <Content Include="Golden_Leaf\static\css\styles.css" />
     <Content Include="Golden_Leaf\static\js\services\Report.js" />
+    <Content Include="Golden_Leaf\static\profile_pic\default.png" />
     <Content Include="Golden_Leaf\templates\category\form.html" />
     <Content Include="Golden_Leaf\templates\client\edit.html" />
     <Content Include="Golden_Leaf\templates\client\new.html" />
@@ -193,7 +194,6 @@
     <Content Include="Golden_Leaf\static\js\views\ProductView.js" />
     <Content Include="Golden_Leaf\static\js\views\View.js" />
     <Content Include="Golden_Leaf\static\order_table.js" />
-    <Content Include="Golden_Leaf\static\profile_pic\dafault.png" />
     <Content Include="Golden_Leaf\templates\base.html" />
     <Content Include="Golden_Leaf\templates\category\list.html" />
     <Content Include="Golden_Leaf\templates\category\productsof.html" />

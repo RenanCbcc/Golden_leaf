@@ -47,16 +47,16 @@ def logout():
 @register_breadcrumb(blueprint_clerk, '.', 'Atendente')
 def account():
     form = UpdateClerkForm()
-    if form.validate_on_submit():
-        if form.picture.data:
-            picture_file = save_picture(form.picture.data)
+    if form.validate_on_submit():        
+        if form.image_file.data:
+            picture_file = save_picture(form.image_file.data)            
             current_user.image_file = picture_file
         current_user.email = form.email.data
         db.session.commit()
         flash('Sua conta foi atualizada com sucesso.', 'success')
         return redirect(url_for('blueprint_clerk.account'))
     elif request.method == 'GET':
-        form.email.data = current_user.email
+        form.email.data = current_user.email    
     image_file = url_for('static', filename='profile_pic/' + current_user.image_file)
     return render_template('clerk/account.html', form=form, image_file=image_file)
 
@@ -73,10 +73,7 @@ def new_clerk():
         db.session.commit()
         login_user(clerk)        
         flash('Você foi registrado com sucesso!', 'info')
-        return redirect(url_for('blueprint_clerk.account'))
-    else:
-        flash('Erro. Dados inválidos.', 'warning')
-        return redirect(url_for('blueprint_clerk.new_clerk'))
+        return redirect(url_for('blueprint_clerk.account'))    
     return render_template('clerk/new.html', form=form)
 
 
@@ -121,15 +118,14 @@ def reset_token(token):
 
 
 def save_picture(form_picture):
-    random_hex = secrets.token_hex(16)
-    # I do not want a file file name, so I use _ instead
+    random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
-    picture_filename = random_hex + f_ext
-    picture_path = os.path.join(current_app.root_path, 'static/profile_pic', picture_filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(current_app.root_path, 'static/profile_pic', picture_fn)
 
     output_size = (125, 125)
-    image = Image.open(form_picture)
-    image.thumbnail(output_size)
-    # Save the picture in file system
-    image.save(picture_path)
-    return picture_filename
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fn

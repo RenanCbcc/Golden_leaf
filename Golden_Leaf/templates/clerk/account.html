@@ -2,13 +2,12 @@
 {% block page_content %}
 
 <div class="container">
-
     <div class="row">
         <div class="col-75">
             <div class="form-container">
 
-                <img class="account-img" src="{{ image_file }}">
-                <form action="" method="POST">
+                <img class="account-img" src="{{ image_file }}" alt="Foto do colaborador.">
+                <form action="" method="POST" enctype="multipart/form-data">
                     {{ form.csrf_token }}
                     {{ form.hidden_tag() }}
 
@@ -24,11 +23,11 @@
 
                     <div class="row">
                         <div class="col-25">
-                            {{form.picture.label(class="label")}}
+                            {{form.image_file.label(class="label")}}
                         </div>
 
                         <div class="col-75">
-                            {{form.picture(class="form")}}
+                            {{form.image_file(class="form")}}
                         </div>
                     </div>
 
