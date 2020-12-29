@@ -71,12 +71,12 @@ class PaymentInputs(Inputs):
 @api.route('/payment/client/<int:id>', methods=['GET'])
 def get_payment(id):
     if id is not None:
-        payments = Payment.query.filter_by(client_id=id).order_by(Payment.paid.desc()).all()
+        payments = Payment.query.filter_by(client_id=id).order_by(Payment.date.desc()).all()
         response = jsonify([payment.to_json() for payment in payments])
         response.status_code = 200
         return response
 
-    payments = Payment.query.order_by(Payment.paid.desc()).all()
+    payments = Payment.query.order_by(Payment.date.desc()).all()
     response = jsonify([payment.to_json() for payment in payments])
     response.status_code = 200
     return response
@@ -102,8 +102,8 @@ def new_payment():
 
 
 
-def get_client(id):
-    return Client.query.filter_by(client_id=id).first()
+def get_client(client_id):
+    return Client.query.filter_by(id=client_id).first()
 
 
 def payment_amount_error(value) -> str:

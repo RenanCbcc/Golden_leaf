@@ -334,6 +334,7 @@ class Payment(db.Model):
 
     def to_json(self) -> str:
         return {
+            'id': self.id,
             'client': self.client.name,
             'clerk': self.clerk.name,
             'amount': str(self.amount),
