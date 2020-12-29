@@ -63,7 +63,7 @@ def is_decimal(value: str) -> bool:
 class PaymentInputs(Inputs):
     # Dont change this name!  Keep it as json!
     json = {
-        'payment': [DataRequired(message="É preciso o pagamento em forma de token."), validate_payment],
+        'payment': [DataRequired(message="É preciso do token de pagamento."), validate_payment],
     }
 
 
@@ -88,7 +88,7 @@ def new_payment():
     paymentInputs = PaymentInputs(request)
     if paymentInputs.validate():        
         payment = Payment.from_json(request.json)
-        if payment.amount > get_order_total(payment.client_id):
+        if payment.amount > get_client(payment.client_id).amount:
             return payment_amount_error(payment.amount)
         else:
             db.session.add(payment)
@@ -102,14 +102,8 @@ def new_payment():
 
 
 
-def get_order_total(id) -> float:
-    return db.session.query(func.sum(Client.total)) \
-        .filter_by(client_id=id) \
-        .scalar()
-
-
 def get_client(id):
-    return Client.query.filter_by(client_id=id).first();
+    return Client.query.filter_by(client_id=id).first()
 
 
 def payment_amount_error(value) -> str:

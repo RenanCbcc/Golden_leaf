@@ -103,15 +103,6 @@ def get_order(id):
     return response
 
 
-@api.route('/order/client/<int:id>/total', methods=['GET'])
-def get_order_total(id):
-    if not Client.query.filter_by(id=id).first():
-        raise ValidationError(f"Id '{id}' do cliente é inválido.")
-    total = get_order_total(id)
-    response = jsonify({'total': str(total)})
-    response.status_code = 200
-    return response
-
 
 @api.route('/order', methods=['POST'])
 def save_order():
@@ -164,10 +155,6 @@ def add_items(order: Order) -> Order:
     return order
 
 
-def get_order_total(id) -> float:
-    return db.session.query(func.sum(Client.amount)) \
-        .filter_by(client_id=id) \
-        .scalar()
 
 
 def send_message(order):
