@@ -23,8 +23,8 @@ def verify_password(email_or_token, password):
 @api.route('token', methods=['GET'])
 @auth.login_required
 def get_auth_token():
-    token = g.current_user.generate_auth_token(600)
-    return jsonify({'token': token, 'duration': 600})
+    token = g.current_user.generate_auth_token(3600)
+    return jsonify({'token': token, 'duration': 3600})
 
 
 @api.route('clerk', methods=['POST'])

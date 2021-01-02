@@ -116,7 +116,7 @@ class Clerk(User, UserMixin):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'clerk_id': self.id}).decode('utf-8')
 
-    def generate_auth_token(self, expiration=600) -> str:
+    def generate_auth_token(self, expiration=3600) -> str:
         s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'clerk_id': self.id}).decode('ascii')
 
@@ -144,11 +144,13 @@ class Clerk(User, UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def to_json(self) -> str:
+        token = self.generate_auth_token(3600)
         json_clerk = {
             'id': self.id,
             'email': self.email,
             'name': self.name,
-            'phone_number': self.phone_number
+            'phone_number': self.phone_number,
+            'token': {'value': token, 'duration': 3600}
         }
         return json_clerk
 
