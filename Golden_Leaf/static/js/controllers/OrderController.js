@@ -11,8 +11,8 @@ class OrderController {
         this._items = new Items();
         this.BASE_APP_URL = '/order/';
         this.BASE_API_URL = '/api';
-        this.PRODUCT_BY_CODE_URL = this.BASE_API_URL + 'api/product/code/';
-        this.ORDER_URL = this.BASE_API_URL + 'api/order';
+        this.PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
+        this.ORDER_URL = this.BASE_API_URL + '/order';
         this._categoriesView = new CategoryView('#categoriesView');
         this._productsView = new ProductView('#productsView');
         this._itemsView = new ItemView('#itemsView');

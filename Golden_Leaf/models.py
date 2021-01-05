@@ -2,7 +2,7 @@ from __future__ import annotations
 import decimal
 import jwt
 from abc import ABCMeta
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_login import UserMixin, current_user
 from sqlalchemy import CheckConstraint, ForeignKey
 from sqlalchemy.orm import relationship, backref
@@ -145,12 +145,14 @@ class Clerk(User, UserMixin):
 
     def to_json(self) -> str:
         token = self.generate_auth_token(3600)
+        duration = datetime.now() + timedelta(hours=1)
+        
         json_clerk = {
             'id': self.id,
             'email': self.email,
             'name': self.name,
             'phone_number': self.phone_number,
-            'token': {'value': token, 'duration': 3600}
+            'token': {'value': token, 'expiration_time': str(duration)}
         }
         return json_clerk
 

@@ -56,6 +56,7 @@ def account():
         flash('Sua conta foi atualizada com sucesso.', 'success')
         return redirect(url_for('blueprint_clerk.account'))
     elif request.method == 'GET':
+        form.phone_number.data = current_user.phone_number
         form.email.data = current_user.email    
     image_file = url_for('static', filename='profile_pic/' + current_user.image_file)
     return render_template('clerk/account.html', form=form, image_file=image_file)

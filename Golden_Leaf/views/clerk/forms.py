@@ -9,13 +9,17 @@ from Golden_Leaf.models import Clerk
 
 class LoginForm(FlaskForm):
     email = StringField('Login', validators=[DataRequired('Por favos, entre com o seu endereço de email.'),
-                                             Email('Este campo requer um endereçode email válido.')])
+                                             Email(message="Email deve estar no formato: nome@provedor.com")])
     password = PasswordField(label='Senha', validators=[Length(min=8, max=32)])
     submit = SubmitField('Entrar')
 
 
 class UpdateClerkForm(FlaskForm):
-    email = StringField('Email', validators=[Email()])
+    phone_number = StringField('Telefone',validators=[DataRequired(message="Atendente precisa ter um número de telefone celular."),
+                                                      Regexp('[1-9]{2}[1-9]{4,5}[0-9]{4}',0,'O número deve deve estar no formato: (xx)xxxxx-xxxx.'),
+                                                      Length(min=11, max=11,message="O número precisa ter exatamente 11 caracteres.")])
+    
+    email = StringField('Email', validators=[Email(message="Email deve estar no formato: nome@provedor.com")])
     image_file = FileField('Nova foto', validators=[FileAllowed(['png', 'jpg', 'jpeg'])])
     submit = SubmitField('Salvar')
 
@@ -28,14 +32,16 @@ class UpdateClerkForm(FlaskForm):
 
 class NewClerkForm(FlaskForm):
     name = StringField('Nome', validators=[DataRequired(), Length(min=10, max=64),
-                                                         Regexp(
-                                                             '^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$',
+                                                         Regexp('^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$',
                                                              0,
                                                              'Usernames must have only letters')])
 
-    phone_number = StringField('Telefone',
-                               validators=[DataRequired(), Length(min=11, max=11), Regexp('^[0-9]*$')])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    phone_number = StringField('Telefone',validators=[DataRequired(message="Atendente precisa ter um número de telefone celular."),
+                                                      Regexp('[1-9]{2}[1-9]{4,5}[0-9]{4}',0,'O número deve deve estar no formato: (xx)xxxxx-xxxx.'),
+                                                      Length(min=11, max=11,message="O número precisa ter exatamente 11 caracteres.")])
+    
+    email = StringField('Email', validators=[DataRequired(message="Atendente precisa ter um número de email."), 
+                                             Email()])
     password = PasswordField(label='Senha',
                              validators=[Length(min=8, max=32),
                                          EqualTo('confirm', message='Senhas não conferem!')])

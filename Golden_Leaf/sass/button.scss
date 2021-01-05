@@ -3,7 +3,7 @@
     text-decoration: none;
     border: 1px solid transparent;
     padding: 10px 15px;
-    color: white;
+    color: #fff;
     border-radius: .25rem;
 }
 
@@ -12,15 +12,14 @@
     border-color: #005cbf;
 }
 
-.btn-danger {
-    color: #fff;
+.btn-danger {    
     background-color: #dc3545;
     border-color: #dc3545;
 }
 
-.btn-default {
-    background-color: #545b62;
-    border-color: #4e555b;
+.btn-default {    
+    background-color: #6c757d;
+    border-color: #6c757d;
 }
 
 .btn:hover {

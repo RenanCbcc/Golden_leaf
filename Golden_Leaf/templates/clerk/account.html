@@ -13,6 +13,16 @@
 
                     <div class="row">
                         <div class="col-25">
+                            {{form.phone_number.label(class="label")}}
+                        </div>
+
+                        <div class="col-75">
+                            {{form.phone_number(class="form")}}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-25">
                             {{form.email.label(class="label")}}
                         </div>
 
@@ -45,14 +55,16 @@
         </div>
         <div class="col-25">
             <!-- Table will be inserted here dinamicly-->
-            <h4>Gerenciamento</h4>
-            <a href="{{ url_for('blueprint_product.available_products') }}"
-               class="btn btn-primary">
-                Produtos em falta
-            </a>
-            <a href="" class="btn btn-primary">
-                Clientes inadiplentes
-            </a>
+            <div>
+                <h4>Gerenciamento</h4>
+                <a href="{{ url_for('blueprint_product.available_products') }}"
+                   class="btn btn-primary">
+                    Produtos em falta
+                </a>
+                <a href="" class="btn btn-primary">
+                    Clientes inadiplentes
+                </a>
+            </div>
         </div>
     </div>
 

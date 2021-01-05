@@ -14,8 +14,9 @@ class EditClientInputs(Inputs):
     #Dont change this name!  Keep it as json!
     json = {
         'id':[DataRequired(message="Cliente precisa ter um id."),validate_client_id],
-        'phone_number':[DataRequired(message="Cliente precisa ter um número de telefone."), 
-                        Length(min=11, max=11,message="O número de telefone precisa ter exatamente 11 caracteres.")],
+        'phone_number':[DataRequired(message="Cliente precisa ter um número de telefone celular."),
+                                                      Regexp('[1-9]{2}[1-9]{4,5}[0-9]{4}',0,'O número deve deve estar no formato: (xx)xxxxx-xxxx.'),
+                                                      Length(min=11, max=11,message="O número precisa ter exatamente 11 caracteres.")],
         'address':[DataRequired(message="O cliente precisa ter um endereço."),
                    Length(min=10, max=56,message="O número precisa ter no mínino 10 caracteres e no máximo 56.")],                     
         'notifiable':[DataRequired(message="Cliente quer ou não receber notificações?")],
@@ -27,8 +28,9 @@ class NewClientInputs(Inputs):
     json = {
         'name': [DataRequired(message="Cliente precisa ter um nome."), Regexp('^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$',0,
         'O nome deve conter somente letras.')],
-        'phone_number':[DataRequired(message="Cliente precisa ter um número de telefone."), 
-                        Length(min=11, max=11,message="O número de telefone precisa ter exatamente 11 caracteres.")],
+        'phone_number':[DataRequired(message="Cliente precisa ter um número de telefone celular."),
+                                                      Regexp('[1-9]{2}[1-9]{4,5}[0-9]{4}',0,'O número deve deve estar no formato: (xx)xxxxx-xxxx.'),
+                                                      Length(min=11, max=11,message="O número precisa ter exatamente 11 caracteres.")],
         'address':[DataRequired(message="O cliente precisa ter um endereço."),
                    Length(min=10, max=56,message="O número precisa ter no mínino 10 caracteres e no máximo 56.")],                     
         'notifiable':[DataRequired(message="Cliente quer ou não receber notificações?")]

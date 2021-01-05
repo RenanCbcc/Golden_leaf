@@ -28,8 +28,8 @@ class OrderController {
 
     private BASE_APP_URL = '/order/';
     private BASE_API_URL = '/api';
-    private PRODUCT_BY_CODE_URL = this.BASE_API_URL + 'api/product/code/';
-    private ORDER_URL = this.BASE_API_URL + 'api/order';
+    private PRODUCT_BY_CODE_URL = this.BASE_API_URL + '/product/code/';
+    private ORDER_URL = this.BASE_API_URL + '/order';
 
     private _categoriesView = new CategoryView('#categoriesView');
     private _productsView = new ProductView('#productsView');
