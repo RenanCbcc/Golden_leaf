@@ -46,20 +46,18 @@
             </tbody>
         </table>
     </div>
-    <div>
+    <div class="pagination">
         {% for page_number in all_products.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
         {% if page_number %}
         {% if all_products.page == page_number %}
-        <a class="btn btn-info mb-4"
-           href="{{ url_for('blueprint_product.get_products',page=page_number) }}">{{ page_number }}</a>
+        <a href="{{ url_for('blueprint_product.get_products',page=page_number) }}">{{ page_number }}</a>
         {% else %}
-        <a class="btn btn-outline-info mb-4"
-           href="{{ url_for('blueprint_product.get_products',page=page_number) }}">{{ page_number }}</a>
+        <a href="{{ url_for('blueprint_product.get_products',page=page_number) }}">{{ page_number }}</a>
         {% endif %}
         {% else %}
         ...
         {% endif %}
-        {% endfor %}
+        {% endfor %}    
     </div>
 </div>
 {% endblock %}

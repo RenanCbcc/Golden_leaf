@@ -45,15 +45,13 @@
             </tbody>
         </table>
     </div>
-    <div class="panel-footer p-0">
+    <div class="pagination">
         {% for page_number in orders.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
         {% if page_number %}
         {% if orders.page == page_number %}
-        <a class="btn btn-info mb-4"
-           href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
+        <a href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
         {% else %}
-        <a class="btn btn-outline-info mb-4"
-           href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
+        <a href="{{ url_for('blueprint_order.get_orders',page=page_number) }}">{{ page_number }}</a>
         {% endif %}
         {% else %}
         ...
