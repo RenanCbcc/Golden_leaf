@@ -1,4 +1,4 @@
-from flask import jsonify, request, url_for
+from flask import jsonify, request
 from Golden_Leaf.api import api
 from Golden_Leaf.models import Client, db
 from flask_inputs import Inputs

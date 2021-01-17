@@ -41,6 +41,9 @@
     <Compile Include="Golden_Leaf\api\__init__.py" />
     <Compile Include="Golden_Leaf\extensions.py" />
     <Compile Include="Golden_Leaf\models.py" />
+    <Compile Include="Golden_Leaf\utils.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Golden_Leaf\views\category\forms.py" />
     <Compile Include="Golden_Leaf\views\category\routes.py" />
     <Compile Include="Golden_Leaf\views\category\__init__.py" />
