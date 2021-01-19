@@ -1,6 +1,9 @@
 import os
 
-class BaseConfig:    
+class BaseConfig:
+    APP_ROOT = os.path.dirname(os.path.abspath(__file__))   # refers to application_top
+    APP_STATIC = os.path.join(APP_ROOT, 'static')
+    APP_PROFILE = os.path.join(APP_STATIC, 'profile_pic')
     WTF_CSRF_SECRET_KEY = os.environ.get('CSRF_SECRET_KEY')
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'Flasky Admin <casapalmadeoura@gmail.com>'

@@ -1,6 +1,7 @@
 from __future__ import annotations
 import decimal
 import jwt
+import base64
 from abc import ABCMeta
 from datetime import datetime, timedelta
 from flask_login import UserMixin, current_user
@@ -79,8 +80,7 @@ class Client(User):
         phone_number = json_client.get('phone_number')
         address = json_client['address']
         notifiable = json_client.get('notifiable')
-        client = Client(name, phone_number, str(
-            identification)[0:9], address, notifiable)
+        client = Client(name, phone_number, str(identification)[0:9], address, notifiable)
         return client
 
 
@@ -104,8 +104,8 @@ class Clerk(User, UserMixin):
 
     def __init__(self, name: str, phone_number: str, email: str, password: str):
         super().__init__(name, phone_number)
-        self.email: str = email
-        self.password: str = password
+        self.email : str = email
+        self.password : str = password
 
     def get_token(self, expires_sec=600) -> str:
         """
@@ -146,12 +146,18 @@ class Clerk(User, UserMixin):
     def to_json(self) -> str:
         token = self.generate_auth_token(3600)
         duration = datetime.now() + timedelta(hours=1)
-        
+
+        import os
+        path = os.path.join(current_app.config['APP_PROFILE'], self.image_file)        
+        with current_app.open_resource(path) as f:        
+            profile_pic = base64.b64encode(f.read()).decode('utf-8')
+
         json_clerk = {
             'id': self.id,
             'email': self.email,
             'name': self.name,
             'phone_number': self.phone_number,
+            'profile_pic': profile_pic,
             'token': {'value': token, 'expiration_time': str(duration)}
         }
         return json_clerk
@@ -168,17 +174,15 @@ class Product(db.Model):
     unit_cost = db.Column(db.Numeric(6, 2), nullable=False)
     is_available = db.Column(db.Boolean, nullable=False)
     code = db.Column(db.String(13), unique=True, nullable=False)
-    category_id = db.Column(db.Integer, ForeignKey(
-        'categories.id'), nullable=False)
+    category_id = db.Column(db.Integer, ForeignKey('categories.id'), nullable=False)
 
-    category = relationship("Category", backref=backref(
-        'products', order_by=description))
+    category = relationship("Category", backref=backref('products', order_by=description))
 
-    __table_args__ = (CheckConstraint(
-        unit_cost >= 0.00, name='unit_cost_positive'),)
+    __table_args__ = (CheckConstraint(unit_cost >= 0.00, name='unit_cost_positive'),)
 
     def __init__(self, category_id, description: str, unit_cost, code: str, is_available=True):
-        # This field is 'virtual'.  It was declared in Category model as a backref
+        # This field is 'virtual'.  It was declared in Category model as a
+        # backref
         self.category_id = category_id
         self.description = description
         self.unit_cost = unit_cost
@@ -253,7 +257,7 @@ class Order(db.Model):
         self.client_id = client_id
         self.clerk_id = clerk_id
         self.payment = None
-        self.total: float = 0
+        self.total : float = 0
 
     def to_json(self) -> str:
         return {
@@ -281,17 +285,14 @@ class Item(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, ForeignKey('orders.id'), nullable=False)
-    product_id = db.Column(db.Integer, ForeignKey(
-        'products.id'), nullable=False)
+    product_id = db.Column(db.Integer, ForeignKey('products.id'), nullable=False)
     quantity = db.Column(db.Numeric(5, 2), nullable=False)
     extended_cost = db.Column(db.Numeric(7, 2), nullable=False)
 
-    order = relationship("Order", backref=backref(
-        'items', order_by=id), lazy=True)
+    order = relationship("Order", backref=backref('items', order_by=id), lazy=True)
     product = relationship("Product", uselist=False)
 
-    __table_args__ = (CheckConstraint(
-        quantity >= 0.01, name='quantity_positive'),)
+    __table_args__ = (CheckConstraint(quantity >= 0.01, name='quantity_positive'),)
 
     def __init__(self, product_id, order, quantity, extended_cost):
         self.product_id = product_id
