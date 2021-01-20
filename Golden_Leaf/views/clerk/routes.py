@@ -47,7 +47,7 @@ def account():
     if form.validate_on_submit():        
         if form.image_file.data:            
             picture_file = save_picture(form.image_file.data)            
-            current_user.image_file = picture_file
+            current_user.image = picture_file
         current_user.email = form.email.data
         db.session.commit()
         flash('Sua conta foi atualizada com sucesso.', 'success')
@@ -55,8 +55,9 @@ def account():
     elif request.method == 'GET':
         form.phone_number.data = current_user.phone_number
         form.email.data = current_user.email    
-    image_file = url_for('static', filename='profile_pic/' + current_user.image_file)
-    return render_template('clerk/account.html', form=form, image_file=image_file)
+    
+    return render_template('clerk/account.html', form=form,image=current_user.image)
+
 
 
 @blueprint_clerk.route('/clerk/new', methods=['GET', 'POST'])

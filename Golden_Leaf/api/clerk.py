@@ -4,7 +4,7 @@ from flask_inputs import Inputs
 from wtforms.validators import DataRequired, Length, Regexp,ValidationError
 from Golden_Leaf.api import api
 from Golden_Leaf.models import Clerk, db
-from Golden_Leaf.utils import save_picture, save_picture_from
+from Golden_Leaf.utils import save_picture, resize_image
 auth = HTTPBasicAuth()
 
 
@@ -46,9 +46,8 @@ def edit_clerk():
         clerk = Clerk.query.get(request.json.get('id'))
         clerk.phone_number = request.json.get('phone_number')
         
-        if request.json.get('image_file'):
-            picture_file = save_picture_from(request.json.get('image_file'))            
-            clerk.image_file = picture_file
+        if request.json.get('profile_pic'):                        
+            clerk.image = resize_image(request.json.get('profile_pic'))
         db.session.add(clerk)
         db.session.commit()
         response = jsonify({"Ok": "Tudo certo!" })

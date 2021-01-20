@@ -6,7 +6,7 @@
         <div class="col-75">
             <div class="form-container">
 
-                <img class="account-img" src="{{ image_file }}" alt="Foto do colaborador.">
+                <img class="account-img" id="profile-pic" src="" alt="Foto do colaborador.">
                 <form action="" method="POST" enctype="multipart/form-data">
                     {{ form.csrf_token }}
                     {{ form.hidden_tag() }}
@@ -67,7 +67,15 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        localStorage.setItem('image', "{{image}}")
+    </script>
 
+    <script type="text/javascript">
+        var dataImage = localStorage.getItem('image');
+        bannerImg = document.getElementById('profile-pic');
+        bannerImg.src = "data:image/png;base64," + dataImage;        
+    </script>
 
 </div>
 {% endblock %}

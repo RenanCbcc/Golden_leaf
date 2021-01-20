@@ -94,7 +94,7 @@ def __repr__(self):
 
 class Clerk(User, UserMixin):
     __tablename__ = 'clerks'
-    image_file = db.Column(db.String(64), default='default.png')
+    image = db.Column(db.String(256), default='default.png')
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128), nullable=False)
 
@@ -146,18 +146,13 @@ class Clerk(User, UserMixin):
     def to_json(self) -> str:
         token = self.generate_auth_token(3600)
         duration = datetime.now() + timedelta(hours=1)
-
-        import os
-        path = os.path.join(current_app.config['APP_PROFILE'], self.image_file)        
-        with current_app.open_resource(path) as f:        
-            profile_pic = base64.b64encode(f.read()).decode('utf-8')
-
+                
         json_clerk = {
             'id': self.id,
             'email': self.email,
             'name': self.name,
             'phone_number': self.phone_number,
-            'profile_pic': profile_pic,
+            'profile_pic': self.image,
             'token': {'value': token, 'expiration_time': str(duration)}
         }
         return json_clerk
